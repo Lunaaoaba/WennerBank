@@ -1,23 +1,23 @@
-
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
 #include "menu.h"
 #include "cuentaBancaria.h"
 #include "funciones.h"
-#include <cstdlib> // Para system("cls")
 
 using namespace std;
 
 // Función auxiliar para pausar y limpiar el buffer de entrada
-void pausa() {
-    cout << "\nPresione ENTER para continuar...";
+void pausa(){
+    cout << "\n...";
     cin.ignore(10000, '\n'); 
     cin.get();
 }
 
 // Función auxiliar para limpiar la entrada después de un error de cin
-void limpiarEntrada() {
-    cin.clear(); 
-    cin.ignore(10000, '\n'); 
+void limpiarEntrada(){
+    cin.clear(); // LIMPIA EL ESTADO DE ERROR DEL CIN
+    cin.ignore(10000, '\n'); // LIMPIA EL BUFFER DE ENTRADA
 }
 
 // ----------------------------------------------------------------------
@@ -74,6 +74,7 @@ void menuBase(){
         }
     }
 }
+
 
 // ----------------------------------------------------------------------
 // Implementación del MENÚ DE SESIÓN (menuCuenta)

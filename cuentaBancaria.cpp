@@ -2,68 +2,63 @@
 #include <iostream>
 using namespace std;
 
-// --- Constructores ---
-// Constructor por defecto
-// Inicializa una cuenta bancaria con valores seguros y el estado 'eliminado' en falso.
-cuentaBancaria::cuentaBancaria()
-{
-    idCuenta = 0;
-    idCliente = 0;
-    saldo = 0.0;
-    eliminado = false;
+// MODIFICADO PARA SACAR LO "IA" DE LA CLASE
+
+//constructores
+cuentaBancaria::cuentaBancaria(){
+    _idCuenta = 0;
+    _idCliente = 0;
+    _saldo = 0.0;
+    _eliminado = false;
 }
 
-// Constructor con parámetros
-// Permite inicializar todos los atributos de la cuenta al momento de la creación.
-cuentaBancaria::cuentaBancaria(int idCta, int idCli, double sal, bool elim)
-{
-    idCuenta = idCta;
-    idCliente = idCli;
-    saldo = sal;
-    eliminado = elim;
+cuentaBancaria::cuentaBancaria(int idCuenta, int idCliente, double saldo, bool eliminado){
+    _idCuenta = idCuenta;
+    _idCliente = idCliente;
+    _saldo = saldo;
+    _eliminado = eliminado;
 }
 
-// --- Getters ---
-int cuentaBancaria::getIdCuenta() const
+
+// --- Setters ---
+void cuentaBancaria::setIdCuenta(int idCuenta)
 {
-    return idCuenta;
+    _idCuenta = idCuenta;
 }
+
+void cuentaBancaria::setIdCliente(int idCliente)
+{
+    _idCliente = idCliente;
+}
+
+void cuentaBancaria::setSaldo(double saldo)
+{
+    _saldo = saldo;
+}
+
+void cuentaBancaria::setEliminado(bool eliminado)
+{
+    _eliminado = eliminado;
+}
+
+//getters
+int cuentaBancaria::getIdCuenta(int idCuenta) { return _idCuenta; }
 
 int cuentaBancaria::getIdCliente() const
 {
-    return idCliente;
+    return _idCliente;
 }
 
 double cuentaBancaria::getSaldo() const
 {
-    return saldo;
+    return _saldo;
 }
 
 bool cuentaBancaria::getEliminado() const
 {
-    return eliminado;
+    return _eliminado;
 }
 
-// --- Setters ---
-void cuentaBancaria::setIdCuenta(int idCta)
-{
-    idCuenta = idCta;
-}
-
-void cuentaBancaria::setIdCliente(int idCli)
-{
-    idCliente = idCli;
-}
-
-void cuentaBancaria::setSaldo(double sal)
-{
-    saldo = sal;
-}
-
-void cuentaBancaria::setEliminado(bool elim)
-{
-    eliminado = elim;
-}
 
 // --- Métodos de Operaciones Bancarias ---
 // Deposito: Aumenta el saldo si el monto es positivo.
@@ -71,7 +66,7 @@ void cuentaBancaria::depositar(double monto)
 {
     if (monto > 0)
     {
-        saldo += monto;
+        _saldo += monto;
         cout << "Deposito realizado. Su saldo actual es: $" << saldo << endl;
     }
     else
@@ -84,9 +79,9 @@ void cuentaBancaria::depositar(double monto)
 // Retorna true si el retiro es exitoso, false en caso contrario.
 bool cuentaBancaria::retirar(double monto)
 {
-    if (monto > 0 && monto <= saldo)
+    if (monto > 0 && monto <= _saldo)
     {
-        saldo -= monto;
+        _saldo -= monto;
         cout << "Retiro realizado. Su saldo actual es: $" << saldo << endl;
         return true;
     }
@@ -102,9 +97,9 @@ bool cuentaBancaria::retirar(double monto)
 void cuentaBancaria::mostrarDatos() const
 {
     cout << "\n--- Datos de la cuenta bancaria ---" << endl;
-    cout << "ID Cuenta: " << idCuenta << endl;
-    cout << "ID Cliente: " << idCliente << endl;
-    cout << "Saldo: $" << saldo << endl;
+    cout << "ID Cuenta: " << _idCuenta << endl;
+    cout << "ID Cliente: " << _idCliente << endl;
+    cout << "Saldo: $" << _saldo << endl;
     // Muestra "Eliminada" o "Activa" basado en el estado booleano
-    cout << "Estado: " << (eliminado ? "Eliminada" : "Activa") << endl;
+    cout << "Estado: " << (_eliminado ? "Eliminada" : "Activa") << endl;
 }

@@ -1,0 +1,96 @@
+CLASES - ARCHIVOS
+Descripción: Sistema de Gestión Bancaria.
+
+Archivos a utilizar:
+
+----------------------------------------------------------------------
+
+--- CLASE BASE ---
+
+ARCHIVO: "personaUsuario.h"
+
+Persona{
+
+    dni : char[9] //clave principal
+    nombre : char[50]
+    apellido : char[50]
+    localidad : char[50]
+}
+
+Usuario : public Persona{
+
+    (heredado de persona) dni : char[9] // clave principal
+    mail : char[50]	// clave única para login
+    contrasena : char[50]
+    eliminado : bool
+}
+
+----------------------------------------------------------------------
+
+ARCHIVO: "tipoUsuario.h"
+
+Cliente : Usuario{
+
+    idCliente : char[5] //clave principal q se usará como vinculo
+}
+
+Empleado : Usuario{
+
+    legajo : char[6] // clave principal
+    claveOperaciones : char[20]
+}
+
+----------------------------------------------------------------------
+
+ARCHIVO: "administrador.h
+
+Adminstrador : Empleado{
+
+    claveMaestra : char[20] // clave principal
+    permisosGlobales : bool
+}
+
+----------------------------------------------------------------------
+
+ARCHIVO: "cuentaBancaria.h"
+
+CuentaBancaria{
+
+    idCuenta : char[5] // clave principal
+    idCliente : char[5] // clave foranea
+    saldo : double
+}
+
+----------------------------------------------------------------------
+
+ARCHIVO: "movimientos.h"
+
+Transaccion{
+
+    idTransaccion : char[5] // clave principal
+    idCuentaOrigen : char[5] // clave foranea (de donde)
+    idCuentaDestino : char[5] // clave foranea (a donde)
+    monto : double
+    fecha : Fecha
+}
+
+Prestamo{
+
+    idPrestamo : char[5] // clave principal
+    idCliente : char[5] // clave foranea
+    monto : double
+    tasaInteres : float
+    fechaInicio : Fecha
+    fechaFin : Fecha
+}
+
+Tarjeta{
+
+    idTarjeta : char[5] // clave principal
+    idCuenta : char[5] // clave foranea
+    numeroTarjeta : char[17]
+    fechaVencimiento : Fecha
+    limiteCredito : double
+}
+
+etc

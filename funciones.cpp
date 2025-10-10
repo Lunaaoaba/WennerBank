@@ -1,45 +1,100 @@
 #include "funciones.h"
 #include "cuentaBancaria.h"
-#include "menu.h" // Incluir menu.h para llamar a menuCuenta()
-#include <fstream>
+#include "menu.h"
 #include <iostream>
 #include <cstdlib> 
-#include <cstdio>// Para rename y remove
+#include <cstdio>// LIBRERIA PARA USO DE ARCHIVOS
 
 using namespace std;
 
-// Función auxiliar para modificar un registro existente en el archivo
-bool modificarCuenta(const cuentaBancaria &cuentaModificada)
-{
-    // Abre el archivo en modo binario, lectura/escritura (ios::in | ios::out)
-    fstream archivo("cuentas.dat", ios::binary | ios::in | ios::out); 
-    cuentaBancaria cuentaLeida;
+// NOTA: /ORDENAR/ Y /REHACER/ LAS FUNCIONES MARCADAS COMO REHACER
+// SE DEBEN REHACER LAS FUNCIONES (y casi todo) DE ARCHIVOS PORQUE UTILIZAN OTRA LIBRERIA, NO <cstdio>
+// SE NOTA BASTANTE EL USO DE LA IA
+// SE DEBEN ORDENAR PORQUE NO FIGURAN IGUAL EN EL .H    // listo
 
-    if (archivo.is_open())
-    {
-        while (archivo.read(reinterpret_cast<char *>(&cuentaLeida), sizeof(cuentaBancaria)))
-        {
-            // Busca la cuenta por ID
-            if (cuentaLeida.getIdCuenta() == cuentaModificada.getIdCuenta())
-            {
-                // Se encontró el registro. 
-                // Mueve el puntero de archivo hacia atrás por el tamaño del registro
-                archivo.seekp(-sizeof(cuentaBancaria), ios::cur); 
-                
-                // Sobrescribe el registro con los nuevos datos
-                archivo.write(reinterpret_cast<const char *>(&cuentaModificada), sizeof(cuentaBancaria));
-                archivo.close();
-                return true;
-            }
-        }
-        archivo.close();
-    }
-    // Si no se pudo abrir el archivo o no se encontró la cuenta
-    return false;
-}
 
 // ----------------------------------------------------------------------
-// Implementación de Lógica de Operaciones (NUEVO)
+
+void crearCuenta()
+{
+    system("cls");
+    cout << "--- CREAR CUENTA ---" << endl;
+    int idCta, idCli;
+    double sal;
+    cout << "Ingrese ID de la cuenta: ";
+    cin >> idCta;
+    cout << "Ingrese ID del cliente: ";
+    cin >> idCli;
+    cout << "Ingrese saldo inicial: $";
+    cin >> sal;
+    
+    // Validación básica: asegurarse de que el ID no sea 0 (valor del constructor por defecto)
+    if (idCta == 0) {
+        cout << "ERROR: El ID de la cuenta no puede ser 0." << endl;
+        return;
+    }
+    
+    cuentaBancaria nuevaCuenta(idCta, idCli, sal);
+    if (guardarCuenta(nuevaCuenta))
+    {
+        cout << "Cuenta creada exitosamente!" << endl;
+    }
+    else
+    {
+        cout << "ERROR al crear la cuenta. Intente nuevamente (revisar permisos de archivo). " << endl;
+    }
+}
+
+void iniciarSesion() 
+{
+    system("cls");
+    cout << "--- INICIAR SESION ---" << endl;
+    int idCta;
+    cout << "Ingrese ID de la Cuenta: ";
+    cin >> idCta;
+    
+    cuentaBancaria cuenta = buscarCuenta(idCta);
+    
+    // Si la cuenta encontrada no es la cuenta vacía (ID 0) y no está eliminada
+    if (cuenta.getIdCuenta() != 0 && !cuenta.getEliminado()) 
+    {
+        cout << "Cuenta encontrada!" << endl;
+        // Llama al menú de cuenta, pasando la cuenta por referencia (necesario para persistencia)
+        menuCuenta(cuenta); 
+    } 
+    else
+    {
+        cout << "ERROR: Cuenta no encontrada o eliminada." << endl;
+    }
+}
+
+void eliminarCuenta()
+{
+    system("cls");
+    cout << "--- ELIMINAR CUENTA ---" << endl;
+    int idCta;
+    cout << "Ingrese ID de la cuenta a eliminar: ";
+    cin >> idCta;
+    
+    // borrarCuenta marca la cuenta como eliminada y llama a modificarCuenta
+    if (borrarCuenta(idCta))
+    {
+        cout << "Cuenta eliminada (marcada como tal)!" << endl;
+    }
+    else
+    {
+        cout << "ERROR: Cuenta no encontrada o ya estaba eliminada." << endl;
+    }
+}
+
+void listarCuentas()
+{
+    system("cls");
+    cout << "--- LISTAR CUENTAS ACTIVAS ---" << endl;
+    listarTodasCuentas();
+    cout << "\n--- Fin de la lista ---" << endl;
+}
+
 // ----------------------------------------------------------------------
 
 // Realiza el depósito en la cuenta y guarda el cambio en el archivo.
@@ -81,93 +136,41 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto)
 }
 
 // ----------------------------------------------------------------------
-// Implementación de Funciones del Menú
-// ----------------------------------------------------------------------
 
-void crearCuenta()
+// REHACER modificarCuenta
+/*
+// Función auxiliar para modificar un registro existente en el archivo
+bool modificarCuenta(const cuentaBancaria &cuentaModificada)
 {
-    system("cls");
-    cout << "--- CREAR CUENTA ---" << endl;
-    int idCta, idCli;
-    double sal;
-    cout << "Ingrese ID de la cuenta: ";
-    cin >> idCta;
-    cout << "Ingrese ID del cliente: ";
-    cin >> idCli;
-    cout << "Ingrese saldo inicial: $";
-    cin >> sal;
+    // Abre el archivo en modo binario, lectura/escritura (ios::in | ios::out)
+    fstream archivo("cuentas.dat", ios::binary | ios::in | ios::out); 
+    cuentaBancaria cuentaLeida;
 
-    // Validación básica: asegurarse de que el ID no sea 0 (valor del constructor por defecto)
-    if (idCta == 0) {
-        cout << "ERROR: El ID de la cuenta no puede ser 0." << endl;
-        return;
-    }
-
-    cuentaBancaria nuevaCuenta(idCta, idCli, sal);
-    if (guardarCuenta(nuevaCuenta))
+    if (archivo.is_open())
     {
-        cout << "Cuenta creada exitosamente!" << endl;
+        while (archivo.read(reinterpret_cast<char *>(&cuentaLeida), sizeof(cuentaBancaria)))
+        {
+            // Busca la cuenta por ID
+            if (cuentaLeida.getIdCuenta() == cuentaModificada.getIdCuenta())
+            {
+                // Se encontró el registro. 
+                // Mueve el puntero de archivo hacia atrás por el tamaño del registro
+                archivo.seekp(-sizeof(cuentaBancaria), ios::cur); 
+                
+                // Sobrescribe el registro con los nuevos datos
+                archivo.write(reinterpret_cast<const char *>(&cuentaModificada), sizeof(cuentaBancaria));
+                archivo.close();
+                return true;
+            }
+        }
+        archivo.close();
     }
-    else
-    {
-        cout << "ERROR al crear la cuenta. Intente nuevamente (revisar permisos de archivo). " << endl;
-    }
+    // Si no se pudo abrir el archivo o no se encontró la cuenta
+    return false;
 }
-
-void iniciarSesion() 
-{
-    system("cls");
-    cout << "--- INICIAR SESION ---" << endl;
-    int idCta;
-    cout << "Ingrese ID de la Cuenta: ";
-    cin >> idCta;
-
-    cuentaBancaria cuenta = buscarCuenta(idCta);
-    
-    // Si la cuenta encontrada no es la cuenta vacía (ID 0) y no está eliminada
-    if (cuenta.getIdCuenta() != 0 && !cuenta.getEliminado()) 
-    {
-        cout << "Cuenta encontrada!" << endl;
-        // Llama al menú de cuenta, pasando la cuenta por referencia (necesario para persistencia)
-        menuCuenta(cuenta); 
-    } 
-    else
-    {
-        cout << "ERROR: Cuenta no encontrada o eliminada." << endl;
-    }
-}
-    
-void eliminarCuenta()
-{
-    system("cls");
-    cout << "--- ELIMINAR CUENTA ---" << endl;
-    int idCta;
-    cout << "Ingrese ID de la cuenta a eliminar: ";
-    cin >> idCta;
-    
-    // borrarCuenta marca la cuenta como eliminada y llama a modificarCuenta
-    if (borrarCuenta(idCta))
-    {
-        cout << "Cuenta eliminada (marcada como tal)!" << endl;
-    }
-    else
-    {
-        cout << "ERROR: Cuenta no encontrada o ya estaba eliminada." << endl;
-    }
-}
-
-void listarCuentas()
-{
-    system("cls");
-    cout << "--- LISTAR CUENTAS ACTIVAS ---" << endl;
-    listarTodasCuentas();
-    cout << "\n--- Fin de la lista ---" << endl;
-}
-
-// ----------------------------------------------------------------------
-// Implementación de Lógica de Archivos (Persistencia)
-// ----------------------------------------------------------------------
-
+*/
+// REHACER guardarCuenta
+/*
 bool guardarCuenta(const cuentaBancaria &nuevaCuenta)
 {
     // Modo: binario | agregar al final (ios::app)
@@ -180,7 +183,9 @@ bool guardarCuenta(const cuentaBancaria &nuevaCuenta)
     }
     return false;
 }
-
+*/
+// REHACER buscarCuenta
+/*
 cuentaBancaria buscarCuenta(int idCuenta)
 {
     cuentaBancaria cuentaLeida;
@@ -202,7 +207,9 @@ cuentaBancaria buscarCuenta(int idCuenta)
     // Retorna una cuenta vacía (ID 0) si no se encuentra o está eliminada
     return cuentaBancaria();
 }
-
+*/
+// REHACER borrarCuenta
+/*
 bool borrarCuenta(int idCuenta)
 {
     // Busca solo cuentas activas
@@ -222,8 +229,9 @@ bool borrarCuenta(int idCuenta)
     // Si la cuenta no se encuentra o no se pudo modificar, retorna false
     return false; 
 }
-
-
+*/
+//REHACER listarTodasCuentas
+/*
 void listarTodasCuentas()
 {
     cuentaBancaria cuentaLeida;
@@ -250,3 +258,5 @@ void listarTodasCuentas()
         cout << "ERROR: No se pudo abrir el archivo de datos." << endl;
     }
 }
+
+*/
