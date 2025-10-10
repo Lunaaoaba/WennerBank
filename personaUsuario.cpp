@@ -12,6 +12,7 @@ Persona::Persona(){
     strcpy(_localidad, "N/A");
 }
 Persona::Persona(const char* nombre, const char* apellido, const char* dni, const char* localidad){
+    strcpy(_dni, dni);
     strcpy(_nombre, nombre);
     strcpy(_apellido, apellido);
     strcpy(_localidad, localidad);
@@ -41,5 +42,11 @@ Usuario::Usuario(const char* dni, const char* nombre, const char* apellido, cons
     _eliminado = eliminado;
 }
 //setters
-
+void Usuario::setMail(const char* mail){ strcpy(_mail, mail);}
+void Usuario::setContrasena(const char* contrasena){ strcpy(_contrasena, contrasena); }
+void Usuario::setEliminado(bool eliminado){ _eliminado = eliminado;}
 //getters
+const char* Usuario::getMail(){ return _mail; }
+const char* Usuario::getContrasena(){ return _contrasena; }
+bool Usuario::getEliminado(){ return _eliminado; }
+//otros
