@@ -3,51 +3,43 @@
 #include <cstring>
 using namespace std;
 
-Usuario::Usuario(){
-    _idCliente = 0;
-    strcpy(_nombre, "");
-    strcpy(_apellido, "");
-    strcpy(_localidad, "");
-    strcpy(_mail, "");
-    strcpy(_contrasena, "");
-    _eliminado = false;
+//PERSONA
+//constructores
+Persona::Persona(){
+    strcpy(_dni, "00000000");
+    strcpy(_nombre, "N/A");
+    strcpy(_apellido, "N/A");
+    strcpy(_localidad, "N/A");
 }
-
-Usuario::Usuario(int idCliente, const char* nombre, const char* apellido, const char* localidad, const char* mail, const char* contrasena, bool  eliminado){
-    _idCliente = idCliente;
+Persona::Persona(const char* nombre, const char* apellido, const char* dni, const char* localidad){
     strcpy(_nombre, nombre);
     strcpy(_apellido, apellido);
     strcpy(_localidad, localidad);
+}
+//setters
+void Persona::setDni(const char* dni){ strcpy(_dni, dni); }
+void Persona::setNombre(const char* nombre){ strcpy(_nombre, nombre); }
+void Persona::setApellido(const char* apellido){ strcpy(_apellido, apellido); }
+void Persona::setLocalidad(const char* localidad){ strcpy(_localidad, localidad); }
+//getters
+const char* Persona::getDni(){ return _dni; }
+const char* Persona::getNombre(){ return _nombre; }
+const char* Persona::getApellido(){ return _apellido; }
+const char* Persona::getLocalidad(){ return _localidad; }
+
+
+//USUARIO
+//constructores
+Usuario::Usuario(){
+    strcpy(_mail, "N/A");
+    strcpy(_contrasena, "N/A");
+    _eliminado = false;
+}
+Usuario::Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad, const char* mail, const char* contrasena, bool eliminado) : Persona(dni, nombre, apellido, localidad){
     strcpy(_mail, mail);
     strcpy(_contrasena, contrasena);
     _eliminado = eliminado;
 }
 //setters
-void Usuario::setIdCliente(int idCliente){ _idCliente = idCliente; }
-
-void Usuario::setNombre(const char* nombre){ strcpy(_nombre, nombre); }
-
-void Usuario::setApellido(const char* apellido){ strcpy(_apellido, apellido); }
-
-void Usuario::setLocalidad(const char* localidad){ strcpy(_localidad, localidad); }
-
-void Usuario::setMail(const char* mail){ strcpy(_mail, mail); }
-
-void Usuario::setContrasena(const char* contrasena){ strcpy(_contrasena, contrasena); }
-
-void Usuario::setEliminado(bool eliminado){ _eliminado = eliminado; }
 
 //getters
-int Usuario::getIdCliente(){ return _idCliente; }
-
-const char* Usuario::getNombre(){ return _nombre; }
-
-const char* Usuario::getApellido(){ return _apellido; }
-
-const char* Usuario::getLocalidad(){ return _localidad; }
-
-const char* Usuario::getMail(){ return _mail; }
-
-const char* Usuario::getContrasena(){ return _contrasena; }
-
-bool Usuario::getEliminado(){ return _eliminado; }
