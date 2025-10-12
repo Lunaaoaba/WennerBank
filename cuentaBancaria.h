@@ -1,33 +1,36 @@
 #ifndef CUENTABANCARIA_H
 #define CUENTABANCARIA_H
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
-#include "usuario.h"
 
-class cuentaBancaria : public Usuario{
+
+class cuentaBancaria{
     private:
+        char _idCuenta[5];
+        char _idCliente[5];
+        char _nombreCuenta[50];
         double _saldo;
+        bool _CuentaEliminada;
     public:
     //constructores
         cuentaBancaria();
-        cuentaBancaria(int idCuenta, int idCliente, double saldo, bool eliminado);
+        cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, double saldo, bool CuentaEliminada);
     //setters
-        void setIdCuenta(int idCuenta);
-        void setIdCliente(int idCliente);
+        void setIdCuenta(const char* idCuenta);
+        void setIdCliente(const char* idCliente);
+        void setNombreCuenta(const char* nombreCuenta);
         void setSaldo(double saldo);
-        void setEliminado(bool eliminado);
+        void setCuentaEliminada(bool CuentaEliminada);
     //getters
-        int getIdCuenta(int idCuenta);
-        int getIdCliente(int idCliente);
-        double getSaldo(double saldo);
-        bool getEliminado(bool eliminado);
+        const char* getIdCuenta();
+        const char* getIdCliente();
+        const char* getNombreCuenta();
+        double getSaldo();
+        bool getCuentaEliminada ();
     //operaciones bancarias
         void depositar(double monto);
-        // Retirar: Modifica el saldo, retorna éxito (true) o fallo (false)
         bool retirar(double monto); 
     //otros
-        void mostrarDatos() const;
+        void mostrarDatos();
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef PERSONAUSUARIO_H
-#define PERSONAUSUARIO_H
+#ifndef PERSONA_H
+#define PERSONA_H
 using namespace std;
 
 

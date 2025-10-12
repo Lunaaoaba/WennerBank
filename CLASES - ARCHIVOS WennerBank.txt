@@ -58,9 +58,11 @@ ARCHIVO: "cuentaBancaria.h"
 
 CuentaBancaria{
 
-    idCuenta : char[5] // clave principal
-    idCliente : char[5] // clave foranea
-    saldo : double
+    char _idCuenta[5];       // Clave Principal
+    char _idCliente[5];      // Clave Foránea (para saber de quién es)
+    char _nombreCuenta[50];  // NUEVO: Para describir la cuenta (ej: "Caja de Ahorro")
+    double _saldo;
+    bool _eliminado;
 }
 
 ----------------------------------------------------------------------

@@ -1,92 +1,71 @@
 #include "cuentaBancaria.h"
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
 using namespace std;
 
 // MODIFICADO PARA SACAR LO "IA" DE LA CLASE
 
 //constructores
 cuentaBancaria::cuentaBancaria(){
-    _idCuenta = 0;
-    _idCliente = 0;
+    strcpy(_idCuenta, "0000");
+    strcpy(_idCliente, "0000");
+    strcpy(_nombreCuenta, "Sin Nombre");
     _saldo = 0.0;
-    _eliminado = false;
+    _CuentaEliminada = false;
 }
 
-cuentaBancaria::cuentaBancaria(int idCuenta, int idCliente, double saldo, bool eliminado){
-    _idCuenta = idCuenta;
-    _idCliente = idCliente;
+cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, double saldo, bool CuentaEliminada){
+    strcpy(_idCuenta, idCuenta);
+    strcpy(_idCliente, idCliente);
+    strcpy(_nombreCuenta, nombreCuenta);
     _saldo = saldo;
-    _eliminado = eliminado;
+    _CuentaEliminada = CuentaEliminada;
 }
 
 
 // --- Setters ---
-void cuentaBancaria::setIdCuenta(int idCuenta)
-{
-    _idCuenta = idCuenta;
-}
+void cuentaBancaria::setIdCuenta(const char* idCuenta) { strcpy(_idCuenta, idCuenta); }
 
-void cuentaBancaria::setIdCliente(int idCliente)
-{
-    _idCliente = idCliente;
-}
+void cuentaBancaria::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
 
-void cuentaBancaria::setSaldo(double saldo)
-{
-    _saldo = saldo;
-}
+void cuentaBancaria::setNombreCuenta(const char* nombreCuenta){ strcpy(_nombreCuenta, nombreCuenta); }
 
-void cuentaBancaria::setEliminado(bool eliminado)
+void cuentaBancaria::setSaldo(double saldo){ _saldo = saldo; }
+
+void cuentaBancaria::setCuentaEliminada(bool CuentaEliminada)
 {
-    _eliminado = eliminado;
+    _CuentaEliminada = CuentaEliminada;
 }
 
 //getters
-int cuentaBancaria::getIdCuenta(int idCuenta) { return _idCuenta; }
+const char* cuentaBancaria::getIdCuenta() { return _idCuenta; }
 
-int cuentaBancaria::getIdCliente() const
-{
-    return _idCliente;
-}
+const char* cuentaBancaria::getIdCliente() { return _idCliente; }
 
-double cuentaBancaria::getSaldo() const
-{
-    return _saldo;
-}
+double cuentaBancaria::getSaldo() { return _saldo; }
 
-bool cuentaBancaria::getEliminado() const
-{
-    return _eliminado;
-}
-
+bool cuentaBancaria::getCuentaEliminada() { return _CuentaEliminada; }
 
 // --- Métodos de Operaciones Bancarias ---
-// Deposito: Aumenta el saldo si el monto es positivo.
-void cuentaBancaria::depositar(double monto)
-{
-    if (monto > 0)
-    {
-        _saldo += monto;
-        cout << "Deposito realizado. Su saldo actual es: $" << saldo << endl;
+// Aumenta el saldo si el monto es positivo.
+void cuentaBancaria::depositar(double saldo){
+    if (saldo > 0){
+        _saldo += saldo;
+        cout << "Deposito realizado. Su saldo actual es: $" << _saldo << endl;
     }
-    else
-    {
-        cout << "ERROR: El monto debe ser mayor a cero." << endl;
-    }
+    else cout << "ERROR: El monto debe ser mayor a cero." << endl;
 }
 
-// Retiro: Disminuye el saldo si el monto es positivo y hay fondos suficientes.
+// Disminuye el saldo si el monto es positivo y hay fondos suficientes.
 // Retorna true si el retiro es exitoso, false en caso contrario.
-bool cuentaBancaria::retirar(double monto)
-{
-    if (monto > 0 && monto <= _saldo)
-    {
-        _saldo -= monto;
-        cout << "Retiro realizado. Su saldo actual es: $" << saldo << endl;
+bool cuentaBancaria::retirar(double saldo){
+    if (saldo > 0 && saldo <= _saldo){
+        _saldo -= saldo;
+        cout << "Retiro realizado. Su saldo actual es: $" << _saldo << endl;
         return true;
     }
-    else
-    {
+    else{
         cout << "ERROR: fondos insuficientes o monto invalido." << endl;
         return false;
     }
@@ -94,12 +73,11 @@ bool cuentaBancaria::retirar(double monto)
 
 //--- Metodo auxiliar ---
 // Muestra todos los datos de la cuenta en la consola.
-void cuentaBancaria::mostrarDatos() const
-{
+void cuentaBancaria::mostrarDatos(){
     cout << "\n--- Datos de la cuenta bancaria ---" << endl;
     cout << "ID Cuenta: " << _idCuenta << endl;
     cout << "ID Cliente: " << _idCliente << endl;
     cout << "Saldo: $" << _saldo << endl;
     // Muestra "Eliminada" o "Activa" basado en el estado booleano
-    cout << "Estado: " << (_eliminado ? "Eliminada" : "Activa") << endl;
+    cout << "Estado: " << (_CuentaEliminada ? "Eliminada" : "Activa") << endl;
 }
