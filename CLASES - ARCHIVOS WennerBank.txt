@@ -7,7 +7,8 @@ Archivos a utilizar:
 
 --- CLASE BASE ---
 
-ARCHIVO: "personaUsuario.h"
+ARCHIVO: "persona.h"
+//clases terminadas//
 
 Persona{
 
@@ -17,6 +18,7 @@ Persona{
     localidad : char[50]
 }
 
+ARCHIVO: "usuario.h"
 Usuario : public Persona{
 
     (heredado de persona) dni : char[9] // clave principal
@@ -29,22 +31,22 @@ Usuario : public Persona{
 
 ARCHIVO: "tipoUsuario.h"
 
-Cliente : Usuario{
+Cliente : public Usuario{
 
     idCliente : char[5] //clave principal q se usará como vinculo
 }
 
-Empleado : Usuario{
+Empleado : public Usuario{
 
     legajo : char[6] // clave principal
-    claveOperaciones : char[20]
+    claveOperacion : char[20]
 }
 
 ----------------------------------------------------------------------
 
 ARCHIVO: "administrador.h
 
-Adminstrador : Empleado{
+Adminstrador : public Empleado{
 
     claveMaestra : char[20] // clave principal
     permisosGlobales : bool

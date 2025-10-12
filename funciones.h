@@ -30,4 +30,5 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto);
 // bool borrarCuenta(int idCuenta);
 // void listarTodasCuentas();
 
+//----------------------------------------------------------------------
 #endif

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-#include "personaUsuario.h"
+#include "usuario.h"
 
 class cuentaBancaria : public Usuario{
     private:
