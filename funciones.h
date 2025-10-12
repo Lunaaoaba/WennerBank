@@ -31,4 +31,24 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto);
 // void listarTodasCuentas();
 
 //----------------------------------------------------------------------
+//autogeneracion de IDs
+
+//autoIdCuenta();
+//autoIdCliente();
+//autoLegajo();
+//autoIdTransaccion();
+//autoIdPrestamo();
+//autoIdTarjeta();
+
+
+//----------------------------------------------------------------------
+// validaciones
+
+// overflowText();
+// overflowNum();
+// mayorCero(valor, mensaje);
+//
+
+
+// ----------------------------------------------------------------------
 #endif

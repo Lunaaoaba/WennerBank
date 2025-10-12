@@ -19,22 +19,26 @@ void crearCuenta()
 {
     system("cls");
     cout << "--- CREAR CUENTA ---" << endl;
-    int idCta, idCli;
-    double sal;
-    cout << "Ingrese ID de la cuenta: ";
-    cin >> idCta;
-    cout << "Ingrese ID del cliente: ";
-    cin >> idCli;
+    char nombreCuenta[50];
+    double saldo;
+    cout << "ID del cliente: Cl-1234";
+    // debe autogenerarse
+    cout << "Nombre de la cuenta: Caja de ahorros";
+    cin.getline(nombreCuenta, 50);
+    cout << "ID de la cuenta: Cu-1234";
+    // debe autogenerarse
     cout << "Ingrese saldo inicial: $";
-    cin >> sal;
+    cin >> saldo;
     
+/*  hacer funcion
+
     // Validación básica: asegurarse de que el ID no sea 0 (valor del constructor por defecto)
-    if (idCta == 0) {
+    if (idCuenta == 0) {
         cout << "ERROR: El ID de la cuenta no puede ser 0." << endl;
         return;
     }
     
-    cuentaBancaria nuevaCuenta(idCta, idCli, sal);
+    cuentaBancaria nuevaCuenta(idCuenta, idCli, sal);
     if (guardarCuenta(nuevaCuenta))
     {
         cout << "Cuenta creada exitosamente!" << endl;
@@ -43,6 +47,7 @@ void crearCuenta()
     {
         cout << "ERROR al crear la cuenta. Intente nuevamente (revisar permisos de archivo). " << endl;
     }
+*/
 }
 
 void iniciarSesion() 
@@ -53,6 +58,7 @@ void iniciarSesion()
     cout << "Ingrese ID de la Cuenta: ";
     cin >> idCta;
     
+/* rehacer y hacer funcion
     cuentaBancaria cuenta = buscarCuenta(idCta);
     
     // Si la cuenta encontrada no es la cuenta vacía (ID 0) y no está eliminada
@@ -66,6 +72,7 @@ void iniciarSesion()
     {
         cout << "ERROR: Cuenta no encontrada o eliminada." << endl;
     }
+*/
 }
 
 void eliminarCuenta()
@@ -76,6 +83,7 @@ void eliminarCuenta()
     cout << "Ingrese ID de la cuenta a eliminar: ";
     cin >> idCta;
     
+/* rehacer y hacer funcion
     // borrarCuenta marca la cuenta como eliminada y llama a modificarCuenta
     if (borrarCuenta(idCta))
     {
@@ -85,18 +93,22 @@ void eliminarCuenta()
     {
         cout << "ERROR: Cuenta no encontrada o ya estaba eliminada." << endl;
     }
+*/
 }
 
+/* rehacer la funcion listarTodasCuentas
 void listarCuentas()
 {
     system("cls");
     cout << "--- LISTAR CUENTAS ACTIVAS ---" << endl;
-    listarTodasCuentas();
+    // listarTodasCuentas(); // REHACER
     cout << "\n--- Fin de la lista ---" << endl;
 }
+*/
 
 // ----------------------------------------------------------------------
 
+/*
 // Realiza el depósito en la cuenta y guarda el cambio en el archivo.
 bool realizarDeposito(cuentaBancaria &cuenta, double monto)
 {
@@ -115,14 +127,17 @@ bool realizarDeposito(cuentaBancaria &cuenta, double monto)
     }
     return false;
 }
+*/
 
+
+/* rehacer la funcion
 // Realiza el retiro de la cuenta y guarda el cambio en el archivo.
 bool realizarRetiro(cuentaBancaria &cuenta, double monto)
 {
     // 1. Ejecuta la lógica de la clase (verifica saldo, actualiza en memoria e imprime resultado)
     bool exito = cuenta.retirar(monto);
 
-    // 2. Si el retiro fue exitoso, guarda el cambio persistente
+    2. Si el retiro fue exitoso, guarda el cambio persistente
     if (exito) {
         if (modificarCuenta(cuenta)) {
             return true;
@@ -134,6 +149,8 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto)
     }
     return false;
 }
+*/
+
 
 // ----------------------------------------------------------------------
 
