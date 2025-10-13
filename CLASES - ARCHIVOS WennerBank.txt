@@ -85,7 +85,7 @@ Prestamo{
     monto : double
     tasaInteres : float
     fechaInicio : Fecha
-    fechaFin : Fecha
+    fechaVencimiento : Fecha
 }
 
 etc

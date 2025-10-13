@@ -9,7 +9,7 @@ class cuentaBancaria{
         char _idCliente[5]; // 4 digitos + '\0'
         char _nombreCuenta[50];
         char _cvu[11]; // 10 digitos + '\0'
-        char _alias[21]; // 20 caracteres + '\0'
+        char _alias[31]; // 30 caracteres + '\0'
         double _saldo;
         bool _CuentaEliminada;
     public:
@@ -27,10 +27,10 @@ class cuentaBancaria{
         const char* getIdCliente();
         const char* getNombreCuenta();
         double getSaldo();
-        bool getCuentaEliminada ();
+        bool getCuentaEliminada();
     //operaciones bancarias
         void depositar(double monto);
-        bool retirar(double monto); 
+        bool retirar(double monto);
     //otros
         void mostrarDatos();
 };
