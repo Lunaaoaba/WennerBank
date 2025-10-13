@@ -5,9 +5,11 @@
 
 class cuentaBancaria{
     private:
-        char _idCuenta[5];
-        char _idCliente[5];
+        char _idCuenta[5]; // 4 digitos + '\0'
+        char _idCliente[5]; // 4 digitos + '\0'
         char _nombreCuenta[50];
+        char _cvu[11]; // 10 digitos + '\0'
+        char _alias[21]; // 20 caracteres + '\0'
         double _saldo;
         bool _CuentaEliminada;
     public:

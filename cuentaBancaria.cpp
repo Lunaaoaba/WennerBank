@@ -10,7 +10,9 @@ using namespace std;
 cuentaBancaria::cuentaBancaria(){
     strcpy(_idCuenta, "0000");
     strcpy(_idCliente, "0000");
-    strcpy(_nombreCuenta, "Sin Nombre");
+    strcpy(_nombreCuenta, "N/A");
+    strcpy(_cvu, "0000000000");
+    strcpy(_alias, "N/A");
     _saldo = 0.0;
     _CuentaEliminada = false;
 }

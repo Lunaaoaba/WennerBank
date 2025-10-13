@@ -10,8 +10,4 @@ class Prestamo{
 
 };
 
-class Tarjeta{
-
-};
-
 #endif

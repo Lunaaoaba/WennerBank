@@ -15,6 +15,8 @@ class Cliente : public Usuario{
         void setIdCliente(const char* idCliente);
     //get
         const char* getIdCliente();
+    //otros
+        void mostrarDatos();
 };
 
 
@@ -32,6 +34,8 @@ class Empleado : public Usuario{
     //getters
         const char* getLegajo();
         const char* getClaveOperacion();
+    //otros
+        void mostrarDatos();
 };
 
 

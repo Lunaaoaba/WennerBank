@@ -23,7 +23,8 @@ class Persona{
         void setNombre(const char* nombre);
         void setApellido(const char* apellido);
         void setLocalidad(const char* localidad);
-
+    //otros
+        void mostrarDatos();
 };
 
 

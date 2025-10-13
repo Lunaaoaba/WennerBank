@@ -20,6 +20,8 @@ class Usuario : public Persona{
         const char* getMail();
         const char* getContrasena();
         bool getUsuarioEliminado();
+    //otros
+        void mostrarDatos();
 };
 
 

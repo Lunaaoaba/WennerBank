@@ -12,6 +12,11 @@ Cliente::Cliente(const char* dni, const char* nombre, const char* apellido, cons
 void Cliente::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
 //get
 const char* Cliente::getIdCliente(){ return _idCliente; }
+//otros
+void Cliente::mostrarDatos(){
+    Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
+    cout << "ID Cliente: " << _idCliente << endl;
+}
 
 
 //EMPLEADO
@@ -24,10 +29,15 @@ Empleado::Empleado(const char* dni, const char* nombre, const char* apellido, co
     strcpy(_legajo, legajo);
     strcpy(_claveOperacion, claveOperacion);
 }
- //setters
+//setters
 void Empleado::setLegajo(const char* legajo){ strcpy(_legajo, legajo); }    
 void Empleado::setClaveOperacion(const char* claveOperacion){ strcpy(_claveOperacion, claveOperacion); }
- //getters
+//getters
     const char* Empleado::getLegajo(){ return _legajo; }
     const char* Empleado::getClaveOperacion(){ return _claveOperacion; }
-
+//otros
+void Empleado::mostrarDatos(){
+    Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
+    cout << "Legajo: " << _legajo << endl;
+    cout << "Clave de Operacion: " << _claveOperacion << endl;
+}

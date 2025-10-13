@@ -88,13 +88,4 @@ Prestamo{
     fechaFin : Fecha
 }
 
-Tarjeta{
-
-    idTarjeta : char[5] // clave principal
-    idCuenta : char[5] // clave foranea
-    numeroTarjeta : char[17]
-    fechaVencimiento : Fecha
-    limiteCredito : double
-}
-
 etc
