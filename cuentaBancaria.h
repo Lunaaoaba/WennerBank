@@ -29,7 +29,7 @@ class cuentaBancaria{
         double getSaldo();
         bool getCuentaEliminada();
     //operaciones bancarias
-        void depositar(double monto);
+        bool depositar(double monto);
         bool retirar(double monto);
     //otros
         void mostrarDatos();
