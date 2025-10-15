@@ -1,9 +1,14 @@
+#include <iostream>
+#include <ctime> // libreria para obtener fecha y hora del sistema
 #include "Fecha.h"
 
+using namespace std;
+
+
 Fecha::Fecha(){
-    _dia = 0;
-    _mes = 0;
-    _anio = 0;
+    _dia = 1;
+    _mes = 1;
+    _anio = 1900;
 }
 
 Fecha::Fecha(int dia, int mes, int anio){
@@ -12,30 +17,20 @@ Fecha::Fecha(int dia, int mes, int anio){
     _anio = anio;
 }
 
-int Fecha::getDia(){
-    return _dia;
-}
+int Fecha::getDia(){ return _dia; }
+int Fecha::getMes(){ return _mes; }
+int Fecha::getAnio(){ return _anio; }
 
-int Fecha::getMes(){
-    return _mes;
-}
+void Fecha::setDia(int dia){ _dia = dia; }
+void Fecha::setMes(int mes){ _mes = mes; }
+void Fecha::setAnio(int anio){ _anio = anio; }
 
-int Fecha::getAnio(){
-    return _anio;
+void Fecha::cargarFechaActual(){
+    time_t tiempoCrudo = time(nullptr); // almacena tiempo en segundos
+    tm* tiempoLocal = localtime(&tiempoCrudo); // convierte a tiempo local
+    
+    _dia = tiempoLocal->tm_mday;
+    _mes = tiempoLocal->tm_mon + 1; // Se suma 1 porque los meses van de 0 a 11
+    _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los años se cuentan desde 1900
 }
-
-void Fecha::setDia(int dia){
-    _dia = dia;
-}
-
-void Fecha::setMes(int mes){
-    _mes = mes;
-}
-
-void Fecha::setAnio(int anio){
-    _anio = anio;
-}
-
-string Fecha::toString(){
-    return std::to_string(_dia) + "/" + std::to_string(_mes) + "/" + std::to_string(_anio);
-}
+string Fecha::toString(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }

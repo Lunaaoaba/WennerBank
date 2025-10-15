@@ -3,11 +3,20 @@
 #include <cstring>
 #include <cctype>
 #include "funciones.h"
+#include "fecha.h"
+#include "tiempo.h"
 #include "menu.h"
+using namespace std;
 
 
 int main(){
-    menuBase();
+    Fecha fechaActual;
+    Tiempo tiempoActual;
+    fechaActual.cargarFechaActual();
+    tiempoActual.cargarTiempoActual();
+    cout << "Fecha actual: " << fechaActual.toString() << endl;
+    cout << "Hora actual: " << tiempoActual.toString() << endl;
+    system("pause");
     return 0;
 }
 

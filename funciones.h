@@ -8,11 +8,6 @@
 // ----------------------------------------------------------------------
 
 
-void crearCuenta();
-void iniciarSesion();
-void eliminarCuenta();
-void listarCuentas();
-
 // ----------------------------------------------------------------------
 
 // Reciben la cuenta por REFERENCIA para modificarla directamente antes de guardarla.
