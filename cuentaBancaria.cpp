@@ -13,7 +13,7 @@ cuentaBancaria::cuentaBancaria(){
     strcpy(_nombreCuenta, "N/A");
     strcpy(_cvu, "0000000000");
     strcpy(_alias, "N/A");
-    _saldo = 0.0;
+    _saldo = 0;
     _CuentaEliminada = false;
 }
 cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, double saldo, bool CuentaEliminada){
