@@ -33,6 +33,6 @@ bool Usuario::getUsuarioEliminado(){ return _UsuarioEliminado; }
 void Usuario::mostrarDatos(){
     Persona::mostrarDatos(); // Muestra los datos heredados de Persona
     cout << "Mail: " << _mail << endl;
-    cout << "Contrasena: " << _contrasena << endl;
+    // cout << "Contrasena: " << _contrasena << endl;
     cout << "Usuario Eliminado: " << (_UsuarioEliminado ? "Si" : "No") << endl;
 }

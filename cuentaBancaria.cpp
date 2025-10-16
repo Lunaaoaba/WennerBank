@@ -14,26 +14,33 @@ cuentaBancaria::cuentaBancaria(){
     strcpy(_cvu, "0000000000");
     strcpy(_alias, "N/A");
     _saldo = 0;
-    _CuentaEliminada = false;
+    _cuentaEliminada = false;
 }
-cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, double saldo, bool CuentaEliminada){
+cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada){
     strcpy(_idCuenta, idCuenta);
     strcpy(_idCliente, idCliente);
     strcpy(_nombreCuenta, nombreCuenta);
+    strcpy(_cvu, cvu);
+    strcpy(_alias, alias);
     _saldo = saldo;
-    _CuentaEliminada = CuentaEliminada;
+    _cuentaEliminada = cuentaEliminada;
 }
 //setters
 void cuentaBancaria::setIdCuenta(const char* idCuenta){ strcpy(_idCuenta, idCuenta); }
 void cuentaBancaria::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
 void cuentaBancaria::setNombreCuenta(const char* nombreCuenta){ strcpy(_nombreCuenta, nombreCuenta); }
+void cuentaBancaria::setCvu(const char* cvu){ strcpy(_cvu, cvu); }
+void cuentaBancaria::setAlias(const char* alias){ strcpy(_alias, alias); }
 void cuentaBancaria::setSaldo(double saldo){ _saldo = saldo; }
-void cuentaBancaria::setCuentaEliminada(bool CuentaEliminada){ _CuentaEliminada = CuentaEliminada; }
+void cuentaBancaria::setCuentaEliminada(bool cuentaEliminada){ _cuentaEliminada = cuentaEliminada; }
 //getters
-const char* cuentaBancaria::getIdCuenta() { return _idCuenta; }
-const char* cuentaBancaria::getIdCliente() { return _idCliente; }
-double cuentaBancaria::getSaldo() { return _saldo; }
-bool cuentaBancaria::getCuentaEliminada() { return _CuentaEliminada; }
+const char* cuentaBancaria::getIdCuenta(){ return _idCuenta; }
+const char* cuentaBancaria::getIdCliente(){ return _idCliente; }
+const char* cuentaBancaria::getNombreCuenta(){ return _nombreCuenta; }
+const char* cuentaBancaria::getCvu(){ return _cvu; }
+const char* cuentaBancaria::getAlias(){ return _alias; }
+double cuentaBancaria::getSaldo(){ return _saldo; }
+bool cuentaBancaria::getCuentaEliminada(){ return _cuentaEliminada; }
 //operaciones bancarias
 // Aumenta el saldo si el monto es positivo.
 bool cuentaBancaria::depositar(double saldo){
@@ -66,7 +73,10 @@ void cuentaBancaria::mostrarDatos(){
     cout << "\n--- Datos de la cuenta bancaria ---" << endl;
     cout << "ID Cuenta: " << _idCuenta << endl;
     cout << "ID Cliente: " << _idCliente << endl;
+    cout << "Nombre de la Cuenta: " << _nombreCuenta << endl;
+    cout << "CVU: " << _cvu << endl;
+    cout << "Alias: " << _alias << endl;
     cout << "Saldo: $" << _saldo << endl;
-    cout << "Estado: " << (_CuentaEliminada ? "Eliminada" : "Activa") << endl; // Muestra "Eliminada" o "Activa" basado en el estado booleano
+    cout << "Estado: " << (_cuentaEliminada ? "Eliminada" : "Activa") << endl; // Muestra "Eliminada" o "Activa" basado en el estado booleano
     cout << "--------------------------------------\n" << endl;
 }
