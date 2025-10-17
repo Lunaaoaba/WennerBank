@@ -4,7 +4,7 @@ using namespace std;
 
 
 class Persona{
-    private:
+    protected:
         char _dni[9];
         char _nombre[50];
         char _apellido[50];
@@ -24,7 +24,9 @@ class Persona{
         void setApellido(const char* apellido);
         void setLocalidad(const char* localidad);
     //otros
-        void mostrarDatos();
+        void cargarDatos();
+        string toString();
+
 };
 
 

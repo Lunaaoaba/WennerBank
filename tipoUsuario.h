@@ -21,7 +21,7 @@ class Cliente : public Usuario{
 
 
 class Empleado : public Usuario{
-    private:
+    protected:
         char _legajo[6];
         char _claveOperacion[20];
     public:
@@ -35,7 +35,9 @@ class Empleado : public Usuario{
         const char* getLegajo();
         const char* getClaveOperacion();
     //otros
-        void mostrarDatos();
+        void cargarDatos();
+        string toString();
+
 };
 
 

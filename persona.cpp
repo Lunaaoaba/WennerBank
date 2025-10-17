@@ -27,10 +27,12 @@ const char* Persona::getNombre(){ return _nombre; }
 const char* Persona::getApellido(){ return _apellido; }
 const char* Persona::getLocalidad(){ return _localidad; }
 //otros
-void Persona::mostrarDatos(){
-    cout << "DNI: " << _dni << endl;
-    cout << "Nombre: " << _nombre << endl;
-    cout << "Apellido: " << _apellido << endl;
-    cout << "Localidad: " << _localidad << endl;
+string Persona::toString(){
+    string linea = string("DNI: ") + _dni
+                    + "\nNombre: " + _nombre
+                    + "\nApellido: " + _apellido
+                    + "\nLocalidad: " + _localidad;
+    return linea;
+    return linea;
 }
 

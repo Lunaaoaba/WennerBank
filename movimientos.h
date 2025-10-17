@@ -30,8 +30,8 @@ class Transaccion{
         void setFechaTransaccion(Fecha fechaTransaccion);
         void setHoraTransaccion(Tiempo horaTransaccion);
 
+        void cargarDatos();
         string toString();
-    
 
 };
 
@@ -61,6 +61,7 @@ class Prestamo{
         void setFechaInicio(Fecha fechaInicio);
         void setFechaVencimiento(Fecha fechaVencimiento);
 
+        void cargarDatos();
         string toString();
 
 };

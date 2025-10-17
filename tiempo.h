@@ -19,8 +19,10 @@ class Tiempo{
         void setMinutos(int minutos);
         void setSegundos(int segundos);
 
+        void cargarTiempo();
         void cargarTiempoActual();
         string toString();
+
 };
 
 #endif

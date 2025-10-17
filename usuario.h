@@ -4,7 +4,7 @@
 using namespace std;
 
 class Usuario : public Persona{
-    private:
+    protected:
         char _mail[50];
         char _contrasena[50];
         bool _UsuarioEliminado; //es por si el usuario está eliminado, true = si, false = no
@@ -21,7 +21,9 @@ class Usuario : public Persona{
         const char* getContrasena();
         bool getUsuarioEliminado();
     //otros
-        void mostrarDatos();
+        void cargarDatos();
+        string toString();
+
 };
 
 

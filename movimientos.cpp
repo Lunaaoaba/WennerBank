@@ -74,6 +74,21 @@ void Prestamo::setTasaInteres(double tasaInteres){ _tasaInteres = tasaInteres; }
 void Prestamo::setFechaInicio(Fecha fechaInicio){ _fechaInicio = fechaInicio; }
 void Prestamo::setFechaVencimiento(Fecha fechaVencimiento){ _fechaVencimiento = fechaVencimiento; }
 
+void cargarDatos(){
+    cout << "Cargando datos del prestamo..." << endl;
+    cout << "ID Prestamo: ";
+    cin >> _idPrestamo;
+    cout << "ID Cliente: ";
+    cin >> _idCliente;
+    cout << "Monto: ";
+    cin >> _monto;
+    cout << "Tasa de Interes (anual %): ";
+    cin >> _tasaInteres;
+    cout << "Fecha de Inicio:" << endl;
+    _fechaInicio.cargarFecha();
+    cout << "Fecha de Vencimiento:" << endl;
+    _fechaVencimiento.cargarFecha();
+}
 string Prestamo::toString() {
     string linea = string("Prestamo: ") + _idPrestamo
                     + "\nCliente: " + _idCliente

@@ -20,8 +20,10 @@ class Fecha{
         void setMes(int mes);
         void setAnio(int anio);
 
+        void cargarFecha();
         void cargarFechaActual();
         string toString();
+
 };
 
 #endif

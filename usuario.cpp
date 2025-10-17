@@ -1,4 +1,4 @@
-// #include "persona.h"
+#include "persona.h"
 #include "usuario.h"
 #include <iostream>
 #include <cstring>
