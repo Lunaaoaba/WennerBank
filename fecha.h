@@ -22,8 +22,7 @@ class Fecha{
 
         void cargarFecha();
         void cargarFechaActual();
-        string toString();
-
+        string mostrarFecha();
 };
 
 #endif

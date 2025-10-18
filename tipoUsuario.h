@@ -8,36 +8,33 @@ class Cliente : public Usuario{
     private:
         char _idCliente[5];
     public:
-    //constructores
         Cliente();
-        Cliente(const char* dni, const char* nombre, const char* apellido, const char* localidad, const char* idCliente);
-    //set
-        void setIdCliente(const char* idCliente);
-    //get
-        const char* getIdCliente();
-    //otros
-        void mostrarDatos();
-};
+        Cliente(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, const char* idCliente);
 
+        void setIdCliente(const char* idCliente);
+
+        const char* getIdCliente();
+
+        void cargarDatos();
+        string mostrarDatos();
+};
 
 class Empleado : public Usuario{
     protected:
         char _legajo[6];
         char _claveOperacion[20];
     public:
-    //constructores
         Empleado();
-        Empleado(const char* dni, const char* nombre, const char* apellido, const char* localidad, const char* legajo, const char* claveOperacion);
-    //setters
+        Empleado(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  const char* legajo, const char* claveOperacion);
+
         void setLegajo(const char* legajo);
         void setClaveOperacion(const char* claveOperacion);
-    //getters
+
         const char* getLegajo();
         const char* getClaveOperacion();
-    //otros
-        void cargarDatos();
-        string toString();
 
+        void cargarDatos();
+        string mostrarDatos();
 };
 
 

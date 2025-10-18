@@ -5,6 +5,9 @@
 #include "menu.h"
 #include <iostream>
 
+// ----------------------------------------------------------------------
+//              MOVER / MODIFICAR PARA LLEVAR A FUNCIONES.H
+// ----------------------------------------------------------------------
 
 // Funciones CRUD (CREATE, READ, UPDATE, DELETE)
 void agregarDatos();

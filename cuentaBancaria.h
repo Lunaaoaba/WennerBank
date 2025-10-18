@@ -13,10 +13,9 @@ class cuentaBancaria{
         double _saldo;
         bool _cuentaEliminada;
     public:
-    //constructores
         cuentaBancaria();
         cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada);
-    //setters
+
         void setIdCuenta(const char* idCuenta);
         void setIdCliente(const char* idCliente);
         void setNombreCuenta(const char* nombreCuenta);
@@ -24,7 +23,7 @@ class cuentaBancaria{
         void setAlias(const char* alias);
         void setSaldo(double saldo);
         void setCuentaEliminada(bool cuentaEliminada);
-    //getters
+
         const char* getIdCuenta();
         const char* getIdCliente();
         const char* getNombreCuenta();
@@ -32,11 +31,13 @@ class cuentaBancaria{
         const char* getAlias();
         double getSaldo();
         bool getCuentaEliminada();
-    //operaciones bancarias
+
         bool depositar(double monto);
         bool retirar(double monto);
-    //otros
-        void mostrarDatos();
+
+        void cargarDatos();
+        string mostrarDatos();
 };
+
 
 #endif

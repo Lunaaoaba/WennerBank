@@ -2,6 +2,7 @@
 #include <cstring>
 #include <sstream>
 #include "movimientos.h"
+#include "fecha.h"
 using namespace std;
 
 Transaccion::Transaccion(){
@@ -34,13 +35,29 @@ void Transaccion::setMonto(double monto){ _monto = monto; }
 void Transaccion::setFechaTransaccion(Fecha fechaTransaccion){ _fechaTransaccion = fechaTransaccion; }
 void Transaccion::setHoraTransaccion(Tiempo horaTransaccion){ _horaTransaccion = horaTransaccion; }
 
-string Transaccion::toString() {
+void Transaccion::cargarDatos(){
+    cout << "Cargando datos de la transaccion..." << endl;
+    cout << "ID Transaccion: ";
+    cin >> _idTransaccion;
+    cout << "ID Cuenta Origen: ";
+    cin >> _idCuentaOrigen;
+    cout << "ID Cuenta Destino: ";
+    cin >> _idCuentaDestino;
+    cout << "Monto: ";
+    cin >> _monto;
+    cout << "Fecha: ";
+    _fechaTransaccion.cargarFecha();
+    cout << "Hora: ";
+    _horaTransaccion.cargarTiempo();
+}
+
+string Transaccion::mostrarDatos() {
     string linea = string("Transaccion: ") + _idTransaccion
                     + "\nCuenta Origen: " + _idCuentaOrigen
                     + "\nCuenta Destino: " + _idCuentaDestino
                     + "\nMonto: " + to_string(_monto)
-                    + "\nFecha: " + _fechaTransaccion.toString()
-                    + "\nHora: " + _horaTransaccion.toString();
+                    + "\nFecha: " + _fechaTransaccion.mostrarFecha()
+                    + "\nHora: " + _horaTransaccion.mostrarTiempo();
     return linea;
 }
 
@@ -74,7 +91,15 @@ void Prestamo::setTasaInteres(double tasaInteres){ _tasaInteres = tasaInteres; }
 void Prestamo::setFechaInicio(Fecha fechaInicio){ _fechaInicio = fechaInicio; }
 void Prestamo::setFechaVencimiento(Fecha fechaVencimiento){ _fechaVencimiento = fechaVencimiento; }
 
-void cargarDatos(){
+void mostrarDatosPrestamo(Prestamo p){
+    cout << "ID Prestamo: " << p.getIdPrestamo() << endl;
+    cout << "ID Cliente: " << p.getIdCliente() << endl;
+    cout << "Monto: $" << p.getMonto() << endl;
+    cout << "Tasa de Interes: " << p.getTasaInteres() << "%" << endl;
+    cout << "Fecha de Inicio: " << p.getFechaInicio().mostrarFecha() << endl;
+    cout << "Fecha de Vencimiento: " << p.getFechaVencimiento().mostrarFecha() << endl;
+}
+void Prestamo::cargarDatos(){
     cout << "Cargando datos del prestamo..." << endl;
     cout << "ID Prestamo: ";
     cin >> _idPrestamo;
@@ -89,12 +114,12 @@ void cargarDatos(){
     cout << "Fecha de Vencimiento:" << endl;
     _fechaVencimiento.cargarFecha();
 }
-string Prestamo::toString() {
+string Prestamo::mostrarDatos() {
     string linea = string("Prestamo: ") + _idPrestamo
                     + "\nCliente: " + _idCliente
                     + "\nMonto: " + to_string(_monto)
                     + "\nTasa de Interes: " + to_string(_tasaInteres) + "%"
-                    + "\nFecha de Inicio: " + _fechaInicio.toString()
-                    + "\nFecha de Vencimiento: " + _fechaVencimiento.toString();
+                    + "\nFecha de Inicio: " + _fechaInicio.mostrarFecha()
+                    + "\nFecha de Vencimiento: " + _fechaVencimiento.mostrarFecha();
     return linea;
 }

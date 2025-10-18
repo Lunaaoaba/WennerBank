@@ -68,15 +68,32 @@ bool cuentaBancaria::retirar(double saldo){
         return false;
     }
 }
-
-void cuentaBancaria::mostrarDatos(){
-    cout << "\n--- Datos de la cuenta bancaria ---" << endl;
-    cout << "ID Cuenta: " << _idCuenta << endl;
-    cout << "ID Cliente: " << _idCliente << endl;
-    cout << "Nombre de la Cuenta: " << _nombreCuenta << endl;
-    cout << "CVU: " << _cvu << endl;
-    cout << "Alias: " << _alias << endl;
-    cout << "Saldo: $" << _saldo << endl;
-    cout << "Estado: " << (_cuentaEliminada ? "Eliminada" : "Activa") << endl; // Muestra "Eliminada" o "Activa" basado en el estado booleano
-    cout << "--------------------------------------\n" << endl;
+void cuentaBancaria::cargarDatos(){
+    cout << "\n--- Ingrese los datos de la cuenta bancaria ---" << endl;
+    cout << "ID Cuenta (4 digitos): ";
+    cin >> _idCuenta;
+    cout << "ID Cliente (4 digitos): ";
+    cin >> _idCliente;
+    cout << "Nombre de la Cuenta: ";
+    cin.ignore(); // Limpiar el buffer antes de usar getline
+    cin.getline(_nombreCuenta, 50);
+    cout << "CVU (10 digitos): ";
+    cin >> _cvu;
+    cout << "Alias (max 30 caracteres): ";
+    cin.ignore(); // Limpiar el buffer antes de usar getline
+    cin.getline(_alias, 31);
+    cout << "Saldo inicial: $";
+    cin >> _saldo;
+    _cuentaEliminada = false; // Por defecto, la cuenta no está eliminada al cargar datos
+    cout << "----------------------------------------------\n" << endl;
+}
+string cuentaBancaria::mostrarDatos(){
+    string linea = string("ID Cuenta: ") + _idCuenta
+            + "\nID Cliente: " + _idCliente
+            + "\nNombre de la Cuenta: " + _nombreCuenta
+            + "\nCVU: " + _cvu
+            + "\nAlias: " + _alias
+            + "\nSaldo: $" + to_string(_saldo)
+            + "\nEstado: " + (_cuentaEliminada ? "Eliminada" : "Activa") + "\n";
+    return linea;
 }

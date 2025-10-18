@@ -21,8 +21,7 @@ class Tiempo{
 
         void cargarTiempo();
         void cargarTiempoActual();
-        string toString();
-
+        string mostrarTiempo();
 };
 
 #endif

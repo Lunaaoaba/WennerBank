@@ -9,6 +9,11 @@
 //#include "config.h" //Se incluye config.h para usar NOMBRE_ARCHIVO_CUENTAS
 using namespace std;
 
+
+// ----------------------------------------------------------------------
+//              MOVER / MODIFICAR PARA LLEVAR A FUNCIONES.CPP
+// ----------------------------------------------------------------------
+
 const char* ARCHIVO_BINARIO = "Archivo Binario 1";
 const char* ARCHIVO_TXT = "CuentasBancarias.txt";
 

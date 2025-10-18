@@ -25,6 +25,14 @@ void Fecha::setDia(int dia){ _dia = dia; }
 void Fecha::setMes(int mes){ _mes = mes; }
 void Fecha::setAnio(int anio){ _anio = anio; }
 
+void Fecha::cargarFecha(){
+    cout << "Ingrese dia: ";
+    cin >> _dia;
+    cout << "Ingrese mes: ";
+    cin >> _mes;
+    cout << "Ingrese anio: ";
+    cin >> _anio;
+}
 void Fecha::cargarFechaActual(){
     time_t tiempoCrudo = time(nullptr); // almacena tiempo en segundos
     tm* tiempoLocal = localtime(&tiempoCrudo); // convierte a tiempo local
@@ -33,4 +41,4 @@ void Fecha::cargarFechaActual(){
     _mes = tiempoLocal->tm_mon + 1; // Se suma 1 porque los meses van de 0 a 11
     _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los años se cuentan desde 1900
 }
-string Fecha::toString(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }
+string Fecha::mostrarFecha(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }

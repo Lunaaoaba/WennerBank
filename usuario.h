@@ -7,23 +7,20 @@ class Usuario : public Persona{
     protected:
         char _mail[50];
         char _contrasena[50];
-        bool _UsuarioEliminado; //es por si el usuario está eliminado, true = si, false = no
+        bool _UsuarioEliminado;
     public:
-    //constructores
         Usuario();
-        Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad, const char* mail, const char* contrasena, bool UsuarioEliminado);
-        Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad);
+        Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado);
         void setMail(const char* mail);
         void setContrasena(const char* contrasena);
         void setUsuarioEliminado(bool UsuarioEliminado);
-    //getters
+
         const char* getMail();
         const char* getContrasena();
         bool getUsuarioEliminado();
-    //otros
-        void cargarDatos();
-        string toString();
 
+        void cargarDatos();
+        string mostrarDatos();
 };
 
 

@@ -23,6 +23,14 @@ void Tiempo::setHoras(int horas){ _horas = horas; }
 void Tiempo::setMinutos(int minutos){ _minutos = minutos; }
 void Tiempo::setSegundos(int segundos){ _segundos = segundos; }
 
+void Tiempo::cargarTiempo(){
+    cout << "Ingrese horas: ";
+    cin >> _horas;
+    cout << "Ingrese minutos: ";
+    cin >> _minutos;
+    cout << "Ingrese segundos: ";
+    cin >> _segundos;
+}
 void Tiempo::cargarTiempoActual(){
     time_t tiempoCrudo = time(nullptr);
     tm* tiempoLocal = localtime(&tiempoCrudo);
@@ -32,6 +40,6 @@ void Tiempo::cargarTiempoActual(){
     _segundos = tiempoLocal->tm_sec;
 }
 
-string Tiempo::toString(){
+string Tiempo::mostrarTiempo(){
     return to_string(_horas) + ":" + to_string(_minutos) + ":" + to_string(_segundos);
 }
