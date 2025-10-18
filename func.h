@@ -12,8 +12,8 @@
 // Reciben la cuenta por REFERENCIA para modificarla directamente antes de guardarla.
 // El valor de retorno (bool) indica si la operación fue exitosa (ej. saldo suficiente).
 
-bool realizarDeposito(cuentaBancaria &cuenta, double monto);
-bool realizarRetiro(cuentaBancaria &cuenta, double monto);
+double realizarDeposito(cuentaBancaria &cuenta, double monto);
+double realizarRetiro(cuentaBancaria &cuenta, double saldo);
 
 // ----------------------------------------------------------------------
 

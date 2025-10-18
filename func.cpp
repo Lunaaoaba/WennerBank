@@ -37,6 +37,18 @@ bool realizarDeposito(cuentaBancaria &cuenta, double monto)
     return false;
 }
 */
+double realizarDeposito(cuentaBancaria &cuenta){
+    
+    double monto = 0;
+    
+    cout << "Ingrese el monto a depositar: "; 
+    cin >> monto;
+    
+    return ((monto > 0) ? monto : 0);
+
+}
+
+
 
 
 /* rehacer la funcion
@@ -59,6 +71,26 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto)
     return false;
 }
 */
+double realizarRetiro(cuentaBancaria &cuenta, double saldo){
+    
+    double monto = 0;
+
+    cout << "Ingrese el monto a retirar: "; 
+    cin >> monto;
+
+    if (monto > saldo) {
+        cout << "Fondos insuficientes! \n";
+        return 0;
+    } 
+        else if (monto < 0) {
+        cout << "Esa no es una cantidad valida \n";
+        return 0;
+    }
+        else {
+        return monto;
+    }
+}
+
 
 
 // ----------------------------------------------------------------------
