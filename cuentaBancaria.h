@@ -5,8 +5,8 @@
 
 class cuentaBancaria{
     private:
-        char _idCuenta[5]; // 4 digitos + '\0'
-        char _idCliente[5]; // 4 digitos + '\0'
+        int _idCuenta; // 4 digitos + '\0'
+        int _idCliente; // 4 digitos + '\0'
         char _nombreCuenta[50];
         char _cvu[11]; // 10 digitos + '\0'
         char _alias[31]; // 30 caracteres + '\0'
@@ -14,27 +14,26 @@ class cuentaBancaria{
         bool _cuentaEliminada;
     public:
         cuentaBancaria();
-        cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada);
-
-        void setIdCuenta(const char* idCuenta);
-        void setIdCliente(const char* idCliente);
+        cuentaBancaria(int idCuenta, int idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada);
+        //set
+        void setIdCuenta(int idCuenta);
+        void setIdCliente(int idCliente);
         void setNombreCuenta(const char* nombreCuenta);
         void setCvu(const char* cvu);
         void setAlias(const char* alias);
         void setSaldo(double saldo);
         void setCuentaEliminada(bool cuentaEliminada);
-
-        const char* getIdCuenta();
-        const char* getIdCliente();
+        //get
+        int getIdCuenta();
+        int getIdCliente();
         const char* getNombreCuenta();
         const char* getCvu();
         const char* getAlias();
         double getSaldo();
         bool getCuentaEliminada();
-
+        //otros
         bool depositar(double monto);
         bool retirar(double monto);
-
         void cargarDatos();
         string mostrarDatos();
 };

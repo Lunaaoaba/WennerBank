@@ -27,13 +27,12 @@ double realizarRetiro(cuentaBancaria &cuenta, double saldo);
 //----------------------------------------------------------------------
 //autogeneracion de IDs
 
-//autoIdCuenta();
-//autoIdCliente();
-//autoLegajo();
-//autoIdTransaccion();
-//autoIdPrestamo();
-//autoIdTarjeta();
-
+char autoIdCuenta();
+char autoIdCliente();
+char autoLegajo();
+char autoIdTransaccion();
+char autoIdPrestamo();
+char autoIdTarjeta();
 
 //----------------------------------------------------------------------
 // validaciones

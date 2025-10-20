@@ -10,15 +10,16 @@ class Usuario : public Persona{
         bool _UsuarioEliminado;
     public:
         Usuario();
-        Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado);
+        Usuario(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado);
+        //set
         void setMail(const char* mail);
         void setContrasena(const char* contrasena);
         void setUsuarioEliminado(bool UsuarioEliminado);
-
+        //get
         const char* getMail();
         const char* getContrasena();
         bool getUsuarioEliminado();
-
+        //otros
         void cargarDatos();
         string mostrarDatos();
 };

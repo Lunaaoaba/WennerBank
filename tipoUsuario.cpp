@@ -6,14 +6,14 @@ using namespace std;
 
 //CLIENTE
 //constructores
-Cliente::Cliente(){ strcpy(_idCliente, "0000"); }
-Cliente::Cliente(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, const char* idCliente) : Usuario(dni, nombre, apellido, localidad, fechaNacimiento, mail, contrasena, estado){
-    strcpy(_idCliente, idCliente);
+Cliente::Cliente(){ _idCliente = 0; }
+Cliente::Cliente(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, int idCliente) : Usuario(dni, nombre, apellido, localidad, fechaNacimiento, mail, contrasena, estado){
+    _idCliente = idCliente;
 }
 //set
-void Cliente::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
+void Cliente::setIdCliente(int idCliente){ _idCliente = idCliente; }
 //get
-const char* Cliente::getIdCliente(){ return _idCliente; }
+int Cliente::getIdCliente(){ return _idCliente; }
 //otros
 void Cliente::cargarDatos(){
     Usuario::cargarDatos();
@@ -22,7 +22,7 @@ void Cliente::cargarDatos(){
 }
 string Cliente::mostrarDatos(){
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
-    datos += "ID Cliente: " + string(_idCliente) + "\n";
+    datos += "ID Cliente: " + to_string(_idCliente) + "\n";
     return datos;
 }
 
@@ -30,18 +30,18 @@ string Cliente::mostrarDatos(){
 //EMPLEADO
 //constructores
 Empleado::Empleado(){
-    strcpy(_legajo, "00000");
+    _legajo = 0;
     strcpy(_claveOperacion, "N/A");
 }
-Empleado::Empleado(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  const char* legajo, const char* claveOperacion) : Usuario(dni, nombre, apellido, localidad, fechaNacimiento, mail, contrasena, UsuarioEliminado){
-    strcpy(_legajo, legajo);
+Empleado::Empleado(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo, const char* claveOperacion) : Usuario(dni, nombre, apellido, localidad, fechaNacimiento, mail, contrasena, UsuarioEliminado){
+    _legajo = legajo;
     strcpy(_claveOperacion, claveOperacion);
 }
 //setters
-void Empleado::setLegajo(const char* legajo){ strcpy(_legajo, legajo); }
+void Empleado::setLegajo(int legajo){ _legajo = legajo; }
 void Empleado::setClaveOperacion(const char* claveOperacion){ strcpy(_claveOperacion, claveOperacion); }
 //getters
-    const char* Empleado::getLegajo(){ return _legajo; }
+    int Empleado::getLegajo(){ return _legajo; }
     const char* Empleado::getClaveOperacion(){ return _claveOperacion; }
 //otros
 void Empleado::cargarDatos(){
@@ -53,7 +53,7 @@ void Empleado::cargarDatos(){
 }
 string Empleado::mostrarDatos(){
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
-    datos += "Legajo: " + string(_legajo) + "\n";
+    datos += "Legajo: " + to_string(_legajo) + "\n";
     datos += "Clave de Operacion: " + string(_claveOperacion) + "\n";
     return datos;
 }

@@ -6,33 +6,33 @@ using namespace std;
 
 class Cliente : public Usuario{
     private:
-        char _idCliente[5];
+        int _idCliente;
     public:
         Cliente();
-        Cliente(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, const char* idCliente);
-
-        void setIdCliente(const char* idCliente);
-
-        const char* getIdCliente();
-
+        Cliente(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, int idCliente);
+        //set
+        void setIdCliente(int idCliente);
+        //get
+        int getIdCliente();
+        //otros
         void cargarDatos();
         string mostrarDatos();
 };
 
 class Empleado : public Usuario{
     protected:
-        char _legajo[6];
+        int _legajo;
         char _claveOperacion[20];
     public:
         Empleado();
-        Empleado(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  const char* legajo, const char* claveOperacion);
-
-        void setLegajo(const char* legajo);
+        Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo, const char* claveOperacion);
+        //set
+        void setLegajo(int legajo);
         void setClaveOperacion(const char* claveOperacion);
-
-        const char* getLegajo();
+        //get
+        int getLegajo();
         const char* getClaveOperacion();
-
+        //otros
         void cargarDatos();
         string mostrarDatos();
 };

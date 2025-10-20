@@ -1,5 +1,5 @@
-//#ifndef FUNCIONES_H
-#define FUNCIONES_H
+// #ifndef FUNCIONES_H
+#define FUNCIOhhh_H
 
 #include "cuentaBancaria.h"
 #include "menu.h"
@@ -106,52 +106,54 @@ void pause();
 // ----------------------------------------------------------------------
 
 
-<<<<<<< HEAD
-/*void crearCuenta();
+
+/*
+void crearCuenta();
 void iniciarSesion();
 void eliminarCuenta();
 void listarCuentas();
-*/
-=======
->>>>>>> 93873b8b341767d8020b819732a805e918f87822
+
+
 // ----------------------------------------------------------------------
 
-// Reciben la cuenta por REFERENCIA para modificarla directamente antes de guardarla.
-// El valor de retorno (bool) indica si la operación fue exitosa (ej. saldo suficiente).
+Reciben la cuenta por REFERENCIA para modificarla directamente antes de guardarla.
+El valor de retorno (bool) indica si la operación fue exitosa (ej. saldo suficiente).
 
 /*bool realizarDeposito(cuentaBancaria &cuenta, double monto);
-bool realizarRetiro(cuentaBancaria &cuenta, double monto);*/
-
-// ----------------------------------------------------------------------
+bool realizarRetiro(cuentaBancaria &cuenta, double monto);
 
 
-// bool modificarCuenta(const cuentaBancaria &cuentaModificada); // NECESARIA PARA ACTUALIZAR REGISTROS
-// bool guardarCuenta(const cuentaBancaria &cuenta);
-// cuentaBancaria buscarCuenta(int idCuenta);
-// bool borrarCuenta(int idCuenta);
-// void listarTodasCuentas();
-
-//----------------------------------------------------------------------
-//autogeneracion de IDs
-
-//autoIdCuenta();
-//autoIdCliente();
-//autoLegajo();
-//autoIdTransaccion();
-//autoIdPrestamo();
-//autoIdTarjeta();
+----------------------------------------------------------------------
 
 
-//----------------------------------------------------------------------
-// validaciones
+bool modificarCuenta(const cuentaBancaria &cuentaModificada); // NECESARIA PARA ACTUALIZAR REGISTROS
+bool guardarCuenta(const cuentaBancaria &cuenta);
+cuentaBancaria buscarCuenta(int idCuenta);
+bool borrarCuenta(int idCuenta);
+void listarTodasCuentas();
 
-// overflowText();
-// overflowNum();
-// mayorCero(valor, mensaje);
-//
+----------------------------------------------------------------------
+autogeneracion de IDs
+
+autoIdCuenta();
+autoIdCliente();
+autoLegajo();
+autoIdTransaccion();
+autoIdPrestamo();
+autoIdTarjeta();
 
 
-// ----------------------------------------------------------------------
+----------------------------------------------------------------------
+validaciones
 
-//IMPORTANTE-------------------------------------------------------------
-//se crearon funciones de prueba para ver que es mejor
+overflowText();
+overflowNum();
+mayorCero(valor, mensaje);
+
+
+
+----------------------------------------------------------------------
+
+IMPORTANTE-------------------------------------------------------------
+se crearon funciones de prueba para ver que es mejor
+*/
