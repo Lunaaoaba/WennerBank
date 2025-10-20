@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib> 
 #include <cstdio>// LIBRERIA PARA USO DE ARCHIVOS
-
+#include <iomanip>
 using namespace std;
 
 // NOTA: /ORDENAR/ Y /REHACER/ LAS FUNCIONES MARCADAS COMO REHACER
@@ -16,6 +16,14 @@ using namespace std;
 // ----------------------------------------------------------------------
 //              MOVER / MODIFICAR PARA LLEVAR A FUNCIONES.CPP
 // ----------------------------------------------------------------------
+
+
+void mostrarSaldo (double saldo) {
+cout<<"Su balance es: $ " <<setprecision(2) << fixed << saldo << endl;}
+
+
+
+
 
 /*
 // Realiza el depósito en la cuenta y guarda el cambio en el archivo.
@@ -37,6 +45,8 @@ bool realizarDeposito(cuentaBancaria &cuenta, double monto)
     return false;
 }
 */
+
+
 double realizarDeposito(cuentaBancaria &cuenta){
     
     double monto = 0;
@@ -47,7 +57,6 @@ double realizarDeposito(cuentaBancaria &cuenta){
     return ((monto > 0) ? monto : 0);
 
 }
-
 
 
 
@@ -71,8 +80,7 @@ bool realizarRetiro(cuentaBancaria &cuenta, double monto)
     return false;
 }
 */
-double realizarRetiro(cuentaBancaria &cuenta, double saldo){
-    
+double realizarRetiro( cuentaBancaria &cuenta, double saldo){
     double monto = 0;
 
     cout << "Ingrese el monto a retirar: "; 

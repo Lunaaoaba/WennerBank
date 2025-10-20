@@ -89,6 +89,7 @@ while(!feof(pa)){
 // ----------------------------------------------------------------------
         }
     }
+}
 
 // Realiza el depósito en la cuenta y guarda el cambio en el archivo.
 bool realizarDeposito(cuentaBancaria &cuenta, double monto)

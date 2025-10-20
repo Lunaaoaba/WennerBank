@@ -283,12 +283,49 @@ void menuGestionCuentas(){
     // Llama a: menuOperacionesCuenta() o una función para crear una nueva CuentaBancaria.
 }
 
-void menuOperacionesCuenta(){
+void menuOperacionesCuenta(cuentaBancaria &cuenta, double saldo){
     // Pide el ID de la cuenta a la que se quiere ingresar.
     // Muestra el saldo y los datos de esa cuenta.
     // Opciones: 1. DepositaR, 2. Retirar, 3. Realizar Transferencia, 4. Volver.
     // Llama a: realizarDeposito(), realizarRetiro(), realizarTransferencia().
+    int op;
+    while(true){
+        int opc;
+        system("cls");
+        cout<<"    OPERACIONES"<<endl;
+        cout<<"==================="<<endl;
+        cout<<"1 -Mostrar saldo"<<endl;
+        cout<<"2 -Depositar dinero"<<endl;
+        cout<<"3 -Retirar dinero"<<endl;
+        cout<<"0 - SALIR"<<endl;
+        cout<<"==================="<<endl;
+        cout<<"INGRESE LA OPCION: ";
+        cin>>opc;
+        system("cls");
+        switch(opc){
+            case 1:
+                mostrarSaldo(saldo);
+                break;
+            case 2:
+                saldo += realizarDeposito();
+                mostrarSaldo(saldo);
+                break;
+            case 3:
+                saldo -= realizarRetiro(saldo);
+                mostrarSaldo(saldo);
+                break;
+            case 0:  
+                cout << "Gracias por confiar en Interbank!! \n";
+                break;
+            default:
+                cout << "Opcion no valida, seleccion una opcion correcta";
+                break;
+            break;
+        }
+        system("pause");
+    }
 }
+
 
 void realizarTransferencia(){
     // Pide CVU/Alias de destino.
