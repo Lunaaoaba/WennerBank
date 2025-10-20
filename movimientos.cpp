@@ -6,31 +6,31 @@
 using namespace std;
 
 Transaccion::Transaccion(){
-    strcpy(_idTransaccion, "0000");
-    strcpy(_idCuentaOrigen, "0000");
-    strcpy(_idCuentaDestino, "0000");
+    _idTransaccion = 0;
+    _idCuentaOrigen = 0;
+    _idCuentaDestino = 0;
     _monto = 0.0;
 }
 
-Transaccion::Transaccion(const char* idTransaccion, const char* idCuentaOrigen, const char* idCuentaDestino, double monto, Fecha fechaTransaccion, Tiempo horaTransaccion){
-    strcpy(_idTransaccion, idTransaccion);
-    strcpy(_idCuentaOrigen, idCuentaOrigen);
-    strcpy(_idCuentaDestino, idCuentaDestino);
+Transaccion::Transaccion(int idTransaccion, int idCuentaOrigen, int idCuentaDestino, double monto, Fecha fechaTransaccion, Tiempo horaTransaccion){
+    _idTransaccion = idTransaccion;
+    _idCuentaOrigen = idCuentaOrigen;
+    _idCuentaDestino = idCuentaDestino;
     _monto = monto;
     _fechaTransaccion = fechaTransaccion;
     _horaTransaccion = horaTransaccion;
 }
 
-const char* Transaccion::getIdTransaccion(){ return _idTransaccion; }
-const char* Transaccion::getIdCuentaOrigen(){ return _idCuentaOrigen; }
-const char* Transaccion::getIdCuentaDestino(){ return _idCuentaDestino; }
+int Transaccion::getIdTransaccion(){ return _idTransaccion; }
+int Transaccion::getIdCuentaOrigen(){ return _idCuentaOrigen; }
+int Transaccion::getIdCuentaDestino(){ return _idCuentaDestino; }
 double Transaccion::getMonto(){ return _monto; }
 Fecha Transaccion::getFechaTransaccion(){ return _fechaTransaccion; }
 Tiempo Transaccion::getHoraTransaccion(){ return _horaTransaccion; }
 
-void Transaccion::setIdTransaccion(const char* idTransaccion){ strcpy(_idTransaccion, idTransaccion); }
-void Transaccion::setIdCuentaOrigen(const char* idCuentaOrigen){ strcpy(_idCuentaOrigen, idCuentaOrigen); }
-void Transaccion::setIdCuentaDestino(const char* idCuentaDestino){ strcpy(_idCuentaDestino, idCuentaDestino); }
+void Transaccion::setIdTransaccion(int idTransaccion){ _idTransaccion = idTransaccion; }
+void Transaccion::setIdCuentaOrigen(int idCuentaOrigen){ _idCuentaOrigen = idCuentaOrigen; }
+void Transaccion::setIdCuentaDestino(int idCuentaDestino){ _idCuentaDestino = idCuentaDestino; }
 void Transaccion::setMonto(double monto){ _monto = monto; }
 void Transaccion::setFechaTransaccion(Fecha fechaTransaccion){ _fechaTransaccion = fechaTransaccion; }
 void Transaccion::setHoraTransaccion(Tiempo horaTransaccion){ _horaTransaccion = horaTransaccion; }
@@ -52,9 +52,9 @@ void Transaccion::cargarDatos(){
 }
 
 string Transaccion::mostrarDatos() {
-    string linea = string("Transaccion: ") + _idTransaccion
-                    + "\nCuenta Origen: " + _idCuentaOrigen
-                    + "\nCuenta Destino: " + _idCuentaDestino
+    string linea = string("Transaccion: ") + to_string(_idTransaccion)
+                    + "\nCuenta Origen: " + to_string(_idCuentaOrigen)
+                    + "\nCuenta Destino: " + to_string(_idCuentaDestino)
                     + "\nMonto: " + to_string(_monto)
                     + "\nFecha: " + _fechaTransaccion.mostrarFecha()
                     + "\nHora: " + _horaTransaccion.mostrarTiempo();
@@ -62,30 +62,30 @@ string Transaccion::mostrarDatos() {
 }
 
 Prestamo::Prestamo(){
-    strcpy(_idPrestamo, "0000");
-    strcpy(_idCliente, "0000");
+    _idPrestamo = 0;
+    _idCliente = 0;
     _monto = 0.0;
     _tasaInteres = 0.0;
 }
 
-Prestamo::Prestamo(const char* idPrestamo, const char* idCliente, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento){
-    strcpy(_idPrestamo, idPrestamo);
-    strcpy(_idCliente, idCliente);
+Prestamo::Prestamo(int idPrestamo, int idCliente, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento){
+    _idPrestamo = idPrestamo;
+    _idCliente = idCliente;
     _monto = monto;
     _tasaInteres = tasaInteres;
     _fechaInicio = fechaInicio;
     _fechaVencimiento = fechaVencimiento;
 }
 
-const char* Prestamo::getIdPrestamo(){ return _idPrestamo; }
-const char* Prestamo::getIdCliente(){ return _idCliente; }
+int Prestamo::getIdPrestamo(){ return _idPrestamo; }
+int Prestamo::getIdCliente(){ return _idCliente; }
 double Prestamo::getMonto(){ return _monto; }
 double Prestamo::getTasaInteres(){ return _tasaInteres; }
 Fecha Prestamo::getFechaInicio(){ return _fechaInicio; }
 Fecha Prestamo::getFechaVencimiento(){ return _fechaVencimiento; }
 
-void Prestamo::setIdPrestamo(const char* idPrestamo){ strcpy(_idPrestamo, idPrestamo); }
-void Prestamo::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
+void Prestamo::setIdPrestamo(int idPrestamo){ _idPrestamo = idPrestamo; }
+void Prestamo::setIdCliente(int idCliente){ _idCliente = idCliente; }
 void Prestamo::setMonto(double monto){ _monto = monto; }
 void Prestamo::setTasaInteres(double tasaInteres){ _tasaInteres = tasaInteres; }
 void Prestamo::setFechaInicio(Fecha fechaInicio){ _fechaInicio = fechaInicio; }
@@ -115,8 +115,8 @@ void Prestamo::cargarDatos(){
     _fechaVencimiento.cargarFecha();
 }
 string Prestamo::mostrarDatos() {
-    string linea = string("Prestamo: ") + _idPrestamo
-                    + "\nCliente: " + _idCliente
+    string linea = string("Prestamo: ") + to_string(_idPrestamo)
+                    + "\nCliente: " + to_string(_idCliente)
                     + "\nMonto: " + to_string(_monto)
                     + "\nTasa de Interes: " + to_string(_tasaInteres) + "%"
                     + "\nFecha de Inicio: " + _fechaInicio.mostrarFecha()

@@ -11,7 +11,7 @@ Usuario::Usuario(){
     strcpy(_contrasena, "N/A");
     _UsuarioEliminado = false;
 }
-Usuario::Usuario(const char* dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado) : Persona(dni, nombre, apellido, localidad, fechaNacimiento){
+Usuario::Usuario(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado) : Persona(dni, nombre, apellido, localidad, fechaNacimiento){
     strcpy(_mail, mail);
     strcpy(_contrasena, contrasena);
     _UsuarioEliminado = UsuarioEliminado;

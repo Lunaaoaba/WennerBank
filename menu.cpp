@@ -282,11 +282,14 @@ void menuGestionCuentas(){
     // Muestra opciones: 1. Ingresar a una cuenta, 2. Crear nueva cuenta, 3. Volver.
     // Llama a: menuOperacionesCuenta() o una función para crear una nueva CuentaBancaria.
 }
+// -------------------------------------------------------------------------------------------------------
 
+// tachado pq da error
+/*
 void menuOperacionesCuenta(cuentaBancaria &cuenta, double saldo){
     // Pide el ID de la cuenta a la que se quiere ingresar.
     // Muestra el saldo y los datos de esa cuenta.
-    // Opciones: 1. DepositaR, 2. Retirar, 3. Realizar Transferencia, 4. Volver.
+    // Opciones: 1. Depositar, 2. Retirar, 3. Realizar Transferencia, 4. Volver.
     // Llama a: realizarDeposito(), realizarRetiro(), realizarTransferencia().
     int op;
     while(true){
@@ -325,7 +328,8 @@ void menuOperacionesCuenta(cuentaBancaria &cuenta, double saldo){
         system("pause");
     }
 }
-
+*/
+// -------------------------------------------------------------------------------------------------------
 
 void realizarTransferencia(){
     // Pide CVU/Alias de destino.

@@ -14,8 +14,8 @@ int main(){
     Tiempo tiempoActual;
     fechaActual.cargarFechaActual();
     tiempoActual.cargarTiempoActual();
-    cout << "Fecha actual: " << fechaActual.toString() << endl;
-    cout << "Hora actual: " << tiempoActual.toString() << endl;
+    cout << "Fecha actual: " << fechaActual.mostrarFecha() << endl;
+    cout << "Hora actual: " << tiempoActual.mostrarTiempo() << endl;
     system("pause");
     return 0;
 }
