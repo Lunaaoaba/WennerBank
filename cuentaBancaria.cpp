@@ -2,23 +2,24 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 using namespace std;
 
 // MODIFICADO PARA SACAR LO "IA" DE LA CLASE
 
 //constructores
 cuentaBancaria::cuentaBancaria(){
-    strcpy(_idCuenta, "0000");
-    strcpy(_idCliente, "0000");
+    _idCuenta = 0;
+    _idCliente = 0;
     strcpy(_nombreCuenta, "N/A");
     strcpy(_cvu, "0000000000");
     strcpy(_alias, "N/A");
     _saldo = 0;
     _cuentaEliminada = false;
 }
-cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada){
-    strcpy(_idCuenta, idCuenta);
-    strcpy(_idCliente, idCliente);
+cuentaBancaria::cuentaBancaria(int idCuenta, int idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada){
+    _idCuenta = idCuenta;
+    _idCliente = idCliente;
     strcpy(_nombreCuenta, nombreCuenta);
     strcpy(_cvu, cvu);
     strcpy(_alias, alias);
@@ -26,16 +27,16 @@ cuentaBancaria::cuentaBancaria(const char* idCuenta, const char* idCliente, cons
     _cuentaEliminada = cuentaEliminada;
 }
 //setters
-void cuentaBancaria::setIdCuenta(const char* idCuenta){ strcpy(_idCuenta, idCuenta); }
-void cuentaBancaria::setIdCliente(const char* idCliente){ strcpy(_idCliente, idCliente); }
+void cuentaBancaria::setIdCuenta(int idCuenta){ _idCuenta = idCuenta; }
+void cuentaBancaria::setIdCliente(int idCliente){ _idCliente = idCliente; }
 void cuentaBancaria::setNombreCuenta(const char* nombreCuenta){ strcpy(_nombreCuenta, nombreCuenta); }
 void cuentaBancaria::setCvu(const char* cvu){ strcpy(_cvu, cvu); }
 void cuentaBancaria::setAlias(const char* alias){ strcpy(_alias, alias); }
 void cuentaBancaria::setSaldo(double saldo){ _saldo = saldo; }
 void cuentaBancaria::setCuentaEliminada(bool cuentaEliminada){ _cuentaEliminada = cuentaEliminada; }
 //getters
-const char* cuentaBancaria::getIdCuenta(){ return _idCuenta; }
-const char* cuentaBancaria::getIdCliente(){ return _idCliente; }
+int cuentaBancaria::getIdCuenta(){ return _idCuenta; }
+int cuentaBancaria::getIdCliente(){ return _idCliente; }
 const char* cuentaBancaria::getNombreCuenta(){ return _nombreCuenta; }
 const char* cuentaBancaria::getCvu(){ return _cvu; }
 const char* cuentaBancaria::getAlias(){ return _alias; }
@@ -88,8 +89,8 @@ void cuentaBancaria::cargarDatos(){
     cout << "----------------------------------------------\n" << endl;
 }
 string cuentaBancaria::mostrarDatos(){
-    string linea = string("ID Cuenta: ") + _idCuenta
-            + "\nID Cliente: " + _idCliente
+    string linea = string("ID Cuenta: ") + to_string(_idCuenta)
+            + "\nID Cliente: " + to_string(_idCliente)
             + "\nNombre de la Cuenta: " + _nombreCuenta
             + "\nCVU: " + _cvu
             + "\nAlias: " + _alias

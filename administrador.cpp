@@ -16,7 +16,15 @@ Administrador* Administrador::getInstancia() {
     return instancia;
 }
 
-Administrador::Administrador() : Empleado("00000000", "Admin", "Sistema", "Central", Fecha(1, 1, 2000), "admin@wennerbank.com", "admin_pass", false, "ADM01", "admin_ops_key"){
+Administrador::Administrador() : Empleado(){
+    setLegajo(10000000);
+    setNombre("Admin");
+    setApellido("Sistema");
+    setLocalidad("Central");
+    setFechaNacimiento(Fecha(1, 1, 2000));
+    setMail("admin@wennerbank.com");
+    setContrasena("culo");
+    setUsuarioEliminado(false);
     strcpy(_claveMaestra, "wennerbank_master_key_2025");
     _permisosGlobales = true;
 }

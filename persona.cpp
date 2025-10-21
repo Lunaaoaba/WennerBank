@@ -44,12 +44,12 @@ int Persona::getEdad(){
 }
 //otros
 string Persona::mostrarDatos(){
-    string linea = string("DNI: ") + to_string(_dni)
-                    + "\nNombre: " + _nombre
-                    + "\nApellido: " + _apellido
-                    + "\nLocalidad: " + _localidad
-                    + "\nFecha de Nacimiento: " + _fechaNacimiento.mostrarFecha();
-                    + "\nEdad: " + to_string(getEdad()) + " años\n";
-    return linea;
+    string datos = string("DNI: ") + to_string(_dni);
+    datos += "\nNombre: " + string(_nombre);
+    datos += "\nApellido: " + string(_apellido);
+    datos += "\nLocalidad: " + string(_localidad);
+    datos += "\nFecha de Nacimiento: " + _fechaNacimiento.mostrarFecha();
+    datos += "\nEdad: " + to_string(getEdad()) + " años\n";
+    return datos;
 }
 

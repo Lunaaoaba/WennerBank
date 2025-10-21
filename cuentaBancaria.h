@@ -1,6 +1,8 @@
 #ifndef CUENTABANCARIA_H
 #define CUENTABANCARIA_H
 #include <iostream>
+#include <string>
+using namespace std;
 
 
 class cuentaBancaria{

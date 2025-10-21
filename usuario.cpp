@@ -34,8 +34,9 @@ void Usuario::cargarDatos(){
     _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no está eliminado
 }
 string Usuario::mostrarDatos(){
-    Persona::mostrarDatos(); // Muestra los datos heredados de Persona
-    cout << "Mail: " << _mail << endl;
-    // cout << "Contrasena: " << _contrasena << endl;
-    cout << "Usuario Eliminado: " << (_UsuarioEliminado ? "Si" : "No") << endl;
+    string datos = Persona::mostrarDatos();
+    datos += "\nMail: " + string(_mail);
+    datos += "\nContrasena: " + string(_contrasena);
+    datos += "\nUsuario Eliminado: " + string(_UsuarioEliminado ? "Si" : "No");
+    return datos;
 }
