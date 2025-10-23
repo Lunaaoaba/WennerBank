@@ -41,7 +41,7 @@ bool esOpcionValida(int opcion, int n1, int n2){
 
 //funcion auxiliar para validar que el char ingresado no supere el limite
 bool esCadenaValida(const char* cadena, int maxLength){
-    if(strlen(cadena) < maxLength) return true;
+    if(strlen(cadena) < static_cast<size_t>(maxLength)) return true;
     else return false;
 }
 
@@ -214,10 +214,11 @@ void iniciarSesion(){
             menuCliente();
             break;
         case 2:
-            menuEmpleado();
+            // menuEmpleado();
+            break;
         case 3:
             // esAdmin = true; // variable global para indicar que es admin
-            menuAdministrador();
+            // menuAdministrador();
             break;
         case 4:
             cout << "\nERROR: Credenciales invalidas." << endl;

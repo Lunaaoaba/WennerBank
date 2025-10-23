@@ -64,47 +64,49 @@ string Transaccion::mostrarDatos() {
 Prestamo::Prestamo(){
     _idPrestamo = 0;
     _idCliente = 0;
+    _legajo = 0;
     _monto = 0.0;
     _tasaInteres = 0.0;
+    _prestamoVigente = false;
 }
 
-Prestamo::Prestamo(int idPrestamo, int idCliente, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento){
+Prestamo::Prestamo(int idPrestamo, int idCliente, int legajo, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento, bool prestamoVigente){
     _idPrestamo = idPrestamo;
     _idCliente = idCliente;
+    _legajo = legajo;
     _monto = monto;
     _tasaInteres = tasaInteres;
     _fechaInicio = fechaInicio;
     _fechaVencimiento = fechaVencimiento;
+    _prestamoVigente = prestamoVigente;
 }
 
 int Prestamo::getIdPrestamo(){ return _idPrestamo; }
 int Prestamo::getIdCliente(){ return _idCliente; }
+int Prestamo::getLegajo(){ return _legajo; }
 double Prestamo::getMonto(){ return _monto; }
 double Prestamo::getTasaInteres(){ return _tasaInteres; }
 Fecha Prestamo::getFechaInicio(){ return _fechaInicio; }
 Fecha Prestamo::getFechaVencimiento(){ return _fechaVencimiento; }
+bool Prestamo::getPrestamoVigente(){ return _prestamoVigente; }
 
 void Prestamo::setIdPrestamo(int idPrestamo){ _idPrestamo = idPrestamo; }
 void Prestamo::setIdCliente(int idCliente){ _idCliente = idCliente; }
+void Prestamo::setLegajo(int legajo){ _legajo = legajo; }
 void Prestamo::setMonto(double monto){ _monto = monto; }
 void Prestamo::setTasaInteres(double tasaInteres){ _tasaInteres = tasaInteres; }
 void Prestamo::setFechaInicio(Fecha fechaInicio){ _fechaInicio = fechaInicio; }
 void Prestamo::setFechaVencimiento(Fecha fechaVencimiento){ _fechaVencimiento = fechaVencimiento; }
+void Prestamo::setPrestamoVigente(bool prestamoVigente){ _prestamoVigente = prestamoVigente; }
 
-void mostrarDatosPrestamo(Prestamo p){
-    cout << "ID Prestamo: " << p.getIdPrestamo() << endl;
-    cout << "ID Cliente: " << p.getIdCliente() << endl;
-    cout << "Monto: $" << p.getMonto() << endl;
-    cout << "Tasa de Interes: " << p.getTasaInteres() << "%" << endl;
-    cout << "Fecha de Inicio: " << p.getFechaInicio().mostrarFecha() << endl;
-    cout << "Fecha de Vencimiento: " << p.getFechaVencimiento().mostrarFecha() << endl;
-}
 void Prestamo::cargarDatos(){
     cout << "Cargando datos del prestamo..." << endl;
     cout << "ID Prestamo: ";
     cin >> _idPrestamo;
-    cout << "ID Cliente: ";
+    cout << "ID del cliente que solicita el prestamo: ";
     cin >> _idCliente;
+    cout << "Legajo de empleado que otorga el prestamo: ";
+    cin >> _legajo;
     cout << "Monto: ";
     cin >> _monto;
     cout << "Tasa de Interes (anual %): ";
@@ -113,13 +115,17 @@ void Prestamo::cargarDatos(){
     _fechaInicio.cargarFecha();
     cout << "Fecha de Vencimiento:" << endl;
     _fechaVencimiento.cargarFecha();
+    cout << "Prestamo Vigente (1 = Si, 0 = No): ";
+    cin >> _prestamoVigente;
 }
 string Prestamo::mostrarDatos() {
     string linea = string("Prestamo: ") + to_string(_idPrestamo)
                     + "\nCliente: " + to_string(_idCliente)
+                    + "\nLegajo: " + to_string(_legajo)
                     + "\nMonto: " + to_string(_monto)
                     + "\nTasa de Interes: " + to_string(_tasaInteres) + "%"
                     + "\nFecha de Inicio: " + _fechaInicio.mostrarFecha()
-                    + "\nFecha de Vencimiento: " + _fechaVencimiento.mostrarFecha();
+                    + "\nFecha de Vencimiento: " + _fechaVencimiento.mostrarFecha()
+                    + "\nPrestamo Vigente: " + (_prestamoVigente ? "Si" : "No");
     return linea;
 }

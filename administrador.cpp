@@ -23,13 +23,10 @@ Administrador::Administrador() : Empleado(){
     setLocalidad("Central");
     setFechaNacimiento(Fecha(1, 1, 2000));
     setMail("admin@wennerbank.com");
-    setContrasena("culo");
+    setContrasena("culo1234");
     setUsuarioEliminado(false);
-    strcpy(_claveMaestra, "wennerbank_master_key_2025");
     _permisosGlobales = true;
 }
-
-const char* Administrador::getClaveMaestra(){ return _claveMaestra; }
 
 bool Administrador::getPermisosGlobales(){ return _permisosGlobales; }
 

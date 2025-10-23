@@ -18,8 +18,7 @@ class Administrador : public Empleado{
         Administrador();
         // puntero estatico para guardar la direccion de memoria del unico objeto
         static Administrador* instancia;
-        // atributos propios del administrador
-        char _claveMaestra[20];
+        // atributo propio del administrador
         bool _permisosGlobales; // true = tiene permisos globales, false = no tiene permisos globales
     public:
         static Administrador* getInstancia();
@@ -27,7 +26,6 @@ class Administrador : public Empleado{
         Administrador(const Administrador&) = delete;
         void operator=(const Administrador&) = delete;
 
-        const char* getClaveMaestra();
         bool getPermisosGlobales();
 
         // METODOS UNICOS DEL ADMINISTRADOR

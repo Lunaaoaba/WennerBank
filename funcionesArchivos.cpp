@@ -34,6 +34,14 @@ int generarIdCliente(){
     return maxId + 1;
 }
 
+Cliente crearCliente(){
+    Cliente nuevoCliente;
+    nuevoCliente.cargarDatos();
+    nuevoCliente.setIdCliente(generarIdCliente());
+    guardarClientes(nuevoCliente);
+    return nuevoCliente;
+}
+
 bool guardarEmpleados(const Empleado& empleado){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "ab");
     if(archivo == nullptr){

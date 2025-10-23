@@ -1,7 +1,9 @@
-#include "persona.h"
 #include <ctime>
 #include <iostream>
 #include <cstring>
+#include <limits>
+#include "persona.h"
+#include "funciones.h"
 using namespace std;
 
 //constructores
@@ -43,8 +45,21 @@ int Persona::getEdad(){
     return edad;
 }
 //otros
+void Persona::cargarDatos(){
+    cout << "Cargando datos de la persona..." << endl;
+    _dni = validarEntero("\Ingrese DNI: ", 10000000, 99999999);
+    cout << "Ingrese Nombre: ";
+    cin.getline(_nombre, 50);
+    cout << "Ingrese Apellido: ";
+    cin.getline(_apellido, 50);
+    cout << "Ingrese Localidad: ";
+    cin.getline(_localidad, 50);
+
+    cout << "Ingrese Fecha de Nacimiento:" << endl;
+    _fechaNacimiento.cargarFecha();
+}
 string Persona::mostrarDatos(){
-    string datos = string("DNI: ") + to_string(_dni);
+    string datos = string("\nDNI: ") + to_string(_dni);
     datos += "\nNombre: " + string(_nombre);
     datos += "\nApellido: " + string(_apellido);
     datos += "\nLocalidad: " + string(_localidad);

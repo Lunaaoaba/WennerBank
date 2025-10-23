@@ -1,6 +1,9 @@
 #include <iostream>
 #include <ctime> // libreria para obtener fecha y hora del sistema
+#include <limits>
+#include <string>
 #include "Fecha.h"
+#include "funciones.h"
 
 using namespace std;
 
@@ -26,12 +29,9 @@ void Fecha::setMes(int mes){ _mes = mes; }
 void Fecha::setAnio(int anio){ _anio = anio; }
 
 void Fecha::cargarFecha(){
-    cout << "Ingrese dia: ";
-    cin >> _dia;
-    cout << "Ingrese mes: ";
-    cin >> _mes;
-    cout << "Ingrese anio: ";
-    cin >> _anio;
+    _dia = validarEntero("Ingrese dia: ", 1, 31);
+    _mes = validarEntero("Ingrese mes: ", 1, 12);
+    _anio = validarEntero("Ingrese anio: ", 1900, 2025);
 }
 void Fecha::cargarFechaActual(){
     time_t tiempoCrudo = time(nullptr); // almacena tiempo en segundos

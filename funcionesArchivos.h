@@ -8,6 +8,7 @@
 
 bool guardarClientes(const Cliente& cliente);
 int generarIdCliente();
+Cliente crearCliente();
 
 bool guardarEmpleados(const Empleado& empleado);
 int generarLegajoEmpleado();

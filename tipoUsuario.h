@@ -22,16 +22,13 @@ class Cliente : public Usuario{
 class Empleado : public Usuario{
     protected:
         int _legajo;
-        char _claveOperacion[20];
     public:
         Empleado();
-        Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo, const char* claveOperacion);
+        Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo);
         //set
         void setLegajo(int legajo);
-        void setClaveOperacion(const char* claveOperacion);
         //get
         int getLegajo();
-        const char* getClaveOperacion();
         //otros
         void cargarDatos();
         string mostrarDatos();

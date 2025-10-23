@@ -6,6 +6,7 @@
 #include "fecha.h"
 #include "tiempo.h"
 #include "menu.h"
+#include "funcionesArchivos.h"
 using namespace std;
 
 
@@ -16,6 +17,16 @@ int main(){
     tiempoActual.cargarTiempoActual();
     cout << "Fecha actual: " << fechaActual.mostrarFecha() << endl;
     cout << "Hora actual: " << tiempoActual.mostrarTiempo() << endl;
+    /*
+        para que funcione crear/mostrar cliente, eliminar los siguientes archivos:
+        - func.cpp
+        - func.h
+        - funcTrsh.cpp
+        - funcTrsh.h
+    */
+    system("pause");
+    Cliente nuevoCliente = crearCliente();
+    cout << nuevoCliente.mostrarDatos() << endl;
     system("pause");
     return 0;
 }

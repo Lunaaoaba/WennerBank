@@ -43,9 +43,10 @@ class Prestamo{
         double _tasaInteres; // porcentaje anual
         Fecha _fechaInicio;
         Fecha _fechaVencimiento;
+        bool _prestamoVigente;
     public:
         Prestamo();
-        Prestamo(int idPrestamo, int idCliente, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento);
+        Prestamo(int idPrestamo, int idCliente, int legajo, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento, bool prestamoVigente);
         //get
         int getIdPrestamo();
         int getIdCliente();
@@ -54,6 +55,7 @@ class Prestamo{
         double getTasaInteres();
         Fecha getFechaInicio();
         Fecha getFechaVencimiento();
+        bool getPrestamoVigente();
         //set
         void setIdPrestamo(int idPrestamo);
         void setIdCliente(int idCliente);
@@ -62,6 +64,7 @@ class Prestamo{
         void setTasaInteres(double tasaInteres);
         void setFechaInicio(Fecha fechaInicio);
         void setFechaVencimiento(Fecha fechaVencimiento);
+        void setPrestamoVigente(bool prestamoVigente);
         //otros
         void cargarDatos();
         string mostrarDatos();
