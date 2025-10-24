@@ -46,8 +46,8 @@ int Persona::getEdad(){
 }
 //otros
 void Persona::cargarDatos(){
-    cout << "Cargando datos de la persona..." << endl;
-    _dni = validarEntero("\Ingrese DNI: ", 10000000, 99999999);
+    cout << "\nCargando datos de la persona..." << endl;
+    _dni = validarEntero("\nIngrese DNI: ", 10000000, 99999999);
     cout << "Ingrese Nombre: ";
     cin.getline(_nombre, 50);
     cout << "Ingrese Apellido: ";
@@ -64,7 +64,7 @@ string Persona::mostrarDatos(){
     datos += "\nApellido: " + string(_apellido);
     datos += "\nLocalidad: " + string(_localidad);
     datos += "\nFecha de Nacimiento: " + _fechaNacimiento.mostrarFecha();
-    datos += "\nEdad: " + to_string(getEdad()) + " años\n";
+    datos += "\nEdad: " + to_string(getEdad()) + " años";
     return datos;
 }
 

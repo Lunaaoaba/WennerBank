@@ -29,14 +29,14 @@ void Usuario::cargarDatos(){
     Persona::cargarDatos();
     cout << "Ingrese el mail: ";
     cin >> _mail;
-    cout << "Ingrese la contrasena: ";
+    cout << "Ingrese la contraseña: ";
     cin >> _contrasena;
     _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no está eliminado
 }
 string Usuario::mostrarDatos(){
     string datos = Persona::mostrarDatos();
     datos += "\nMail: " + string(_mail);
-    datos += "\nContrasena: " + string(_contrasena);
+    datos += "\nContraseña: " + string(_contrasena);
     datos += "\nUsuario Eliminado: " + string(_UsuarioEliminado ? "Si" : "No");
     return datos;
 }

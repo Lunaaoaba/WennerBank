@@ -1,6 +1,7 @@
 #include "tipoUsuario.h"
 #include "usuario.h"
-#include "funcionesArchivos.h"
+#include "ArchivoClientes.h"
+#include "funciones.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -21,8 +22,10 @@ void Cliente::cargarDatos(){
     _idCliente = generarIdCliente();
 }
 string Cliente::mostrarDatos(){
+    char idFormateado[10];
+    formatearId(idFormateado, "Cl-", _idCliente, 5);
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
-    datos += "\nID Cliente: cl-" + to_string(_idCliente) + "\n";
+    datos += "\nID Cliente: " + string(idFormateado);
     return datos;
 }
 

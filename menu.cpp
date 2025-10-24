@@ -13,7 +13,7 @@ using namespace std;
 // Función auxiliar para pausar y limpiar el buffer de entrada
 void pausa(){
     cout << "\n...";
-    cin.ignore(10000, '\n'); 
+    cin.ignore(10000, '\n');
     cin.get();
 }
 
@@ -199,14 +199,14 @@ void iniciarSesion(){
 
     system("cls");
     cout << "--- INICIAR SESION ---" << endl;
-    char gmail[50], contraseña[50];
+    char gmail[50], contrasena[50];
     cout << "Ingrese su usuario: " << endl;
     cout << "Gmail: ";
     cin >> gmail;
     cout << "Contraseña: ";
-    cin >> contraseña;
+    cin >> contrasena;
 
-    if(esCadenaValida(gmail, 50) && esCadenaValida(contraseña, 50)){
+    if(esCadenaValida(gmail, 50) && esCadenaValida(contrasena, 50)){
         //switch temporal para probar los menus
         int tipoUsuario;
         switch(tipoUsuario){
@@ -269,12 +269,18 @@ void menuEmpleado(){
     // Muestra el panel del empleado.
     // Opciones: 1. Gestionar Clientes, 2. Operaciones Bancarias, 3. Listados, 4. Búsquedas, 5. Cerrar Sesión.
     // Llama a: menuGestionClientes(), menuOperacionesBancarias(), etc.
+    cout << "culito";
+    system("pause");
+    exit(12);
 }
 
 void menuAdministrador(){
     // Muestra el panel del admin.
     // Opciones: 1. Gestionar Clientes, 2. Gestionar Empleados, 3. Operaciones, 4. Listados, 5. Búsquedas, 6. Cerrar Sesión.
     // Llama a las funciones correspondientes.
+    cout << "admin culito";
+    system("pause");
+    exit(21);
 }
 
 // --- 4. SUB-MENÚS Y ACCIONES DEL CLIENTE ---
@@ -318,7 +324,7 @@ void menuOperacionesCuenta(cuentaBancaria &cuenta, double saldo){
                 saldo -= realizarRetiro(saldo);
                 mostrarSaldo(saldo);
                 break;
-            case 0:  
+            case 0:
                 cout << "Gracias por confiar en Interbank!! \n";
                 break;
             default:

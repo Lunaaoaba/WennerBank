@@ -25,3 +25,15 @@ int validarEntero(const char* mensaje, int min, int max){
         return valor;
     }
 }
+
+// para agregar 0 a la izquierda y un prefijo | uso en mostrarDatos de las clases | ej: Cl-00021
+void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTotal){
+    sprintf(resultado, "%s%0*d", prefijo, largoTotal, idNumero);
+}
+/*
+    "%s%0*d":
+    %s : inserta el prefijo
+    %0 : se llena con ceros a la izquierda
+    * : toma el ancho del siguiente argumento (largoTotal)
+    d : indica que es un entero
+*/
