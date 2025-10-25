@@ -2,8 +2,12 @@
 #include "cuentaBancaria.h"
 #include "config.h"
 #include <cstdio>
+#include <iomanip>
 using namespace std;
 
+// ----------------------------------------------------------------------
+//             FUNCIONES PARA MANEJO DE ARCHIVOS DE CUENTAS
+// ----------------------------------------------------------------------
 bool guardarCuentas(const cuentaBancaria& cuenta){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "ab");
     if(archivo == nullptr){
@@ -26,3 +30,14 @@ cuentaBancaria crearCuenta(){
     // guardarCuentas(nuevaCuenta);
     return nuevaCuenta;
 }
+
+void listarCuentas(){
+
+}
+
+//----------------------------------------------------------------------
+//             FUNCIONES PARA LA CUENTA BANCARIA
+// ----------------------------------------------------------------------
+
+void mostrarSaldo (double saldo) {
+cout<<"Su balance es: $ " <<setprecision(2) << fixed << saldo << endl;}

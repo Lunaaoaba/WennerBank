@@ -40,3 +40,26 @@ Cliente crearCliente(){
     guardarClientes(nuevoCliente);
     return nuevoCliente;
 }
+
+void listarClientes(){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    if(archivo == nullptr){
+        cout << "Error al abrir el archivo de clientes." << endl;
+        return;
+    }
+    Cliente reg;
+    int i = 0;
+    cout << "Listado de Clientes:" << endl;
+    cout << "---------------------" << endl;
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        reg.mostrarDatos();
+        i++;
+        cout << "---------------------" << endl;
+    }
+    if(i == 0){
+        cout << "No hay clientes registrados." << endl;
+        cout << "---------------------" << endl;
+    }
+    fclose(archivo);
+}
+

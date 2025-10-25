@@ -1,8 +1,10 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
 #include <cctype>
-#include "rlutil.h"
 #include <windows.h>
 #include "funciones.h"
 #include "fecha.h"
@@ -17,10 +19,35 @@ using namespace std;
 
 
 int main(){
-    //para usar la �
+    //para usar la ñ
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
+    // test
+    // NOTA: REEMPLAZAR LOS char(num) POR LOS CARACTERES CORRESPONDIENTES
+    cout << "lineas" << endl;
+    cout << "\xE2\x95\x90" << endl;
+    cout << "\xE2\x95\x91" << endl;
+    cout << "esquinas" << endl;
+    cout << "\xE2\x95\x94" << endl;
+    cout << "\xE2\x95\x97" << endl;
+    cout << "\xE2\x95\x9A" << endl;
+    cout << "\xE2\x95\x9D" << endl;
+    cout << "verticales con esquinas" << endl;
+    cout << "\xE2\x95\xA0" << endl;
+    cout << "\xE2\x95\x9F" << endl;
+    cout << "\xE2\x95\xA3" << endl;
+    cout << "\xE2\x95\xA2" << endl;
+    cout << "horizontales con esquinas" << endl;
+    cout << "\xE2\x95\xA6" << endl;
+    cout << "\xE2\x95\xA4" << endl;
+    cout << "\xE2\x95\xA9" << endl;
+    cout << "\xE2\x95\xA7" << endl;
+    cout << "cruces" << endl;
+    cout << "\xE2\x95\xAC" << endl;
+    cout << "\xE2\x95\xAA" << endl;
+
+    cout << "-------------------" << endl;
     Fecha fechaActual;
     Tiempo tiempoActual;
     fechaActual.cargarFechaActual();
@@ -35,64 +62,11 @@ int main(){
         - funcTrsh.h
     */
     
-    //temporal para probar la creacion de objetos
-    // cout << "Seleccione el tipo de entidad a crear:" << endl << "1. Cliente" << endl << "2. Empleado" << endl << "3. Cuenta Bancaria" << endl << "Ingrese opcion: ";
-    // int tipo;
-    // cin >> tipo;
-    // switch(tipo){
-    //     case 1: {
-    //         cout << "crear cliente:" << endl;
-    //         Cliente nuevoCliente = crearCliente();
-    //         cout << nuevoCliente.mostrarDatos() << endl;
-    //         system("pause");
-    //         break;
-    //     }
-    //     case 2: {
-    //         cout << "crear empleado:" << endl;
-    //         // Empleado nuevoEmpleado = crearEmpleado(); 
-    //         // cout << nuevoEmpleado.mostrarDatos() << endl;
-    //         system("pause");
-    //         break;
-    //     }
-    //     case 3: {
-    //         cout << "crear cuenta bancaria:" << endl;
-    //         // CuentaBancaria nuevaCuenta = crearCuentaBancaria();
-    //         // cout << nuevaCuenta.mostrarDatos() << endl;
-    //         system("pause");
-    //         break;
-    //     }
-    // }
-
     //--------------------------------------------------------------
     //inicio beta del ingreso al inicio de sesion
-    //obviamente esto iria en una funcion de menu
 
-    while(true){
-        system("cls");
-        tituloBeta();
-        cout << "welcome to te program:" << endl;
-        int opc;
+    // menuPrincipal();
 
-        cin >> opc;
-        
-        switch(opc){
-            case 1: {
-                cout << "crear cliente:" << endl;
-                Cliente nuevoCliente = crearCliente();
-                cout << nuevoCliente.mostrarDatos() << endl;
-                system("pause");
-                
-                break;
-            }
-            case 2:
-            menuEmpleado();
-            break;
-        }
-        
-    if(rlutil::getkey() == 19) menuAdministrador(); // Si se presiona 
-    if(rlutil::getkey() == 27) break; // Si se presiona ESC
-    }
-    cout << "Fin del programa. goodbye to te program" << endl;
     system("pause");
     //--------------------------------------------------------------
     return 0;

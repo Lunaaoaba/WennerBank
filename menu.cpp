@@ -1,153 +1,19 @@
 #include <iostream>
 #include <cstdlib>
-#include <cstring>
+
 #include "menu.h"
 #include "cuentaBancaria.h"
+#include "tipoUsuario.h"
 #include "funciones.h"
+#include "art.h"
 
 using namespace std;
-
-// FUNCIONES AUXILIARES
-// se eliminarán al final cuando se use rlutil
-
-// Función auxiliar para pausar y limpiar el buffer de entrada
-void pausa(){
-    cout << "\n...";
-    cin.ignore(10000, '\n');
-    cin.get();
-}
-
-// Función auxiliar para limpiar la entrada después de un error de cin
-void limpiarEntrada(){
-    cin.clear(); // LIMPIA EL ESTADO DE ERROR DEL CIN
-    cin.ignore(10000, '\n'); // LIMPIA EL BUFFER DE ENTRADA
-}
-
-// funcion auxiliar para validar si el ingreso en cin es un numero
-bool esNumeroValido(int& numero) {
-    if (!(cin >> numero)) {
-        limpiarEntrada();
-        return false;
-    }
-    return true;
-}
-
-//funcion auxiliar para validar si el cin va del case n1 a n2
-
-bool esOpcionValida(int opcion, int n1, int n2){
-    if (opcion >= n1 && opcion <= n2) return true;
-    else return false;
-}
-
-//funcion auxiliar para validar que el char ingresado no supere el limite
-bool esCadenaValida(const char* cadena, int maxLength){
-    if(strlen(cadena) < static_cast<size_t>(maxLength)) return true;
-    else return false;
-}
 
 
 // ----------------------------------------------------------------------
 // menu en base al diagrama WennerBank_path.png
 // ----------------------------------------------------------------------
-/*
-void menuBienvenida(){
-    system("cls");
-    cout << "--- BIENVENIDO/A A WENNER BANK ---" << endl;
-    cout << "Su banco de confianza." << endl << endl;
 
-    cout << "Seleccione una opcion:" << endl;
-    cout << "1. Iniciar sesion como cliente" << endl;
-    cout << "2. Iniciar sesion como empleado" << endl;
-    cout << "3. Crear usuario" << endl;
-    cout << "4. Salir del programa" << endl << endl;
-    cout << "Ingrese su opcion: ";
-    int ingreso;
-
-    if (!(cin >> ingreso)) {
-        cout << "\nERROR: Ingrese un numero valido." << endl;
-        limpiarEntrada();
-        pausa();
-        return;
-    }
-    if (ingreso < 1 || ingreso > 4) {
-        cout << "\nOpcion no valida, intente de nuevo." << endl;
-        pausa();
-        return;
-    }
-
-    switch (ingreso){
-        case 1:
-            iniciarSesion(); //ingresa el Usuario Cliente
-            break;
-        case 2:
-            crearUsuario(); // solo crea Usuario cliente
-            break;
-        case 3:
-            iniciarSesionEmpleado(); // ingresa el Usuario Empleado o Admin
-            break;
-        case 4:
-            cout << "\nGracias por usar Wenner Bank. ¡Hasta pronto!" << endl;
-            exit(0);
-        }
-    pausa();
-}
-
-void iniciarSesion(){
-    system("cls");
-    cout << "--- INICIAR SESION ---" << endl;
-    char gmail[50], contraseña[50];
-    cout << "Ingrese su usuario: " << endl;
-    cout << "Gmail: ";
-    cin >> gmail;
-    cout << "Contraseña: ";
-    cin >> contraseña;
-
-    cout << "\n¡Inicio de sesion exitoso! Bienvenido/a." << endl;
-    // Verificar las credenciales (hacer)
-    system("pause");
-    //suponiendo que esta todo bien
-    menuCliente();
-}
-
-void crearUsuario(){
-    system("cls");
-    cout << "--- CREAR USUARIO ---" << endl;
-    char gmail[50], contraseña[50];
-    cout << "Ingrese los siguientes datos para crear su usuario:" << endl;
-    cout << "Gmail: ";
-    cin >> gmail;
-    cout << "Contraseña: ";
-    cin >> contraseña;
-
-    cout << "\n¡Usuario creado exitosamente! Ahora puede iniciar sesion." << endl;
-    // Guardar el nuevo usuario (hacer)
-    system("pause");
-    menuBienvenida();
-}
-
-void iniciarSesionEmpleado(){
-    system("cls");
-    cout << "--- INICIAR SESION EMPLEADO/ADMIN ---" << endl;
-    char usuario[50], contraseña[50];
-    cout << "Ingrese su usuario: " << endl;
-    cout << "Usuario: ";
-    cin >> usuario;
-    cout << "Contraseña: ";
-    cin >> contraseña;
-
-    cout << "\n¡Inicio de sesion exitoso! Bienvenido/a." << endl;
-    // Verificar las credenciales (hacer)
-    // si detecta los datos de admin, redirige al menu admin
-    system("pause");
-    //suponiendo que esta todo bien:
-
-    //if admin
-    // menuAdmin();
-
-    //else
-    //menuEmpleado();
-}
-*/
 
 // ---------------------------
 // --- NUCLEO DEL PROGRAMA ---
@@ -155,37 +21,61 @@ void iniciarSesionEmpleado(){
 
 void menuPrincipal(){
     while (true) {
-        menuBienvenida(); // Muestra el menú inicial en un bucle hasta que el usuario elija salir.}
+        system("cls");
+        tituloBeta();
+        menuOpciones(); // Muestra el menú inicial en un bucle hasta que el usuario elija salir.
     }
 }
 
-// --- 1. FLUJO DE BIENVENIDA Y ACCESO ---
-void menuBienvenida() {
-    system("cls");
-    int opc;
+void menuOpciones(){
+    // sujeto a cambios
+    cout << "Seleccione una opcion:" << endl;
+    cout << "1. Clientes" << endl;
+    cout << "2. Cuentas" << endl;
+    cout << "3. Empleados" << endl;
+    cout << "4. Administrador" << endl;
+    cout << "5. Salir del programa" << endl << endl;
 
-    switch(opc){
+    Opciones();
+}
+
+void Opciones(){
+    int opcion = validarEntero("Ingrese una opcion (1-5): ", 1, 5);
+    switch(opcion){
         case 1:
-            menuCrearUsuario();
+            Clientes();
             break;
         case 2:
-            iniciarSesion();
+            Cuentas();
             break;
         case 3:
-            // iniciarSesionEmpleado(); //sin definir aun
+            Empleados();
             break;
         case 4:
+            Admin();
+            break;
+        case 5:
+            cout << "Gracias por usar Wenner Bank. ¡Hasta luego!" << endl;
+            system("pause");
             exit(0);
     }
-    cout << "Ingrese su opcion: " << endl;
-    cin >> opc;
-    if(!esNumeroValido(opc) || !esOpcionValida(opc, 1, 4)){
-        cout << "\nERROR: Ingrese un numero valido." << endl;
-        limpiarEntrada();
-        pausa();
-        return;
-    }
+}
 
+void Clientes(){
+    centrar_texto(" Menu Clientes ", (char)205, 41);
+    iniciarSesion();
+}
+
+void Cuentas(){
+    centrar_texto(" Menu Cuentas ", (char)205, 41);
+}
+
+void Empleados(){
+    centrar_texto(" Menu Empleados ", (char)205, 41);
+}
+
+void Admin(){
+    centrar_texto(" Menu Administrador ", (char)205, 41);
 }
 
 void iniciarSesion(){
@@ -226,7 +116,7 @@ void iniciarSesion(){
             return;
         }
         cin >> tipoUsuario;
-        if(!esNumeroValido(tipoUsuario) || !esOpcionValida(tipoUsuario, 1, 4)){
+        if(!(validarEntero("Ingrese tipo de usuario (1-Cliente, 2-Empleado, 3-Admin): ", 1, 4))){
             cout << "\nERROR: Ingrese un numero valido." << endl;
             limpiarEntrada();
             pausa();
@@ -236,7 +126,7 @@ void iniciarSesion(){
     else{
         cout << "\nERROR: Credenciales invalidas. Devuelto al menú" << endl;
         pausa();
-        menuBienvenida();
+        menuOpciones();
         return;
     }
 }

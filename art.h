@@ -1,6 +1,9 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
+
 #ifndef ART_H
 #define ART_H
-#include "rlutil.h"
 using namespace std;
 
 void tituloBeta();

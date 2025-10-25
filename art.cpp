@@ -1,23 +1,31 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include "art.h"
 using namespace std;
 
-// #define byte windows_byte
-// #include "rlutil.h"
-// #undef byte
 
 void tituloBeta(){
     rlutil::cls();
     rlutil::setColor(rlutil::YELLOW);
-    rlutil::locate(30, 2);
-    cout << "===============================" << endl;
-    rlutil::locate(30, 3);
-    cout << "|  BIENVENIDO/A A WENNER BANK  |" << endl;
+
+    rlutil::locate(40, 2);
+    cout << (char)201; centrar_texto("", char(205), 41); cout << (char)187;
+
+    rlutil::locate(40, 3);
+    cout << (char)186; centrar_texto("", ' ', 41); cout << (char)186;
+
+    rlutil::locate(40, 4);
+    cout << (char)186; centrar_texto(" BIENVENIDO/A A WENNER BANK ", ' ', 41); cout << (char)186;
+
     rlutil::locate(30, 4);
-    cout << "===============================" << endl;
-    rlutil::locate(30, 5);
-    cout << "|     Su banco de confianza    |" << endl;
+    cout << (char)201; centrar_texto("", (char)205, 41); cout << (char)187;
+
+    rlutil::locate(40, 5);
+    cout << (char)186; centrar_texto("Su banco de confianza", ' ', 41); cout << (char)186;
+
     rlutil::locate(30, 6);
-    cout << "===============================" << endl;
+    cout << (char)204; centrar_texto("", (char)205, 41); cout << (char)185 << endl;
     rlutil::setColor(rlutil::WHITE);
 }
 
