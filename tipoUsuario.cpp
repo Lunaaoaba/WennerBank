@@ -1,6 +1,7 @@
 #include "tipoUsuario.h"
 #include "usuario.h"
 #include "ArchivoClientes.h"
+#include "ArchivoEmpleados.h"
 #include "funciones.h"
 #include <iostream>
 #include <cstring>
@@ -22,8 +23,8 @@ void Cliente::cargarDatos(){
     _idCliente = generarIdCliente();
 }
 string Cliente::mostrarDatos(){
-    char idFormateado[10];
-    formatearId(idFormateado, "Cl-", _idCliente, 5);
+    char idFormateado[12];
+    formatearId(idFormateado, "Cl-", _idCliente, 6);
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
     datos += "\nID Cliente: " + string(idFormateado);
     return datos;
@@ -45,11 +46,12 @@ void Empleado::setLegajo(int legajo){ _legajo = legajo; }
 //otros
 void Empleado::cargarDatos(){
     Usuario::cargarDatos();
-    cout << "Ingrese legajo: ";
-    cin >> _legajo;
+    _legajo = generarLegajo();
 }
 string Empleado::mostrarDatos(){
+    char legajoFormateado[12];
+    formatearId(legajoFormateado, "Em-", _legajo, 6);
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
-    datos += "\nLegajo: " + to_string(_legajo) + "\n";
+    datos += "\nLegajo: " + string(legajoFormateado);
     return datos;
 }

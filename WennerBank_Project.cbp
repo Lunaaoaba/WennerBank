@@ -32,18 +32,19 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="ArchivoCliente.cpp" />
-		<Unit filename="ArchivoCliente.h" />
+		<Unit filename="ArchivoClientes.cpp" />
+		<Unit filename="ArchivoClientes.h" />
 		<Unit filename="ArchivoCuentas.cpp" />
 		<Unit filename="ArchivoCuentas.h" />
-		<Unit filename="ArchivoEmpleado.cpp" />
-		<Unit filename="ArchivoEmpleado.h" />
+		<Unit filename="ArchivoEmpleados.cpp" />
+		<Unit filename="ArchivoEmpleados.h" />
 		<Unit filename="ArchivoMovimientos.cpp" />
 		<Unit filename="ArchivoMovimientos.h" />
 		<Unit filename="administrador.cpp" />
 		<Unit filename="administrador.h" />
 		<Unit filename="art.cpp" />
 		<Unit filename="art.h" />
+		<Unit filename="config.cpp" />
 		<Unit filename="config.h" />
 		<Unit filename="cuentaBancaria.cpp" />
 		<Unit filename="cuentaBancaria.h" />
@@ -51,8 +52,6 @@
 		<Unit filename="fecha.h" />
 		<Unit filename="funciones.cpp" />
 		<Unit filename="funciones.h" />
-		<Unit filename="funcionesArchivos.cpp" />
-		<Unit filename="funcionesArchivos.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
 		<Unit filename="menu.h" />
