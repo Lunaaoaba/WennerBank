@@ -30,7 +30,8 @@ Empleado crearEmpleado(){
     Empleado nuevoEmpleado;
     nuevoEmpleado.cargarDatos();
     nuevoEmpleado.setLegajo(generarLegajo());
-    guardarEmpleados(nuevoEmpleado);
+    if(guardarEmpleados(nuevoEmpleado)) cout << "Empleado creado con exito. Legajo: " << nuevoEmpleado.getLegajo() << endl;
+    else cout << "Error al guardar el nuevo empleado." << endl;
     return nuevoEmpleado;
 }
 

@@ -13,6 +13,7 @@ void tituloBeta();
 
 string mayusculas(string palabra);
 
-void centrarTexto(string palabra, char dato, size_t cantidad); // <-- Cambia string dato por char dato
+void centrarTexto(string palabra, char dato, size_t cantidad);
+void centrarTexto(string palabra, char dato1, char dato2, size_t largo);
 
 #endif

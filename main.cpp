@@ -29,13 +29,14 @@ int main(){
     cout << "Fecha actual: " << fechaActual.mostrarFecha() << endl;
     cout << "Hora actual: " << tiempoActual.mostrarTiempo() << endl;
 
-
+    // crearCliente();
     //--------------------------------------------------------------
     //inicio beta del ingreso al inicio de sesion
 
+    // InicioPrograma();
 
-    InicioPrograma();
 
+    centrarTexto("", char(219), char(196), size_t(125));
     system("pause");
     //--------------------------------------------------------------
     return 0;

@@ -1,4 +1,5 @@
 #include "tipoUsuario.h"
+#include "funciones.h"
 #include "config.h"
 using namespace std;
 
@@ -13,14 +14,14 @@ bool guardarClientes(const Cliente& cliente){
     }
     fwrite(&cliente, sizeof(Cliente), 1, archivo);
     fclose(archivo);
+    
     return true;
 }
 
 int generarIdCliente(){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     int maxId = 0;
-    if(archivo == nullptr) return 1; // si no existe el archivo el primer id es 1
-    
+    if(archivo == nullptr) return 1;
     Cliente reg;
     while(fread(&reg, sizeof(Cliente), 1, archivo) == 1) if(reg.getIdCliente() > maxId) maxId = reg.getIdCliente();
     fclose(archivo);
@@ -31,7 +32,10 @@ Cliente crearCliente(){
     Cliente nuevoCliente;
     nuevoCliente.cargarDatos();
     nuevoCliente.setIdCliente(generarIdCliente());
-    guardarClientes(nuevoCliente);
+    char idFormateado[10];
+    formatearId(idFormateado, "Cl-", nuevoCliente.getIdCliente(), 5);
+    if(guardarClientes(nuevoCliente)) cout << "Cliente creado con exito. ID Cliente: " << idFormateado << endl;
+    else cout << "Error al guardar el nuevo cliente." << endl;
     return nuevoCliente;
 }
 

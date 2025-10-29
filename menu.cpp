@@ -20,23 +20,10 @@ using namespace std;
 // ---------------------------
 
 void InicioPrograma(){
-    while (true) {
-        system("cls");
+        // system("cls");
         tituloBeta();
-        menuOpciones(); // Muestra el menú inicial en un bucle hasta que el usuario elija salir.
-    }
-}
-
-void menuOpciones(){
-    // sujeto a cambios
-    cout << "Seleccione una opcion:" << endl;
-    cout << "1. Clientes" << endl;
-    cout << "2. Cuentas" << endl;
-    cout << "3. Empleados" << endl;
-    cout << "4. Administrador" << endl;
-    cout << "5. Salir del programa" << endl << endl;
-
-    Opciones();
+        // centrarTexto(" Menu Principal ", char(255), 41);
+        // Opciones(); // Muestra el menú inicial en un bucle hasta que el usuario elija salir.
 }
 
 void Opciones(){
@@ -85,4 +72,4 @@ void iniciarSesion(){
 
 // -------------------------------------------------------------------------------------------------------
 
-//CONTINUAR DESPUES, ES MUY ENGORROSO
+

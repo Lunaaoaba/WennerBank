@@ -19,8 +19,15 @@ bool guardarTransacciones(const Transaccion& transaccion){
     return true;
 }
 
-
-
+int generarIdTransaccion(){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    int maxId = 0;
+    if(archivo == nullptr) return 1;
+    Transaccion reg;
+    while(fread(&reg, sizeof(Transaccion), 1, archivo)) if(reg.getIdTransaccion() > maxId) maxId = reg.getIdTransaccion();
+    fclose(archivo);
+    return maxId + 1;
+}
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE TRANSACCIONES
 // ----------------------------------------------------------------------

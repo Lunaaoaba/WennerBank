@@ -23,7 +23,6 @@ int generarIdCuenta(){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
-
     cuentaBancaria reg;
     while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1) if(reg.getIdCuenta() > maxId) maxId = reg.getIdCliente();
     fclose(archivo);
