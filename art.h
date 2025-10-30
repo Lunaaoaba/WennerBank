@@ -10,6 +10,7 @@
 using namespace std;
 
 void tituloBeta();
+void tituloBetaSA();
 
 string mayusculas(string palabra);
 

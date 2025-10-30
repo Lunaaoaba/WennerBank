@@ -33,10 +33,9 @@ int main(){
     //--------------------------------------------------------------
     //inicio beta del ingreso al inicio de sesion
 
-    // InicioPrograma();
+    InicioPrograma();
 
 
-    centrarTexto("", char(219), char(196), size_t(125));
     system("pause");
     //--------------------------------------------------------------
     return 0;
