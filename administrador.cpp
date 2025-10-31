@@ -22,8 +22,8 @@ Administrador::Administrador() : Empleado(){
     setApellido("Sistema");
     setLocalidad("Central");
     setFechaNacimiento(Fecha(1, 1, 2000));
-    setMail("admin@wennerbank.com");
-    setContrasena("culo1234");
+    setMail("admin1234@gmail.com");
+    setContrasena("contrasena1234");
     setUsuarioEliminado(false);
     _permisosGlobales = true;
 }

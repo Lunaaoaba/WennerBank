@@ -1,246 +1,39 @@
-===============================================
-NOTAS DE COSAS PARA HACER - WENNERBANK PROJECT
-(cosas que faltan implementar en el codigo)
-===============================================
+# LISTA DE COSAS PRINCIPALES FALTANTES:
 
-------------------------------------------
-LISTA PRIORIZADA DE IMPLEMENTACIÓN
-🔴 FASE 1: FUNCIONALIDADES CRÍTICAS (Implementar YA)
+1. funcion INICIAR SESION/CREAR CUENTA:
+ funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funciones: 
+    - "crearCuenta:"
+    Para crear la cuenta se debe crear un nuevo 'cliente'.
+    - "iniciarSesion:"
+    Para Iniciar sesion (cliente) se deben validar los datos buscando desde el archivo clientes.dat' si el mail y contraseña existen y si son correctos.
+    - "iniciarSesionEmpleado:" 
+    Para iniciar sesion (empleado) se deben validar los datos, lo mismo que al cliente.
+    - Para iniciar sesion como admin, debe entrar a iniciar sesion de empleado, sigue el mismo proceso (pensaba hacer un if de q si los datos coinciden, activar el bool de Permisos globales de la clase de admin)
+    - variables principales:
+        - bool 'sesionActiva'
+        - int 'idUsuarioActual'
+        - char[20] o int 'tipoUsuario'
 
-1. Funciones de Sesión Global
-2. Sistema de Login/Logout Completo
-3. Protección de Operaciones (verificar sesión)
-4. Sistema de Transferencias
-5. Búsqueda de Usuarios (por DNI, email)
-6. Asociación Cliente-Cuenta (listar cuentas del usuario)
-7. Generación Automática de CVU/Alias/IDs
-8. Menú Principal y Menús por Rol
+2. funciones BORRAR CLIENTE/EMPLEADO/CUENTA:
+estan los esqueletos pero no las funciones, tengo igual algunas a medio hacer, asi que solo es adaptarlo a lo que se necesita. Creo q se podria hacer sobrecarga.
 
-🟡 FASE 2: FUNCIONALIDADES IMPORTANTES
+3. funciones de busqueda:
+estan los esqueletos pero no las funciones, no se si se necesita memoria dinamica, pero tengo una idea de como se hace.
 
-9.  Modificación de Datos de Usuario
-10. Búsqueda de Cuentas (por CVU/Alias)
-11. Consulta de Movimientos/Historial
-12. Gestión de Préstamos (crear, listar)
-13. Funciones de Validación (email, CVU, alias)
-14. Cerrar/Reactivar Cuentas
+4. funciones de modificacion:
+no estan ni los esqueletos creo, y creo que se debe utilizar memoria dinamica.
 
-🟢 FASE 3: MEJORAS Y REFINAMIENTO
+5. funciones generar IDs, generar legajo y cvu:
+siguen la misma logica del Id del cliente, es solo adaptar.
 
-15. Reportes y Estadísticas
-16. Aplicar Intereses Mensuales Automáticos
-17. Sistema de Logs y Auditoría
-18. Exportar Movimientos a TXT
-19. Búsqueda Avanzada de Usuarios
-20. Manejo de Errores Mejorado
+6. funcion generar Alias:
+debe ser unico y podria tener un formato como mp si es q no es mucho lio, tengo que buscar como podria generarse. No tengo ni idea como se generaría pero capaz 
 
+7. funciones de listado:
+necesita memoria dinamica creo, me gustaria poner un contador para cada listado, para llevar un conteo de todo.
 
+8. Asociar una cuenta al cliente / asociar la cuenta principal al empleado y al admin
+Esto si que no se como hacerlo, pero la idea seria que al crear la cuenta de banco, en el setter del id cliente, se copie el id del cliente que tiene la sesion activa, para eso se debe tener iniciadas las variables comentadas en el primer punto, no se si voy a necesitar mas despues, pero por ahora esas son las mas importantes
 
 
-
-
-
-
-==========================================
-MARCAR ESTADOS DE VALIDACIONES
-==========================================
-TERMINADO simbolo de tick = |✔️|
-EN PROCESO simbolo de cruz = |❌|
-REVISAR simbolo de advertencia = |⚠️|
-A MEDIAS simbolo de reloj = |⏳|
-==========================================
-NOTAS DE VALIDACIONES - WENNERBANK PROJECT
-(cosas que faltan validar en el codigo)
-==========================================
-
---------------------------------------
-VALIDACIONES DE USUARIO/AUTENTICACIÓN
---------------------------------------
-- Validar formato de email: |❌|
-    + Que detecte si es "@gmail.com" o "@hotmail.com", en caso de no ser ninguno, solo detectar que
-    tenga "@" y ".com".
-    + Ejemplo: usuario@dominio.com
-    esto se puede hacer con una funcion de string que busque esos caracteres al final del ingreso.
-    una funcion llamada validarGmail.com
-    + Validar que el email no tenga espacios
-
-- Validar estado del usuario (no eliminado): |❌|
-    + Al hacer login, verificar que _UsuarioEliminado == false
-
-- Validar longitud mínima de contraseña: |❌|
-    + 8 caracteres mínimo, tambien se puede hacer con una funcion de string que cuente caracteres.
-
-- Validar unicidad de email en registro: |❌|
-    + Al registrar un nuevo usuario, buscar en el archivo si ya existe ese email.
-
-- Validar combinación email/contraseña en login: |❌|
-    + Al iniciar sesión, buscar en el archivo si existe el email y si la contraseña coincide.
-
-----------------------------------
-VALIDACIONES DE CUENTAS BANCARIAS
-----------------------------------
-- Validar saldo inicial de la cuenta: |❌|
-    + verificar que el saldo no sea negativo.
-
-- Validar la cuenta a transferir: |❌|
-    + buscar la cuenta en el archivo y verificar su estado, viendo si está activa. Si lo está
-    mostrar nombre, apellido y dni del titular para confirmar, pero si no existe o está inactiva
-    mostrar un mensaje de error.
-
-- Validar unicidad de CVU: |❌|
-    + Al crear cuenta, verificar que el CVU no exista en el archivo
-
-- Validar unicidad de Alias: |❌|
-    + Al crear cuenta, verificar que el alias no esté en uso
-
-- Validar formato de CVU (10 dígitos): |❌|
-    + Verificar que sean exactamente 10 caracteres numéricos
-
-- Validar formato de Alias (alfanumérico con puntos): |❌|
-    + Formato: NOMBRE.APELLIDO.NUMERO o similar
-    + Sin espacios, solo letras, números y puntos
-
-- Validar que el cliente tenga sesión activa: |❌|
-    + Solo permitir operaciones si el usuario está logueado
-
-------------------------------
-VALIDACIONES DE TRANSACCIONES
-------------------------------
-- Validar monto mayor a 0: |❌|
-    + no permitir transferencias o retiros de monto 0 o negativo.
-
-- Validar formato numérico del monto: |⏳|
-    + asegurarse que el monto ingresado sea un número válido (sin letras o caracteres especiales).
-    + Parcialmente implementado en validarEntero()
-
-- Validar cuenta origen y destino diferentes: |❌|
-    + no permitir transferencias a la misma cuenta.
-
-- Validar saldo disponible en cuenta origen: |❌|
-    + verificar que la cuenta origen tenga suficiente saldo para realizar la transferencia.
-
-- Validar estado de la cuenta (no eliminada): |❌|
-    + asegurarse que ambas cuentas (origen y destino) estén activas.
-
-- Validar que la cuenta origen pertenezca al usuario logueado: |❌|
-    + Verificar que _idCliente de la cuenta coincida con el usuario actual
-    + Excepto para Empleado/Admin
-
-- Registrar fecha y hora de la transacción: |❌|
-    + Usar Fecha::cargarFechaActual() y Tiempo::cargarTiempoActual()
-
----------------------------------
-VALIDACIONES DE DATOS PERSONALES
----------------------------------
-- Validar unicidad de DNI: |❌|
-    + Al crear Cliente/Empleado, verificar que el DNI no exista
-
-- Validar que nombre y apellido no tengan números: |❌|
-    + Solo permitir letras y espacios
-
-- Validar longitud de localidad: |❌|
-    + Mínimo 2 caracteres, máximo 49
-
-- Validar formato de documento de identidad: |✔️|
-    + asegurarse que el DNI tenga solo números y la longitud correcta.
-    + Implementado en Persona::cargarDatos() con validarEntero(8 dígitos)
-
-- Validar fecha de nacimiento (mayoría de edad): |❌|
-    + calcular la edad a partir de la fecha de nacimiento y verificar que sea mayor de 18 años.
-
---------------------------
-VALIDACIONES DE SEGURIDAD 
---------------------------
-
-- Validar permisos por rol: |❌|
-    + Cliente: solo sus propias cuentas
-    + Empleado: operaciones limitadas
-    + Admin: acceso total
-
-- Validar sesión activa antes de operaciones sensibles: ❌
-    + Crear variable global o struct de sesión
-    + Verificar en: menuCuenta, realizarTransferencia, etc.
-
-- Validar intentos de login fallidos: |❌|
-    + regresar al inicio del programa después de 5 intentos fallidos.
-
-- Validar que no se modifiquen datos del Admin: |✔️|
-    + El admin (singleton) no debe ser modificable
-
-----------------------------
-VALIDACIONES DE FORMULARIOS
-----------------------------
-- Validar campos obligatorios: |❌|
-    + asegurarse que todos los campos requeridos estén completos antes de enviar el formulario.
-
-- Validar longitud máxima/mínima de campos: |❌|
-    + verificar que los campos de texto no excedan la longitud máxima permitida y cumplan con la longitud mínima requerida.
-
-- Validar tipos de datos correctos: |⏳|
-    + asegurarse que los datos ingresados sean del tipo esperado (ejemplo: números, texto, etc.).
-    + Parcialmente implementado en validarEntero()
-    + Falta para strings (nombres, email, etc.)
-
-- Validar ingreso de fechas: |✔️|
-    + asegurarse que las fechas ingresadas esten en el rango permitido y tengan el formato correcto.
-    + Implementado en Fecha::cargarFecha() con validarEntero()
-
---------------------------------
-VALIDACIONES DE PRÉSTAMOS
---------------------------------
-- Validar que el cliente exista y esté activo: |❌|
-    + Buscar _idCliente en archivo y verificar estado
-
-- Validar monto del préstamo (rango permitido): |❌|
-    + Mínimo y máximo según política del banco
-
-- Verificar actualizacion del nuevo valor de la deuda despues de cada mes: |❌|
-    + deudaTotal = deudaTotal + (deudaTotal * tasaInteres)
-    + Ej: deudaTotal = deudaTotal + (deudaTotal * 0.05) para 5% mensual
-    + o deudaTotal = deudaTotal * 1.05
-
-- Validar fecha de vencimiento posterior a inicio: |❌|
-    + fechaVencimiento > fechaInicio
-
-- Validar que el cliente no tenga préstamo vigente: |❌|
-    + Buscar en prestamos.dat si ya tiene uno activo
-
-------------------------------
-VALIDACIONES DE ARCHIVOS
-------------------------------
-- Validar que el archivo se abra correctamente: |✔️|
-    + Verificar que fopen() != nullptr
-
-- Validar que la escritura sea exitosa: |✔️|
-    + Verificar retorno de fwrite()
-
-- Validar que la lectura sea exitosa: |❌|
-    + Verificar retorno de fread()
-
-- Crear archivo si no existe: |✔️|️
-    + Modo "ab" para append o crear si no existe
-
-=========================================================================================
-
-PRIORIDADES
-
-Fase 1 (Críticas):
-
-1. Validar sesión activa
-2. Validar unicidad de email/DNI
-3. Validar formato de email
-4. Validar saldo disponible en transacciones
-5. Validar archivos (apertura/lectura/escritura)
-
-Fase 2 (Importantes):
-
-6. Validar permisos por rol
-7. Validar cuentas activas
-8. Validar mayoría de edad
-9. Validar intentos de login
-
-Fase 3 (Refinamiento):
-
-10. Validar formatos (CVU, Alias)
-11. Validar nombres sin números
-12. Límites de transacción
+9. 
