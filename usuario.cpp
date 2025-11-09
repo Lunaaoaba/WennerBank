@@ -1,5 +1,7 @@
 #include "persona.h"
 #include "usuario.h"
+#include "ArchivoClientes.h"
+#include "funcionesArchivos.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -29,14 +31,20 @@ void Usuario::cargarDatos(){
     Persona::cargarDatos();
     cout << "Ingrese el mail: ";
     cin >> _mail;
-    cout << "Ingrese la contraseña: ";
+    while(existeMail(_mail)){
+        cout << "ERROR: Mail ya registrado." << endl;
+        cout << "Ingrese el mail: ";
+        cin >> _mail;
+    }
+
+    cout << "Ingrese la contrase" << char(164) << "a: ";
     cin >> _contrasena;
     _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no está eliminado
 }
 string Usuario::mostrarDatos(){
     string datos = Persona::mostrarDatos();
     datos += "\nMail: " + string(_mail);
-    datos += "\nContraseña: " + string(_contrasena);
+    datos += "\nContrase" + string(1, char(164)) + "a: " + string(_contrasena);
     datos += "\nUsuario Eliminado: " + string(_UsuarioEliminado ? "Si" : "No");
     return datos;
 }

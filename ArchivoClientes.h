@@ -11,6 +11,11 @@ Cliente crearCliente();
 void modificarCliente(Cliente* clienteModificado);
 void listarClientes();
 
+//----------------------------------------------------------------------
+//             FUNCIONES PARA EL CLIENTE
+// ----------------------------------------------------------------------
+
+
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
@@ -21,10 +26,5 @@ void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado);
 void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado);
 void buscarClienteEdad(int edad, Cliente &clienteEncontrado);
 void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado);
-
-//----------------------------------------------------------------------
-//             FUNCIONES PARA EL CLIENTE
-// ----------------------------------------------------------------------
-
 
 #endif

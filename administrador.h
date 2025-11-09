@@ -4,7 +4,8 @@
 #include <iostream>
 using namespace std;
 
-//       ----- UTILIZACION DEL PATRON SINGLETON -----
+
+//(*)    ----- UTILIZACION DEL PATRON SINGLETON -----
 // fuerza a que solo exista un unico objeto en todo el programa
 // la propia clase se encarga de gestionar su unica instancia
 // PROPIEDADES:
@@ -30,27 +31,19 @@ class Administrador : public Empleado{
 
         // METODOS UNICOS DEL ADMINISTRADOR
 
-        void crearEmpleado();
-        void modificarEmpleado();
-        void eliminarEmpleado();
-        void transferirFondos(char tipoUso, double monto, const char* idCuentaOrigen, const char* idCuentaDestino);
-        // lo usa para cobrar multas etc y lo pasa automaticamente a la cuenta del banco
-        void quitarFondos(double monto, const char* idCuenta); 
+        // void crearEmpleado();
+        // void modificarEmpleado();
+        // void eliminarEmpleado();
+        // void transferirFondos(char tipoUso, double monto, const char* idCuentaOrigen, const char* idCuentaDestino);
+        // // lo usa para cobrar multas etc y lo pasa automaticamente a la cuenta del banco
+        // void quitarFondos(double monto, const char* idCuenta); 
 
         // a funciones para que lo usen empleados y admin
 
-        // void modificarCliente();
-        // void eliminarCliente();
         // void ingresarFondos(double monto, const char* idCuenta);
         // void retirarFondos(double monto, const char* idCuenta);
 
         // void otorgarPrestamo();
-
-        // void mostrarEmpleados();
-        // void mostrarClientes();
-        // void mostrarCuentas();
-        // void mostrarPrestamos();
-        // void mostrarMovimientos();
 };
 
 #endif

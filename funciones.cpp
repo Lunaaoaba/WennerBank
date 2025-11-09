@@ -27,11 +27,31 @@ int validarEntero(const char* mensaje, int min, int max){
     }
 }
 
-bool esCadenaValida(const char* cadena, int maxLength){
-    if (cadena == nullptr) return false;
-    if (maxLength <= 0) return false;
-    return (strlen(cadena) < static_cast<size_t>(maxLength));
+// al usar la funcion, en el maxLength +1 de lo que se quiere para el \0
+void validarCadena(const char* mensaje, char* destino, int maxLength){
+    while(true){
+        cout << mensaje;
+        cin.getline(destino, maxLength);
+
+        // si no ta vacio
+        if(strlen(destino) == 0){
+            cout << "Error: El ingreso no puede estar vacío." << endl;
+            continue;
+        }
+
+        // si se pasa de largo
+        if(cin.fail()){
+            cout << "Error: El ingreso es demasiado largo (máximo " << maxLength - 1 << " caracteres)." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+
+    break;
+    }
 }
+
+
 
 // para agregar 0 a la izquierda y un prefijo | uso en mostrarDatos de las clases | ej: Cl-00021
 void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTotal){

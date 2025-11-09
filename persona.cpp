@@ -64,7 +64,7 @@ string Persona::mostrarDatos(){
     datos += "\nApellido: " + string(_apellido);
     datos += "\nLocalidad: " + string(_localidad);
     datos += "\nFecha de Nacimiento: " + _fechaNacimiento.mostrarFecha();
-    datos += "\nEdad: " + to_string(getEdad()) + " años";
+    datos += "\nEdad: " + to_string(getEdad()) + " a" + string(1, char(164)) + "os";
     return datos;
 }
 

@@ -17,7 +17,7 @@ Administrador* Administrador::getInstancia() {
 }
 
 Administrador::Administrador() : Empleado(){
-    setLegajo(10000000);
+    setLegajo(1);
     setNombre("Admin");
     setApellido("Sistema");
     setLocalidad("Central");
@@ -31,11 +31,5 @@ Administrador::Administrador() : Empleado(){
 bool Administrador::getPermisosGlobales(){ return _permisosGlobales; }
 
 // METODOS UNICOS DEL ADMINISTRADOR
-
-void Administrador::crearEmpleado(){
-    Empleado nuevoEmpleado;
-    nuevoEmpleado.cargarDatos();
-    // agregarEmpleadoArchivo(nuevoEmpleado);
-}
 
 // etc

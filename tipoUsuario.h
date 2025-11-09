@@ -1,6 +1,5 @@
 #ifndef TIPOUSUARIO_H
 #define TIPOUSUARIO_H
-// #include "persona.h"
 #include "usuario.h"
 using namespace std;
 
@@ -33,6 +32,5 @@ class Empleado : public Usuario{
         void cargarDatos();
         string mostrarDatos();
 };
-
 
 #endif

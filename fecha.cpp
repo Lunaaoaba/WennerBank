@@ -29,9 +29,29 @@ void Fecha::setMes(int mes){ _mes = mes; }
 void Fecha::setAnio(int anio){ _anio = anio; }
 
 void Fecha::cargarFecha(){
-    _dia = validarEntero("Ingrese dia: ", 1, 31);
-    _mes = validarEntero("Ingrese mes: ", 1, 12);
-    _anio = validarEntero("Ingrese anio: ", 1900, 2025);
+    // se ingresa en orden de "año -> mes -> dia" para facilitar la validacion de dias por mes
+    cout << "Ingrese a" << char(164) << "o: ";
+    _anio = validarEntero("", 1900, 2025);
+    cout << "Ingrese mes: ";
+    _mes = validarEntero("", 1, 12);
+    // ajustar dias maximos por mes
+    int diaMaximo;
+    switch(_mes){
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            diaMaximo = 31;
+            break;
+        case 4: case 6: case 9: case 11:
+            diaMaximo = 30;
+            break;
+        case 2:
+            // año biciesto
+            if((_anio % 4 == 0 && _anio % 100 != 0) || (_anio % 400 == 0)) diaMaximo = 29;
+            // año no biciesto
+            else diaMaximo = 28;
+            break;
+    }
+    cout << "Ingrese dia: ";
+    _dia = validarEntero("", 1, diaMaximo);
 }
 void Fecha::cargarFechaActual(){
     time_t tiempoCrudo = time(nullptr); // almacena tiempo en segundos

@@ -24,7 +24,7 @@ void Cliente::cargarDatos(){
 }
 string Cliente::mostrarDatos(){
     char idFormateado[12];
-    formatearId(idFormateado, "Cl-", _idCliente, 6);
+    formatearId(idFormateado, "CL-", _idCliente, 6);
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
     datos += "\nID Cliente: " + string(idFormateado);
     return datos;
@@ -33,16 +33,14 @@ string Cliente::mostrarDatos(){
 
 //EMPLEADO
 //constructores
-Empleado::Empleado(){
-    _legajo = 0;
-}
+Empleado::Empleado(){ _legajo = 0; }
 Empleado::Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo) : Usuario(dni, nombre, apellido, localidad, fechaNacimiento, mail, contrasena, UsuarioEliminado){
     _legajo = legajo;
 }
 //setters
 void Empleado::setLegajo(int legajo){ _legajo = legajo; }
 //getters
-    int Empleado::getLegajo(){ return _legajo; }
+int Empleado::getLegajo(){ return _legajo; }
 //otros
 void Empleado::cargarDatos(){
     Usuario::cargarDatos();
@@ -50,7 +48,7 @@ void Empleado::cargarDatos(){
 }
 string Empleado::mostrarDatos(){
     char legajoFormateado[12];
-    formatearId(legajoFormateado, "Em-", _legajo, 6);
+    formatearId(legajoFormateado, "EM-", _legajo, 6);
     string datos = Usuario::mostrarDatos(); // Muestra los datos heredados de Usuario (y Persona)
     datos += "\nLegajo: " + string(legajoFormateado);
     return datos;

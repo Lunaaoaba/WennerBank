@@ -1,15 +1,18 @@
 #include "tipoUsuario.h"
 #include "funciones.h"
 #include "config.h"
+#include <cstring>
+#include <iostream>
 using namespace std;
 
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA MANEJO DE ARCHIVOS DE CLIENTES
 // ----------------------------------------------------------------------
+
 bool guardarClientes(const Cliente& cliente){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "ab");
     if(archivo == nullptr){
-        cout << "Error al abrir el archivo de clientes." << endl;
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
     }
     fwrite(&cliente, sizeof(Cliente), 1, archivo);
@@ -32,22 +35,21 @@ Cliente crearCliente(){
     Cliente nuevoCliente;
     nuevoCliente.cargarDatos();
     nuevoCliente.setIdCliente(generarIdCliente());
-    char idFormateado[10];
-    formatearId(idFormateado, "Cl-", nuevoCliente.getIdCliente(), 5);
-    if(guardarClientes(nuevoCliente)) cout << "Cliente creado con exito. ID Cliente: " << idFormateado << endl;
-    else cout << "Error al guardar el nuevo cliente." << endl;
+
+    if(guardarClientes(nuevoCliente)) cout << "Cliente creado con exito. ID Cliente: " << nuevoCliente.getIdCliente() << endl;
+    else cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
     return nuevoCliente;
 }
 
-// modificar cliente (usa memoria dinamica para pasar el cliente modificado)
-void modificarCliente(Cliente* clienteModificado){
+//(usa memoria dinamica para pasar el cliente modificado)
+// void modificarCliente(Cliente* clienteModificado){
+// }
 
-}
-
+// !!! implementar el filtrado de clientes eliminados
 void listarClientes(){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     if(archivo == nullptr){
-        cout << "Error al abrir el archivo de clientes." << endl;
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return;
     }
     Cliente reg;
@@ -55,43 +57,46 @@ void listarClientes(){
     cout << "Listado de Clientes:" << endl;
     cout << "---------------------" << endl;
     while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        reg.mostrarDatos();
+        cout << reg.mostrarDatos() << endl;
         i++;
         cout << "---------------------" << endl;
     }
     if(i == 0){
-        cout << "No hay clientes registrados." << endl;
+        cout << "ERROR: No hay clientes registrados." << endl;
         cout << "---------------------" << endl;
+        system("pause");
     }
     cout << "Total de clientes: " << i << endl;
     fclose(archivo);
 }
 
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA BUSQUEDA DE CLIENTES
-// ----------------------------------------------------------------------
-void buscarClienteId(int idCliente, Cliente &clienteEncontrado){
-
-}
-void buscarClienteDni(int dni, Cliente &clienteEncontrado){
-
-}
-void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
-
-}
-void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
-
-}
-void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
-
-}
-void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
-
-}
-void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
-
-}
 
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA EL CLIENTE
 // ----------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------
+//             FUNCIONES PARA BUSQUEDA DE CLIENTES
+// ----------------------------------------------------------------------
+
+// void buscarClienteId(int idCliente, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteDni(int dni, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+// }
+
+// void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
+// }

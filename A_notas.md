@@ -1,7 +1,8 @@
+
 # LISTA DE COSAS PRINCIPALES FALTANTES:
 
 1. funcion INICIAR SESION/CREAR CUENTA:
- funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funciones: 
+funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funciones: 
     - "crearCuenta:"
     Para crear la cuenta se debe crear un nuevo 'cliente'.
     - "iniciarSesion:"
@@ -35,5 +36,7 @@ necesita memoria dinamica creo, me gustaria poner un contador para cada listado,
 8. Asociar una cuenta al cliente / asociar la cuenta principal al empleado y al admin
 Esto si que no se como hacerlo, pero la idea seria que al crear la cuenta de banco, en el setter del id cliente, se copie el id del cliente que tiene la sesion activa, para eso se debe tener iniciadas las variables comentadas en el primer punto, no se si voy a necesitar mas despues, pero por ahora esas son las mas importantes
 
-
-9. 
+9. Validaciones:
+    - validar que no se repitan los mails al crear cuenta
+    - validar que 
+    

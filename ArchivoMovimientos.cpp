@@ -11,7 +11,7 @@
 bool guardarTransacciones(const Transaccion& transaccion){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "ab");
     if(archivo == nullptr){
-        cout << "Error al abrir el archivo de transacciones." << endl;
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
         return false;
     }
     fwrite(&transaccion, sizeof(Transaccion), 1, archivo);

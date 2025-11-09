@@ -65,7 +65,7 @@ bool cuentaBancaria::retirar(double saldo){
         return true;
     }
     else{
-        cout << "ERROR: fondos insuficientes o monto invalido." << endl;
+        cout << "ERROR: Fondos insuficientes o monto invalido." << endl;
         return false;
     }
 }

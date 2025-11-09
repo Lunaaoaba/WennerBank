@@ -6,7 +6,7 @@
 // valida que el ingreso sea un entero dentro de un rango
 int validarEntero(const char* mensaje, int min, int max);
 
-bool esCadenaValida(const char* cadena, int maxLength);
+void validarCadena(const char* mensaje, char* destino, int maxLength);
 
 // agrega 0 a la izquierda y un prefijo al idNumero, guardando el resultado en "resultado"
 void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTotal);
