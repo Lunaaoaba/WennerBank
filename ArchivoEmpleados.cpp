@@ -78,23 +78,138 @@ void listarEmpleados(){
 //             FUNCIONES PARA BUSQUEDA DE EMPLEADOS
 // ----------------------------------------------------------------------
 
-// void buscarEmpleadoLegajo(int legajo, Empleado &empleadoEncontrado){
-// }
+void buscarEmpleadoLegajo(int legajo, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
 
-// void buscarEmpleadoDni(int dni, Empleado &empleadoEncontrado){
-// }
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){ 
+        if(reg.getLegajo() == legajo){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return; 
+        }
+    }
 
-// void buscarEmpleadoNombre(const char* nombre, Empleado &empleadoEncontrado){
-// }
+    fclose(archivo);
+}
+}
 
-// void buscarEmpleadoApellido(const char* apellido, Empleado &empleadoEncontrado){
-// }
+void buscarEmpleadoDni(int dni, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+        
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        if(reg.getDni() == dni){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
 
-// void buscarEmpleadoLocalidad(const char* localidad, Empleado &empleadoEncontrado){
-// }
+    fclose(archivo);
+}
+}
 
-// void buscarEmpleadoEdad(int edad, Empleado &empleadoEncontrado){
-// }
+void buscarEmpleadoNombre(const char* nombre, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
 
-// void buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado){
-// }
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        // strcmp devuelve 0 si las cadenas son iguales.
+        if(strcmp(reg.getNombre(), nombre) == 0){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarEmpleadoApellido(const char* apellido, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        if(strcmp(reg.getApellido(), apellido) == 0){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+
+}
+
+void buscarEmpleadoLocalidad(const char* localidad, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        if(strcmp(reg.getLocalidad(), localidad) == 0){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarEmpleadoEdad(int edad, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        if(reg.getEdad() == edad){
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+Empleado reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return; 
+
+        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        // se usa el método esIgual() que implemente en la clase Fecha.
+        if(reg.getFechaNacimiento().esIgual(fechaNacimiento)){ 
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
