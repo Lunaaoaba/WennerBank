@@ -3,6 +3,7 @@
 #include "config.h"
 #include <cstdio>
 #include <iomanip>
+#include <cstring>
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -49,26 +50,128 @@ void listarCuentas(){
 //             FUNCIONES PARA BUSQUEDA DE CUENTAS
 // ----------------------------------------------------------------------
 
-// void buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
+void buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
 
-// }
-// void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){ 
+        if(reg.getIdCuenta() == idCuenta){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return; // ¡Encontrado!
+        }
+    }
 
-// }
-// void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
+    fclose(archivo);
+}
 
-// }
-// void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
+}
 
-// }
-// void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontrada){
+void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
 
-// }
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(reg.getIdCliente() == idCliente){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+
+
+}
+
+void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        // strcmp devuelve 0 si las cadenas son iguales.
+        if(strcmp(reg.getCvu(), cvu) == 0){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+        
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(strcmp(reg.getAlias(), alias) == 0){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+
+
+}
+
+void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(strcmp(reg.getNombreCuenta(), nombreCuenta) == 0){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+
+}
 
 // // por las dudas
-// void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
+void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    cuentaBancaria reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
 
-// }
+        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(reg.getSaldo() == saldo){
+            cuentaEncontrada = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo );
+}
+
+}
 
 //----------------------------------------------------------------------
 //             FUNCIONES PARA LA CUENTA BANCARIA

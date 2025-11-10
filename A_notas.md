@@ -22,7 +22,7 @@ funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funcion
 estan los esqueletos pero no las funciones, tengo igual algunas a medio hacer, asi que solo es adaptarlo a lo que se necesita. Creo q se podria hacer sobrecarga.
 
 3. funciones de busqueda:
-estan los esqueletos pero no las funciones, no se si se necesita memoria dinamica, pero tengo una idea de como se hace.
+estan los esqueletos pero no las funciones, no se si se necesita memoria dinamica, pero tengo una idea de como se hace.✅
 
 4. funciones de modificacion:
 no estan ni los esqueletos creo, y creo que se debe utilizar memoria dinamica.
