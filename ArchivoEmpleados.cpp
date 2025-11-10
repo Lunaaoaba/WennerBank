@@ -20,7 +20,6 @@ int generarLegajo(){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
-    
     Empleado reg;
     while(fread(&reg, sizeof(Empleado), 1, archivo) == 1) if(reg.getLegajo() > maxId) maxId = reg.getLegajo();
     fclose(archivo);
@@ -31,13 +30,11 @@ Empleado crearEmpleado(){
     Empleado nuevoEmpleado;
     nuevoEmpleado.cargarDatos();
     nuevoEmpleado.setLegajo(generarLegajo());
-    
     int edad = nuevoEmpleado.getEdad();
     if(edad < 18){
         cout << "ERROR: El empleado debe ser mayor de edad (actual: " << edad << " años)." << endl;
         return Empleado();
     }
-
     if(guardarEmpleados(nuevoEmpleado)) cout << "Empleado creado con exito. Legajo: " << nuevoEmpleado.getLegajo() << endl;
     else cout << "ERROR: No se pudo guardar el nuevo empleado." << endl;
     return nuevoEmpleado;

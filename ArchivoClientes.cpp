@@ -30,22 +30,15 @@ int generarIdCliente(){
     fclose(archivo);
     return maxId + 1;
 }
-// fecha para detectar la mayoria de edad
 Cliente crearCliente(){
     Cliente nuevoCliente;
     nuevoCliente.cargarDatos();
-    
     int edad = nuevoCliente.getEdad();
     if(edad < 18){
         cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " años)." << endl;
         return Cliente();
     }
-
-
-    // proceso de validacion de mayoria de edad
-
     nuevoCliente.setIdCliente(generarIdCliente());
-
     if(guardarClientes(nuevoCliente)) cout << "Cliente creado con exito. ID Cliente: " << nuevoCliente.getIdCliente() << endl;
     else cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
     return nuevoCliente;
