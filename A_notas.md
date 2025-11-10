@@ -1,6 +1,9 @@
 
 # LISTA DE COSAS PRINCIPALES FALTANTES:
-
+## marcas:
+### ✅ = Terminado
+### ⚠️ = Revisar
+### ⌛ = En proceso
 1. funcion INICIAR SESION/CREAR CUENTA:
 funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funciones: 
     - "crearCuenta:"
@@ -24,7 +27,7 @@ estan los esqueletos pero no las funciones, no se si se necesita memoria dinamic
 4. funciones de modificacion:
 no estan ni los esqueletos creo, y creo que se debe utilizar memoria dinamica.
 
-5. funciones generar IDs, generar legajo y cvu:
+5. funciones generar IDs, generar legajo y cvu: ⌛
 siguen la misma logica del Id del cliente, es solo adaptar.
 
 6. funcion generar Alias:
@@ -37,6 +40,7 @@ necesita memoria dinamica creo, me gustaria poner un contador para cada listado,
 Esto si que no se como hacerlo, pero la idea seria que al crear la cuenta de banco, en el setter del id cliente, se copie el id del cliente que tiene la sesion activa, para eso se debe tener iniciadas las variables comentadas en el primer punto, no se si voy a necesitar mas despues, pero por ahora esas son las mas importantes
 
 9. Validaciones:
-    - validar que no se repitan los mails al crear cuenta
-    - validar que 
+    - validar que no se repitan los mails al crear cuenta✅
+    - validar el ingreso de fechas (año biciesto, si el dia maximo es 28, 31 o 31, etc) ✅
+    - validar
     

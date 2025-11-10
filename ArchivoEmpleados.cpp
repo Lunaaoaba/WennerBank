@@ -31,6 +31,12 @@ Empleado crearEmpleado(){
     Empleado nuevoEmpleado;
     nuevoEmpleado.cargarDatos();
     nuevoEmpleado.setLegajo(generarLegajo());
+    
+    int edad = nuevoEmpleado.getEdad();
+    if(edad < 18){
+        cout << "ERROR: El empleado debe ser mayor de edad (actual: " << edad << " años)." << endl;
+        return Empleado();
+    }
 
     if(guardarEmpleados(nuevoEmpleado)) cout << "Empleado creado con exito. Legajo: " << nuevoEmpleado.getLegajo() << endl;
     else cout << "ERROR: No se pudo guardar el nuevo empleado." << endl;

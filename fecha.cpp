@@ -53,6 +53,7 @@ void Fecha::cargarFecha(){
     cout << "Ingrese dia: ";
     _dia = validarEntero("", 1, diaMaximo);
 }
+
 void Fecha::cargarFechaActual(){
     time_t tiempoCrudo = time(nullptr); // almacena tiempo en segundos
     tm* tiempoLocal = localtime(&tiempoCrudo); // convierte a tiempo local
@@ -61,4 +62,5 @@ void Fecha::cargarFechaActual(){
     _mes = tiempoLocal->tm_mon + 1; // Se suma 1 porque los meses van de 0 a 11
     _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los años se cuentan desde 1900
 }
+
 string Fecha::mostrarFecha(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }

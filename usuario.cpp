@@ -44,7 +44,8 @@ void Usuario::cargarDatos(){
 string Usuario::mostrarDatos(){
     string datos = Persona::mostrarDatos();
     datos += "\nMail: " + string(_mail);
-    datos += "\nContrase" + string(1, char(164)) + "a: " + string(_contrasena);
-    datos += "\nUsuario Eliminado: " + string(_UsuarioEliminado ? "Si" : "No");
+    // datos que no deberian mostrarse (solo con admin)
+    // datos += "\nContrase" + string(1, char(164)) + "a: " + string(_contrasena);
+    // datos += "\nUsuario Eliminado: " + string(_UsuarioEliminado ? "Si" : "No");
     return datos;
 }
