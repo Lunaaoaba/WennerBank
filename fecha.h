@@ -23,6 +23,10 @@ class Fecha{
         void cargarFecha();
         void cargarFechaActual();
         string mostrarFecha();
+
+
+     // ¡NUEVA DECLARACIÓN!
+    bool esIgual(Fecha otraFecha);
 };
 
 #endif

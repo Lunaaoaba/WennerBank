@@ -82,24 +82,140 @@ void listarClientes(){
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
+// EL VOID LO CAMBIE A UN BOOL
+bool buscarClienteId(int idCliente, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+if(archivo==nullptr){
+    cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
+    Cliente reg;
+    bool encontrado = false;
+    
+    // Leer hasta el final del archivo o hasta encontrar la coincidencia
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) { 
+        if (reg.getIdCliente() == idCliente) {
+            clienteEncontrado = reg;
+            encontrado = true;
+            break;
+        }
+    }
+    fclose(archivo);
+    return encontrado;
+}
 
-// void buscarClienteId(int idCliente, Cliente &clienteEncontrado){
+bool buscarClienteDni(int dni, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+if(archivo==nullptr){
+    cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
+    Cliente reg;
+    bool encontrado = false;
+    
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) { 
+        if (reg.getDni() == dni) {
+            clienteEncontrado = reg;
+            encontrado = true;
+            break;
+        }
+    }
+    fclose(archivo);
+    return encontrado;
+}
+
+void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+        
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){ 
+        if(strcmp(reg.getNombre(), nombre) == 0){
+            clienteEncontrado = reg; 
+            fclose(archivo); 
+            return; 
+        }
+    }
+
+    fclose(archivo); // Cierra el archivo si no se encontró antes
+}
+    }
 // }
 
-// void buscarClienteDni(int dni, Cliente &clienteEncontrado){
-// }
+void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+        
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(strcmp(reg.getApellido(), apellido) == 0){
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
 
-// void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
-// }
+    fclose(archivo);
+}
+}
 
-// void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
-// }
+void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
 
-// void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
-// }
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(strcmp(reg.getLocalidad(), localidad) == 0){
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
 
-// void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
-// }
+    fclose(archivo);
+}
+}
 
-// void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
-// }
+void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(reg.getEdad() == edad){
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
+FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(reg.getFechaNacimiento().esIgual(fechaNacimiento)){ 
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
+
+    fclose(archivo);
+}
+}
