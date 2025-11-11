@@ -1,3 +1,6 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <cstdlib>
 #include "menu.h"
@@ -5,7 +8,6 @@
 #include "tipoUsuario.h"
 #include "funciones.h"
 #include "art.h"
-#include "rlutil.h"
 #include "ArchivoClientes.h"
 #include "ArchivoEmpleados.h"
 #include "funcionesArchivos.h"
@@ -126,7 +128,13 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
     else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
 }
 
-
+void modificacion(){
+    cout << "Modificar Cliente:" << endl;
+    int id;
+    cout << "Ingrese el ID del cliente a modificar: ";
+    id = validarEntero("", 0, 999999);
+    modificarCliente(id);
+}
 // -------------------------------------------------------------------------------------------------------
 
 

@@ -1,10 +1,22 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include "tipoUsuario.h"
 #include "funciones.h"
 #include "config.h"
+#include "ArchivoClientes.h"
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 using namespace std;
 
+/*
+(!!!) Despues, mañana 11/11 a la tarde/noche, sigo revisando y acomodando el documento,
+ya que ya estaba haciendo varias funciones + otras cosas pero hubieron commits.
+
+Revisar sobre los nuevos metodos de comparacion en Fecha y Tiempo, no deberian existir
+notas al respecto en los archivos correspondientes (ArchivoEmpleados y ArchivoMovimientos).
+*/
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA MANEJO DE ARCHIVOS DE CLIENTES
 // ----------------------------------------------------------------------
@@ -30,6 +42,7 @@ int generarIdCliente(){
     fclose(archivo);
     return maxId + 1;
 }
+
 Cliente crearCliente(){
     Cliente nuevoCliente;
     nuevoCliente.cargarDatos();
@@ -45,10 +58,43 @@ Cliente crearCliente(){
 }
 
 //(usa memoria dinamica para pasar el cliente modificado)
-// void modificarCliente(Cliente* clienteModificado){
-// }
+// modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer-
+// modificar un dato, se mantenga el anterior, puede usarse un switch y getkey() de rlutil
 
-// !!! implementar el filtrado de clientes eliminados
+bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
+    char nuevoNombre[50], nuevoApellido[50], nuevaLocalidad[50];
+
+    if(!buscarClienteId(idCliente, clienteModificado, posicion)){
+        cout << "ERROR: No se encontro el cliente con ID: " << idCliente << endl;
+        return false;
+    }
+    cout << "Cliente encontrado: " << clienteModificado.mostrarDatos() << endl;
+    cout << "-------------------------------------" << endl;
+    cout << "Ingrese los nuevos datos del cliente:" << endl;
+
+    cout << "Nuevo nombre: ";
+    validarCadena("", nuevoNombre, 50);
+    clienteModificado.setNombre(nuevoNombre);
+
+    cout << "Nuevo apellido: ";
+    validarCadena("", nuevoApellido, 50);
+    clienteModificado.setApellido(nuevoApellido);
+
+    cout << "Nueva localidad: ";
+    validarCadena("", nuevaLocalidad, 50);
+    clienteModificado.setLocalidad(nuevaLocalidad);
+
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb+");
+    if (archivo == nullptr) return false;
+
+    fseek(archivo, posicion * sizeof(Cliente), SEEK_SET);
+    fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
+    fclose(archivo);
+
+    cout << "Cliente modificado con éxito." << endl;
+    return true;
+}
+
 void listarClientes(){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     if(archivo == nullptr){
@@ -60,9 +106,11 @@ void listarClientes(){
     cout << "Listado de Clientes:" << endl;
     cout << "---------------------" << endl;
     while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        cout << reg.mostrarDatos() << endl;
-        i++;
-        cout << "---------------------" << endl;
+        if(!reg.getUsuarioEliminado()){
+            cout << reg.mostrarDatos() << endl;
+            i++;
+            cout << "---------------------" << endl;
+        }
     }
     if(i == 0){
         cout << "ERROR: No hay clientes registrados." << endl;
@@ -82,191 +130,41 @@ void listarClientes(){
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
-// EL VOID LO CAMBIE A UN BOOL
-bool buscarClienteId(int idCliente, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-if(archivo==nullptr){
-    cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return false;
-    }
-    Cliente reg;
-    bool encontrado = false;
-    
-    // Leer hasta el final del archivo o hasta encontrar la coincidencia
-    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) { 
-        if (reg.getIdCliente() == idCliente) {
-            clienteEncontrado = reg;
-            encontrado = true;
-            break;
-        }
-    }
-    fclose(archivo);
-    return encontrado;
-}
 
-bool buscarClienteDni(int dni, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-if(archivo==nullptr){
-    cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return false;
-    }
-    Cliente reg;
-    bool encontrado = false;
-    
-    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) { 
-        if (reg.getDni() == dni) {
-            clienteEncontrado = reg;
-            encontrado = true;
-            break;
-        }
-    }
-    fclose(archivo);
-    return encontrado;
-}
-
-void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
+bool buscarClienteId(int idCliente, Cliente &clienteEncontrado, int posicion){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-        
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){ 
-        if(strcmp(reg.getNombre(), nombre) == 0){
-            clienteEncontrado = reg; 
-            fclose(archivo); 
-            return; 
+        return false;
+    }
+    Cliente reg;
+    posicion = 0;
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(reg.getIdCliente() == idCliente){
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return true;
         }
+        posicion++;
     }
-
-    fclose(archivo); // Cierra el archivo si no se encontró antes
+    fclose(archivo);
+    return false;
 }
-    }
+
+// void buscarClienteDni(int dni, Cliente &clienteEncontrado){
 // }
 
-void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-        
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(strcmp(reg.getApellido(), apellido) == 0){
-            clienteEncontrado = reg;
-            fclose(archivo);
-            return;
-        }
-    }
+// void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+// }
 
-    fclose(archivo);
-}
-}
+// void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+// }
 
-void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
+// void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+// }
 
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(strcmp(reg.getLocalidad(), localidad) == 0){
-            clienteEncontrado = reg;
-            fclose(archivo);
-            return;
-        }
-    }
+// void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+// }
 
-    fclose(archivo);
-}
-}
-
-void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(reg.getEdad() == edad){
-            clienteEncontrado = reg;
-            fclose(archivo);
-            return;
-        }
-    }
-
-    fclose(archivo);
-}
-}
-
-void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(reg.getFechaNacimiento().esIgual(fechaNacimiento)){ 
-            clienteEncontrado = reg;
-            fclose(archivo);
-            return;
-        }
-    }
-
-    fclose(archivo);
-}
-}
-
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA MODIFICAR CLIENTES
-// ----------------------------------------------------------------------
-int obtenerPosicionCliente(int idCliente){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return -2;
-
-        int pos = 0;
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(reg.getIdCliente() == idCliente){
-            fclose(archivo);
-            return pos;
-        }
-        pos++; // Pasa al siguiente índice
-    }
-
-    fclose(archivo);
-    return -1; // No se encontró el IdCliente.
-}
-}
-bool modificarCliente(Cliente clienteModificado){
-    int pos = obtenerPosicionCliente(clienteModificado.getIdCliente());
-    if (pos < 0){
-        cout << "ERROR: Cliente con ID " << clienteModificado.getIdCliente() << " no encontrado o error de archivo." << endl;
-        return false;
-    } 
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-}
-        long int desplazamiento = (long int)pos * sizeof(Cliente);
-
-    // fseek(puntero_archivo, desplazamiento_en_bytes, origen_del_desplazamiento)
-    // SEEK_SET (o 0) indica que el desplazamiento es desde el inicio del archivo.
-    fseek(archivo, desplazamiento, SEEK_SET);
-
-    //Escribe el objeto 'clienteModificado' en la posición actual del archivo.
-    // Esto SOBRESCRIBE el registro existente.
-    size_t escritos = fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
-    
-
-    fclose(archivo);
-// RETORNA TRUE si se escribió exactamente 1 registro.
-    return (escritos == 1);
-}
-
+// void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
+// }

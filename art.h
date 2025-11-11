@@ -1,11 +1,11 @@
 #ifndef ART_H
-#define ART_H // <-- Faltaba este define
+#define ART_H
 
-#include <iostream>
-#include <string>
-#define byte windows_byte // Mueve el workaround aquí si es necesario globalmente
+#define byte windows_byte
 #include "rlutil.h"
 #undef byte
+#include <iostream>
+#include <string>
 
 using namespace std;
 

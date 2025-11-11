@@ -67,8 +67,7 @@ int main(){
                 break;
             case 4:
                 system("cls");
-                cout << "Modificar Cliente" << endl;
-                // modificarCliente();
+                modificacion();
                 break;
             case 5:
                 system("cls");

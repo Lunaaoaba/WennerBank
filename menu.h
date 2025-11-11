@@ -25,4 +25,6 @@ void menuAdmin(bool& sesionActiva);
 void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual);
 void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual);
 
+void modificacion();
+
 #endif

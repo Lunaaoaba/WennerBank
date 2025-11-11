@@ -43,13 +43,3 @@ void Tiempo::cargarTiempoActual(){
 string Tiempo::mostrarTiempo(){
     return to_string(_horas) + ":" + to_string(_minutos) + ":" + to_string(_segundos);
 }
-
-// IMPLEMENTACIÓN DEL MÉTODO DE COMPARACIÓN
-bool Tiempo::esIgual(Tiempo otroTiempo){
-    // Dos tiempos son iguales solo si todos sus componentes coinciden.
-    if (_horas == otroTiempo.getHoras() &&
-        _minutos == otroTiempo.getMinutos() && 
-        _segundos == otroTiempo.getSegundos()){
-    }
-    return false;
-}

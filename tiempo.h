@@ -22,9 +22,6 @@ class Tiempo{
         void cargarTiempo();
         void cargarTiempoActual();
         string mostrarTiempo();
-
-        // ¡NUEVA DECLARACIÓN!
-    bool esIgual(Tiempo otroTiempo);
 };
 
 #endif

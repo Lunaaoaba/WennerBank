@@ -8,7 +8,7 @@
 bool guardarClientes(const Cliente& cliente);
 int generarIdCliente();
 Cliente crearCliente();
-bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion);
+void modificarCliente(Cliente* clienteModificado);
 void listarClientes();
 
 //----------------------------------------------------------------------
@@ -19,8 +19,8 @@ void listarClientes();
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
-bool buscarClienteId(int idCliente, Cliente &clienteEncontrado, int posicion);
-void buscarClienteDni(int dni, Cliente &clienteEncontrado);
+bool buscarClienteId(int idCliente, Cliente &clienteEncontrado);
+bool buscarClienteDni(int dni, Cliente &clienteEncontrado);
 void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado);
 void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado);
 void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado);
