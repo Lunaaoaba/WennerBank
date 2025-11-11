@@ -219,3 +219,54 @@ FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     fclose(archivo);
 }
 }
+
+// ----------------------------------------------------------------------
+//             FUNCIONES PARA MODIFICAR CLIENTES
+// ----------------------------------------------------------------------
+int obtenerPosicionCliente(int idCliente){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    Cliente reg;
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return -2;
+
+        int pos = 0;
+        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        if(reg.getIdCliente() == idCliente){
+            fclose(archivo);
+            return pos;
+        }
+        pos++; // Pasa al siguiente índice
+    }
+
+    fclose(archivo);
+    return -1; // No se encontró el IdCliente.
+}
+}
+bool modificarCliente(Cliente clienteModificado){
+    int pos = obtenerPosicionCliente(clienteModificado.getIdCliente());
+    if (pos < 0){
+        cout << "ERROR: Cliente con ID " << clienteModificado.getIdCliente() << " no encontrado o error de archivo." << endl;
+        return false;
+    } 
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    if(archivo==nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+}
+        long int desplazamiento = (long int)pos * sizeof(Cliente);
+
+    // fseek(puntero_archivo, desplazamiento_en_bytes, origen_del_desplazamiento)
+    // SEEK_SET (o 0) indica que el desplazamiento es desde el inicio del archivo.
+    fseek(archivo, desplazamiento, SEEK_SET);
+
+    //Escribe el objeto 'clienteModificado' en la posición actual del archivo.
+    // Esto SOBRESCRIBE el registro existente.
+    size_t escritos = fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
+    
+
+    fclose(archivo);
+// RETORNA TRUE si se escribió exactamente 1 registro.
+    return (escritos == 1);
+}
+
