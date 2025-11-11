@@ -75,3 +75,5 @@ void limpiarEntrada(){
     cin.clear(); // LIMPIA EL ESTADO DE ERROR DEL CIN
     cin.ignore(10000, '\n'); // LIMPIA EL BUFFER DE ENTRADA
 }
+
+

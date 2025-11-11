@@ -64,3 +64,14 @@ void Fecha::cargarFechaActual(){
 }
 
 string Fecha::mostrarFecha(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }
+
+// IMPLEMENTACIÓN DEL MÉTODO DE COMPARACIÓN
+bool Fecha::esIgual(Fecha otraFecha){
+    // Retorna true solo si el día, mes y año son idénticos.
+    if (_dia == otraFecha.getDia() && 
+        _mes == otraFecha.getMes() && 
+        _anio == otraFecha.getAnio()){
+        return true;
+    }
+    return false;
+}

@@ -1,6 +1,9 @@
 #include "movimientos.h"
 #include "config.h"
-
+#include <cstring>
+#include <iostream>
+#include "fecha.h"
+using namespace std;
 //                         =====================
 //                         =   TRANSACCIONES   =
 //                         =====================
@@ -31,6 +34,120 @@ int generarIdTransaccion(){
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE TRANSACCIONES
 // ----------------------------------------------------------------------
+void buscarTransaccionId(int idTransaccion, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){ 
+        if(reg.getIdTransaccion() == idTransaccion){
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; // ¡Encontrado!
+        }
+    }
+
+    fclose(archivo);
+}
+    }
+
+void buscarTransaccionCuentaOrigen(int idCuentaOrigen, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
+        if(reg.getIdCuentaOrigen() == idCuentaOrigen){
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; 
+        }
+    }
+
+    fclose(archivo);
+}
+
+
+void buscarTransaccionCuentaDestino(int idCuentaDestino, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
+        if(reg.getIdCuentaDestino() == idCuentaDestino){
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; 
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarTransaccionMonto(double monto, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){ 
+        if(reg.getMonto() == monto){
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; 
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarTransaccionFecha(Fecha fechaTransaccion, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
+        // Usamos el método esIgual() de la clase Fecha para comparar la fecha.
+        if(reg.getFechaTransaccion().esIgual(fechaTransaccion)){
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; 
+        }
+    }
+
+    fclose(archivo);
+}
+}
+
+void buscarTransaccionHora(Tiempo horaTransaccion, Transaccion &transaccionEncontrada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    Transaccion reg;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+
+        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){ 
+        // Se asume que la clase Tiempo tiene un método bool esIgual(Tiempo).
+        if(reg.getHoraTransaccion().esIgual(horaTransaccion)){ 
+            transaccionEncontrada = reg;
+            fclose(archivo);
+            return; // ¡Encontrado!
+        }
+    }
+
+    fclose(archivo);
+}
+}
 
 
 
