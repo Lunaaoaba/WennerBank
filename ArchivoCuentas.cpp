@@ -38,9 +38,83 @@ cuentaBancaria crearCuenta(){
     return nuevaCuenta;
 }
 
-// void modificarCuenta(cuentaBancaria* cuentaModificada){
+/*bool modificarCuenta(cuentaBancaria& cuentaModificada) {
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb+"); 
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        return false;
+    }
+
+    cuentaBancaria reg;
+    long pos = 0;
+    bool cuentaEncontrada = false;
+    int idBuscado = cuentaModificada.getIdCuenta();
+
+    while (fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1) {
+        if (reg.getIdCuenta() == idBuscado) {
+            cuentaEncontrada = true;
+            
+            if (reg.getCuentaEliminada()) {
+                cout << "ADVERTENCIA: La cuenta ID " << idBuscado << " esta eliminada." << endl;
+            }
+            
+            fseek(archivo, pos * sizeof(cuentaBancaria), SEEK_SET); 
+            
+            fwrite(&cuentaModificada, sizeof(cuentaBancaria), 1, archivo);
+            
+            cout << "AVISO: Cuenta bancaria ID " << idBuscado << " modificada con exito." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++;
+    }
+
+    if (!cuentaEncontrada) {
+        cout << "ERROR: Cuenta bancaria ID " << idBuscado << " no encontrada." << endl;
+    }
+    
+    fclose(archivo);
+    return false;
+}*/
 
 // }
+//------------------------------
+//             BORRAR
+//------------------------------
+/*bool borrarCuenta(int idCuenta) {
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb+");
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        return false;
+    }
+
+    cuentaBancaria reg;
+    long pos = 0;
+    bool cuentaEncontrada = false;
+
+    while (fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1) {
+        if (reg.getIdCuenta() == idCuenta) {
+            cuentaEncontrada = true;
+            reg.setCuentaEliminada(true);
+
+            fseek(archivo, pos * sizeof(cuentaBancaria), SEEK_SET); 
+            fwrite(&reg, sizeof(cuentaBancaria), 1, archivo);
+            fseek(archivo, 0, SEEK_END);
+            
+            cout << "AVISO: Cuenta bancaria ID " << idCuenta << " borrada logicamente." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++;
+    }
+
+    if (!cuentaEncontrada) {
+        cout << "ERROR: Cuenta bancaria ID " << idCuenta << " no encontrada." << endl;
+    }
+    
+    fclose(archivo);
+    return false;
+}*/
 
 void listarCuentas(){
 

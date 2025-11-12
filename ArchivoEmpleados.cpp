@@ -40,8 +40,52 @@ Empleado crearEmpleado(){
     return nuevoEmpleado;
 }
 
-// void modificarEmpleado(Empleado* empleadoModificado){
-// }
+/*bool modificarEmpleado(Empleado& empleadoModificado){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb+");
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return false;
+    }
+
+    Empleado reg;
+    long pos = 0;
+    bool empleadoEncontrado = false;
+    int legajoBuscado = empleadoModificado.getLegajo();
+
+    while (fread(&reg, sizeof(Empleado), 1, archivo) == 1) {
+        if (reg.getLegajo() == legajoBuscado) {
+            empleadoEncontrado = true;
+            
+            if (reg.getUsuarioEliminado()) {
+                reg.setUsuarioEliminado(false); 
+            }
+            
+            cout << "--- Datos actuales del Empleado Legajo " << legajoBuscado << " ---" << endl;
+            cout << reg.mostrarDatos() << endl; 
+            
+            cout << "Ingrese los nuevos datos:" << endl;
+            reg.cargarDatos(); 
+
+    
+            fseek(archivo, pos * sizeof(Empleado), SEEK_SET); 
+            fwrite(&reg, sizeof(Empleado), 1, archivo);
+            
+            cout << "AVISO: Empleado con legajo " << legajoBuscado << " modificado con exito." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++;
+    }
+
+    if (!empleadoEncontrado) {
+        cout << "ERROR: Empleado con legajo " << legajoBuscado << " no encontrado." << endl;
+    }
+    
+    fclose(archivo);
+    return false;
+}*/
+
+
 
 // !!! implementar el filtrado de empleados eliminados
 void listarEmpleados(){
@@ -69,10 +113,42 @@ void listarEmpleados(){
 }
     
     //----------------------------------------------------------------------
-    //             FUNCIONES PARA EL EMPLEADO
+    //             FUNCIONES PARA BORRAR EL EMPLEADO
     // ----------------------------------------------------------------------
+/*bool borrarEmpleado(int legajo) {
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb+"); 
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return false;
+    }
 
+    Empleado reg;
+    long pos = 0;
+    bool empleadoEncontrado = false;
 
+    while (fread(&reg, sizeof(Empleado), 1, archivo) == 1) {
+        if (reg.getLegajo() == legajo) {
+            empleadoEncontrado = true;
+            reg.setUsuarioEliminado(true);
+
+            fseek(archivo, pos * sizeof(Empleado), SEEK_SET); 
+            fwrite(&reg, sizeof(Empleado), 1, archivo);
+            fseek(archivo, 0, SEEK_END);
+            
+            cout << "AVISO: Empleado con legajo " << legajo << " borrado logicamente." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++;
+    }
+
+    if (!empleadoEncontrado) {
+        cout << "ERROR: Empleado con legajo " << legajo << " no encontrado." << endl;
+    }
+    
+    fclose(archivo);
+    return false;
+}*/
 
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE EMPLEADOS

@@ -8,7 +8,7 @@
 bool guardarEmpleados(const Empleado& empleado);
 int generarLegajo();
 Empleado crearEmpleado();
-void modificarEmpleado(Empleado* empleadoModificado);
+bool modificarEmpleado(Empleado& empleadoModificado);
 void listarEmpleados();
 
 // ----------------------------------------------------------------------
@@ -25,5 +25,5 @@ void buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrad
 //----------------------------------------------------------------------
 //             FUNCIONES PARA EL EMPLEADO
 // ----------------------------------------------------------------------
-
+//bool borrarEmpleado(int legajo);
 #endif

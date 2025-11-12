@@ -8,7 +8,7 @@
 bool guardarCuentas(const cuentaBancaria& cuenta);
 int generarIdCuenta();
 cuentaBancaria crearCuenta();
-void modificarCuenta(cuentaBancaria* cuentaModificada);
+bool modificarCuenta(cuentaBancaria& cuentaModificada);
 void listarCuentas();
 
 
@@ -27,5 +27,10 @@ void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada);
 // ----------------------------------------------------------------------
 
 void mostrarSaldo(cuentaBancaria &cuenta, double saldo);
+
+//----------------------------------------------------------------------
+//             FUNCIONES PARA BORRAR CUENTA BANCARIA
+// ----------------------------------------------------------------------
+bool borrarCuenta(int idCuenta);
 
 #endif

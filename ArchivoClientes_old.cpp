@@ -78,8 +78,41 @@ void listarClientes(){
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA EL CLIENTE
 // ----------------------------------------------------------------------
+/*bool borrarCliente(int id) {
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb+"); 
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
 
+    Cliente reg;
+    long pos = 0;
+    bool clienteEncontrado = false;
 
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) {
+        if (reg.getIdCliente() == id) {
+            clienteEncontrado = true;
+            reg.setUsuarioEliminado(true);
+
+            fseek(archivo, pos * sizeof(Cliente), SEEK_SET); 
+            fwrite(&reg, sizeof(Cliente), 1, archivo);
+            fseek(archivo, 0, SEEK_END); 
+            
+            cout << "AVISO: Cliente ID " << id << " borrado." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++; 
+    }
+
+    if (!clienteEncontrado) {
+        cout << "ERROR: Cliente con ID " << id << " no encontrado." << endl;
+    }
+    
+    fclose(archivo);
+    return false;
+}
+*/
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
@@ -230,50 +263,47 @@ FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA MODIFICAR CLIENTES
 // ----------------------------------------------------------------------
-int obtenerPosicionCliente(int idCliente){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    Cliente reg;
-    if(archivo==nullptr){
+/*bool modificarCliente(Cliente& clienteModificado) {
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb+");
+    if (archivo == nullptr) {
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return -2;
-
-        int pos = 0;
-        while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(reg.getIdCliente() == idCliente){
-            fclose(archivo);
-            return pos;
-        }
-        pos++; // Pasa al siguiente índice
+        return false;
     }
 
-    fclose(archivo);
-    return -1; // No se encontró el IdCliente.
-}
-}
-bool modificarCliente(Cliente clienteModificado){
-    int pos = obtenerPosicionCliente(clienteModificado.getIdCliente());
-    if (pos < 0){
-        cout << "ERROR: Cliente con ID " << clienteModificado.getIdCliente() << " no encontrado o error de archivo." << endl;
-        return false;
-    } 
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-}
-        long int desplazamiento = (long int)pos * sizeof(Cliente);
+    Cliente reg;
+    long pos = 0;
+    bool clienteEncontrado = false;
+    int idBuscado = clienteModificado.getIdCliente();
 
-    // fseek(puntero_archivo, desplazamiento_en_bytes, origen_del_desplazamiento)
-    // SEEK_SET (o 0) indica que el desplazamiento es desde el inicio del archivo.
-    fseek(archivo, desplazamiento, SEEK_SET);
+    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1) {
+        if (reg.getIdCliente() == idBuscado) {
+            clienteEncontrado = true;
+            
+            if (reg.getUsuarioEliminado()) {
+                reg.setUsuarioEliminado(false); 
+            }
+            
+            cout << "--- Datos actuales del Cliente ID " << idBuscado << " ---" << endl;
+            cout << reg.mostrarDatos() << endl; 
+            
+            cout << "Ingrese los nuevos datos (se sobreescribiran los anteriores):" << endl;
+            
+            reg.cargarDatos(); 
+            
+            fseek(archivo, pos * sizeof(Cliente), SEEK_SET); 
+            fwrite(&reg, sizeof(Cliente), 1, archivo);
+            
+            cout << "AVISO: Cliente ID " << idBuscado << " modificado con exito." << endl;
+            fclose(archivo);
+            return true;
+        }
+        pos++;
+    }
 
-    //Escribe el objeto 'clienteModificado' en la posición actual del archivo.
-    // Esto SOBRESCRIBE el registro existente.
-    size_t escritos = fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
+    if (!clienteEncontrado) {
+        cout << "ERROR: Cliente con ID " << idBuscado << " no encontrado." << endl;
+    }
     
-
     fclose(archivo);
-// RETORNA TRUE si se escribió exactamente 1 registro.
-    return (escritos == 1);
-}
-
+    return false;
+}*/
