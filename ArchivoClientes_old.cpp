@@ -210,20 +210,22 @@ FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
         return;
 
         while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-            Fecha fecha = reg.getEdad();
-
-            if (hora.getHoras() == hora.getHoras() &&
-                hora.getMinutos() == hora.getMinutos() &&
-                hora.getSegundos() == hora.getSegundos()){ 
-                clienteEncontrado = reg;
-                fclose(archivo);
-                return;
-            }
+            Fecha fechaCliente = reg.getFechaNacimiento();
+        
+            if (fechaNacimiento.getDia() == fechaCliente.getDia() && 
+            fechaNacimiento.getMes() == fechaCliente.getMes() && 
+            fechaNacimiento.getAnio() == fechaCliente.getAnio()) {
+            
+            clienteEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
     }
-
+    
     fclose(archivo);
 }
 }
+
 
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA MODIFICAR CLIENTES
