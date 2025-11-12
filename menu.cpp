@@ -128,13 +128,13 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
     else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
 }
 
-void modificacion(){
-    cout << "Modificar Cliente:" << endl;
-    int id;
-    cout << "Ingrese el ID del cliente a modificar: ";
-    id = validarEntero("", 0, 999999);
-    modificarCliente(id);
-}
+// void modificacion(){
+//     cout << "Modificar Cliente:" << endl;
+//     int id;
+//     cout << "Ingrese el ID del cliente a modificar: ";
+//     id = validarEntero(0, 999999);
+//     modificarCliente(id);
+// }
 // -------------------------------------------------------------------------------------------------------
 
 

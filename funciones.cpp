@@ -5,10 +5,9 @@
 
 using namespace std;
 
-int validarEntero(const char* mensaje, int min, int max){
+int validarEntero(int min, int max){
     int valor;
     while (true){
-        cout << mensaje;
         if (!(cin >> valor)) {
             cout << "Error: Debe ingresar un numero entero." << endl;
             cin.clear();
@@ -28,13 +27,12 @@ int validarEntero(const char* mensaje, int min, int max){
 }
 
 // al usar la funcion, en el maxLength +1 de lo que se quiere para el \0
-void validarCadena(const char* mensaje, char* destino, int maxLength){
+void validarCadena(char* palabra, int maxLength){
     while(true){
-        cout << mensaje;
-        cin.getline(destino, maxLength);
+        cin.getline(palabra, maxLength);
 
         // si no ta vacio
-        if(strlen(destino) == 0){
+        if(strlen(palabra) == 0){
             cout << "Error: El ingreso no puede estar vacío." << endl;
             continue;
         }

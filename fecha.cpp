@@ -31,9 +31,9 @@ void Fecha::setAnio(int anio){ _anio = anio; }
 void Fecha::cargarFecha(){
     // se ingresa en orden de "año -> mes -> dia" para facilitar la validacion de dias por mes
     cout << "Ingrese a" << char(164) << "o: ";
-    _anio = validarEntero("", 1900, 2025);
+    _anio = validarEntero(1900, 2025);
     cout << "Ingrese mes: ";
-    _mes = validarEntero("", 1, 12);
+    _mes = validarEntero(1, 12);
     // ajustar dias maximos por mes
     int diaMaximo;
     switch(_mes){
@@ -51,7 +51,7 @@ void Fecha::cargarFecha(){
             break;
     }
     cout << "Ingrese dia: ";
-    _dia = validarEntero("", 1, diaMaximo);
+    _dia = validarEntero(1, diaMaximo);
 }
 
 void Fecha::cargarFechaActual(){

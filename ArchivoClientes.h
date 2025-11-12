@@ -15,16 +15,22 @@ void listarClientes();
 //             FUNCIONES PARA EL CLIENTE
 // ----------------------------------------------------------------------
 
+// aca se ponen nose, crear cuentas bancarias, ver saldo, etc
+// no hacer funciones de archivo aca y no copypaste de ia :P
 
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
-bool buscarClienteId(int idCliente, Cliente &clienteEncontrado, int posicion);
-void buscarClienteDni(int dni, Cliente &clienteEncontrado);
-void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado);
-void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado);
-void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado);
-void buscarClienteEdad(int edad, Cliente &clienteEncontrado);
-void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado);
+bool buscarCliente(const char* criterio, int valor, Cliente& encontrado);
+bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado);
+bool buscarClienteNacimiento(const Fecha& fecha, Cliente& encontrado);
+
+bool buscarClienteId(int idCliente, Cliente &clienteEncontrado);
+bool buscarClienteDni(int dni, Cliente &clienteEncontrado);
+bool buscarClienteEdad(int edad, Cliente &clienteEncontrado);
+
+bool buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado);
+bool buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado);
+bool buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado);
 
 #endif

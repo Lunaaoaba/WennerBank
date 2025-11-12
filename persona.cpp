@@ -47,13 +47,14 @@ int Persona::getEdad(){
 //otros
 void Persona::cargarDatos(){
     cout << "\nCargando datos de la persona..." << endl;
-    _dni = validarEntero("\nIngrese DNI: ", 10000000, 99999999);
-    cout << "Ingrese Nombre: ";
-    cin.getline(_nombre, 50);
-    cout << "Ingrese Apellido: ";
-    cin.getline(_apellido, 50);
-    cout << "Ingrese Localidad: ";
-    cin.getline(_localidad, 50);
+    cout << "Ingrese DNI: " << endl;
+    _dni = validarEntero(10000000, 99999999);
+    cout << "Ingrese Nombre: " << endl;
+    validarCadena(_nombre, 50);
+    cout << "Ingrese Apellido: " << endl;
+    validarCadena(_apellido, 50);
+    cout << "Ingrese Localidad: " << endl;
+    validarCadena(_localidad, 50);
 
     cout << "Ingrese Fecha de Nacimiento:" << endl;
     _fechaNacimiento.cargarFecha();

@@ -22,7 +22,19 @@ using namespace std;
 // PARA DEJAR EL CODIGO MAS LIMPIO Y SIN TANTOS COMENTARIOS
 // Exepciones marcadas con : (*)
 // ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+// --------------------------------------------------------
+/*  Nota: mis cambios no estan finalizados, subo solo para mostrar el avance
+        y que los vayan viendo. Mañana sigo con las correcciones:
+        Avances q fui haciendo:
+        - ArchivoClientes: funciones de busqueda unificadas y corregidas (*)
+        - ArchivoEmpleados: funciones de busqueda unificadas y corregidas (falta)
+        - Me corregí una falta ortografica en las advertencias :V
+        - nose m olvidé qmas deaa
 
+    Nota 2: revisar los comentarios marcados con (!!!) en los archivos
+
+    Nota 3: USAR LAS FUNCIONES DE validarCadena Y validarEntero PARA CUALQUIER INGRESO DE DATOS DESDE CONSOLA */
+    
 int main(){
     SetConsoleCP(437);
     SetConsoleOutputCP(437);

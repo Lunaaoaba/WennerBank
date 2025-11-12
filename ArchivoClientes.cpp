@@ -57,8 +57,7 @@ Cliente crearCliente(){
     return nuevoCliente;
 }
 
-//(usa memoria dinamica para pasar el cliente modificado)
-// modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer-
+// (!!!) modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer-
 // modificar un dato, se mantenga el anterior, puede usarse un switch y getkey() de rlutil
 
 bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
@@ -73,19 +72,22 @@ bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
     cout << "Ingrese los nuevos datos del cliente:" << endl;
 
     cout << "Nuevo nombre: ";
-    validarCadena("", nuevoNombre, 50);
+    validarCadena(nuevoNombre, 50);
     clienteModificado.setNombre(nuevoNombre);
 
     cout << "Nuevo apellido: ";
-    validarCadena("", nuevoApellido, 50);
+    validarCadena(nuevoApellido, 50);
     clienteModificado.setApellido(nuevoApellido);
 
     cout << "Nueva localidad: ";
-    validarCadena("", nuevaLocalidad, 50);
+    validarCadena(nuevaLocalidad, 50);
     clienteModificado.setLocalidad(nuevaLocalidad);
 
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb+");
-    if (archivo == nullptr) return false;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
 
     fseek(archivo, posicion * sizeof(Cliente), SEEK_SET);
     fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
@@ -106,6 +108,7 @@ void listarClientes(){
     cout << "Listado de Clientes:" << endl;
     cout << "---------------------" << endl;
     while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        // ya le meti el filtro de eliminados era una boludez
         if(!reg.getUsuarioEliminado()){
             cout << reg.mostrarDatos() << endl;
             i++;
@@ -130,41 +133,97 @@ void listarClientes(){
 // ----------------------------------------------------------------------
 //             FUNCIONES PARA BUSQUEDA DE CLIENTES
 // ----------------------------------------------------------------------
+// como las busquedas usan todas el mismo patron, las agrupe en una funcion:
+// le mande sobrecarga mas q nada pq sirve ya q es uno de los criterios evaluativos
+// las q son "texto" usan la version de char y los q son numeros usan la de int
 
-bool buscarClienteId(int idCliente, Cliente &clienteEncontrado, int posicion){
+//SOBRECARGA - el q usa int: (ID, DNI, FECHA_NACIMIENTO, EDAD)
+bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
     }
+
+    bool seEncontro = false;
+    while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
+        // se skipea al eliminado por gil
+        if(encontrado.getUsuarioEliminado()) continue;
+        // comparaciones
+        if(strcmp(criterio, "ID") == 0) if(encontrado.getIdCliente() == valor) seEncontro = true;
+        else if(strcmp(criterio, "DNI") == 0) if(encontrado.getDni() == valor) seEncontro = true;
+        else if(strcmp(criterio, "EDAD") == 0) if(encontrado.getEdad() == valor) seEncontro = true;
+        else cout << "Criterio de busqueda no reconocido." << endl;
+
+        if(seEncontro) break;
+    }
+    fclose(archivo);
+    return seEncontro;
+}
+
+//SOBRECARGA - el q usa char: (NOMBRE, APELLIDO, LOCALIDAD)
+bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
+
+    bool seEncontro = false;
+    while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
+        // se skipea al eliminado por gil
+        if(encontrado.getUsuarioEliminado()) continue;
+        // comparaciones
+        if(strcmp(criterio, "NOMBRE") == 0) if(encontrado.getNombre() == valor) seEncontro = true;
+        else if(strcmp(criterio, "APELLIDO") == 0) if(encontrado.getApellido() == valor) seEncontro = true;
+        else if(strcmp(criterio, "LOCALIDAD") == 0) if(encontrado.getLocalidad() == valor) seEncontro = true;
+        else cout << "Criterio de busqueda no reconocido." << endl;
+
+        if(seEncontro) break;
+    }
+    fclose(archivo);
+    return seEncontro;
+}
+
+//funcion fuera de sobrecarga pq funciona de otra manera
+bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
     Cliente reg;
-    posicion = 0;
-    while (fread(&reg, sizeof(Cliente), 1, archivo) == 1){
-        if(reg.getIdCliente() == idCliente){
-            clienteEncontrado = reg;
-            fclose(archivo);
-            return true;
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return false;
+    }
+    while(fread(&reg, sizeof(Cliente), 1, archivo) == 1){
+        Fecha fecha = reg.getFechaNacimiento();
+        // compara los tres campos de la fecha
+        if((fecha.getDia() == fechaNacimiento.getDia()) && (fecha.getMes() == fechaNacimiento.getMes()) && (fecha.getAnio() == fechaNacimiento.getAnio())){
+        clienteEncontrado = reg;
+        fclose(archivo);
+        return true;
         }
-        posicion++;
     }
     fclose(archivo);
     return false;
 }
 
-// void buscarClienteDni(int dni, Cliente &clienteEncontrado){
-// }
 
-// void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
-// }
+bool buscarClienteId(int idCliente, Cliente &clienteEncontrado){
+    return buscarCliente("ID", idCliente, clienteEncontrado);
+} 
 
-// void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
-// }
+bool buscarClienteDni(int dni, Cliente &clienteEncontrado){
+    return buscarCliente("DNI", dni, clienteEncontrado);
+}
 
-// void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
-// }
+void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+}
 
-// void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
-// }
+void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+}
 
-// void buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
-// }
+void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+}
+
+void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+}
+

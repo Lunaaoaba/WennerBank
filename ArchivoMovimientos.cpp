@@ -118,7 +118,7 @@ void buscarTransaccionFecha(Fecha fechaTransaccion, Transaccion &transaccionEnco
 
         while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
             // (!!!) preferiblemente no crear nuevos metodos a las clases solo para comparaciones simples o cosas que tranquilamente pueden ser funciones.
-            // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el avido de que se recursaba directamente la materia.
+            // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el aviso de que se recursaba directamente la materia.
             Fecha fecha = reg.getFechaTransaccion();
             if((fecha.getDia() == fechaTransaccion.getDia()) && (fecha.getMes() == fechaTransaccion.getMes()) && (fecha.getAnio() == fechaTransaccion.getAnio())){
             transaccionEncontrada = reg;
@@ -137,21 +137,20 @@ void buscarTransaccionHora(Tiempo horaTransaccion, Transaccion &transaccionEncon
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
         return;
-        
-        while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
-            Tiempo hora = reg.getHoraTransaccion();
-            // (!!!) preferiblemente no crear nuevos metodos a las clases solo para comparaciones simples o cosas que tranquilamente pueden ser funciones.
-            // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el avido de que se recursaba directamente la materia.
-            if((hora.getHoras() == horaTransaccion.getHoras()) && (hora.getMinutos() == horaTransaccion.getMinutos()) && (hora.getSegundos() == horaTransaccion.getSegundos())){ 
-            transaccionEncontrada = reg;
-            fclose(archivo);
-            return;
+    }
+    while(fread(&reg, sizeof(Transaccion), 1, archivo) == 1){
+        Tiempo hora = reg.getHoraTransaccion();
+        // (!!!) preferiblemente no crear nuevos metodos a las clases solo para comparaciones simples o cosas que tranquilamente pueden ser funciones.
+        // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el aviso de que se recursaba directamente la materia.
+        if((hora.getHoras() == horaTransaccion.getHoras()) && (hora.getMinutos() == horaTransaccion.getMinutos()) && (hora.getSegundos() == horaTransaccion.getSegundos())){ 
+        transaccionEncontrada = reg;
+        fclose(archivo);
+        return;
         }
     }
-
     fclose(archivo);
 }
-}
+
 
 
 

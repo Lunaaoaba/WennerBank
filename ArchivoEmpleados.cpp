@@ -200,18 +200,17 @@ void buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrad
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return; 
-
-        while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
-            // (!!!) preferiblemente no crear nuevos metodos a las clases solo para comparaciones simples o cosas que tranquilamente pueden ser funciones.
-            // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el avido de que se recursaba directamente la materia.
-            Fecha fecha = reg.getFechaNacimiento();
-            if((fecha.getAnio() == fechaNacimiento.getAnio()) && (fecha.getMes() == fechaNacimiento.getMes()) && (fecha.getDia() == fechaNacimiento.getDia())){ 
-                empleadoEncontrado = reg;
-                fclose(archivo);
-                return;
-            }
     }
 
+    while(fread(&reg, sizeof(Empleado), 1, archivo) == 1){
+        // (!!!) preferiblemente no crear nuevos metodos a las clases solo para comparaciones simples o cosas que tranquilamente pueden ser funciones.
+        // llamaron la atencion sobre algo similar (por no decir lo mismo) a otro equipo con el aviso de que se recursaba directamente la materia.
+        Fecha fecha = reg.getFechaNacimiento();
+        if((fecha.getAnio() == fechaNacimiento.getAnio()) && (fecha.getMes() == fechaNacimiento.getMes()) && (fecha.getDia() == fechaNacimiento.getDia())){ 
+            empleadoEncontrado = reg;
+            fclose(archivo);
+            return;
+        }
+    }
     fclose(archivo);
-}
 }

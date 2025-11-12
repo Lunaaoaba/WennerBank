@@ -3,6 +3,7 @@
 CLASES - ARCHIVOS WennerBank
 Descripción: Sistema de Gestión Bancaria.
 
+> este archivo ya lo habia modificado, no se pq no tienen las correcciones q hice anteriormente hace tiempo :V
 ==============================================================
 
 ARCHIVOS A UTILIZAR:
@@ -16,7 +17,7 @@ ARCHIVO: "persona.h"
 
 Persona
 
-dni : char[9] //clave principal
+dni : int //clave principal
 nombre : char[50]
 apellido : char[50]
 localidad : char[50]
@@ -27,7 +28,6 @@ ARCHIVO: "usuario.h"
 
 Usuario : public Persona
 
-dni : char[9] // clave principal
 mail : char[50]	// clave única para login
 contrasena : char[50]
 eliminado : bool
