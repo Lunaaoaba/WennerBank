@@ -1,9 +1,11 @@
 
 # LISTA DE COSAS PRINCIPALES FALTANTES:
-## marcas:
+### **MARCAS:**
 ### ✅ = Terminado
 ### ⚠️ = Revisar
 ### ⌛ = En proceso
+## ***ctrl + shift + v*** = mejor vista de las notas
+### HACER:
 1. funcion INICIAR SESION/CREAR CUENTA:
 funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funciones: 
     - "crearCuenta:"
@@ -42,5 +44,46 @@ Esto si que no se como hacerlo, pero la idea seria que al crear la cuenta de ban
 9. Validaciones:
     - validar que no se repitan los mails al crear cuenta✅
     - validar el ingreso de fechas (año biciesto, si el dia maximo es 28, 31 o 31, etc) ✅
-    - validar
-    
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# NOTAS:
+### **== LUNA ==**
+### NOTA 12/11:
+MI ESTADO EN EL PROYECTO: despues de subir mis cambios arreglé un conflicto y actualmente no deje nada pendiente, puedo empezar con mi lista de "Cosas para hacer" sin problemas. Lo unico que podria hacer antes de eso es revisar los ultimos cambios bajados (no mios).
+- cambios y conflictos arreglados
+- mañana o el viernes (mas probable) sigo modificando ArchivoClientes y agrego la union de Cliente-Cuenta (es decir, modificar ArchivoCuentass), tambien voy a agregar archivos pre generados + administrador pre generado
+### **MI PLAN DE TAREAS (para el viernes/sabado):**
+- Realizar en el siguiente orden:
+
+    1. Agregar archivos pre generados (+ admin):
+        - Crear la función **"inicializarArchivos()"**.
+        - Esta función debe verificar si **"clientes.dat"** existe. Si no, lo crea y guarda el *"Cliente Banco"* (ID 0).
+        - Debe verificar si **"cuentas.dat"** existe. Si no, lo crea y guarda la *"Cuenta Banco"* (ID 1), vinculada al ID 0.
+        - Debe verificar **"empleados.dat"**
+        - El *Administrador* es un **Singleton** y **NO** se guarda en "**empleados.dat**"
+
+    2. Terminar de modificar **"ArchivoClientes.cpp/.h .**
+        - Revisar las funciones de búsqueda.
+        - Revisar/Modificar la funcion **"modificarCliente()"**.
+        - Implementar **"eliminarCliente(int idCliente);"**.
+
+    3. Empezar a (y en lo posible terminar de) modificar **"ArchivoCuentas".**
+        - Implementar/Revisar todas las funciones de búsqueda.
+        - Implementar/Revisar **"modificarCuenta()"**.
+        - Implementar **"cerrarCuentaLogico(int idCuenta)"**.
+
+    4. hacer la adaptacion de **"ArchivoEmpleados"** con lo ya hecho en la de clientes ya que es basicamente similar en bastantes aspectos de la logica (no todo es similar!!)
+
+    5. Terminar de implementar el inicio de sesion (que sea funcional).
+
+    6. Crear la union **"Cliente-Cuenta"**
+        - Asegurarse de que **"menuCliente()"** reciba el **int idClienteLogueado** desde la variable de sesión.
+        - Implementar la opción *"Ver mis Cuentas"* llamando a **"listarCuentasPorCliente(idClienteLogueado)"**.
+        - Implementar la opción *"Crear Cuenta"* llamando a **"crearNuevaCuentaBancaria(idClienteLogueado)"**.
+
+    7. Crear **entidades** pre generadas:
+        1. **"clientes.dat:** 5 clientes pre cargados.
+        2. **"empleados.dat:"** 5 empleados pre cargados (+ administrador pre generado a parte).
+        3. **"cuentas.dat:** 5 cuentas pre cargadas (1 x cliente) - *Aun no es posible*.
+        4. **"transacciones.dat:"** *Aun no es posible.*
+        5. **"prestamos.dat:"** *Aun no es posible.*
