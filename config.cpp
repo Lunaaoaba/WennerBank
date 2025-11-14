@@ -1,11 +1,5 @@
 #include "config.h"
 
-const char* NOMBRE_ARCHIVO_CLIENTES = "clientes.dat";
-const char* NOMBRE_ARCHIVO_EMPLEADOS = "empleados.dat";
-const char* NOMBRE_ARCHIVO_CUENTAS = "cuentas.dat";
-const char* NOMBRE_ARCHIVO_PRESTAMOS = "prestamos.dat";
-const char* NOMBRE_ARCHIVO_TRANSACCIONES = "transacciones.dat";
-
 // DATOS FIJOS DE LA CUENTA DEL BANCO
 int ID_CLIENTE_BANCO = 0; // id ficticio para el "cliente" banco, es 0 pq no es un cliente real
 int ID_CUENTA_BANCO = 1;

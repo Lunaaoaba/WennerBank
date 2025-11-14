@@ -22,7 +22,7 @@ notas al respecto en los archivos correspondientes (ArchivoEmpleados y ArchivoMo
 // ----------------------------------------------------------------------
 
 bool guardarClientes(const Cliente& cliente){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "ab");
+    FILE* archivo = fopen("clientes.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
@@ -34,7 +34,7 @@ bool guardarClientes(const Cliente& cliente){
 }
 
 int generarIdCliente(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
     Cliente reg;
@@ -57,13 +57,11 @@ Cliente crearCliente(){
     return nuevoCliente;
 }
 
-// (!!!) modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer-
-// modificar un dato, se mantenga el anterior, puede usarse un switch y getkey() de rlutil
-
+// (!!!) modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer modificar un dato, se mantenga el anterior, puede usarse un switch y getkey() de rlutil
 bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
     char nuevoNombre[50], nuevoApellido[50], nuevaLocalidad[50];
 
-    if(!buscarClienteId(idCliente, clienteModificado, posicion)){
+    if(!buscarClienteId(idCliente, clienteModificado)){
         cout << "ERROR: No se encontro el cliente con ID: " << idCliente << endl;
         return false;
     }
@@ -83,7 +81,7 @@ bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
     validarCadena(nuevaLocalidad, 50);
     clienteModificado.setLocalidad(nuevaLocalidad);
 
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb+");
+    FILE* archivo = fopen("clientes.dat", "rb+");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
@@ -98,7 +96,7 @@ bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
 }
 
 void listarClientes(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return;
@@ -139,12 +137,11 @@ void listarClientes(){
 
 //SOBRECARGA - el q usa int: (ID, DNI, FECHA_NACIMIENTO, EDAD)
 bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
     }
-
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
         // se skipea al eliminado por gil
@@ -163,12 +160,11 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
 
 //SOBRECARGA - el q usa char: (NOMBRE, APELLIDO, LOCALIDAD)
 bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return false;
     }
-
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
         // se skipea al eliminado por gil
@@ -187,7 +183,7 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
 
 //funcion fuera de sobrecarga pq funciona de otra manera
 bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     Cliente reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -206,7 +202,6 @@ bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
     return false;
 }
 
-
 bool buscarClienteId(int idCliente, Cliente &clienteEncontrado){
     return buscarCliente("ID", idCliente, clienteEncontrado);
 } 
@@ -215,15 +210,19 @@ bool buscarClienteDni(int dni, Cliente &clienteEncontrado){
     return buscarCliente("DNI", dni, clienteEncontrado);
 }
 
-void buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+bool buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
+    return buscarCliente("NOMBRE", nombre, clienteEncontrado);
 }
 
-void buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+bool buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
+    return buscarCliente("APELLIDO", apellido, clienteEncontrado);
 }
 
-void buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+bool buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
+    return buscarCliente("LOCALIDAD", localidad, clienteEncontrado);
 }
 
-void buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+bool buscarClienteEdad(int edad, Cliente &clienteEncontrado){
+    return buscarCliente("EDAD", edad, clienteEncontrado);
 }
 

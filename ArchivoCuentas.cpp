@@ -11,7 +11,7 @@ using namespace std;
 //             FUNCIONES PARA MANEJO DE ARCHIVOS DE CUENTAS
 // ----------------------------------------------------------------------
 bool guardarCuentas(const cuentaBancaria& cuenta){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "ab");
+    FILE* archivo = fopen("cuentas.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return false;
@@ -22,7 +22,7 @@ bool guardarCuentas(const cuentaBancaria& cuenta){
 }
 
 int generarIdCuenta(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
     cuentaBancaria reg;
@@ -81,12 +81,17 @@ void listarCuentas(){
 //             FUNCIONES PARA BUSQUEDA DE CUENTAS
 // ----------------------------------------------------------------------
 
+<<<<<<< Updated upstream
 bool buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return false;
     }
+=======
+void buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
+    FILE* archivo = fopen("cuentas.dat", "rb");
+>>>>>>> Stashed changes
     cuentaBancaria reg;
     bool encontrada = false;
     while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
@@ -101,7 +106,7 @@ bool buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
 }
 
 void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -122,7 +127,7 @@ void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
 }
 
 void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -142,7 +147,7 @@ void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
 }
 
 void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -163,7 +168,7 @@ void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
 }
 
 void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -184,7 +189,7 @@ void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontra
 
 // // por las dudas
 void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;

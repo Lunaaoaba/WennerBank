@@ -6,7 +6,7 @@
 using namespace std;
 
 bool guardarEmpleados(const Empleado& empleado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "ab");
+    FILE* archivo = fopen("empleados.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return false;
@@ -17,7 +17,7 @@ bool guardarEmpleados(const Empleado& empleado){
 }
 
 int generarLegajo(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivo = fopen("empleados.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
     Empleado reg;
@@ -45,7 +45,7 @@ Empleado crearEmpleado(){
 
 // !!! implementar el filtrado de empleados eliminados
 void listarEmpleados(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return;
@@ -79,7 +79,7 @@ void listarEmpleados(){
 // ----------------------------------------------------------------------
 
 void buscarEmpleadoLegajo(int legajo, Empleado &empleadoEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+FILE* archivo = fopen("empleados.dat", "rb");
 Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -98,7 +98,7 @@ Empleado reg;
 }
 
 void buscarEmpleadoDni(int dni, Empleado &empleadoEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+FILE* archivo = fopen("empleados.dat", "rb");
 Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -117,7 +117,7 @@ Empleado reg;
 }
 
 void buscarEmpleadoNombre(const char* nombre, Empleado &empleadoEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+FILE* archivo = fopen("empleados.dat", "rb");
 Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -137,7 +137,7 @@ Empleado reg;
 }
 
 void buscarEmpleadoApellido(const char* apellido, Empleado &empleadoEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+FILE* archivo = fopen("empleados.dat", "rb");
 Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -157,7 +157,7 @@ Empleado reg;
 }
 
 void buscarEmpleadoLocalidad(const char* localidad, Empleado &empleadoEncontrado){
-FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+FILE* archivo = fopen("empleados.dat", "rb");
 Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -176,7 +176,7 @@ Empleado reg;
 }
 
 void buscarEmpleadoEdad(int edad, Empleado &empleadoEncontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivo = fopen("empleados.dat", "rb");
     Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -195,7 +195,7 @@ void buscarEmpleadoEdad(int edad, Empleado &empleadoEncontrado){
 }
 
 void buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivo = fopen("empleados.dat", "rb");
     Empleado reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;

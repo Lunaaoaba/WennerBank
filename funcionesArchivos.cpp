@@ -6,10 +6,53 @@
 
 using namespace std;
 
+
+void crearArchivos(){
+    // archivo clientes
+    FILE* archivoClientes = fopen("clientes.dat", "ab");
+    if (archivoClientes == nullptr) {
+        cout << "Error al crear el archivo de clientes." << endl;
+        return;
+    }
+    fclose(archivoClientes);
+
+    //archivo empleados
+    FILE* archivoEmpleados = fopen("empleados.dat", "ab");
+    if (archivoEmpleados == nullptr) {
+        cout << "Error al crear el archivo de empleados." << endl;
+        return;
+    }
+    fclose(archivoEmpleados);
+
+    // archivo cuentas
+    FILE* archivoCuentas = fopen("cuentas.dat", "ab");
+    if (archivoCuentas == nullptr) {
+        cout << "Error al crear el archivo de cuentas." << endl;
+        return;
+    }
+    fclose(archivoCuentas);
+
+    // archivo transacciones
+    FILE* archivoTransacciones = fopen("transacciones.dat", "ab");
+    if (archivoTransacciones == nullptr) {
+        cout << "Error al crear el archivo de transacciones." << endl;
+        return;
+    }
+    fclose(archivoTransacciones);
+
+    // archivo prestamos
+    FILE* archivoPrestamos = fopen("prestamos.dat", "ab");
+    if (archivoPrestamos == nullptr) {
+        cout << "Error al crear el archivo de prestamos." << endl;
+        return;
+    }
+}
+
+
 // para ver si el mail existe en algun usuario (cliente o empleado)
 bool existeMail(const char* mail){
     // busca mail cliente q ya exista
-    FILE* archivoClientes = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente reg;
         while(fread(&reg, sizeof(Cliente), 1, archivoClientes) == 1){
@@ -21,7 +64,7 @@ bool existeMail(const char* mail){
         fclose(archivoClientes);
     }
     // busca mail empleado q ya eexista
-    FILE* archivoEmpleados = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivoEmpleados = fopen("empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
         Empleado reg;
         while(fread(&reg, sizeof(Empleado), 1, archivoEmpleados) == 1){
@@ -36,7 +79,7 @@ bool existeMail(const char* mail){
 }
 
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CLIENTES, "rb");
+    FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No existen registros de usuarios." << endl;
         return false;
@@ -63,7 +106,7 @@ bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clie
 }
 
 bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleadoEncontrado){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_EMPLEADOS, "rb");
+    FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No existen registros de empleados." << endl;
         return false;

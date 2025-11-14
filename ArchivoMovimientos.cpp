@@ -12,7 +12,7 @@ using namespace std;
 //             FUNCIONES PARA MANEJO DE ARCHIVOS DE TRANSACCIONES
 // ----------------------------------------------------------------------
 bool guardarTransacciones(const Transaccion& transaccion){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "ab");
+    FILE* archivo = fopen("transacciones.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
         return false;
@@ -23,7 +23,7 @@ bool guardarTransacciones(const Transaccion& transaccion){
 }
 
 int generarIdTransaccion(){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
     Transaccion reg;
@@ -35,7 +35,7 @@ int generarIdTransaccion(){
 //             FUNCIONES PARA BUSQUEDA DE TRANSACCIONES
 // ----------------------------------------------------------------------
 void buscarTransaccionId(int idTransaccion, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
@@ -54,7 +54,7 @@ void buscarTransaccionId(int idTransaccion, Transaccion &transaccionEncontrada){
     }
 
 void buscarTransaccionCuentaOrigen(int idCuentaOrigen, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
         return;
@@ -72,7 +72,7 @@ void buscarTransaccionCuentaOrigen(int idCuentaOrigen, Transaccion &transaccionE
 
 
 void buscarTransaccionCuentaDestino(int idCuentaDestino, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
@@ -91,7 +91,7 @@ void buscarTransaccionCuentaDestino(int idCuentaDestino, Transaccion &transaccio
 }
 
 void buscarTransaccionMonto(double monto, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
@@ -110,7 +110,7 @@ void buscarTransaccionMonto(double monto, Transaccion &transaccionEncontrada){
 }
 
 void buscarTransaccionFecha(Fecha fechaTransaccion, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
@@ -132,7 +132,7 @@ void buscarTransaccionFecha(Fecha fechaTransaccion, Transaccion &transaccionEnco
 }
 
 void buscarTransaccionHora(Tiempo horaTransaccion, Transaccion &transaccionEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_TRANSACCIONES, "rb");
+    FILE* archivo = fopen("transacciones.dat", "rb");
     Transaccion reg;
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
@@ -167,7 +167,7 @@ void buscarTransaccionHora(Tiempo horaTransaccion, Transaccion &transaccionEncon
 //             FUNCIONES PARA MANEJO DE ARCHIVOS DE PRESTAMOS
 // ----------------------------------------------------------------------
 // bool guardarPrestamos(const Prestamo& prestamo){
-//     FILE* archivo = fopen(NOMBRE_ARCHIVO_PRESTAMOS, "ab");
+//     FILE* archivo = fopen("prestamos.dat", "ab");
 //     if(archivo == nullptr){
 //         cout << "Error al abrir el archivo de prestamos." << endl;
 //         return false;

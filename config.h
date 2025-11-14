@@ -3,13 +3,6 @@
 
 // EXTERN = variable DEFINIDA en otro archivo, aca es solo la DECLARACION, asi no se crean tantas copias
 
-// NOMBRES DE ARCHIVOS
-extern const char* NOMBRE_ARCHIVO_CLIENTES;
-extern const char* NOMBRE_ARCHIVO_EMPLEADOS;
-extern const char* NOMBRE_ARCHIVO_CUENTAS;
-extern const char* NOMBRE_ARCHIVO_PRESTAMOS;
-extern const char* NOMBRE_ARCHIVO_TRANSACCIONES;
-
 // DATOS FIJOS DE LA CUENTA DEL BANCO
 extern int ID_CLIENTE_BANCO; // id ficticio para el "cliente" banco, es 0 pq no es un cliente real
 extern int ID_CUENTA_BANCO;
