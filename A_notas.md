@@ -92,7 +92,7 @@ MI ESTADO EN EL PROYECTO: despues de subir mis cambios arreglé un conflicto y a
 # NOTAS:
 ### **== Gabi ==**
 ### **MI PLAN DE TAREAS (para el viernes/sabado...):**
-1. voy a trabajar en la implementacion completa de las transacciones y los préstamos. La clase Transaccionya está definida, pero faltan las funciones de archivo y la lógica de negocio para crear movimientos.
+1. voy a trabajar en la implementacion completa de las transacciones y los préstamos. La clase Transaccion ya está definida, pero faltan las funciones de archivo y la lógica de negocio para crear movimientos.
    
    -ArchivoTransacciones.cpp/.h: Crear las funciones básicas de archivo para la entidad Transaccion(guardar, listar, buscar por ID, buscar por idCuenta, generar ID).Adaptarla a la estructura de Transaccion.
    -FunciónrealizarDeposito(): IMplementaR la función que toma un monto y un idCuenta, llama a cuentaBancaria::depositar(), y luego registrar la transacción en el archivo transacciones.dat.

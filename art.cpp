@@ -129,3 +129,12 @@ void centrarTexto(string palabra, char dato1, char dato2, size_t largo){
     
     cout << izq << palabra << der;
 }
+
+//-------------------------------------
+// PARA UTILIZAR EN EL MENU CON RLUTIL
+//-------------------------------------
+//rlutil::cls(); -> Limpia la Pantalla: Borra todo el texto que se encuentra actualmente visible en la ventana de la consola. y vuelve a dibujar el menu.
+//rlutil::setBackgroundColor(rlutil::BLUE); ->cambia el color del fondo
+//rlutil::setColor(rlutil::WHITE); ->cambia el color de las letras
+//rlutil::setColor(rlutil::RED); -> puede ir antes de un texto con error, luego de mostrar el mensaje devolver su color original.
+//rlutil::locate(2, 5); -> coloca el mensaje en la posición que le pongas
