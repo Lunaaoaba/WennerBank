@@ -1,5 +1,6 @@
 #include "ArchivoCuentas.h"
 #include "cuentaBancaria.h"
+#include "ArchivoTransacciones.h"
 #include "config.h"
 #include <cstdio>
 #include <iomanip>
@@ -38,9 +39,39 @@ cuentaBancaria crearCuenta(){
     return nuevaCuenta;
 }
 
-// void modificarCuenta(cuentaBancaria* cuentaModificada){
+bool modificarCuenta(cuentaBancaria& cuentaModificada){
+    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb+");
+    if (archivo == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo de cuentas para modificar." << endl;
+        return false;
+    }
 
-// }
+    cuentaBancaria reg;
+    int posicion = 0;
+    bool encontrado = false;
+
+    // Buscar la posición de la cuenta por ID
+    while (fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1) {
+        if (reg.getIdCuenta() == cuentaModificada.getIdCuenta()) {
+            encontrado = true;
+            break;
+        }
+        posicion++;
+    }
+
+    if (encontrado) {
+        // Regresar al inicio del registro encontrado y sobreescribir
+        fseek(archivo, posicion * sizeof(cuentaBancaria), SEEK_SET);
+        fwrite(&cuentaModificada, sizeof(cuentaBancaria), 1, archivo);
+        fclose(archivo);
+        return true;
+    }
+
+    fclose(archivo);
+    cout << "ERROR: No se encontró la cuenta con ID: " << cuentaModificada.getIdCuenta() << " para modificar." << endl;
+    return false;
+}
+
 
 void listarCuentas(){
 
@@ -50,24 +81,23 @@ void listarCuentas(){
 //             FUNCIONES PARA BUSQUEDA DE CUENTAS
 // ----------------------------------------------------------------------
 
-void buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
+bool buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
     FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        return false;
+    }
     cuentaBancaria reg;
-    if(archivo==nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){ 
+    bool encontrada = false;
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(reg.getIdCuenta() == idCuenta){
             cuentaEncontrada = reg;
-            fclose(archivo);
-            return; // ¡Encontrado!
+            encontrada = true;
+            break;
         }
     }
-
     fclose(archivo);
-}
-
+    return encontrada;
 }
 
 void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
@@ -180,3 +210,6 @@ void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
 void mostrarSaldo (double saldo) {
 cout<<"Su balance es: $ " <<setprecision(2) << fixed << saldo << endl;
 }
+
+
+//bool actualizarCuenta(const cuentaBancaria& cuentaModificada) {}

@@ -87,3 +87,23 @@ MI ESTADO EN EL PROYECTO: despues de subir mis cambios arreglé un conflicto y a
         3. **"cuentas.dat:** 5 cuentas pre cargadas (1 x cliente) - *Aun no es posible*.
         4. **"transacciones.dat:"** *Aun no es posible.*
         5. **"prestamos.dat:"** *Aun no es posible.*
+
+
+# NOTAS:
+### **== Gabi ==**
+### **MI PLAN DE TAREAS (para el viernes/sabado...):**
+1. voy a trabajar en la implementacion completa de las transacciones y los préstamos. La clase Transaccionya está definida, pero faltan las funciones de archivo y la lógica de negocio para crear movimientos.
+   
+   -ArchivoTransacciones.cpp/.h: Crear las funciones básicas de archivo para la entidad Transaccion(guardar, listar, buscar por ID, buscar por idCuenta, generar ID).Adaptarla a la estructura de Transaccion.
+   -FunciónrealizarDeposito(): IMplementaR la función que toma un monto y un idCuenta, llama a cuentaBancaria::depositar(), y luego registrar la transacción en el archivo transacciones.dat.
+   -funciónrealizarRetiro():Implementar la función para retiros, tomar el monto y el idCuenta, verifica saldo, llama a cuentaBancaria::retirar(), y registra la transacción .
+   -FunciónrealizarTransferencia():Implementar la lógica de recibe monto , ID de cuenta origen y ID de cuenta destino . Debo realizar un retiro en la cuenta de origen y un depósito en la cuenta de destino, y registrar dos transacciones separadas (una para el débito, otra para el crédito) con referencia entre sí si es posible.
+
+2. La clase Prestamoya está definida, pero es un módulo totalmente vacío a nivel de lógica de negocio y archivos.
+    - ArchivoArchivoPrestamos.cpp/.h:Crear las funciones básicas de archivo para la entidad Prestamo(guardar, listar, buscar por ID/Cliente, generar ID y modificar el estado).
+    -FunciónotorgarPrestamo():Implementar la lógica para que un empleado pueda otorgar un préstamo: pide los datos del préstamo, lo registra en prestamos.dat, y luego usa tu función realizarDeposito() para ingresar el monto en la cuenta del cliente.
+    -funcióngestionarPrestamos():Crear un menú intermedio que permitirá listar los préstamos y una función para registrar el pago de una cuota (que restablecería el monto del pago de una cuenta del cliente y lo depositaría en la "Cuenta Banco" central).
+
+3. Mientras que **== LUNA ==** te enfocas en el menuCliente(), voy acrear menún para el personal del banco.
+    -FunciónmenuEmpleado():Crear el menú principal para los empleados. Debe incluir opciones como: Crear Nuevo Cliente , Abrir Nueva Cuenta , Modificar Cliente/Cuenta,Realizar Depósito/Retiro .
+    -FunciónmenuAdministrador():Crear el menú principal del administrador. Debe incluir todas las opciones del empleado más las funciones de gestión de empleados: Crear/Modificar/Eliminar Empleado (usando las funciones de ArchivoEmpleados).
