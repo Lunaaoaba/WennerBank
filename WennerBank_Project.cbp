@@ -44,8 +44,6 @@
 		<Unit filename="administrador.h" />
 		<Unit filename="art.cpp" />
 		<Unit filename="art.h" />
-		<Unit filename="config.cpp" />
-		<Unit filename="config.h" />
 		<Unit filename="cuentaBancaria.cpp" />
 		<Unit filename="cuentaBancaria.h" />
 		<Unit filename="fecha.cpp" />

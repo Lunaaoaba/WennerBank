@@ -48,19 +48,22 @@ Esto si que no se como hacerlo, pero la idea seria que al crear la cuenta de ban
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # NOTAS:
 ### **== LUNA ==**
-### NOTA 12/11:
-MI ESTADO EN EL PROYECTO: despues de subir mis cambios arreglé un conflicto y actualmente no deje nada pendiente, puedo empezar con mi lista de "Cosas para hacer" sin problemas. Lo unico que podria hacer antes de eso es revisar los ultimos cambios bajados (no mios).
-- cambios y conflictos arreglados
-- mañana o el viernes (mas probable) sigo modificando ArchivoClientes y agrego la union de Cliente-Cuenta (es decir, modificar ArchivoCuentass), tambien voy a agregar archivos pre generados + administrador pre generado
+### NOTA 14/11:
+MI ESTADO EN EL PROYECTO: Corregí mas errores y conflictos, eliminé ArchivoTransacciones pq la logica debe ser aplicada en ArchivosMovimientos
+
 ### **MI PLAN DE TAREAS (para el viernes/sabado):**
 - Realizar en el siguiente orden:
 
+    **TAREA [1] TERMINADA [✅]**
+    
     1. Agregar archivos pre generados (+ admin):
         - Crear la función **"inicializarArchivos()"**.
-        - Esta función debe verificar si **"clientes.dat"** existe. Si no, lo crea y guarda el *"Cliente Banco"* (ID 0).
-        - Debe verificar si **"cuentas.dat"** existe. Si no, lo crea y guarda la *"Cuenta Banco"* (ID 1), vinculada al ID 0.
+        - Esta función debe verificar si **"clientes.dat"** existe. Si no, lo crea y guarda el *"Cliente Banco"* (ID 1).
+        - Debe verificar si **"cuentas.dat"** existe. Si no, lo crea y guarda la *"Cuenta Banco"* (ID 1), vinculada al ID 1.
         - Debe verificar **"empleados.dat"**
         - El *Administrador* es un **Singleton** y **NO** se guarda en "**empleados.dat**"
+
+    **TAREA [2] EN PROCESO [⌛]**
 
     2. Terminar de modificar **"ArchivoClientes.cpp/.h .**
         - Revisar las funciones de búsqueda.
@@ -88,6 +91,12 @@ MI ESTADO EN EL PROYECTO: despues de subir mis cambios arreglé un conflicto y a
         4. **"transacciones.dat:"** *Aun no es posible.*
         5. **"prestamos.dat:"** *Aun no es posible.*
 
+### NOTAS EXTRAS AL TERMINAR:
+#### Aca pongo las cosas que vi a mitad del proceso para modificar:
+- Validar que en el final del gmail se ingrese "@gmail.com".
+- cambiar los "cin >> x" por su respectiva funcion de validar ingreso.
+- debo, SIN FALTA, modificar el 3er/4to informe ni idea cual era el ultimo (clase cuentaBancaria y clases de tipoUsuario)
+---
 
 # NOTAS:
 ### **== Gabi ==**

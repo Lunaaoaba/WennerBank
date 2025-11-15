@@ -27,10 +27,8 @@ cuentaBancaria::cuentaBancaria(int idCuenta, int idCliente, const char* nombreCu
     _cuentaEliminada = cuentaEliminada;
 }
 //setters
-void cuentaBancaria::setIdCuenta(int idCuenta){ _idCuenta = idCuenta; }
 void cuentaBancaria::setIdCliente(int idCliente){ _idCliente = idCliente; }
 void cuentaBancaria::setNombreCuenta(const char* nombreCuenta){ strcpy(_nombreCuenta, nombreCuenta); }
-void cuentaBancaria::setCvu(const char* cvu){ strcpy(_cvu, cvu); }
 void cuentaBancaria::setAlias(const char* alias){ strcpy(_alias, alias); }
 void cuentaBancaria::setSaldo(double saldo){ _saldo = saldo; }
 void cuentaBancaria::setCuentaEliminada(bool cuentaEliminada){ _cuentaEliminada = cuentaEliminada; }

@@ -9,8 +9,6 @@ class Cliente : public Usuario{
     public:
         Cliente();
         Cliente(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, int idCliente);
-        //set
-        void setIdCliente(int idCliente);
         //get
         int getIdCliente();
         //otros
@@ -24,8 +22,6 @@ class Empleado : public Usuario{
     public:
         Empleado();
         Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo);
-        //set
-        void setLegajo(int legajo);
         //get
         int getLegajo();
         //otros

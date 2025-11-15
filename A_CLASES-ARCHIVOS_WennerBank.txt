@@ -118,12 +118,6 @@ segundos : int
 
 --------------------------------------------------------------
 
-ARCHIVO: "config.h"
-
-Configuración de nombres de archivos y datos fijos del banco
-
---------------------------------------------------------------
-
 ARCHIVO: "menu.h"
 
 Sistema de menús y navegación del programa

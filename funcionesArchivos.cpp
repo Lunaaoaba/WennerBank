@@ -1,51 +1,77 @@
 #include <iostream>
 #include "tipoUsuario.h"
 #include "administrador.h"
-#include "config.h"
+#include "cuentaBancaria.h"
 #include <cstring>
 
 using namespace std;
 
 
-void crearArchivos(){
-    // archivo clientes
-    FILE* archivoClientes = fopen("clientes.dat", "ab");
-    if (archivoClientes == nullptr) {
-        cout << "Error al crear el archivo de clientes." << endl;
-        return;
+void iniciarArchivos(){
+// ARCHIVO CLIENTES
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    if (archivoClientes == nullptr){ // si no existe, lo crea
+        archivoClientes = fopen ("clientes.dat", "wb");
+        if (archivoClientes == nullptr) {
+            cout << "ERROR FATAL: No se pudo crear el archivo de clientes." << endl;
+            exit(-1);
+        }
+        cout << "Archivo 'clientes.dat' no encontrado. Creando y guardando Cliente Banco..." << endl;
+        // crear cliente del banco
+        Cliente clienteBanco(
+            10000000, // dni
+            "Sistema", // nombre
+            "WennerBank", // apellido
+            "Central", // localidad
+            Fecha(14, 11, 1987), // fecha "nacimiento" / "creacion del banco"
+            "bancoWennerBank@mail.com", // mail
+            "contrasenaSegura123", // contrasena
+            false, // Usuario eliminado (obviamente falso)
+            1 // idCliente
+        );
+        fwrite(&clienteBanco, sizeof(Cliente), 1, archivoClientes);
+        fclose(archivoClientes);
     }
-    fclose(archivoClientes);
+    else fclose(archivoClientes);
 
-    //archivo empleados
-    FILE* archivoEmpleados = fopen("empleados.dat", "ab");
-    if (archivoEmpleados == nullptr) {
-        cout << "Error al crear el archivo de empleados." << endl;
-        return;
+// ARCHIVO CUENTAS
+    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    if (archivoCuentas == nullptr){ // si no existe, lo crea
+        archivoCuentas = fopen ("cuentas.dat", "wb");
+        if (archivoCuentas == nullptr) {
+            cout << "ERROR FATAL: No se pudo crear el archivo de cuentas." << endl;
+            exit(-1);
+        }
+        cout << "Archivo 'cuentas.dat' no encontrado. Creando y guardando Cuenta Banco..." << endl;
+        // crear cuenta bancaria del banco
+        cuentaBancaria cuentaBanco(
+            1, // id cuenta
+            1, // id cliente
+            "Banco Central", // nombre cuenta
+            "0000000000000000000000", // cvu
+            "BANCO.CENTRAL.WENNER", // alias
+            10000000.00, // saldo inicial
+            false // cuenta eliminada
+        );
+        fwrite(&cuentaBanco, sizeof(cuentaBancaria), 1, archivoCuentas);
+        fclose(archivoCuentas);
     }
-    fclose(archivoEmpleados);
+    else fclose(archivoCuentas);
 
-    // archivo cuentas
-    FILE* archivoCuentas = fopen("cuentas.dat", "ab");
-    if (archivoCuentas == nullptr) {
-        cout << "Error al crear el archivo de cuentas." << endl;
-        return;
-    }
-    fclose(archivoCuentas);
+// ARCHIVO EMPLEADOS
+    FILE* archivoEmpleados = fopen("empleados.dat", "ab"); // "ab" es más seguro, crea si no existe
+    if(archivoEmpleados != nullptr) fclose(archivoEmpleados);
+    else cout << "ERROR FATAL: No se pudo crear el archivo de empleados." << endl;
 
-    // archivo transacciones
+// ARCHIVO TRANSACCIONES
     FILE* archivoTransacciones = fopen("transacciones.dat", "ab");
-    if (archivoTransacciones == nullptr) {
-        cout << "Error al crear el archivo de transacciones." << endl;
-        return;
-    }
-    fclose(archivoTransacciones);
+    if(archivoTransacciones != nullptr) fclose(archivoTransacciones);
+    else cout << "ERROR FATAL: No se pudo crear el archivo de transacciones." << endl;
 
-    // archivo prestamos
+// ARCHIVO PRESTAMOS
     FILE* archivoPrestamos = fopen("prestamos.dat", "ab");
-    if (archivoPrestamos == nullptr) {
-        cout << "Error al crear el archivo de prestamos." << endl;
-        return;
-    }
+    if(archivoPrestamos != nullptr) fclose(archivoPrestamos);
+    else cout << "ERROR FATAL: No se pudo crear el archivo de prestamos." << endl;
 }
 
 
