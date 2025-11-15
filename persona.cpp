@@ -50,17 +50,16 @@ void Persona::cargarDatos(){
     cout << "Ingrese DNI: " << endl;
     _dni = validarEntero(10000000, 99999999);
     cout << "Ingrese Nombre: " << endl;
-    validarCadena(_nombre, 50);
+    validarCadenaLetras(_nombre, 50);
     cout << "Ingrese Apellido: " << endl;
-    validarCadena(_apellido, 50);
+    validarCadenaLetras(_apellido, 50);
     cout << "Ingrese Localidad: " << endl;
-    validarCadena(_localidad, 50);
-
+    validarCadenaLetras(_localidad, 50);
     cout << "Ingrese Fecha de Nacimiento:" << endl;
     _fechaNacimiento.cargarFecha();
 }
 string Persona::mostrarDatos(){
-    string datos = string("\nDNI: ") + to_string(_dni);
+    string datos = string("DNI: ") + to_string(_dni);
     datos += "\nNombre: " + string(_nombre);
     datos += "\nApellido: " + string(_apellido);
     datos += "\nLocalidad: " + string(_localidad);

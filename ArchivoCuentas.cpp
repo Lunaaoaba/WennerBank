@@ -1,7 +1,6 @@
 #include "ArchivoCuentas.h"
 #include "cuentaBancaria.h"
-#include "ArchivoTransacciones.h"
-#include "config.h"
+#include "ArchivoMovimientos.h"
 #include <cstdio>
 #include <iomanip>
 #include <cstring>
@@ -40,7 +39,7 @@ cuentaBancaria crearCuenta(){
 }
 
 bool modificarCuenta(cuentaBancaria& cuentaModificada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb+");
+    FILE* archivo = fopen("cuentas.dat", "rb+");
     if (archivo == nullptr) {
         cout << "ERROR: No se pudo abrir el archivo de cuentas para modificar." << endl;
         return false;
@@ -81,17 +80,12 @@ void listarCuentas(){
 //             FUNCIONES PARA BUSQUEDA DE CUENTAS
 // ----------------------------------------------------------------------
 
-<<<<<<< Updated upstream
 bool buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen(NOMBRE_ARCHIVO_CUENTAS, "rb");
+    FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return false;
     }
-=======
-void buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
-    FILE* archivo = fopen("cuentas.dat", "rb");
->>>>>>> Stashed changes
     cuentaBancaria reg;
     bool encontrada = false;
     while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){

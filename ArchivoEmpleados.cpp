@@ -1,6 +1,5 @@
 #include "ArchivoEmpleados.h"
 #include "tipoUsuario.h"
-#include "config.h"
 #include <cstring>
 #include <iostream>
 using namespace std;
@@ -62,7 +61,6 @@ void listarEmpleados(){
     if(i == 0){
         cout << "ERROR: No hay empleados registrados." << endl;
         cout << "---------------------" << endl;
-        system("pause");
     }
     cout << "Total de empleados: " << i << endl;
     fclose(archivo);

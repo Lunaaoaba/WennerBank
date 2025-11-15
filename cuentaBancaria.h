@@ -18,10 +18,8 @@ class cuentaBancaria{
         cuentaBancaria();
         cuentaBancaria(int idCuenta, int idCliente, const char* nombreCuenta, const char* cvu, const char* alias, double saldo, bool cuentaEliminada);
         //set
-        void setIdCuenta(int idCuenta);
         void setIdCliente(int idCliente);
         void setNombreCuenta(const char* nombreCuenta);
-        void setCvu(const char* cvu);
         void setAlias(const char* alias);
         void setSaldo(double saldo);
         void setCuentaEliminada(bool cuentaEliminada);

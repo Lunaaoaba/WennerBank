@@ -3,8 +3,8 @@
 #undef byte
 #include "tipoUsuario.h"
 #include "funciones.h"
-#include "config.h"
 #include "ArchivoClientes.h"
+#include "funcionesArchivos.h"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -43,57 +43,89 @@ int generarIdCliente(){
     return maxId + 1;
 }
 
+// nota: marco los pasos asi se entiende, para la entrega lo borro
 Cliente crearCliente(){
-    Cliente nuevoCliente;
-    nuevoCliente.cargarDatos();
+    // 1. pedir datos
+    char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
+    int dni, idCliente;
+    Fecha fechaNacimiento;
+    bool estado = false;
+    // 2. ingreso de datos con validacion
+    system("cls");
+    cout << "----- CREACION DE NUEVO CLIENTE -----" << endl;
+    cout << "Primer paso, ingrese sus datos:" << endl << endl;
+    cout << "Ingrese DNI: ";
+    dni = validarEntero(1000000, 99999999);
+    cout << "Ingrese Nombre: ";
+    validarCadenaLetras(nombre, 50);
+    cout << "Ingrese Apellido: ";
+    validarCadenaLetras(apellido, 50);
+    cout << "Ingrese Localidad: ";
+    validarCadenaLetras(localidad, 50);
+    cout << "Ingrese Fecha de Nacimiento:" << endl;
+    fechaNacimiento.cargarFecha();
+    cout << "Ingrese Mail: ";
+    validarCadena(mail, 50);
+    while(existeMail(mail)){
+        cout << "ERROR: Mail ya registrado." << endl;
+        cout << "Ingrese el mail: ";
+        validarCadena(mail, 50);
+    }
+    cout << "Ingrese Contrase" << char(164) << "a: ";
+    validarCadenaLargo(contrasena, 8, 50);
+    // 3. generar el id unico
+    idCliente = generarIdCliente();
+    // 4. crear el objeto / nuevo cliente (dsp lo meto en una linea, ahora lo dejo asi para q se vea mejor)
+    Cliente nuevoCliente(
+        dni,
+        nombre,
+        apellido,
+        localidad,
+        fechaNacimiento,
+        mail,
+        contrasena,
+        estado,
+        idCliente
+    );
+    // 5. validar mayoria de edad (no se hace al ingresar la fecha pq para ese entonces no esta el objeto creado)
     int edad = nuevoCliente.getEdad();
     if(edad < 18){
-        cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " años)." << endl;
-        return Cliente();
+        cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " a" << char(164) << "os)." << endl;
+        return Cliente(); // cliente vacio
     }
-    nuevoCliente.setIdCliente(generarIdCliente());
-    if(guardarClientes(nuevoCliente)) cout << "Cliente creado con exito. ID Cliente: " << nuevoCliente.getIdCliente() << endl;
-    else cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
+    // 6. mostrar y confirmar datos
+    system("cls");
+    cout << "----- CONFIRMACION DE DATOS -----" << endl;
+    cout << nuevoCliente.mostrarDatos() << endl;
+    cout << "\nConfirma la creacion del cliente? (S/N): ";
+    char confirmacion;
+    cin >> confirmacion;
+    if(confirmacion == 'S' || confirmacion == 's'){
+        if(guardarClientes(nuevoCliente)){
+            cout << "Cliente creado con exito. ID Cliente: " << nuevoCliente.getIdCliente() << endl;
+        }
+        else{
+            cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
+        }
+    }
+    else cout << "Operacion cancelada." << endl;
+    // 7. devolucion del cliente vacio o con datos segun confirmacion
+    system("pause");
     return nuevoCliente;
 }
 
-// (!!!) modificar luego para que se pueda especificar el dato a modificar, y en caso de no querer modificar un dato, se mantenga el anterior, puede usarse un switch y getkey() de rlutil
-bool modificarCliente(int idCliente, Cliente clienteModificado, int posicion){
-    char nuevoNombre[50], nuevoApellido[50], nuevaLocalidad[50];
 
-    if(!buscarClienteId(idCliente, clienteModificado)){
-        cout << "ERROR: No se encontro el cliente con ID: " << idCliente << endl;
-        return false;
-    }
-    cout << "Cliente encontrado: " << clienteModificado.mostrarDatos() << endl;
-    cout << "-------------------------------------" << endl;
-    cout << "Ingrese los nuevos datos del cliente:" << endl;
+// rehaciendo de 0 el modificarCliente pq se usó otra libreria OTRA VEZ!!
 
-    cout << "Nuevo nombre: ";
-    validarCadena(nuevoNombre, 50);
-    clienteModificado.setNombre(nuevoNombre);
 
-    cout << "Nuevo apellido: ";
-    validarCadena(nuevoApellido, 50);
-    clienteModificado.setApellido(nuevoApellido);
+// ----------------------------------------------------------------------
+//             FUNCIONES PARA EL CLIENTE
+// ----------------------------------------------------------------------
 
-    cout << "Nueva localidad: ";
-    validarCadena(nuevaLocalidad, 50);
-    clienteModificado.setLocalidad(nuevaLocalidad);
 
-    FILE* archivo = fopen("clientes.dat", "rb+");
-    if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return false;
-    }
-
-    fseek(archivo, posicion * sizeof(Cliente), SEEK_SET);
-    fwrite(&clienteModificado, sizeof(Cliente), 1, archivo);
-    fclose(archivo);
-
-    cout << "Cliente modificado con éxito." << endl;
-    return true;
-}
+// ----------------------------------------------------------------------
+//             FUNCIONES PARA BUSQUEDA DE CLIENTES
+// ----------------------------------------------------------------------
 
 void listarClientes(){
     FILE* archivo = fopen("clientes.dat", "rb");
@@ -122,15 +154,6 @@ void listarClientes(){
     fclose(archivo);
 }
 
-
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA EL CLIENTE
-// ----------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA BUSQUEDA DE CLIENTES
-// ----------------------------------------------------------------------
 // como las busquedas usan todas el mismo patron, las agrupe en una funcion:
 // le mande sobrecarga mas q nada pq sirve ya q es uno de los criterios evaluativos
 // las q son "texto" usan la version de char y los q son numeros usan la de int
@@ -147,9 +170,15 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
         // se skipea al eliminado por gil
         if(encontrado.getUsuarioEliminado()) continue;
         // comparaciones
-        if(strcmp(criterio, "ID") == 0) if(encontrado.getIdCliente() == valor) seEncontro = true;
-        else if(strcmp(criterio, "DNI") == 0) if(encontrado.getDni() == valor) seEncontro = true;
-        else if(strcmp(criterio, "EDAD") == 0) if(encontrado.getEdad() == valor) seEncontro = true;
+        if(strcmp(criterio, "ID") == 0){
+            if(encontrado.getIdCliente() == valor) seEncontro = true;
+        }
+        else if(strcmp(criterio, "DNI") == 0) {
+            if(encontrado.getDni() == valor) seEncontro = true;
+        }
+        else if(strcmp(criterio, "EDAD") == 0){
+            if(encontrado.getEdad() == valor) seEncontro = true;
+        }
         else cout << "Criterio de busqueda no reconocido." << endl;
 
         if(seEncontro) break;
@@ -170,9 +199,15 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
         // se skipea al eliminado por gil
         if(encontrado.getUsuarioEliminado()) continue;
         // comparaciones
-        if(strcmp(criterio, "NOMBRE") == 0) if(encontrado.getNombre() == valor) seEncontro = true;
-        else if(strcmp(criterio, "APELLIDO") == 0) if(encontrado.getApellido() == valor) seEncontro = true;
-        else if(strcmp(criterio, "LOCALIDAD") == 0) if(encontrado.getLocalidad() == valor) seEncontro = true;
+        if(strcmp(criterio, "NOMBRE") == 0){
+            if(strcmp(encontrado.getNombre(), valor) == 0) seEncontro = true;
+        }
+        else if(strcmp(criterio, "APELLIDO") == 0) {
+            if(strcmp(encontrado.getApellido(), valor) == 0) seEncontro = true;
+        }
+        else if(strcmp(criterio, "LOCALIDAD") == 0) {
+            if(strcmp(encontrado.getLocalidad(), valor) == 0) seEncontro = true;
+        }
         else cout << "Criterio de busqueda no reconocido." << endl;
 
         if(seEncontro) break;
