@@ -75,7 +75,7 @@ MI ESTADO EN EL PROYECTO: Corregí mas errores y conflictos, eliminé ArchivoTra
         - Implementar/Revisar **"modificarCuenta()"**.
         - Implementar **"cerrarCuentaLogico(int idCuenta)"**.
 
-    <!-- **TAREA [2] TERMINADA [✅]** -->
+    **TAREA [4] TERMINADA [✅]**
 
     4. hacer la adaptacion de **"ArchivoEmpleados"** con lo ya hecho en la de clientes ya que es basicamente similar en bastantes aspectos de la logica (no todo es similar!!)
 
