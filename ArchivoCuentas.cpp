@@ -33,7 +33,7 @@ int generarIdCuenta(){
 cuentaBancaria crearCuenta(){
     cuentaBancaria nuevaCuenta;
     nuevaCuenta.cargarDatos();
-    nuevaCuenta.setIdCuenta(generarIdCuenta());
+    // nuevaCuenta.setIdCuenta(generarIdCuenta());
     guardarCuentas(nuevaCuenta);
     return nuevaCuenta;
 }

@@ -16,12 +16,12 @@ class Usuario : public Persona{
         void setContrasena(const char* contrasena);
         void setUsuarioEliminado(bool UsuarioEliminado);
         //get
-        const char* getMail();
-        const char* getContrasena();
-        bool getUsuarioEliminado();
+        const char* getMail() const;
+        const char* getContrasena() const;
+        bool getUsuarioEliminado() const;
         //otros
         void cargarDatos();
-        string mostrarDatos();
+        string mostrarDatos() const;
 };
 
 

@@ -3,6 +3,7 @@
 #include <sstream>
 #include "movimientos.h"
 #include "fecha.h"
+#include "funciones.h"
 using namespace std;
 
 Transaccion::Transaccion(){
@@ -11,7 +12,6 @@ Transaccion::Transaccion(){
     _idCuentaDestino = 0;
     _monto = 0.0;
 }
-
 Transaccion::Transaccion(int idTransaccion, int idCuentaOrigen, int idCuentaDestino, double monto, Fecha fechaTransaccion, Tiempo horaTransaccion){
     _idTransaccion = idTransaccion;
     _idCuentaOrigen = idCuentaOrigen;
@@ -21,37 +21,35 @@ Transaccion::Transaccion(int idTransaccion, int idCuentaOrigen, int idCuentaDest
     _horaTransaccion = horaTransaccion;
 }
 
-int Transaccion::getIdTransaccion(){ return _idTransaccion; }
-int Transaccion::getIdCuentaOrigen(){ return _idCuentaOrigen; }
-int Transaccion::getIdCuentaDestino(){ return _idCuentaDestino; }
-double Transaccion::getMonto(){ return _monto; }
-Fecha Transaccion::getFechaTransaccion(){ return _fechaTransaccion; }
-Tiempo Transaccion::getHoraTransaccion(){ return _horaTransaccion; }
-
-void Transaccion::setIdTransaccion(int idTransaccion){ _idTransaccion = idTransaccion; }
 void Transaccion::setIdCuentaOrigen(int idCuentaOrigen){ _idCuentaOrigen = idCuentaOrigen; }
 void Transaccion::setIdCuentaDestino(int idCuentaDestino){ _idCuentaDestino = idCuentaDestino; }
 void Transaccion::setMonto(double monto){ _monto = monto; }
 void Transaccion::setFechaTransaccion(Fecha fechaTransaccion){ _fechaTransaccion = fechaTransaccion; }
 void Transaccion::setHoraTransaccion(Tiempo horaTransaccion){ _horaTransaccion = horaTransaccion; }
 
+int Transaccion::getIdTransaccion() const{ return _idTransaccion; }
+int Transaccion::getIdCuentaOrigen() const{ return _idCuentaOrigen; }
+int Transaccion::getIdCuentaDestino() const{ return _idCuentaDestino; }
+double Transaccion::getMonto() const{ return _monto; }
+Fecha Transaccion::getFechaTransaccion() const{ return _fechaTransaccion; }
+Tiempo Transaccion::getHoraTransaccion() const{ return _horaTransaccion; }
+
 void Transaccion::cargarDatos(){
     cout << "Cargando datos de la transaccion..." << endl;
     cout << "ID Transaccion: ";
-    cin >> _idTransaccion;
+    _idTransaccion = validarEntero(1, 99999999); // esto dsp se deberia asignar automaticamente
     cout << "ID Cuenta Origen: ";
-    cin >> _idCuentaOrigen;
+    _idCuentaOrigen = validarEntero(1, 99999999);
     cout << "ID Cuenta Destino: ";
-    cin >> _idCuentaDestino;
+    _idCuentaDestino = validarEntero(1, 99999999);
     cout << "Monto: ";
-    cin >> _monto;
+    _monto = validarDouble(0.01, 99999999.99);
     cout << "Fecha: ";
     _fechaTransaccion.cargarFecha();
     cout << "Hora: ";
     _horaTransaccion.cargarTiempo();
 }
-
-string Transaccion::mostrarDatos() {
+string Transaccion::mostrarDatos() const{
     string linea = string("Transaccion: ") + to_string(_idTransaccion)
                     + "\nCuenta Origen: " + to_string(_idCuentaOrigen)
                     + "\nCuenta Destino: " + to_string(_idCuentaDestino)
@@ -61,15 +59,15 @@ string Transaccion::mostrarDatos() {
     return linea;
 }
 
+
 Prestamo::Prestamo(){
     _idPrestamo = 0;
     _idCliente = 0;
     _legajo = 0;
     _monto = 0.0;
     _tasaInteres = 0.0;
-    _prestamoVigente = false;
+    _prestamoVigente = true;
 }
-
 Prestamo::Prestamo(int idPrestamo, int idCliente, int legajo, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento, bool prestamoVigente){
     _idPrestamo = idPrestamo;
     _idCliente = idCliente;
@@ -102,21 +100,21 @@ void Prestamo::setPrestamoVigente(bool prestamoVigente){ _prestamoVigente = pres
 void Prestamo::cargarDatos(){
     cout << "Cargando datos del prestamo..." << endl;
     cout << "ID Prestamo: ";
-    cin >> _idPrestamo;
+    _idPrestamo = validarEntero(1, 99999999); // esto dsp se deberia asignar automaticamente
     cout << "ID del cliente que solicita el prestamo: ";
-    cin >> _idCliente;
+    _idCliente = validarEntero(1, 99999999);
     cout << "Legajo de empleado que otorga el prestamo: ";
-    cin >> _legajo;
+    _legajo = validarEntero(1, 99999999);
     cout << "Monto: ";
-    cin >> _monto;
+    _monto = validarDouble(0.01, 999999999.99);
     cout << "Tasa de Interes (anual %): ";
-    cin >> _tasaInteres;
+    _tasaInteres = validarDouble(0.01, 100.0);
     cout << "Fecha de Inicio:" << endl;
     _fechaInicio.cargarFecha();
     cout << "Fecha de Vencimiento:" << endl;
     _fechaVencimiento.cargarFecha();
     cout << "Prestamo Vigente (1 = Si, 0 = No): ";
-    cin >> _prestamoVigente;
+    _prestamoVigente = true; // por defecto al cargar un prestamo, esta vigente
 }
 string Prestamo::mostrarDatos() {
     string linea = string("Prestamo: ") + to_string(_idPrestamo)

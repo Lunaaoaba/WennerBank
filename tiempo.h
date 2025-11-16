@@ -4,24 +4,25 @@
 #include <string>
 using namespace std;
 
+
 class Tiempo{
     private:
-        int _horas, _minutos, _segundos;
+        int _hora, _minuto, _segundo;
     public:
         Tiempo();
-        Tiempo(int horas, int minutos, int segundos);
-
-        int getHoras();
-        int getMinutos();
-        int getSegundos();
-
-        void setHoras(int horas);
-        void setMinutos(int minutos);
-        void setSegundos(int segundos);
+        Tiempo(int hora, int minuto, int segundo);
+        
+        void setHora(int horas);
+        void setMinuto(int minutos);
+        void setSegundo(int segundos);
+        
+        int getHora() const;
+        int getMinuto() const;
+        int getSegundo() const;
 
         void cargarTiempo();
         void cargarTiempoActual();
-        string mostrarTiempo();
+        string mostrarTiempo() const;
 };
 
 #endif

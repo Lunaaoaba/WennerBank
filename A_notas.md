@@ -63,7 +63,7 @@ MI ESTADO EN EL PROYECTO: Corregí mas errores y conflictos, eliminé ArchivoTra
         - Debe verificar **"empleados.dat"**
         - El *Administrador* es un **Singleton** y **NO** se guarda en "**empleados.dat**"
 
-    **TAREA [2] EN PROCESO [⌛]**
+    **TAREA [2] TERMINADA [✅]**
 
     2. Terminar de modificar **"ArchivoClientes.cpp/.h .**
         - Revisar las funciones de búsqueda.
@@ -74,6 +74,8 @@ MI ESTADO EN EL PROYECTO: Corregí mas errores y conflictos, eliminé ArchivoTra
         - Implementar/Revisar todas las funciones de búsqueda.
         - Implementar/Revisar **"modificarCuenta()"**.
         - Implementar **"cerrarCuentaLogico(int idCuenta)"**.
+
+    <!-- **TAREA [2] TERMINADA [✅]** -->
 
     4. hacer la adaptacion de **"ArchivoEmpleados"** con lo ya hecho en la de clientes ya que es basicamente similar en bastantes aspectos de la logica (no todo es similar!!)
 
@@ -95,7 +97,7 @@ MI ESTADO EN EL PROYECTO: Corregí mas errores y conflictos, eliminé ArchivoTra
 #### Aca pongo las cosas que vi a mitad del proceso para modificar:
 - Validar que en el final del gmail se ingrese "@gmail.com".
 - cambiar los "cin >> x" por su respectiva funcion de validar ingreso.
-- debo, SIN FALTA, modificar el 3er/4to informe ni idea cual era el ultimo (clase cuentaBancaria y clases de tipoUsuario)
+- debo, SIN FALTA, modificar el 3er/4to informe ni idea cual era el ultimo (por las clases, fueron borrados algunos set y todos los gets fueron cambiados a const)
 ---
 
 # NOTAS:

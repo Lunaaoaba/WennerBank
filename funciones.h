@@ -5,6 +5,7 @@
 
 // valida que el ingreso sea un entero dentro de un rango
 int validarEntero(int min, int max);
+double validarDouble(double min, double max);
 
 void validarCadenaLetras(char* palabra, int maxLength);
 void validarCadena(char* palabra, int maxLength);

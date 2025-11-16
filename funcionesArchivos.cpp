@@ -1,5 +1,7 @@
 #include <iostream>
 #include "tipoUsuario.h"
+#include "Fecha.h"
+#include "Tiempo.h"
 #include "administrador.h"
 #include "cuentaBancaria.h"
 #include <cstring>
@@ -80,9 +82,9 @@ bool existeMail(const char* mail){
     // busca mail cliente q ya exista
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
-        Cliente reg;
-        while(fread(&reg, sizeof(Cliente), 1, archivoClientes) == 1){
-            if (strcmp(reg.getMail(), mail) == 0){
+        Cliente clienteActual;
+        while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
+            if (strcmp(clienteActual.getMail(), mail) == 0){
                 fclose(archivoClientes);
                 return true; // existe el mail entonces no se puede usar ese mail
             }
@@ -92,9 +94,10 @@ bool existeMail(const char* mail){
     // busca mail empleado q ya eexista
     FILE* archivoEmpleados = fopen("empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
-        Empleado reg;
-        while(fread(&reg, sizeof(Empleado), 1, archivoEmpleados) == 1){
-            if (strcmp(reg.getMail(), mail) == 0){
+        Empleado empleadoActual;
+        // if(strcmp(empleadoActual.getMail(), terminar dsp para q compare con el admin, esq como es singleton nose como se hace deaa)
+        while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
+            if (strcmp(empleadoActual.getMail(), mail) == 0){
                 fclose(archivoEmpleados);
                 return true; // existe el mail entonces no se puede usar ese mail
             }
@@ -157,5 +160,19 @@ bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleado
     return false;
 }
 
+// para comparar dos fechas
+bool compararFechas(const Fecha& fecha1, const Fecha& fecha2){
+    if((fecha1.getDia() == fecha2.getDia()) && (fecha1.getMes() == fecha2.getMes()) && (fecha1.getAnio() == fecha2.getAnio())){
+    return true;
+    }
+    else return false;
+}
 
+// para comparar dos horarios
+bool compararHorarios(const Tiempo& tiempo1, const Tiempo& tiempo2){
+    if((tiempo1.getHora() == tiempo2.getHora()) && (tiempo1.getMinuto() == tiempo2.getMinuto()) && (tiempo1.getSegundo() == tiempo2.getSegundo())){
+    return true;
+    }
+    else return false;
+}
 

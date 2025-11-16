@@ -6,7 +6,7 @@
 #include "funciones.h"
 using namespace std;
 
-//constructores
+
 Persona::Persona(){
     _dni = 00000000;
     strcpy(_nombre, "N/A");
@@ -20,31 +20,29 @@ Persona::Persona(int dni, const char* nombre, const char* apellido, const char* 
     strcpy(_localidad, localidad);
     _fechaNacimiento = fechaNacimiento;
 }
-//setters
+
 void Persona::setDni(int dni){ _dni = dni; }
 void Persona::setNombre(const char* nombre){ strcpy(_nombre, nombre); }
 void Persona::setApellido(const char* apellido){ strcpy(_apellido, apellido); }
 void Persona::setLocalidad(const char* localidad){ strcpy(_localidad, localidad); }
 void Persona::setFechaNacimiento(Fecha fechaNacimiento){ _fechaNacimiento = fechaNacimiento; }
-//getters
-int Persona::getDni(){ return _dni; }
-const char* Persona::getNombre(){ return _nombre; }
-const char* Persona::getApellido(){ return _apellido; }
-const char* Persona::getLocalidad(){ return _localidad; }
-Fecha Persona::getFechaNacimiento(){ return _fechaNacimiento; }
-int Persona::getEdad(){
+
+int Persona::getDni() const{ return _dni; }
+const char* Persona::getNombre() const{ return _nombre; }
+const char* Persona::getApellido() const{ return _apellido; }
+const char* Persona::getLocalidad() const{ return _localidad; }
+Fecha Persona::getFechaNacimiento() const{ return _fechaNacimiento; }
+int Persona::getEdad() const{
     Fecha fechaActual;
     fechaActual.cargarFechaActual();
-
     int edad = fechaActual.getAnio() - _fechaNacimiento.getAnio();
-
     if (fechaActual.getMes() < _fechaNacimiento.getMes() || (fechaActual.getMes() == _fechaNacimiento.getMes() && fechaActual.getDia() < _fechaNacimiento.getDia())) {
         edad--;
     }
 
     return edad;
 }
-//otros
+
 void Persona::cargarDatos(){
     cout << "\nCargando datos de la persona..." << endl;
     cout << "Ingrese DNI: " << endl;
@@ -58,7 +56,7 @@ void Persona::cargarDatos(){
     cout << "Ingrese Fecha de Nacimiento:" << endl;
     _fechaNacimiento.cargarFecha();
 }
-string Persona::mostrarDatos(){
+string Persona::mostrarDatos() const{
     string datos = string("DNI: ") + to_string(_dni);
     datos += "\nNombre: " + string(_nombre);
     datos += "\nApellido: " + string(_apellido);

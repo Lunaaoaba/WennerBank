@@ -1,45 +1,44 @@
 #include <iostream>
-#include <ctime> // libreria para obtener fecha y hora del sistema
+#include <ctime>
 #include "tiempo.h"
+#include "funciones.h"
 using namespace std;
 
 Tiempo::Tiempo(){
-    _horas = 0;
-    _minutos = 0;
-    _segundos = 0;
+    _hora = 0;
+    _minuto = 0;
+    _segundo = 0;
+}
+Tiempo::Tiempo(int hora, int minuto, int segundo){
+    _hora = hora;
+    _minuto = minuto;
+    _segundo = segundo;
 }
 
-Tiempo::Tiempo(int horas, int minutos, int segundos){
-    _horas = horas;
-    _minutos = minutos;
-    _segundos = segundos;
-}
+void Tiempo::setHora(int hora){ _hora = hora; }
+void Tiempo::setMinuto(int minuto){ _minuto = minuto; }
+void Tiempo::setSegundo(int segundo){ _segundo = segundo; }
 
-int Tiempo::getHoras(){ return _horas; }
-int Tiempo::getMinutos(){ return _minutos; }
-int Tiempo::getSegundos(){ return _segundos; }
-
-void Tiempo::setHoras(int horas){ _horas = horas; }
-void Tiempo::setMinutos(int minutos){ _minutos = minutos; }
-void Tiempo::setSegundos(int segundos){ _segundos = segundos; }
+int Tiempo::getHora() const{ return _hora; }
+int Tiempo::getMinuto() const{ return _minuto; }
+int Tiempo::getSegundo() const{ return _segundo; }
 
 void Tiempo::cargarTiempo(){
-    cout << "Ingrese horas: ";
-    cin >> _horas;
-    cout << "Ingrese minutos: ";
-    cin >> _minutos;
-    cout << "Ingrese segundos: ";
-    cin >> _segundos;
+    cout << "Ingrese hora: ";
+    _hora = validarEntero(0, 23);
+    cout << "Ingrese minuto: ";
+    _minuto = validarEntero(0, 59);
+    cout << "Ingrese segundo: ";
+    _segundo = validarEntero(0, 59);
 }
 void Tiempo::cargarTiempoActual(){
     time_t tiempoCrudo = time(nullptr);
     tm* tiempoLocal = localtime(&tiempoCrudo);
 
-    _horas = tiempoLocal->tm_hour;
-    _minutos = tiempoLocal->tm_min;
-    _segundos = tiempoLocal->tm_sec;
+    _hora = tiempoLocal->tm_hour;
+    _minuto = tiempoLocal->tm_min;
+    _segundo = tiempoLocal->tm_sec;
 }
-
-string Tiempo::mostrarTiempo(){
-    return to_string(_horas) + ":" + to_string(_minutos) + ":" + to_string(_segundos);
+string Tiempo::mostrarTiempo() const{
+    return to_string(_hora) + ":" + to_string(_minuto) + ":" + to_string(_segundo);
 }

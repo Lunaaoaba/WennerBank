@@ -24,6 +24,14 @@ using namespace std;
 // Exepciones marcadas con : (*)
 // ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
 
+/*
+notas rapidas:
+    - Revisar q en empleados nose pq se guardo un dni con dos ceros al final cuando no ingrese eso
+    - validar dsp el mail para q tenga formato correcto
+    - revisar pq no anda eliminarEmpleado, revisar modificarEmpleado tmb
+    - mover todo este menu de pruebas a una funcion en menu.cpp/.h
+    */
+
 int main(){
     SetConsoleCP(437);
     SetConsoleOutputCP(437);
@@ -43,68 +51,106 @@ int main(){
         cout << "---------------------------" << endl;
         cout << "1. Crear Cliente" << endl;
         cout << "2. Listar Clientes" << endl;
-        cout << "3. Borrar Cliente " << endl;
-        cout << "4. Modificar Cliente " << endl;
-        cout << "5. Crear Empleado" << endl;
-        cout << "6. Listar Empleados" << endl;
-        cout << "7. Borrar Empleado" << endl;
-        cout << "8. Modificar Empleado" << endl;
-        cout << "9. Crear Cuenta" << endl;
-        cout << "10. Listar Cuentas" << endl;
-        cout << "11. Salir" << endl << endl;
-        cin >> opcion;
+        cout << "3. Listar TODOS los clientes" << endl;
+        cout << "4. Borrar Cliente " << endl;
+        cout << "5. Restaurar Cliente" << endl;
+        cout << "6. Modificar Cliente " << endl << endl;
+        cout << "7. Crear Empleado" << endl;
+        cout << "8. Listar Empleados" << endl;
+        cout << "9. Listar TODOS los empleados" << endl;
+        cout << "10. Borrar Empleado" << endl;
+        cout << "11. Restaurar Empleado" << endl;
+        cout << "12. Modificar Empleado" << endl << endl;
+        cout << "13. Crear Cuenta (no implementado)" << endl;
+        cout << "14. Listar Cuentas (no implementado)" << endl;
+        cout << "15. Salir" << endl << endl;
+        cout << "Ingrese una opcion: ";
+        opcion = validarEntero(1, 15);
         switch (opcion){
-            case 1:
+            case 1: {
                 system("cls");
                 crearCliente();
                 break;
-            case 2:
+            }
+            case 2: {
                 system("cls");
                 listarClientes();
                 break;
-            case 3:
+            }
+            case 3: {
+                system("cls");
+                listarTodosClientes();
+                break;
+            }
+            case 4: {
                 system("cls");
                 cout << "Borrar Cliente" << endl;
-                // borrarCliente();
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                eliminarCliente(id);
                 break;
-            case 4:
+            }
+            case 5: {
                 system("cls");
                 cout << "Modificar Cliente" << endl;
-                // modificacion();
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                modificarDatosCliente(id);
                 break;
-            case 5:
+            }
+            case 6: {
                 system("cls");
                 crearEmpleado();
                 break;
-            case 6:
+            }
+            case 7: {
                 system("cls");
                 listarEmpleados();
                 break;
-            case 7:
+            }
+            case 8: {
+                system("cls");
+                listarTodosEmpleados();
+                break;
+            }
+            case 9: {
                 system("cls");
                 cout << "Borrar Empleado" << endl;
-                // borrarEmpleado();
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                eliminarEmpleado(id);
                 break;
-            case 8:
+            }
+            case 10: {
                 system("cls");
                 cout << "Modificar Empleado" << endl;
-                // modificarEmpleado();
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                modificarDatosEmpleado(id);
                 break;
-            case 9:
+            }
+            case 11: {
                 system("cls");
-                cout << "Crear Cuenta" << endl;
+                cout << "Crear Cuenta (no implementado)" << endl;
                 // crearCuenta();
                 break;
-            case 10:
+            }
+            case 12: {
                 system("cls");
-                cout << "Listar Cuentas" << endl;
+                cout << "Listar Cuentas (no implementado)" << endl;
                 // listarCuentas();
                 break;
-            case 11:
+            }
+            case 13: {
                 system("cls");
-                cout << "Saliendo del programa..." << endl;
+                cout << "Saliendo del programa..." << endl << "byebye <3" << endl;
                 system("pause");
                 exit(0);
+            }
         }
     system("pause");
     }

@@ -6,6 +6,7 @@ Descripción: Sistema de Gestión Bancaria.
 > este archivo ya lo habia modificado, no se pq no tienen las correcciones q hice anteriormente hace tiempo :V
 ==============================================================
 
+ñ = " << char(164) << "
 ARCHIVOS A UTILIZAR:
 
 --------------------------------------------------------------

@@ -20,13 +20,13 @@ Fecha::Fecha(int dia, int mes, int anio){
     _anio = anio;
 }
 
-int Fecha::getDia(){ return _dia; }
-int Fecha::getMes(){ return _mes; }
-int Fecha::getAnio(){ return _anio; }
-
 void Fecha::setDia(int dia){ _dia = dia; }
 void Fecha::setMes(int mes){ _mes = mes; }
 void Fecha::setAnio(int anio){ _anio = anio; }
+
+int Fecha::getDia() const{ return _dia; }
+int Fecha::getMes() const{ return _mes; }
+int Fecha::getAnio() const{ return _anio; }
 
 void Fecha::cargarFecha(){
     // se ingresa en orden de "año -> mes -> dia" para facilitar la validacion de dias por mes
@@ -63,4 +63,4 @@ void Fecha::cargarFechaActual(){
     _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los años se cuentan desde 1900
 }
 
-string Fecha::mostrarFecha(){ return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }
+string Fecha::mostrarFecha() const { return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }

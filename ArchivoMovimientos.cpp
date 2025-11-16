@@ -96,7 +96,7 @@ void listarTransacciones(){
 // revisar
 bool registrarMovimiento(int idCuentaOrigen, int idCuentaDestino, double monto){
     Transaccion nuevaTransaccion;
-    nuevaTransaccion.setIdTransaccion(generarIdTransaccion());
+    // nuevaTransaccion.setIdTransaccion(generarIdTransaccion());
     nuevaTransaccion.setIdCuentaOrigen(idCuentaOrigen);
     nuevaTransaccion.setIdCuentaDestino(idCuentaDestino);
     nuevaTransaccion.setMonto(monto);

@@ -89,9 +89,9 @@ void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsu
     char mail[50];
     char contrasena[50];
     cout << "Ingresar mail: ";
-    cin >> mail;
+    validarCadena(mail, 50);
     cout << "Ingresar contrase" << char(164) << "a: ";
-    cin >> contrasena;
+    validarCadenaLargo(contrasena, 8, 50);
 
     if(validarLoginCliente(mail, contrasena, clienteEncontrado)){
         sesionActiva = true;
@@ -108,9 +108,9 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
     char contrasena[50];
 
     cout << "Ingresar legajo: ";
-    cin >> legajo;
+    legajo = validarEntero(1, 99999999);
     cout << "Ingresar contrase" << char(164) << "a: ";
-    cin >> contrasena;
+    validarCadenaLargo(contrasena, 8, 50);
 
     if(validarLoginEmpleado(legajo, contrasena, empleadoEncontrado)){
         sesionActiva = true;
@@ -128,13 +128,6 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
     else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
 }
 
-// void modificacion(){
-//     cout << "Modificar Cliente:" << endl;
-//     int id;
-//     cout << "Ingrese el ID del cliente a modificar: ";
-//     id = validarEntero(0, 999999);
-//     modificarCliente(id);
-// }
 // -------------------------------------------------------------------------------------------------------
 
 

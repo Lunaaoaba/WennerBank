@@ -3,18 +3,19 @@
 #include "usuario.h"
 using namespace std;
 
+
 class Cliente : public Usuario{
-    private:
+    protected:
         int _idCliente;
     public:
         Cliente();
         Cliente(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool estado, int idCliente);
-        //get
-        int getIdCliente();
-        //otros
-        void cargarDatos();
-        string mostrarDatos();
+
+        int getIdCliente() const;
+
+        string mostrarDatos() const;
 };
+
 
 class Empleado : public Usuario{
     protected:
@@ -22,11 +23,10 @@ class Empleado : public Usuario{
     public:
         Empleado();
         Empleado(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado,  int legajo);
-        //get
-        int getLegajo();
-        //otros
-        void cargarDatos();
-        string mostrarDatos();
+
+        int getLegajo() const;
+
+        string mostrarDatos() const;
 };
 
 #endif

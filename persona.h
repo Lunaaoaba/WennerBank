@@ -14,25 +14,22 @@ class Persona{
     public:
         Persona();
         Persona(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento);
-        //get
-        int getDni();
-        const char* getNombre();
-        const char* getApellido();
-        const char* getLocalidad();
-        Fecha getFechaNacimiento();
-        int getEdad();
-        //set
+
         void setDni(int dni);
         void setNombre(const char* nombre);
         void setApellido(const char* apellido);
         void setLocalidad(const char* localidad);
         void setFechaNacimiento(Fecha fechaNacimiento);
-        //otros
+
+        int getDni() const;
+        const char* getNombre() const;
+        const char* getApellido() const;
+        const char* getLocalidad() const;
+        Fecha getFechaNacimiento() const;
+        int getEdad() const;
+
         void cargarDatos();
-        string mostrarDatos();
+        string mostrarDatos() const;
 };
-
-
-
 
 #endif

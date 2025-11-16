@@ -2,6 +2,7 @@
 #include "usuario.h"
 #include "ArchivoClientes.h"
 #include "funcionesArchivos.h"
+#include "funciones.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -23,9 +24,9 @@ void Usuario::setMail(const char* mail){ strcpy(_mail, mail);}
 void Usuario::setContrasena(const char* contrasena){ strcpy(_contrasena, contrasena); }
 void Usuario::setUsuarioEliminado(bool UsuarioEliminado){ _UsuarioEliminado = UsuarioEliminado;}
 //getters
-const char* Usuario::getMail(){ return _mail; }
-const char* Usuario::getContrasena(){ return _contrasena; }
-bool Usuario::getUsuarioEliminado(){ return _UsuarioEliminado; }
+const char* Usuario::getMail() const{ return _mail; }
+const char* Usuario::getContrasena() const{ return _contrasena; }
+bool Usuario::getUsuarioEliminado() const{ return _UsuarioEliminado; }
 //otros
 void Usuario::cargarDatos(){
     Persona::cargarDatos();
@@ -36,12 +37,11 @@ void Usuario::cargarDatos(){
         cout << "Ingrese el mail: ";
         cin >> _mail;
     }
-
     cout << "Ingrese la contrase" << char(164) << "a: ";
-    cin >> _contrasena;
+    validarCadenaLargo(_contrasena, 8, 20);
     _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no está eliminado
 }
-string Usuario::mostrarDatos(){
+string Usuario::mostrarDatos() const{
     string datos = Persona::mostrarDatos();
     datos += "\nMail: " + string(_mail);
     // datos que no deberian mostrarse (solo con admin)

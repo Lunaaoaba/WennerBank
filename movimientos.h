@@ -4,6 +4,7 @@
 #include "fecha.h"
 using namespace std;
 
+
 class Transaccion{
     private:
         int _idTransaccion;
@@ -15,24 +16,24 @@ class Transaccion{
     public:
         Transaccion();
         Transaccion(int idTransaccion, int idCuentaOrigen, int idCuentaDestino, double monto, Fecha fechaTransaccion, Tiempo horaTransaccion);
-        //get
-        int getIdTransaccion();
-        int getIdCuentaOrigen();
-        int getIdCuentaDestino();
-        double getMonto();
-        Fecha getFechaTransaccion();
-        Tiempo getHoraTransaccion();
-        //set
-        void setIdTransaccion(int idTransaccion);
+
         void setIdCuentaOrigen(int idCuentaOrigen);
         void setIdCuentaDestino(int idCuentaDestino);
         void setMonto(double monto);
         void setFechaTransaccion(Fecha fechaTransaccion);
         void setHoraTransaccion(Tiempo horaTransaccion);
-        //otros
+
+        int getIdTransaccion() const;
+        int getIdCuentaOrigen() const;
+        int getIdCuentaDestino() const;
+        double getMonto() const;
+        Fecha getFechaTransaccion() const;
+        Tiempo getHoraTransaccion() const;
+
         void cargarDatos();
-        string mostrarDatos();
+        string mostrarDatos() const;
 };
+
 
 class Prestamo{
     private:
@@ -40,14 +41,14 @@ class Prestamo{
         int _idCliente;
         int _legajo;
         double _monto;
-        double _tasaInteres; // porcentaje anual
+        double _tasaInteres;
         Fecha _fechaInicio;
         Fecha _fechaVencimiento;
         bool _prestamoVigente;
     public:
         Prestamo();
         Prestamo(int idPrestamo, int idCliente, int legajo, double monto, double tasaInteres, Fecha fechaInicio, Fecha fechaVencimiento, bool prestamoVigente);
-        //get
+
         int getIdPrestamo();
         int getIdCliente();
         int getLegajo();
@@ -56,7 +57,7 @@ class Prestamo{
         Fecha getFechaInicio();
         Fecha getFechaVencimiento();
         bool getPrestamoVigente();
-        //set
+
         void setIdPrestamo(int idPrestamo);
         void setIdCliente(int idCliente);
         void setLegajo(int legajo);
@@ -65,11 +66,9 @@ class Prestamo{
         void setFechaInicio(Fecha fechaInicio);
         void setFechaVencimiento(Fecha fechaVencimiento);
         void setPrestamoVigente(bool prestamoVigente);
-        //otros
+
         void cargarDatos();
         string mostrarDatos();
 };
-
-
 
 #endif
