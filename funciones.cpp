@@ -128,17 +128,31 @@ void validarCadenaLetras(char* palabra, int maxLength){
         // si e solo letra o espacio o tildes
         bool letra = true;
         size_t largo = strlen(palabra);
-        char caracter;
-        const char* especiales = "áéíóúÁÉÍÓÚñÑ";
-        for (size_t i = 0; i < largo; i++) {
-            caracter = palabra[i];
-            if (!isalpha(caracter) && caracter != ' ' && strchr(especiales, caracter) == nullptr) {
-                letra = false;
-                break; 
-            }
-}
 
+        unsigned char c;
+        for (size_t i = 0; i < largo; i++){
+            c = (unsigned char)palabra[i];
+            // letra normal o espacio
+            if(isalpha(c) || c == ' ') continue;
 
+            if(c == 160) continue;  // á
+            if(c == 130) continue;  // é
+            if(c == 161) continue;  // í
+            if(c == 162) continue;  // ó
+            if(c == 163) continue;  // ú
+
+            if(c == 181) continue;  // Á
+            if(c == 144) continue;  // É
+            if(c == 214) continue;  // Í
+            if(c == 224) continue;  // Ó
+            if(c == 233) continue;  // Ú
+
+            if(c == 164) continue;  // ñ
+            if(c == 165) continue;  // Ñ
+
+            letra = false;
+            break;
+        }
 
         if (!letra) {
             cout << "ERROR: El ingreso solo puede contener letras y espacios." << endl;
@@ -193,6 +207,19 @@ void validarCadenaLargo(char* palabra, int minLength, int maxLength){
     }
 }
 
+char validarSiNo(){
+    char c;
+    while(true){
+        cin >> c;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        
+        if(c == 'S' || c == 's' || c == 'N' || c == 'n'){
+            return c;
+        }
+        cout << "ERROR: Ingrese 'S' para Si o 'N' para No: ";
+    }
+}
+
 // para agregar 0 a la izquierda y un prefijo | uso en mostrarDatos de las clases | ej: Cl-00021
 void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTotal){
     sprintf(resultado, "%s%0*d", prefijo, largoTotal, idNumero);
@@ -202,6 +229,9 @@ void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTo
     * : toma el ancho del siguiente argumento (largoTotal)
     d : indica que es un entero */
 }
+
+
+
 
 // Funcion auxiliar para pausar y limpiar el buffer de entrada
 void pausa(){

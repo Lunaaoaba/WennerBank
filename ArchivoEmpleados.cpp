@@ -2,6 +2,7 @@
 #include "rlutil.h"
 #undef byte
 #include "tipoUsuario.h"
+#include "administrador.h"
 #include "funciones.h"
 #include "ArchivoEmpleados.h"
 #include "funcionesArchivos.h"
@@ -28,8 +29,13 @@ int generarLegajo(){
     FILE* archivo = fopen("empleados.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
+
     Empleado empleadoActual;
-    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1) if(empleadoActual.getLegajo() > maxId) maxId = empleadoActual.getLegajo();
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(empleadoActual.getLegajo() > maxId){
+            maxId = empleadoActual.getLegajo();
+        }
+    }
     fclose(archivo);
     return maxId + 1;
 }
@@ -92,8 +98,7 @@ Empleado crearEmpleado(){
     cout << "----- CONFIRMACION DE DATOS -----" << endl;
     cout << nuevoEmpleado.mostrarDatos() << endl;
     cout << "\nConfirma la creacion del empleado? (S/N): ";
-    char confirmacion;
-    validarCadenaLetras(&confirmacion, 1);
+    char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarEmpleados(nuevoEmpleado)){
             cout << "Empleado creado con exito. Legajo: " << nuevoEmpleado.getLegajo() << endl;
@@ -103,7 +108,6 @@ Empleado crearEmpleado(){
         }
     }
     else cout << "Operacion cancelada." << endl;
-
     return nuevoEmpleado;
 }
 
@@ -125,6 +129,7 @@ int posicionEmpleadoPorLegajo(int legajo){
 
 bool modificarEmpleado(const Empleado& empleadoModificado){
     int pos = posicionEmpleadoPorLegajo(empleadoModificado.getLegajo());
+
     if(pos < 0){
         if(pos == -1){
             cout << "ERROR: No se encontro el empleado con legajo " << empleadoModificado.getLegajo() << "." << endl;
@@ -140,6 +145,7 @@ bool modificarEmpleado(const Empleado& empleadoModificado){
         cout << "ERROR: No se pudo abrir el archivo de empleados para modificar." << endl;
         return false;
     }
+
     fseek(archivo, static_cast<long>(pos) * (long)sizeof(Empleado), SEEK_SET);
     bool exito;
     if (fwrite(&empleadoModificado, sizeof(Empleado), 1, archivo) == 1) exito = true;
@@ -152,7 +158,13 @@ bool modificarEmpleado(const Empleado& empleadoModificado){
 bool modificarDatosEmpleado(int legajo){
     Empleado empleadoAModificar;
 
-        if(!buscarEmpleado("LEGAJO", legajo, empleadoAModificar)){
+    Administrador* admin = Administrador::getInstancia(); 
+    if(admin->getLegajo() == legajo){
+        cout << "ERROR: No se puede alterar este empleado." << endl;
+        return false;
+    }
+
+    if(!buscarEmpleado("LEGAJO", legajo, empleadoAModificar)){
         cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
         return false;
     }
@@ -160,54 +172,63 @@ bool modificarDatosEmpleado(int legajo){
     cout << "Datos actuales del empleado:" << endl;
     cout << empleadoAModificar.mostrarDatos() << endl << endl;
 
-    cout << "Seleccione el dato a modificar:" << endl;
-    cout << "1. Nombre" << endl;
-    cout << "2. Apellido" << endl;
-    cout << "3. Localidad" << endl;
-    cout << "4. Mail" << endl;
-    cout << "5. Contrase" << char(164) << "a" << endl;
-    // dsp cambiar a rlutil
-    int opcion = validarEntero(1, 5);
-    switch(opcion){
-        case 1: {
-            char nuevoNombre[50];
-            cout << "Ingrese el nuevo nombre: ";
-            validarCadenaLetras(nuevoNombre, 50);
-            empleadoAModificar.setNombre(nuevoNombre);
-            break;
-        }
-        case 2: {
-            char nuevoApellido[50];
-            cout << "Ingrese el nuevo apellido: ";
-            validarCadenaLetras(nuevoApellido, 50);
-            empleadoAModificar.setApellido(nuevoApellido);
-            break;
-        }
-        case 3: {
-            char nuevaLocalidad[50];
-            cout << "Ingrese la nueva localidad: ";
-            validarCadenaLetras(nuevaLocalidad, 50);
-            empleadoAModificar.setLocalidad(nuevaLocalidad);
-            break;
-        }
-        case 4: {
-            char nuevoMail[50];
-            cout << "Ingrese el nuevo mail: ";
-            validarCadena(nuevoMail, 50);
-            while(existeMail(nuevoMail)){
-                cout << "ERROR: Mail ya registrado." << endl;
-                cout << "Ingrese el mail: ";
-                validarCadena(nuevoMail, 50);
+    bool continuar = true;
+    while(continuar){
+        cout << "Seleccione el dato a modificar:" << endl;
+        cout << "1. Nombre" << endl;
+        cout << "2. Apellido" << endl;
+        cout << "3. Localidad" << endl;
+        cout << "4. Mail" << endl;
+        cout << "5. Contrase" << char(164) << "a" << endl;
+        cout << "6. Finalizar/Cancelar modificacion" << endl << endl;
+        // dsp cambiar a rlutil
+        int opcion = validarEntero(1, 6);
+        switch(opcion){
+            case 1: {
+                char nuevoNombre[50];
+                cout << "Ingrese el nuevo nombre: ";
+                validarCadenaLetras(nuevoNombre, 50);
+                empleadoAModificar.setNombre(nuevoNombre);
+                break;
             }
-            empleadoAModificar.setMail(nuevoMail);
-            break;
-        }
-        case 5: {
-            char nuevaContrasena[50];
-            cout << "Ingrese la nueva contrase" << char(164) << "a: ";
-            validarCadenaLargo(nuevaContrasena, 8, 50);
-            empleadoAModificar.setContrasena(nuevaContrasena);
-            break;
+            case 2: {
+                char nuevoApellido[50];
+                cout << "Ingrese el nuevo apellido: ";
+                validarCadenaLetras(nuevoApellido, 50);
+                empleadoAModificar.setApellido(nuevoApellido);
+                break;
+            }
+            case 3: {
+                char nuevaLocalidad[50];
+                cout << "Ingrese la nueva localidad: ";
+                validarCadenaLetras(nuevaLocalidad, 50);
+                empleadoAModificar.setLocalidad(nuevaLocalidad);
+                break;
+            }
+            case 4: {
+                char nuevoMail[50];
+                cout << "Ingrese el nuevo mail: ";
+                validarCadena(nuevoMail, 50);
+                while(existeMail(nuevoMail)){
+                    cout << "ERROR: Mail ya registrado." << endl;
+                    cout << "Ingrese el mail: ";
+                    validarCadena(nuevoMail, 50);
+                }
+                empleadoAModificar.setMail(nuevoMail);
+                break;
+            }
+            case 5: {
+                char nuevaContrasena[50];
+                cout << "Ingrese la nueva contrase" << char(164) << "a: ";
+                validarCadenaLargo(nuevaContrasena, 8, 50);
+                empleadoAModificar.setContrasena(nuevaContrasena);
+                break;
+            }
+            case 6: {
+                cout << "Modificacion finalizada..." << endl;
+                continuar = false;
+                break;
+            }
         }
     }
     if(modificarEmpleado(empleadoAModificar)){
@@ -223,6 +244,12 @@ bool modificarDatosEmpleado(int legajo){
 bool eliminarEmpleado(int legajo){
     Empleado empleadoAEliminar;
 
+    Administrador* admin = Administrador::getInstancia(); 
+    if(admin->getLegajo() == legajo){
+        cout << "ERROR: No se puede alterar este empleado." << endl;
+        return false;
+    }
+
     if(!buscarEmpleado("LEGAJO", legajo, empleadoAEliminar)){
         cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
         return false;
@@ -231,15 +258,27 @@ bool eliminarEmpleado(int legajo){
         cout << "ERROR: El empleado con legajo " << legajo << " ya se encuentra eliminado." << endl;
         return false;
     }
-    empleadoAEliminar.setUsuarioEliminado(true);
-    if(modificarEmpleado(empleadoAEliminar)){
-        cout << "Empleado con legajo " << legajo << " eliminado correctamente." << endl;
-        return true;
+    system("cls");
+    cout << "----- CONFIRMACION DE DATOS -----" << endl;
+    cout << "Empleado a eliminar:" << endl;
+    cout << empleadoAEliminar.mostrarDatos() << endl;
+    cout << "\nConfirma la eliminacion del empleado? (S/N): ";
+
+    char confirmacion = validarSiNo();
+    if(confirmacion == 'S' || confirmacion == 's'){
+        empleadoAEliminar.setUsuarioEliminado(true);
+        if(modificarEmpleado(empleadoAEliminar)){
+            cout << "Empleado con legajo " << legajo << " eliminado correctamente." << endl;
+            return true;
+        }
+        else{
+            cout << "ERROR: No se pudo eliminar el empleado con legajo " << legajo << "." << endl;
+            return false;
+        }
     }
-    else{
-        cout << "ERROR: No se pudo eliminar el empleado con legajo " << legajo << "." << endl;
-        return false;
-    }
+    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
+    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    return false;
 }
 
 bool restaurarEmpleado(int legajo){
@@ -275,13 +314,13 @@ void listarEmpleados(){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return;
     }
-    Empleado reg;
+    Empleado empleadoActual;
     int i = 0;
     cout << "Listado de Empleados:" << endl;
     cout << "---------------------" << endl;
-    while (fread(&reg, sizeof(Empleado), 1, archivo) == 1){
-        if(!reg.getUsuarioEliminado()){
-            cout << reg.mostrarDatos() << endl;
+    while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(!empleadoActual.getUsuarioEliminado()){
+            cout << empleadoActual.mostrarDatos() << endl;
             i++;
             cout << "---------------------" << endl;
         }
@@ -300,12 +339,13 @@ void listarTodosEmpleados(){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return;
     }
-    Empleado reg;
+    Empleado empleadoActual;
     int i = 0;
     cout << "Listado de Empleados:" << endl;
     cout << "---------------------" << endl;
-    while (fread(&reg, sizeof(Empleado), 1, archivo) == 1){
-        cout << reg.mostrarDatos() << endl;
+    while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        cout << empleadoActual.mostrarDatos() << endl;
+        if(empleadoActual.getUsuarioEliminado()) cout << "[ EMPLEADO ELIMINADO ]" << endl;
         i++;
         cout << "---------------------" << endl;
     }
@@ -317,6 +357,7 @@ void listarTodosEmpleados(){
     fclose(archivo);
 }
 
+//SOBRECARGA - el q usa int: (ID, DNI, EDAD)
 bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
@@ -325,7 +366,6 @@ bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     }
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Empleado), 1, archivo)){
-        if(encontrado.getUsuarioEliminado()) continue;
         if(strcmp(criterio, "LEGAJO") == 0){
             if(encontrado.getLegajo() == valor) seEncontro = true;
         }
@@ -343,6 +383,7 @@ bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     return seEncontro;
 }
 
+//SOBRECARGA - el q usa char: (NOMBRE, APELLIDO, LOCALIDAD)
 bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){

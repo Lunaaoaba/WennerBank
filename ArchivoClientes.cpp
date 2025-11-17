@@ -28,20 +28,24 @@ int generarIdCliente(){
     FILE* archivo = fopen("clientes.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
+
     Cliente clienteActual;
-    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1) if(clienteActual.getIdCliente() > maxId) maxId = clienteActual.getIdCliente();
+    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
+        if(clienteActual.getIdCliente() > maxId){
+            maxId = clienteActual.getIdCliente();
+        }
+    }
     fclose(archivo);
     return maxId + 1;
 }
 
-// nota: marco los pasos asi se entiende, para la entrega lo borro
+// poner while para q repita todo si hay error en algun dato
 Cliente crearCliente(){
-    // 1. pedir datos
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
     int dni, idCliente;
     Fecha fechaNacimiento;
     bool estado = false;
-    // 2. ingreso de datos con validacion
+
     system("cls");
     cout << "----- CREACION DE NUEVO CLIENTE -----" << endl;
     cout << "Primer paso, ingrese sus datos:" << endl << endl;
@@ -69,9 +73,9 @@ Cliente crearCliente(){
     }
     cout << "Ingrese Contrase" << char(164) << "a: ";
     validarCadenaLargo(contrasena, 8, 50);
-    // 3. generar el id unico
+
     idCliente = generarIdCliente();
-    // 4. crear el objeto / nuevo cliente (dsp lo meto en una linea, ahora lo dejo asi para q se vea mejor)
+
     Cliente nuevoCliente(
         dni,
         nombre,
@@ -83,19 +87,19 @@ Cliente crearCliente(){
         estado,
         idCliente
     );
-    // 5. validar mayoria de edad (no se hace al ingresar la fecha pq para ese entonces no esta el objeto creado)
+
     int edad = nuevoCliente.getEdad();
     if(edad < 18){
         cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " a" << char(164) << "os)." << endl;
-        return Cliente(); // cliente vacio
+        return Cliente();
     }
-    // 6. mostrar y confirmar datos
+
     system("cls");
     cout << "----- CONFIRMACION DE DATOS -----" << endl;
     cout << nuevoCliente.mostrarDatos() << endl;
     cout << "\nConfirma la creacion del cliente? (S/N): ";
-    char confirmacion;
-    validarCadenaLetras(&confirmacion, 1);
+
+    char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarClientes(nuevoCliente)){
             cout << "Cliente creado con exito." << endl;
@@ -105,7 +109,6 @@ Cliente crearCliente(){
         }
     }
     else cout << "Operacion cancelada." << endl;
-    // 7. devolucion del cliente vacio o con datos segun confirmacion
     return nuevoCliente;
 }
 
@@ -127,10 +130,9 @@ int posicionClientePorId(int idCliente){
 }
 
 bool modificarCliente(const Cliente& clienteModificado){
-    // saca la posicion del cliente con la funcion anterior
     int pos = posicionClientePorId(clienteModificado.getIdCliente());
-    cout << "POSICION DEL CLIENTE: " << pos << endl;
-    if(pos == 0){ // "cliente" Banco, no debe modificarse
+
+    if(clienteModificado.getIdCliente() == 1){
         cout << "ERROR: No se puede alterar este cliente." << endl;
         return false;
     }
@@ -144,13 +146,12 @@ bool modificarCliente(const Cliente& clienteModificado){
             return false;
         }
     }
-    // abre el archivo en lectura/escritura
     FILE* archivo = fopen("clientes.dat", "rb+");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes para modificar." << endl;
         return false;
     }
-    // escribe en la posicion correspondiente (pos*sizeof hace q se mueva a la posicion del registro, SEEK_SET desde el inicio del archivo)
+
     fseek(archivo, static_cast<long>(pos) * (long)sizeof(Cliente), SEEK_SET);
     bool exito;
     if (fwrite(&clienteModificado, sizeof(Cliente), 1, archivo) == 1) exito = true;
@@ -163,12 +164,17 @@ bool modificarCliente(const Cliente& clienteModificado){
 bool modificarDatosCliente(int idCliente){
     Cliente clienteAModificar;
 
+    if(idCliente == 1){
+        cout << "ERROR: No se puede alterar este cliente." << endl;
+        return false;
+    }
+
     if(!buscarCliente("ID", idCliente, clienteAModificar)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return false;
     }
-    if(idCliente == 1){ // "cliente" Banco, no debe modificarse
-        cout << "ERROR: No se puede alterar este cliente." << endl;
+    if(clienteAModificar.getUsuarioEliminado()){
+        cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return false;
     }
     system("cls");
@@ -231,6 +237,7 @@ bool modificarDatosCliente(int idCliente){
                 break;
             }
         }
+        break;
     }
     if(modificarCliente(clienteAModificar)){
         cout << "Cliente modificado correctamente." << endl;
@@ -244,32 +251,33 @@ bool modificarDatosCliente(int idCliente){
 
 bool eliminarCliente(int idCliente){
     Cliente clienteAEliminar;
-    // busca el cliente por id
+
+    if(idCliente == 1){
+        cout << "ERROR: No se puede eliminar el cliente Banco (ID=1)." << endl;
+        return false;
+    }
+
     if(!buscarCliente("ID", idCliente, clienteAEliminar)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return false;
     }
-    // se fija si ya esta eliminado
+
     if(clienteAEliminar.getUsuarioEliminado()){
         cout << "ERROR: El cliente con ID " << idCliente << " ya se encuentra eliminado." << endl;
         return false;
     }
-    // mostrar datos
-    
+
     system("cls");
     cout << "----- CONFIRMACION DE DATOS -----" << endl;
     cout << "Cliente a eliminar:" << endl;
     cout << clienteAEliminar.mostrarDatos() << endl;
     cout << "\nConfirma la eliminacion del cliente? (S/N): ";
-    char confirmacion;
-    validarCadenaLetras(&confirmacion, 1);
-    if(confirmacion == 'S' || confirmacion == 's'){
-        // marca el cliente como eliminado
-        clienteAEliminar.setUsuarioEliminado(true);
 
-            // modifica el cliente en el archivo
+    char confirmacion = validarSiNo();
+    if(confirmacion == 'S' || confirmacion == 's'){
+        clienteAEliminar.setUsuarioEliminado(true);
         if(modificarCliente(clienteAEliminar)){
-            cout << "Cliente con ID " << idCliente << " eliminado correctamente." << endl;
+            cout << "Cliente con ID " << clienteAEliminar.getIdCliente() << " eliminado correctamente." << endl;
             return true;
         }
         else{
@@ -282,7 +290,6 @@ bool eliminarCliente(int idCliente){
     return false;
 }
 
-// misma logica que eliminar pero al reves
 bool restaurarCliente(int idCliente){
     Cliente clienteARestaurar;
     if(!buscarCliente("ID", idCliente, clienteARestaurar)){
@@ -293,15 +300,27 @@ bool restaurarCliente(int idCliente){
         cout << "ERROR: El cliente con ID " << idCliente << " se encuentra activo." << endl;
         return false;
     }
-    clienteARestaurar.setUsuarioEliminado(false);
-    if(modificarCliente(clienteARestaurar)){
-        cout << "Cliente con ID " << idCliente << " restaurado correctamente." << endl;
-        return true;
+    system("cls");
+    cout << "----- CONFIRMACION DE DATOS -----" << endl;
+    cout << "Cliente a restaurar:" << endl;
+    cout << clienteARestaurar.mostrarDatos() << endl;
+    cout << "\nConfirma la restauracion del cliente? (S/N): ";
+
+    char confirmacion = validarSiNo();
+    if(confirmacion == 'S' || confirmacion == 's'){
+        clienteARestaurar.setUsuarioEliminado(false);
+        if(modificarCliente(clienteARestaurar)){
+            cout << "Cliente con ID " << clienteARestaurar.getIdCliente() << " restaurado correctamente." << endl;
+            return true;
+        }
+        else{
+            cout << "ERROR: No se pudo restaurar el cliente con ID " << idCliente << "." << endl;
+            return false;
+        }
     }
-    else{
-        cout << "ERROR: No se pudo restaurar el cliente con ID " << idCliente << "." << endl;
-        return false;
-    }
+    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
+    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    return false;
 }
 
 // ------ FUNCIONES PARA EL CLIENTE ------
@@ -319,18 +338,18 @@ void listarClientes(){
     Cliente clienteActual;
     int i = 0;
     cout << "Listado de Clientes:" << endl;
-    cout << "---------------------" << endl;
+    cout << "---------------------" << endl << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
-        // ya le meti el filtro de eliminados era una boludez
         if(!clienteActual.getUsuarioEliminado()){
+            cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
             cout << clienteActual.mostrarDatos() << endl;
             i++;
-            cout << "---------------------" << endl;
+            cout << endl << "---------------------" << endl << endl;
         }
     }
     if(i == 0){
         cout << "ERROR: No hay clientes registrados." << endl;
-        cout << "---------------------" << endl;
+        cout << "---------------------" << endl << endl;
         system("pause");
     }
     cout << "Total de clientes: " << i << endl;
@@ -349,17 +368,10 @@ void listarTodosClientes(){
     cout << "Listado de Clientes:" << endl;
     cout << "---------------------" << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
-        if(!clienteActual.getUsuarioEliminado()){
-            cout << clienteActual.mostrarDatos() << endl;
-            i++;
-            cout << "---------------------" << endl;
-        }
-        if(clienteActual.getUsuarioEliminado()){
-            cout << clienteActual.mostrarDatos() << endl;
-            i++;
-            cout << "[ CLIENTE ELIMINADO ]";
-            cout << "---------------------" << endl;
-        }
+        cout << clienteActual.mostrarDatos() << endl;
+        if(clienteActual.getUsuarioEliminado()) cout << "[ CLIENTE ELIMINADO ]" << endl;
+        i++;
+        cout << "---------------------" << endl;
     }
     if(i == 0){
         cout << "ERROR: No hay clientes registrados." << endl;
@@ -370,10 +382,7 @@ void listarTodosClientes(){
     fclose(archivo);
 }
 
-// como las busquedas usan todas el mismo patron, las agrupe en una funcion:
-// le mande sobrecarga mas q nada pq sirve ya q es uno de los criterios evaluativos
-// las q son "texto" usan la version de char y los q son numeros usan la de int
-//SOBRECARGA - el q usa int: (ID, DNI, FECHA_NACIMIENTO, EDAD)
+//SOBRECARGA - el q usa int: (ID, DNI, EDAD)
 bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
@@ -382,7 +391,6 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
     }
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Cliente), 1, archivo) == 1){
-        // comparaciones
         if(strcmp(criterio, "ID") == 0){
             if(encontrado.getIdCliente() == valor) seEncontro = true;
         }
