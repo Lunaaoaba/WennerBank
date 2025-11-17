@@ -27,7 +27,6 @@ using namespace std;
 /*
 notas rapidas:
     - validar dsp el mail para q tenga formato correcto
-    - validar el uso de tildes al cargar cadenas de letras (con codigo ascii o con la letra directamente, ver cual funciona mejor)
     */
 
 int main(){
