@@ -39,88 +39,77 @@ int generarIdCliente(){
     return maxId + 1;
 }
 
+// poner while para q repita todo si hay error en algun dato
 Cliente crearCliente(){
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
     int dni, idCliente;
     Fecha fechaNacimiento;
     bool estado = false;
-    bool datosValidos = false;
 
-    while(!datosValidos){
-        system("cls");
-        cout << "----- CREACION DE NUEVO CLIENTE -----" << endl;
-        cout << "Primer paso, ingrese sus datos:" << endl << endl;
-        cout << "Ingrese DNI: ";
+    system("cls");
+    cout << "----- CREACION DE NUEVO CLIENTE -----" << endl;
+    cout << "Primer paso, ingrese sus datos:" << endl << endl;
+    cout << "Ingrese DNI: ";
+    dni = validarEntero(1000000, 99999999);
+    while(existeDni(dni)){
+        cout << "ERROR: DNI ya registrado." << endl;
+        cout << "Ingrese el DNI: ";
         dni = validarEntero(1000000, 99999999);
-        while(existeDni(dni)){
-            cout << "ERROR: DNI ya registrado." << endl;
-            cout << "Ingrese el DNI: ";
-            dni = validarEntero(1000000, 99999999);
-        }
-        cout << "Ingrese Nombre: ";
-        validarCadenaLetras(nombre, 50);
-        cout << "Ingrese Apellido: ";
-        validarCadenaLetras(apellido, 50);
-        cout << "Ingrese Localidad: ";
-        validarCadenaLetras(localidad, 50);
-        cout << "Ingrese Fecha de Nacimiento:" << endl;
-        fechaNacimiento.cargarFecha();
-        cout << "Ingrese Mail: ";
+    }
+    cout << "Ingrese Nombre: ";
+    validarCadenaLetras(nombre, 50);
+    cout << "Ingrese Apellido: ";
+    validarCadenaLetras(apellido, 50);
+    cout << "Ingrese Localidad: ";
+    validarCadenaLetras(localidad, 50);
+    cout << "Ingrese Fecha de Nacimiento:" << endl;
+    fechaNacimiento.cargarFecha();
+    cout << "Ingrese Mail: ";
+    validarCadena(mail, 50);
+    while(existeMail(mail)){
+        cout << "ERROR: Mail ya registrado." << endl;
+        cout << "Ingrese el mail: ";
         validarCadena(mail, 50);
-        while(existeMail(mail)){
-            cout << "ERROR: Mail ya registrado." << endl;
-            cout << "Ingrese el mail: ";
-            validarCadena(mail, 50);
-        }
-        cout << "Ingrese Contrase" << char(164) << "a: ";
-        validarCadenaLargo(contrasena, 8, 50);
+    }
+    cout << "Ingrese Contrase" << char(164) << "a: ";
+    validarCadenaLargo(contrasena, 8, 50);
 
-        idCliente = generarIdCliente();
+    idCliente = generarIdCliente();
 
-        Cliente nuevoCliente(
-            dni,
-            nombre,
-            apellido,
-            localidad,
-            fechaNacimiento,
-            mail,
-            contrasena,
-            estado,
-            idCliente
-        );
+    Cliente nuevoCliente(
+        dni,
+        nombre,
+        apellido,
+        localidad,
+        fechaNacimiento,
+        mail,
+        contrasena,
+        estado,
+        idCliente
+    );
 
-        int edad = nuevoCliente.getEdad();
-        if(edad < 18){
-            cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " a" << char(164) << "os)." << endl;
-            cout << "Desea intentar nuevamente? (S/N): ";
-            char reintentar = validarSiNo();
-            if(reintentar == 'N' || reintentar == 'n'){
-                return Cliente();
-            }
-            continue;
-        }
+    int edad = nuevoCliente.getEdad();
+    if(edad < 18){
+        cout << "ERROR: El cliente debe ser mayor de edad (actual: " << edad << " a" << char(164) << "os)." << endl;
+        return Cliente();
+    }
 
-        system("cls");
-        cout << "----- CONFIRMACION DE DATOS -----" << endl;
-        cout << nuevoCliente.mostrarDatos() << endl;
-        cout << "\nConfirma la creacion del cliente? (S/N): ";
+    system("cls");
+    cout << "----- CONFIRMACION DE DATOS -----" << endl;
+    cout << nuevoCliente.mostrarDatos() << endl;
+    cout << "\nConfirma la creacion del cliente? (S/N): ";
 
-        char confirmacion = validarSiNo();
-        if(confirmacion == 'S' || confirmacion == 's'){
-            if(guardarClientes(nuevoCliente)){
-                cout << "Cliente creado con exito." << endl;
-            }
-            else{
-                cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
-            }
-            return nuevoCliente;
+    char confirmacion = validarSiNo();
+    if(confirmacion == 'S' || confirmacion == 's'){
+        if(guardarClientes(nuevoCliente)){
+            cout << "Cliente creado con exito." << endl;
         }
         else{
-            cout << "Operacion cancelada." << endl;
-            return Cliente();
+            cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
         }
     }
-    return Cliente();
+    else cout << "Operacion cancelada." << endl;
+    return nuevoCliente;
 }
 
 // despues rehacer para q use sobrecarga y funcione como buscarCliente
