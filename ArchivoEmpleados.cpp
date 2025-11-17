@@ -45,6 +45,11 @@ Empleado crearEmpleado(){
     cout << "Primer paso, ingresar datos del nuevo empleado:" << endl << endl;
     cout << "Ingrese DNI: ";
     dni = validarEntero(1000000, 99999999);
+    while(existeDni(dni)){
+        cout << "ERROR: DNI ya registrado." << endl;
+        cout << "Ingrese el DNI: ";
+        dni = validarEntero(1000000, 99999999);
+    }
     cout << "Ingrese Nombre: ";
     validarCadenaLetras(nombre, 50);
     cout << "Ingrese Apellido: ";
@@ -135,7 +140,7 @@ bool modificarEmpleado(const Empleado& empleadoModificado){
         cout << "ERROR: No se pudo abrir el archivo de empleados para modificar." << endl;
         return false;
     }
-    fseek(archivo, (long)pos * sizeof(Empleado), SEEK_SET);
+    fseek(archivo, static_cast<long>(pos) * (long)sizeof(Empleado), SEEK_SET);
     bool exito;
     if (fwrite(&empleadoModificado, sizeof(Empleado), 1, archivo) == 1) exito = true;
     else exito = false;
@@ -321,7 +326,7 @@ bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Empleado), 1, archivo)){
         if(encontrado.getUsuarioEliminado()) continue;
-        if(strcmp(criterio, "ID") == 0){
+        if(strcmp(criterio, "LEGAJO") == 0){
             if(encontrado.getLegajo() == valor) seEncontro = true;
         }
         else if(strcmp(criterio, "DNI") == 0) {

@@ -2,6 +2,7 @@
 #define MENU_H
 
 
+void menuTest();
 // ---------------------------
 // |   NUCLEO DEL PROGRAMA   |
 // ---------------------------

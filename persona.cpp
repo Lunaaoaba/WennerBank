@@ -39,7 +39,6 @@ int Persona::getEdad() const{
     if (fechaActual.getMes() < _fechaNacimiento.getMes() || (fechaActual.getMes() == _fechaNacimiento.getMes() && fechaActual.getDia() < _fechaNacimiento.getDia())) {
         edad--;
     }
-
     return edad;
 }
 

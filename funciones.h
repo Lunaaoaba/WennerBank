@@ -7,6 +7,7 @@
 int validarEntero(int min, int max);
 double validarDouble(double min, double max);
 
+void validarCadenaNumeros(char* numero, int min, int max);
 void validarCadenaLetras(char* palabra, int maxLength);
 void validarCadena(char* palabra, int maxLength);
 void validarCadenaLargo(char* palabra, int minLength, int maxLength);
@@ -17,7 +18,7 @@ void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTo
 // pausa y limpia el buffer de entrada
 void pausa();
 
-// limpia la entrada después de un error de cin
+// limpia la entrada despues de un error de cin
 void limpiarEntrada();
 
 #endif

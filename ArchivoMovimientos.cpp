@@ -131,7 +131,7 @@ bool registrarMovimiento(int idCuentaOrigen, int idCuentaDestino, double monto){
 //         if(modificarCuenta(cuentaDestino)){ // aca da error
 //             return registrarMovimiento(0, idCuenta, monto);
 //         } else {
-//             cout << "ERROR: El deposito se realizó en memoria pero no se pudo guardar el saldo en el archivo." << endl;
+//             cout << "ERROR: El deposito se realizo en memoria pero no se pudo guardar el saldo en el archivo." << endl;
 //             return false;
 //         }
 //     }
@@ -152,7 +152,7 @@ bool registrarMovimiento(int idCuentaOrigen, int idCuentaDestino, double monto){
 //         if(modificarCuenta(cuentaOrigen)){
 //             return registrarMovimiento(idCuenta, 0, monto);
 //         } else {
-//             cout << "ERROR: El retiro se realizó en memoria pero no se pudo guardar el saldo en el archivo." << endl;
+//             cout << "ERROR: El retiro se realizo en memoria pero no se pudo guardar el saldo en el archivo." << endl;
 //             return false;
 //         }
 //     }
@@ -199,7 +199,7 @@ bool registrarMovimiento(int idCuentaOrigen, int idCuentaDestino, double monto){
 //     }
 
 //     if(!modificarCuenta(cuentaOrigen) || !modificarCuenta(cuentaDestino)){
-//         cout << "ADVERTENCIA: Transferencia de saldo exitosa, pero falló al guardar una o ambas cuentas en archivo." << endl;
+//         cout << "ADVERTENCIA: Transferencia de saldo exitosa, pero fallo al guardar una o ambas cuentas en archivo." << endl;
 //         return false;
 //     }
 

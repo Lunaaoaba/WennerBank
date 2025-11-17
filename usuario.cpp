@@ -39,7 +39,7 @@ void Usuario::cargarDatos(){
     }
     cout << "Ingrese la contrase" << char(164) << "a: ";
     validarCadenaLargo(_contrasena, 8, 20);
-    _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no está eliminado
+    _UsuarioEliminado = false; // Por defecto, al cargar un usuario, no esta eliminado
 }
 string Usuario::mostrarDatos() const{
     string datos = Persona::mostrarDatos();

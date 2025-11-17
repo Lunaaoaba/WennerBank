@@ -24,6 +24,7 @@ int validarEntero(int min, int max){
     }
 }
 
+
 // valida q sea un numero con max 2 decimales (XXX.XX)
 bool esMonedaValida(const string& ingreso){
     int puntos = 0;
@@ -32,18 +33,18 @@ bool esMonedaValida(const string& ingreso){
     for(size_t i = 0; i < ingreso.length(); i++){
         if(ingreso[i] == '.'){
             puntos++;
-            posicion_punto = i;
+            posicion_punto = static_cast<int>(i);
         }
         else if(!isdigit(ingreso[i])){
-            return false; // No es dígito ni punto
+            return false; // No es digito ni punto
         }
     }
     // max 1 punto (separador decimal)
     if(puntos > 1) return false;
     // si hay punto, max 2 digitos despues
     if(puntos == 1){
-        int digitos_despues = ingreso.length() - posicion_punto - 1;
-        if(digitos_despues > 2) return false; // Más de 2 decimales
+        int digitos_despues = static_cast<int>(ingreso.length()) - posicion_punto - 1;
+        if(digitos_despues > 2) return false; // Mas de 2 decimales
         if(digitos_despues == 0) return false; // Punto al final (ej: "100.")
     }
     return true;
@@ -59,11 +60,11 @@ double validarDouble(double min, double max){
             continue;
         }
         if(!esMonedaValida(ingreso)){
-            cout << "Error: solo se aceptan valores con máximo de 2 decimales (ej: XXX.XX)" << endl;
+            cout << "Error: solo se aceptan valores con maximo de 2 decimales (ej: XXX.XX)" << endl;
             continue;
         }
         double valor = stod(ingreso);
-
+        
         if (valor < min || valor > max) {
             cout << "Error: El valor del saldo debe estar entre " << min << " y " << max << "." << endl;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -74,6 +75,39 @@ double validarDouble(double min, double max){
     }
 }
 
+void validarCadenaNumeros(char* numero, int min, int max){
+    while(true){
+        cin.getline(numero, max + 1);
+        if(cin.fail()){
+            cout << "ERROR: El ingreso es demasiado largo (maximo " << max - 1 << " caracteres)." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        size_t largo = strlen(numero);
+        if((int)largo < min){
+            cout << "ERROR: El ingreso debe tener al menos " << min << " caracteres." << endl;
+            continue;
+        }
+        if(largo == 0){
+            cout << "ERROR: El ingreso no puede estar vacio." << endl;
+            continue;
+        }
+        bool soloNumero = true;
+        for (size_t i = 0; i < strlen(numero); i++) {
+            if (!(isdigit(numero[i]))){
+                soloNumero = false;
+                break;
+            }
+        }
+        if (!soloNumero) {
+            cout << "ERROR: El ingreso solo puede contener numeros." << endl;
+            continue;
+        }
+        break;
+    }
+}
+
 // maxLength +1 de lo que se quiere para el \0
 // version que solo acepta letras y espacios (para nombres, apellidos, localidades, etc)
 void validarCadenaLetras(char* palabra, int maxLength){
@@ -81,29 +115,36 @@ void validarCadenaLetras(char* palabra, int maxLength){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacío." << endl;
+            cout << "ERROR: El ingreso no puede estar vacio." << endl;
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (máximo " << maxLength - 1 << " caracteres)." << endl;
+            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
-        // si e solo letra 
+        // si e solo letra o espacio o tildes
         bool letra = true;
-        for (int i = 0; i < strlen(palabra); i++) {
-            if (!(isalpha(palabra[i]) || palabra[i] == ' ')) {
+        size_t largo = strlen(palabra);
+        char caracter;
+        const char* especiales = "áéíóúÁÉÍÓÚñÑ";
+        for (size_t i = 0; i < largo; i++) {
+            caracter = palabra[i];
+            if (!isalpha(caracter) && caracter != ' ' && strchr(especiales, caracter) == nullptr) {
                 letra = false;
-                break;
+                break; 
             }
-        }
+}
+
+
+
         if (!letra) {
             cout << "ERROR: El ingreso solo puede contener letras y espacios." << endl;
             continue;
         }
-    break;
+        break;
     }
 }
 
@@ -113,17 +154,17 @@ void validarCadena(char* palabra, int maxLength){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacío." << endl;
+            cout << "ERROR: El ingreso no puede estar vacio." << endl;
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (máximo " << maxLength - 1 << " caracteres)." << endl;
+            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
-    break;
+        break;
     }
 }
 
@@ -133,22 +174,22 @@ void validarCadenaLargo(char* palabra, int minLength, int maxLength){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacío." << endl;
+            cout << "ERROR: El ingreso no puede estar vacio." << endl;
             continue;
         }
         // si no llega al minimo
-        if(strlen(palabra) < minLength){
+        if(strlen(palabra) < (size_t)minLength){
             cout << "ERROR: El ingreso debe tener al menos " << minLength << " caracteres." << endl;
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (máximo " << maxLength - 1 << " caracteres)." << endl;
+            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
-    break;
+        break;
     }
 }
 
@@ -162,14 +203,14 @@ void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTo
     d : indica que es un entero */
 }
 
-// Función auxiliar para pausar y limpiar el buffer de entrada
+// Funcion auxiliar para pausar y limpiar el buffer de entrada
 void pausa(){
     cout << "\n...";
     cin.ignore(10000, '\n');
     cin.get();
 }
 
-// Función auxiliar para limpiar la entrada después de un error de cin
+// Funcion auxiliar para limpiar la entrada despues de un error de cin
 void limpiarEntrada(){
     cin.clear(); // LIMPIA EL ESTADO DE ERROR DEL CIN
     cin.ignore(10000, '\n'); // LIMPIA EL BUFFER DE ENTRADA

@@ -4,6 +4,7 @@
 
 void iniciarArchivos();
 bool existeMail(const char* mail);
+bool existeDni(int dni);
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado);
 bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleadoEncontrado);
 

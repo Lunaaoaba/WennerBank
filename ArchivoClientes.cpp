@@ -47,6 +47,11 @@ Cliente crearCliente(){
     cout << "Primer paso, ingrese sus datos:" << endl << endl;
     cout << "Ingrese DNI: ";
     dni = validarEntero(1000000, 99999999);
+    while(existeDni(dni)){
+        cout << "ERROR: DNI ya registrado." << endl;
+        cout << "Ingrese el DNI: ";
+        dni = validarEntero(1000000, 99999999);
+    }
     cout << "Ingrese Nombre: ";
     validarCadenaLetras(nombre, 50);
     cout << "Ingrese Apellido: ";
@@ -93,7 +98,7 @@ Cliente crearCliente(){
     validarCadenaLetras(&confirmacion, 1);
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarClientes(nuevoCliente)){
-            cout << "Cliente creado con exito. ID Cliente: " << endl;
+            cout << "Cliente creado con exito." << endl;
         }
         else{
             cout << "ERROR: No se pudo guardar el nuevo cliente." << endl;
@@ -124,6 +129,11 @@ int posicionClientePorId(int idCliente){
 bool modificarCliente(const Cliente& clienteModificado){
     // saca la posicion del cliente con la funcion anterior
     int pos = posicionClientePorId(clienteModificado.getIdCliente());
+    cout << "POSICION DEL CLIENTE: " << pos << endl;
+    if(pos == 0){ // "cliente" Banco, no debe modificarse
+        cout << "ERROR: No se puede alterar este cliente." << endl;
+        return false;
+    }
     if(pos < 0){
         if(pos == -1){
             cout << "ERROR: No se encontro el cliente con ID " << clienteModificado.getIdCliente() << "." << endl;
@@ -141,7 +151,7 @@ bool modificarCliente(const Cliente& clienteModificado){
         return false;
     }
     // escribe en la posicion correspondiente (pos*sizeof hace q se mueva a la posicion del registro, SEEK_SET desde el inicio del archivo)
-    fseek(archivo, (long)pos * sizeof(Cliente), SEEK_SET);
+    fseek(archivo, static_cast<long>(pos) * (long)sizeof(Cliente), SEEK_SET);
     bool exito;
     if (fwrite(&clienteModificado, sizeof(Cliente), 1, archivo) == 1) exito = true;
     else exito = false;
@@ -153,8 +163,12 @@ bool modificarCliente(const Cliente& clienteModificado){
 bool modificarDatosCliente(int idCliente){
     Cliente clienteAModificar;
 
-        if(!buscarCliente("ID", idCliente, clienteAModificar)){
+    if(!buscarCliente("ID", idCliente, clienteAModificar)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
+        return false;
+    }
+    if(idCliente == 1){ // "cliente" Banco, no debe modificarse
+        cout << "ERROR: No se puede alterar este cliente." << endl;
         return false;
     }
     system("cls");
@@ -168,7 +182,7 @@ bool modificarDatosCliente(int idCliente){
         cout << "3. Localidad" << endl;
         cout << "4. Mail" << endl;
         cout << "5. Contrase" << char(164) << "a" << endl;
-        cout << "6. Finalizar/Cancelar modificación" << endl << endl;
+        cout << "6. Finalizar/Cancelar modificacion" << endl << endl;
         // dsp cambiar a rlutil
         int opcion = validarEntero(1, 6);
         switch(opcion){
@@ -246,7 +260,7 @@ bool eliminarCliente(int idCliente){
     cout << "----- CONFIRMACION DE DATOS -----" << endl;
     cout << "Cliente a eliminar:" << endl;
     cout << clienteAEliminar.mostrarDatos() << endl;
-    cout << "\nConfirma la creacion del cliente? (S/N): ";
+    cout << "\nConfirma la eliminacion del cliente? (S/N): ";
     char confirmacion;
     validarCadenaLetras(&confirmacion, 1);
     if(confirmacion == 'S' || confirmacion == 's'){
@@ -263,11 +277,9 @@ bool eliminarCliente(int idCliente){
             return false;
         }
     }
-    else cout << "Operacion cancelada." << endl;
-
-
-
-
+    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
+    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    return false;
 }
 
 // misma logica que eliminar pero al reves
@@ -369,9 +381,7 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
         return false;
     }
     bool seEncontro = false;
-    while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
-        // se skipea al eliminado por gil
-        if(encontrado.getUsuarioEliminado()) continue;
+    while(fread(&encontrado, sizeof(Cliente), 1, archivo) == 1){
         // comparaciones
         if(strcmp(criterio, "ID") == 0){
             if(encontrado.getIdCliente() == valor) seEncontro = true;
@@ -398,9 +408,7 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
         return false;
     }
     bool seEncontro = false;
-    while(fread(&encontrado, sizeof(Cliente), 1, archivo)){
-        // se skipea al eliminado por gil
-        if(encontrado.getUsuarioEliminado()) continue;
+    while(fread(&encontrado, sizeof(Cliente), 1, archivo) == 1){
         // comparaciones
         if(strcmp(criterio, "NOMBRE") == 0){
             if(strcmp(encontrado.getNombre(), valor) == 0) seEncontro = true;

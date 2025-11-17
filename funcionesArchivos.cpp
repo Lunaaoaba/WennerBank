@@ -61,7 +61,7 @@ void iniciarArchivos(){
     else fclose(archivoCuentas);
 
 // ARCHIVO EMPLEADOS
-    FILE* archivoEmpleados = fopen("empleados.dat", "ab"); // "ab" es más seguro, crea si no existe
+    FILE* archivoEmpleados = fopen("empleados.dat", "ab"); // "ab" es mas seguro, crea si no existe
     if(archivoEmpleados != nullptr) fclose(archivoEmpleados);
     else cout << "ERROR FATAL: No se pudo crear el archivo de empleados." << endl;
 
@@ -79,6 +79,11 @@ void iniciarArchivos(){
 
 // para ver si el mail existe en algun usuario (cliente o empleado)
 bool existeMail(const char* mail){
+    // primero revisa si es el mail del admin
+    Administrador* admin = Administrador::getInstancia();
+    if (strcmp(admin->getMail(), mail) == 0){
+        return true;
+    }
     // busca mail cliente q ya exista
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
@@ -86,20 +91,49 @@ bool existeMail(const char* mail){
         while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
             if (strcmp(clienteActual.getMail(), mail) == 0){
                 fclose(archivoClientes);
-                return true; // existe el mail entonces no se puede usar ese mail
+                return true;
             }
         }
         fclose(archivoClientes);
     }
-    // busca mail empleado q ya eexista
+    // busca mail empleado q ya exista
     FILE* archivoEmpleados = fopen("empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
         Empleado empleadoActual;
-        // if(strcmp(empleadoActual.getMail(), terminar dsp para q compare con el admin, esq como es singleton nose como se hace deaa)
         while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
             if (strcmp(empleadoActual.getMail(), mail) == 0){
                 fclose(archivoEmpleados);
-                return true; // existe el mail entonces no se puede usar ese mail
+                return true;
+            }
+        }
+        fclose(archivoEmpleados);
+    }
+    return false;
+}
+
+bool existeDni(int dni){
+    Administrador* admin = Administrador::getInstancia();
+    if (admin->getDni() == dni){
+        return true;
+    }
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    if(archivoClientes != nullptr){
+        Cliente clienteActual;
+        while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
+            if (clienteActual.getDni() == dni){
+                fclose(archivoClientes);
+                return true;
+            }
+        }
+        fclose(archivoClientes);
+    }
+    FILE* archivoEmpleados = fopen("empleados.dat", "rb");
+        if(archivoEmpleados != nullptr){
+        Empleado empleadoActual;
+        while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
+            if (empleadoActual.getDni() == dni){
+                fclose(archivoEmpleados);
+                return true;
             }
         }
         fclose(archivoEmpleados);

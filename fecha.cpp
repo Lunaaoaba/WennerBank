@@ -29,7 +29,7 @@ int Fecha::getMes() const{ return _mes; }
 int Fecha::getAnio() const{ return _anio; }
 
 void Fecha::cargarFecha(){
-    // se ingresa en orden de "año -> mes -> dia" para facilitar la validacion de dias por mes
+    // se ingresa en orden de "aNIo -> mes -> dia" para facilitar la validacion de dias por mes
     cout << "Ingrese a" << char(164) << "o: ";
     _anio = validarEntero(1900, 2025);
     cout << "Ingrese mes: ";
@@ -44,9 +44,9 @@ void Fecha::cargarFecha(){
             diaMaximo = 30;
             break;
         case 2:
-            // año biciesto
+            // aNIo biciesto
             if((_anio % 4 == 0 && _anio % 100 != 0) || (_anio % 400 == 0)) diaMaximo = 29;
-            // año no biciesto
+            // aNIo no biciesto
             else diaMaximo = 28;
             break;
     }
@@ -60,7 +60,7 @@ void Fecha::cargarFechaActual(){
     
     _dia = tiempoLocal->tm_mday;
     _mes = tiempoLocal->tm_mon + 1; // Se suma 1 porque los meses van de 0 a 11
-    _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los años se cuentan desde 1900
+    _anio = tiempoLocal->tm_year + 1900; // Se suma 1900 porque los aNIos se cuentan desde 1900
 }
 
 string Fecha::mostrarFecha() const { return to_string(_dia) + "/" + to_string(_mes) + "/" + to_string(_anio); }

@@ -1,48 +1,48 @@
-# WennerBank - Sistema de Gestión Bancaria
+# WennerBank - Sistema de Gestion Bancaria
 
-## Descripción del Proyecto
-**WennerBank** es una aplicación de consola desarrollada en C++ que simula un sistema integral de gestión bancaria. El proyecto está diseñado bajo el paradigma de **Programación Orientada a Objetos (POO)** y se centra en la administración eficiente de usuarios, cuentas y transacciones financieras mediante un sistema robusto de persistencia de datos en archivos.
+## Descripcion del Proyecto
+**WennerBank** es una aplicacion de consola desarrollada en C++ que simula un sistema integral de gestion bancaria. El proyecto esta diseNIado bajo el paradigma de **Programacion Orientada a Objetos (POO)** y se centra en la administracion eficiente de usuarios, cuentas y transacciones financieras mediante un sistema robusto de persistencia de datos en archivos.
 
-El sistema permite la interacción de tres roles diferenciados (**Cliente, Empleado y Administrador**), cada uno con permisos y funcionalidades específicas, simulando el flujo de operaciones de una entidad bancaria real.
+El sistema permite la interaccion de tres roles diferenciados (**Cliente, Empleado y Administrador**), cada uno con permisos y funcionalidades especificas, simulando el flujo de operaciones de una entidad bancaria real.
 
 ---
-## Características Principales
+## Caracteristicas Principales
 
-#### Gestión de Usuarios y Roles
-El sistema implementa una jerarquía de clases para manejar distintos tipos de usuarios con seguridad y escalabilidad:
-* **Clientes:** Pueden registrarse, crear múltiples cuentas bancarias, consultar saldos y realizar operaciones.
-* **Empleados:** Encargados de la gestión operativa. Tienen acceso a listados, búsquedas avanzadas y pueden gestionar el estado (baja lógica) de clientes y cuentas.
-* **Administrador:** Un rol único con privilegios elevados para la gestión de personal y auditoría de fondos.
+#### Gestion de Usuarios y Roles
+El sistema implementa una jerarquia de clases para manejar distintos tipos de usuarios con seguridad y escalabilidad:
+* **Clientes:** Pueden registrarse, crear multiples cuentas bancarias, consultar saldos y realizar operaciones.
+* **Empleados:** Encargados de la gestion operativa. Tienen acceso a listados, busquedas avanzadas y pueden gestionar el estado (baja logica) de clientes y cuentas.
+* **Administrador:** Un rol unico con privilegios elevados para la gestion de personal y auditoria de fondos.
 
 #### Productos Financieros
-* **Cuentas Bancarias:** Creación de cuentas con generación automática de **ID, CVU y Alias** únicos. Soporte para depósitos, retiros y transferencias entre cuentas.
-* **Préstamos y Transacciones:** Registro histórico de movimientos y gestión de créditos (en desarrollo).
+* **Cuentas Bancarias:** Creacion de cuentas con generacion automatica de **ID, CVU y Alias** unicos. Soporte para depositos, retiros y transferencias entre cuentas.
+* **Prestamos y Transacciones:** Registro historico de movimientos y gestion de creditos (en desarrollo).
 
-#### Seguridad y Diseño Técnico
-* **Persistencia de Datos:** Todos los registros (clientes, empleados, cuentas) se almacenan en archivos binarios (`.dat`) para asegurar la continuidad de la información entre ejecuciones.
-* **Patrón Singleton:** Implementado en la clase `Administrador` para garantizar la existencia de una única instancia de control en todo el sistema, protegiendo las credenciales de acceso y centralizando la lógica de administración.
-* **Identificadores Inmutables:** Diseño robusto donde los IDs clave (Legajo, ID Cliente, CVU) se generan automáticamente y no pueden ser modificados, garantizando la integridad referencial de la base de datos.
+#### Seguridad y DiseNIo Tecnico
+* **Persistencia de Datos:** Todos los registros (clientes, empleados, cuentas) se almacenan en archivos binarios (`.dat`) para asegurar la continuidad de la informacion entre ejecuciones.
+* **Patron Singleton:** Implementado en la clase `Administrador` para garantizar la existencia de una unica instancia de control en todo el sistema, protegiendo las credenciales de acceso y centralizando la logica de administracion.
+* **Identificadores Inmutables:** DiseNIo robusto donde los IDs clave (Legajo, ID Cliente, CVU) se generan automaticamente y no pueden ser modificados, garantizando la integridad referencial de la base de datos.
 
 ---
 ## Arquitectura del Sistema
 
-El proyecto se estructura sobre una jerarquía de herencia sólida para maximizar la reutilización de código:
+El proyecto se estructura sobre una jerarquia de herencia solida para maximizar la reutilizacion de codigo:
 
 1.  **Clase Base `Persona`**: Maneja datos personales comunes (DNI, Nombre, Apellido, Domicilio, Fecha de Nacimiento).
-2.  **Clase `Usuario` (Hereda de Persona)**: Añade la capa de autenticación (Email, Contraseña, Estado de Usuario).
+2.  **Clase `Usuario` (Hereda de Persona)**: ANIade la capa de autenticacion (Email, ContraseNIa, Estado de Usuario).
 3.  **Clases Derivadas**:
     * `Cliente`: Hereda de Usuario y se vincula con sus productos financieros.
-    * `Empleado`: Hereda de Usuario, añadiendo Legajo y Clave de Operación.
-    * `Administrador`: Hereda de Empleado, implementando el patrón Singleton.
+    * `Empleado`: Hereda de Usuario, aNIadiendo Legajo y Clave de Operacion.
+    * `Administrador`: Hereda de Empleado, implementando el patron Singleton.
 
 ---
-## Tecnologías y Herramientas
+## Tecnologias y Herramientas
 * **Lenguaje:** C++
-* **Librerías:**
+* **Librerias:**
     * `<cstdio>` para el manejo eficiente de archivos binarios.
-    * `<ctime>` para la gestión de fechas y horas (`Fecha`, `Tiempo`).
+    * `<ctime>` para la gestion de fechas y horas (`Fecha`, `Tiempo`).
     * `rlutil` para la interfaz de usuario en consola (colores y posicionamiento).
-* **Paradigma:** Programación Orientada a Objetos (Encapsulamiento, Herencia, Polimorfismo).
+* **Paradigma:** Programacion Orientada a Objetos (Encapsulamiento, Herencia, Polimorfismo).
 
 
 ###### muejeje >:D

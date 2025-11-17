@@ -50,7 +50,7 @@ void cuentaBancaria::cargarDatos(){
     cin.ignore(); // Limpiar el buffer antes de usar getline
     validarCadenaLetras(_nombreCuenta, 50);
     cout << "CVU (10 digitos): ";
-    validarEntero(1000000000, 9999999999);
+    validarCadenaNumeros(_cvu, 11, 11);
     cout << "Alias (max 30 caracteres): ";
     cin.ignore(); // Limpiar el buffer antes de usar getline
     validarCadenaLetras(_alias, 30);

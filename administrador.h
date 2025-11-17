@@ -15,35 +15,53 @@ using namespace std;
 
 class Administrador : public Empleado{
     private:
-        // constructor privado para bloquear la creacion de objetos desde fuera
         Administrador();
-        // puntero estatico para guardar la direccion de memoria del unico objeto
         static Administrador* instancia;
-        // atributo propio del administrador
-        bool _permisosGlobales; // true = tiene permisos globales, false = no tiene permisos globales
+        bool _permisosGlobales;
     public:
         static Administrador* getInstancia();
-        // se bloquea la copia para hacer el singleton mas seguro
         Administrador(const Administrador&) = delete;
         void operator=(const Administrador&) = delete;
 
-        bool getPermisosGlobales();
-
-        // METODOS UNICOS DEL ADMINISTRADOR
-
-        // void crearEmpleado();
-        // void modificarEmpleado();
-        // void eliminarEmpleado();
-        // void transferirFondos(char tipoUso, double monto, const char* idCuentaOrigen, const char* idCuentaDestino);
-        // // lo usa para cobrar multas etc y lo pasa automaticamente a la cuenta del banco
-        // void quitarFondos(double monto, const char* idCuenta); 
-
-        // a funciones para que lo usen empleados y admin
-
-        // void ingresarFondos(double monto, const char* idCuenta);
-        // void retirarFondos(double monto, const char* idCuenta);
-
-        // void otorgarPrestamo();
+        bool getPermisosGlobales() const;
 };
 
 #endif
+/*
+CONSTRUCTOR PRIVADO PARA BLOQUEAR LA CREACION DE OBJETOS DESDE FUERA
+Nadie desde fuera de la clase (ni el main, ni el menu) puede usar new Administrador()
+o declarar una variable Administrador. Si intentan hacerlo, el compilador dará error.
+Es imposible crear un admin por accidente.
+
+VARIABLE ESTATICA (instancia)
+se necesita un lugar especial donde guardar ese único administrador.
+En <administrador.h: static Administrador* instancia;>
+En <administrador.cpp: Administrador* Administrador::instancia = nullptr;>
+
+Esta es una variable global y única que pertenece a la clase, no a un objeto.
+Al principio vale nullptr (está vacía), indicando que el Administrador aún no ha nacido.
+
+ACCESO: getInstancia()
+Como el constructor es privado, se necesita una función pública y estática (que se pueda usar sin tener un objeto)
+para que el resto del programa pueda pedir al administrador (usa memoria dinámica).
+
+COMO LLAMAR AL ADMINISTRADOR:
+
+Administrador* admin = Administrador::getInstancia();
+
+ejemplo de uso:
+
+//...
+Administrador* admin = Administrador::getInstancia();
+if (admin->getPermisosGlobales() == true){
+    cout << "El administrador tiene permisos globales" << endl;
+}
+else cout << "No tiene permisos globales" << endl;
+//...
+
+
+
+
+
+
+*/

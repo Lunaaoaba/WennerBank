@@ -19,6 +19,145 @@ using namespace std;
 // menu en base al diagrama WennerBank_path.png
 // ----------------------------------------------------------------------
 
+void menuTest(){
+    int opcion;
+    while(true){
+        system("cls");
+        cout << "---------------------------" << endl;
+        cout << "Menu de Pruebas - WennerBank" << endl;
+        cout << "---------------------------" << endl;
+        cout << "Tipos de id a tener en cuenta:" << endl;
+        cout << "CL-xxxxx : ID Cliente" << endl;
+        cout << "EM-xxxxx : Legajo Empleado" << endl;
+        cout << "CU-xxxxx : ID Cuenta Bancaria" << endl;
+        cout << "---------------------------" << endl;
+        cout << "1. Crear Cliente" << endl;
+        cout << "2. Listar Clientes" << endl;
+        cout << "3. Listar TODOS los clientes" << endl;
+        cout << "4. Eliminar Cliente " << endl;
+        cout << "5. Restaurar Cliente" << endl;
+        cout << "6. Modificar Cliente " << endl;
+        cout << "---------------------------" << endl;
+        cout << "7. Crear Empleado" << endl;
+        cout << "8. Listar Empleados" << endl;
+        cout << "9. Listar TODOS los empleados" << endl;
+        cout << "10. Eliminar Empleado" << endl;
+        cout << "11. Restaurar Empleado" << endl;
+        cout << "12. Modificar Empleado" << endl;
+        cout << "---------------------------" << endl;
+        cout << "13. Crear Cuenta (no implementado)" << endl;
+        cout << "14. Listar Cuentas (no implementado)" << endl;
+        cout << "15. Salir" << endl;
+        cout << "---------------------------" << endl;
+        cout << "Ingrese una opcion: ";
+        opcion = validarEntero(1, 15);
+        switch (opcion){
+            case 1: {
+                system("cls");
+                crearCliente();
+                break;
+            }
+            case 2: {
+                system("cls");
+                listarClientes();
+                break;
+            }
+            case 3: {
+                system("cls");
+                listarTodosClientes();
+                break;
+            }
+            case 4: {
+                system("cls");
+                cout << "Eliminar Cliente" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                eliminarCliente(id);
+                break;
+            }
+            case 5: {
+                system("cls");
+                cout << "Restaurar Cliente" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                restaurarCliente(id);
+                break;
+            }
+            case 6: {
+                system("cls");
+                cout << "Modificar Cliente" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                modificarDatosCliente(id);
+                break;
+            }
+            case 7: {
+                system("cls");
+                crearEmpleado();
+                break;
+            }
+            case 8: {
+                system("cls");
+                listarEmpleados();
+                break;
+            }
+            case 9: {
+                system("cls");
+                listarTodosEmpleados();
+                break;
+            }
+            case 10: {
+                system("cls");
+                cout << "Borrar Empleado" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                eliminarEmpleado(id);
+                break;
+            }
+            case 11: {
+                system("cls");
+                cout << "Restaurar Empleado" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                restaurarEmpleado(id);
+                break;
+            }
+            case 12: {
+                system("cls");
+                cout << "Modificar Empleado" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese un ID/Legajo de usuario:" << endl;
+                int id = validarEntero(1, 999999);
+                modificarDatosEmpleado(id);
+                break;
+            }
+            case 13: {
+                system("cls");
+                cout << "Crear Cuenta (no implementado)" << endl;
+                // crearCuenta();
+                break;
+            }
+            case 14: {
+                system("cls");
+                cout << "Listar Cuentas (no implementado)" << endl;
+                // listarCuentas();
+                break;
+            }
+            case 15: {
+                system("cls");
+                cout << "Saliendo del programa..." << endl << "byebye <3" << endl;
+                system("pause");
+                exit(0);
+            }
+        }
+    system("pause");
+    }
+}
 
 // ---------------------------
 // --- NUCLEO DEL PROGRAMA ---
@@ -51,7 +190,7 @@ void InicioPrograma(){
                     menuAdmin(sesionActiva);
                     break;
                 default:
-                    cout << "Tipo de usuario no reconocido. Cerrando sesión." << endl;
+                    cout << "Tipo de usuario no reconocido. Cerrando sesion." << endl;
                     sesionActiva = false;
                     idUsuarioActivo = -1;
                     tipoUsuarioActivo = 0;
@@ -73,14 +212,19 @@ void menuBienvenida(){
 }
 
 void menuCliente(int idUsuarioActivo, bool& sesionActiva){
+    (void)idUsuarioActivo;  // Marca como "usado intencionalmente"
+    (void)sesionActiva;
     centrarTexto(" Menu Clientes ", char(255), 41);
 }
 
 void menuEmpleado(int idUsuarioActivo, bool& sesionActiva){
+    (void)idUsuarioActivo;  // Marca como "usado intencionalmente"
+    (void)sesionActiva;
     centrarTexto(" Menu Empleados ", char(255), 41);
 }
 
 void menuAdmin(bool& sesionActiva){
+    (void)sesionActiva;
     centrarTexto(" Menu Administrador ", char(255), 41);
 }
 
@@ -97,7 +241,7 @@ void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsu
         sesionActiva = true;
         idUsuarioActual = clienteEncontrado.getIdCliente();
         tipoUsuarioActual = 1;
-        cout << "Inicio de sesión exitoso. Bienvenido, " << clienteEncontrado.getNombre() << "!" << endl;
+        cout << "Inicio de sesion exitoso. Bienvenido, " << clienteEncontrado.getNombre() << "!" << endl;
     }
     else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
 }
@@ -118,11 +262,11 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
 
         if(legajo == 100000){
             tipoUsuarioActual = 3; // Administrador
-            cout << "Inicio de sesión como Administrador." << endl;
+            cout << "Inicio de sesion como Administrador." << endl;
         }
         else{
             tipoUsuarioActual = 2; // Empleado regular
-            cout << "Inicio de sesión como Empleado. Bienvenido, " << empleadoEncontrado.getNombre() << "!" << endl;
+            cout << "Inicio de sesion como Empleado. Bienvenido, " << empleadoEncontrado.getNombre() << "!" << endl;
         }
     }
     else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;

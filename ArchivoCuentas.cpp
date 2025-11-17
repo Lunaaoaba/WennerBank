@@ -49,7 +49,7 @@ bool modificarCuenta(cuentaBancaria& cuentaModificada){
     int posicion = 0;
     bool encontrado = false;
 
-    // Buscar la posición de la cuenta por ID
+    // Buscar la posicion de la cuenta por ID
     while (fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1) {
         if (reg.getIdCuenta() == cuentaModificada.getIdCuenta()) {
             encontrado = true;
@@ -60,14 +60,14 @@ bool modificarCuenta(cuentaBancaria& cuentaModificada){
 
     if (encontrado) {
         // Regresar al inicio del registro encontrado y sobreescribir
-        fseek(archivo, posicion * sizeof(cuentaBancaria), SEEK_SET);
+        fseek(archivo, (long)posicion * (long)sizeof(cuentaBancaria), SEEK_SET);
         fwrite(&cuentaModificada, sizeof(cuentaBancaria), 1, archivo);
         fclose(archivo);
         return true;
     }
 
     fclose(archivo);
-    cout << "ERROR: No se encontró la cuenta con ID: " << cuentaModificada.getIdCuenta() << " para modificar." << endl;
+    cout << "ERROR: No se encontro la cuenta con ID: " << cuentaModificada.getIdCuenta() << " para modificar." << endl;
     return false;
 }
 
@@ -99,25 +99,24 @@ bool buscarCuentaId(int idCuenta, cuentaBancaria &cuentaEncontrada){
     return encontrada;
 }
 
+
+// las llaves en cualquier lado dale media pila
+
 void buscarCuentaClienteId(int idCliente, cuentaBancaria &cuentaEncontrada){
     FILE* archivo = fopen("cuentas.dat", "rb");
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        return; // ???
+    } // ???
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(reg.getIdCliente() == idCliente){
             cuentaEncontrada = reg;
             fclose(archivo);
             return;
         }
     }
-
     fclose(archivo);
-}
-
-
 }
 
 void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
@@ -125,19 +124,16 @@ void buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
-        // strcmp devuelve 0 si las cadenas son iguales.
+        return; // ???
+    } // ???
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(strcmp(reg.getCvu(), cvu) == 0){
             cuentaEncontrada = reg;
             fclose(archivo);
             return;
         }
     }
-
     fclose(archivo);
-}
 }
 
 void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
@@ -145,20 +141,16 @@ void buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-        
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        return; // ???
+    } // ???
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(strcmp(reg.getAlias(), alias) == 0){
             cuentaEncontrada = reg;
             fclose(archivo);
             return;
         }
     }
-
     fclose(archivo);
-}
-
-
 }
 
 void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontrada){
@@ -166,19 +158,17 @@ void buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontra
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
+        return; // ???
+    } // ???
 
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(strcmp(reg.getNombreCuenta(), nombreCuenta) == 0){
             cuentaEncontrada = reg;
             fclose(archivo);
             return;
         }
     }
-
     fclose(archivo);
-}
-
 }
 
 // // por las dudas
@@ -187,19 +177,16 @@ void buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
     cuentaBancaria reg;
     if(archivo==nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
-        return;
-
-        while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        return; // ???
+    } // ???
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(reg.getSaldo() == saldo){
             cuentaEncontrada = reg;
             fclose(archivo);
             return;
         }
     }
-
     fclose(archivo );
-}
-
 }
 
 //----------------------------------------------------------------------

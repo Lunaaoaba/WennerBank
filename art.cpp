@@ -8,7 +8,7 @@ using namespace std;
 
 
 void tituloBeta(){
-    rlutil::cls();
+    system("cls");
     rlutil::setColor(rlutil::YELLOW);
     int i = 0;
     while(i<7){
@@ -137,4 +137,11 @@ void centrarTexto(string palabra, char dato1, char dato2, size_t largo){
 //rlutil::setBackgroundColor(rlutil::BLUE); ->cambia el color del fondo
 //rlutil::setColor(rlutil::WHITE); ->cambia el color de las letras
 //rlutil::setColor(rlutil::RED); -> puede ir antes de un texto con error, luego de mostrar el mensaje devolver su color original.
-//rlutil::locate(2, 5); -> coloca el mensaje en la posición que le pongas
+//rlutil::locate(2, 5); -> coloca el mensaje en la posicion que le pongas
+// =============================================
+// |    system("cls")    |    rlutil::cls()    |
+// |=====================|=====================|
+// |   resetea colores   |  mantiene colores   |
+// |---------------------|---------------------|
+// | reset a locate(1,1) | reset a locate(1,1) |
+// ---------------------------------------------
