@@ -1,10 +1,10 @@
+#include <cstring>
 #include <iostream>
 #include "tipoUsuario.h"
 #include "Fecha.h"
 #include "Tiempo.h"
 #include "administrador.h"
 #include "cuentaBancaria.h"
-#include <cstring>
 
 using namespace std;
 
@@ -111,11 +111,7 @@ bool existeMail(const char* mail){
     return false;
 }
 
-bool existeDni(int dni){
-    Administrador* admin = Administrador::getInstancia();
-    if (admin->getDni() == dni){
-        return true;
-    }
+bool existeDniCliente(int dni){
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente clienteActual;
@@ -127,17 +123,54 @@ bool existeDni(int dni){
         }
         fclose(archivoClientes);
     }
+    return false;
+}
+
+bool existeDniEmpleado(int dni){
+    Administrador* admin = Administrador::getInstancia();
+    if (admin->getDni() == dni) return true;
+    
     FILE* archivoEmpleados = fopen("empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
-        Empleado empleadoActual;
-        while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
-            if (empleadoActual.getDni() == dni){
-                fclose(archivoEmpleados);
-                return true;
+            Empleado empleadoActual;
+            while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
+                if (empleadoActual.getDni() == dni){
+                    fclose(archivoEmpleados);
+                    return true;
+                }
             }
-        }
         fclose(archivoEmpleados);
     }
+    return false;
+}
+
+bool existeCvu(const char* cvu){
+    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    if(archivoCuentas == nullptr) return false;
+
+    cuentaBancaria cuentaActual;
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
+        if (strcmp(cuentaActual.getCvu(), cvu) == 0){
+            fclose(archivoCuentas);
+            return true;
+        }
+    }
+    fclose(archivoCuentas);
+    return false;
+}
+
+bool existeAlias(const char* alias){
+    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    if(archivoCuentas == nullptr) return false;
+
+    cuentaBancaria cuentaActual;
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
+        if (strcmp(cuentaActual.getAlias(), alias) == 0){
+            fclose(archivoCuentas);
+            return true;
+        }
+    }
+    fclose(archivoCuentas);
     return false;
 }
 
@@ -196,7 +229,9 @@ bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleado
 
 // para comparar dos fechas
 bool compararFechas(const Fecha& fecha1, const Fecha& fecha2){
-    if((fecha1.getDia() == fecha2.getDia()) && (fecha1.getMes() == fecha2.getMes()) && (fecha1.getAnio() == fecha2.getAnio())){
+    if((fecha1.getDia() == fecha2.getDia())
+    && (fecha1.getMes() == fecha2.getMes())
+    && (fecha1.getAnio() == fecha2.getAnio())){
     return true;
     }
     else return false;
@@ -204,7 +239,9 @@ bool compararFechas(const Fecha& fecha1, const Fecha& fecha2){
 
 // para comparar dos horarios
 bool compararHorarios(const Tiempo& tiempo1, const Tiempo& tiempo2){
-    if((tiempo1.getHora() == tiempo2.getHora()) && (tiempo1.getMinuto() == tiempo2.getMinuto()) && (tiempo1.getSegundo() == tiempo2.getSegundo())){
+    if((tiempo1.getHora() == tiempo2.getHora())
+    && (tiempo1.getMinuto() == tiempo2.getMinuto())
+    && (tiempo1.getSegundo() == tiempo2.getSegundo())){
     return true;
     }
     else return false;

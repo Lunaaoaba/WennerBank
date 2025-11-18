@@ -1,13 +1,14 @@
 #define byte windows_byte
 #include "rlutil.h"
 #undef byte
+#include <cstdio>
+#include <cstring>
+#include <iostream>
 #include "tipoUsuario.h"
 #include "funciones.h"
 #include "ArchivoClientes.h"
 #include "funcionesArchivos.h"
-#include <cstdio>
-#include <cstring>
-#include <iostream>
+
 using namespace std;
 
 
@@ -51,7 +52,7 @@ Cliente crearCliente(){
     cout << "Primer paso, ingrese sus datos:" << endl << endl;
     cout << "Ingrese DNI: ";
     dni = validarEntero(1000000, 99999999);
-    while(existeDni(dni)){
+    while(existeDniCliente(dni)){
         cout << "ERROR: DNI ya registrado." << endl;
         cout << "Ingrese el DNI: ";
         dni = validarEntero(1000000, 99999999);
@@ -132,10 +133,6 @@ int posicionClientePorId(int idCliente){
 bool modificarCliente(const Cliente& clienteModificado){
     int pos = posicionClientePorId(clienteModificado.getIdCliente());
 
-    if(clienteModificado.getIdCliente() == 1){
-        cout << "ERROR: No se puede alterar este cliente." << endl;
-        return false;
-    }
     if(pos < 0){
         if(pos == -1){
             cout << "ERROR: No se encontro el cliente con ID " << clienteModificado.getIdCliente() << "." << endl;
@@ -177,17 +174,20 @@ bool modificarDatosCliente(int idCliente){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return false;
     }
+    
     system("cls");
+    cout << "----- MODIFICACION DE DATOS DEL CLIENTE -----" << endl;
     cout << "Datos actuales del cliente:" << endl;
     cout << clienteAModificar.mostrarDatos() << endl << endl;
 
-    while(true){
+    bool continuar = true;
+    while(continuar){
         cout << "Seleccione el dato a modificar:" << endl;
         cout << "1. Nombre" << endl;
         cout << "2. Apellido" << endl;
         cout << "3. Localidad" << endl;
         cout << "4. Mail" << endl;
-        cout << "5. Contrase" << char(164) << "a" << endl;
+        cout << "5. Contrase" << char(164) << "a" << endl; // dsp hacer q pida la contrasena vieja antes de cambiar
         cout << "6. Finalizar/Cancelar modificacion" << endl << endl;
         // dsp cambiar a rlutil
         int opcion = validarEntero(1, 6);
@@ -197,21 +197,21 @@ bool modificarDatosCliente(int idCliente){
                 cout << "Ingrese el nuevo nombre: ";
                 validarCadenaLetras(nuevoNombre, 50);
                 clienteAModificar.setNombre(nuevoNombre);
-                continue;
+                break;
             }
             case 2: {
                 char nuevoApellido[50];
                 cout << "Ingrese el nuevo apellido: ";
                 validarCadenaLetras(nuevoApellido, 50);
                 clienteAModificar.setApellido(nuevoApellido);
-                continue;
+                break;
             }
             case 3: {
                 char nuevaLocalidad[50];
                 cout << "Ingrese la nueva localidad: ";
                 validarCadenaLetras(nuevaLocalidad, 50);
                 clienteAModificar.setLocalidad(nuevaLocalidad);
-                continue;
+                break;
             }
             case 4: {
                 char nuevoMail[50];
@@ -223,17 +223,18 @@ bool modificarDatosCliente(int idCliente){
                     validarCadena(nuevoMail, 50);
                 }
                 clienteAModificar.setMail(nuevoMail);
-                continue;
+                break;
             }
             case 5: {
                 char nuevaContrasena[50];
                 cout << "Ingrese la nueva contrase" << char(164) << "a: ";
                 validarCadenaLargo(nuevaContrasena, 8, 50);
                 clienteAModificar.setContrasena(nuevaContrasena);
-                continue;
+                break;
             }
             case 6: {
                 cout << "Modificacion finalizada..." << endl;
+                continuar = false;
                 break;
             }
         }
@@ -253,17 +254,17 @@ bool eliminarCliente(int idCliente){
     Cliente clienteAEliminar;
 
     if(idCliente == 1){
-        cout << "ERROR: No se puede eliminar el cliente Banco (ID=1)." << endl;
+        cout << "ERROR: No se puede eliminar este cliente." << endl;
         return false;
     }
 
     if(!buscarCliente("ID", idCliente, clienteAEliminar)){
-        cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
+        cout << "ERROR: No se encontro el cliente con ID " << clienteAEliminar.getIdCliente() << "." << endl;
         return false;
     }
 
     if(clienteAEliminar.getUsuarioEliminado()){
-        cout << "ERROR: El cliente con ID " << idCliente << " ya se encuentra eliminado." << endl;
+        cout << "ERROR: El cliente con ID " << clienteAEliminar.getIdCliente() << " ya se encuentra eliminado." << endl;
         return false;
     }
 
@@ -314,7 +315,7 @@ bool restaurarCliente(int idCliente){
             return true;
         }
         else{
-            cout << "ERROR: No se pudo restaurar el cliente con ID " << idCliente << "." << endl;
+            cout << "ERROR: No se pudo restaurar el cliente con ID " << clienteARestaurar.getIdCliente() << "." << endl;
             return false;
         }
     }
@@ -337,20 +338,19 @@ void listarClientes(){
     }
     Cliente clienteActual;
     int i = 0;
-    cout << "Listado de Clientes:" << endl;
-    cout << "---------------------" << endl << endl;
+    cout << "----- LISTADO DE CLIENTES -----" << endl;  
+    cout << "-------------------------------" << endl << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         if(!clienteActual.getUsuarioEliminado()){
             cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
             cout << clienteActual.mostrarDatos() << endl;
             i++;
-            cout << endl << "---------------------" << endl << endl;
+            cout << endl << "-------------------------------" << endl << endl;
         }
     }
     if(i == 0){
         cout << "ERROR: No hay clientes registrados." << endl;
-        cout << "---------------------" << endl << endl;
-        system("pause");
+        cout << "-------------------------------" << endl << endl;
     }
     cout << "Total de clientes: " << i << endl;
     fclose(archivo);
@@ -365,18 +365,18 @@ void listarTodosClientes(){
     }
     Cliente clienteActual;
     int i = 0;
-    cout << "Listado de Clientes:" << endl;
-    cout << "---------------------" << endl;
+    cout << "----- LISTADO DE CLIENTES -----" << endl;  
+    cout << "-------------------------------" << endl << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
+        cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
         cout << clienteActual.mostrarDatos() << endl;
         if(clienteActual.getUsuarioEliminado()) cout << "[ CLIENTE ELIMINADO ]" << endl;
         i++;
-        cout << "---------------------" << endl;
+        cout << "-------------------------------" << endl << endl;
     }
     if(i == 0){
         cout << "ERROR: No hay clientes registrados." << endl;
-        cout << "---------------------" << endl;
-        system("pause");
+        cout << "---------------------" << endl << endl;
     }
     cout << "Total de clientes: " << i << endl;
     fclose(archivo);
@@ -445,10 +445,7 @@ bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
     }
     while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         Fecha fecha = clienteActual.getFechaNacimiento();
-        // compara los tres campos de la fecha ( lo pongo asi para q se vea mejor dsp lo cambio (funcion o algo))
-        if((fecha.getDia() == fechaNacimiento.getDia())
-        && (fecha.getMes() == fechaNacimiento.getMes())
-        && (fecha.getAnio() == fechaNacimiento.getAnio())){
+        if(compararFechas(fecha, fechaNacimiento)){
         clienteEncontrado = clienteActual;
         fclose(archivo);
         return true;

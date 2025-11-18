@@ -1,9 +1,10 @@
 #define byte windows_byte
 #include "rlutil.h"
 #undef byte
-#include "art.h"
 #include <iostream>
 #include <string>
+#include "art.h"
+
 using namespace std;
 
 

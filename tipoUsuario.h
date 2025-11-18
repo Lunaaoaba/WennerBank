@@ -1,6 +1,7 @@
 #ifndef TIPOUSUARIO_H
 #define TIPOUSUARIO_H
 #include "usuario.h"
+
 using namespace std;
 
 

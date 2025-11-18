@@ -1,14 +1,15 @@
 #define byte windows_byte
 #include "rlutil.h"
 #undef byte
+#include <cstdio>
+#include <cstring>
+#include <iostream>
 #include "tipoUsuario.h"
 #include "administrador.h"
 #include "funciones.h"
 #include "ArchivoEmpleados.h"
 #include "funcionesArchivos.h"
-#include <cstdio>
-#include <cstring>
-#include <iostream>
+
 using namespace std;
 
 
@@ -51,7 +52,7 @@ Empleado crearEmpleado(){
     cout << "Primer paso, ingresar datos del nuevo empleado:" << endl << endl;
     cout << "Ingrese DNI: ";
     dni = validarEntero(1000000, 99999999);
-    while(existeDni(dni)){
+    while(existeDniEmpleado(dni)){
         cout << "ERROR: DNI ya registrado." << endl;
         cout << "Ingrese el DNI: ";
         dni = validarEntero(1000000, 99999999);
@@ -98,6 +99,7 @@ Empleado crearEmpleado(){
     cout << "----- CONFIRMACION DE DATOS -----" << endl;
     cout << nuevoEmpleado.mostrarDatos() << endl;
     cout << "\nConfirma la creacion del empleado? (S/N): ";
+    
     char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarEmpleados(nuevoEmpleado)){
@@ -169,6 +171,7 @@ bool modificarDatosEmpleado(int legajo){
         return false;
     }
     system("cls");
+    cout << "----- MODIFICACION DE DATOS DEL EMPLEADO -----" << endl;
     cout << "Datos actuales del empleado:" << endl;
     cout << empleadoAModificar.mostrarDatos() << endl << endl;
 
@@ -230,6 +233,7 @@ bool modificarDatosEmpleado(int legajo){
                 break;
             }
         }
+        break;
     }
     if(modificarEmpleado(empleadoAModificar)){
         cout << "Empleado modificado correctamente." << endl;
@@ -251,11 +255,11 @@ bool eliminarEmpleado(int legajo){
     }
 
     if(!buscarEmpleado("LEGAJO", legajo, empleadoAEliminar)){
-        cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
+        cout << "ERROR: No se encontro el empleado con legajo " << empleadoAEliminar.getLegajo() << "." << endl;
         return false;
     }
     if(empleadoAEliminar.getUsuarioEliminado()){
-        cout << "ERROR: El empleado con legajo " << legajo << " ya se encuentra eliminado." << endl;
+        cout << "ERROR: El empleado con legajo " << empleadoAEliminar.getLegajo() << " ya se encuentra eliminado." << endl;
         return false;
     }
     system("cls");
@@ -291,15 +295,27 @@ bool restaurarEmpleado(int legajo){
         cout << "ERROR: El empleado con legajo " << legajo << " se encuentra activo." << endl;
         return false;
     }
-    empleadoARestaurar.setUsuarioEliminado(false);
-    if(modificarEmpleado(empleadoARestaurar)){
-        cout << "Empleado con legajo " << legajo << " restaurado correctamente." << endl;
-        return true;
+    system("cls");
+    cout << "----- CONFIRMACION DE DATOS -----" << endl;
+    cout << "Empleado a restaurar:" << endl;
+    cout << empleadoARestaurar.mostrarDatos() << endl;
+    cout << "\nConfirma la restauracion del empleado? (S/N): ";
+
+    char confirmacion = validarSiNo();
+    if(confirmacion == 'S' || confirmacion == 's'){
+        empleadoARestaurar.setUsuarioEliminado(false);
+        if(modificarEmpleado(empleadoARestaurar)){
+            cout << "Empleado con legajo " << empleadoARestaurar.getLegajo() << " restaurado correctamente." << endl;
+            return true;
+        }
+        else{
+            cout << "ERROR: No se pudo restaurar el empleado con legajo " << empleadoARestaurar.getLegajo() << "." << endl;
+            return false;
+        }
     }
-    else{
-        cout << "ERROR: No se pudo restaurar el empleado con legajo " << legajo << "." << endl;
-        return false;
-    }
+    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
+    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    return false;
 }
 
 // ------ FUNCIONES PARA EL EMPLEADO ------
@@ -316,18 +332,19 @@ void listarEmpleados(){
     }
     Empleado empleadoActual;
     int i = 0;
-    cout << "Listado de Empleados:" << endl;
-    cout << "---------------------" << endl;
+    cout << "----- LISTADO DE EMPLEADOS -----" << endl;
+    cout << "--------------------------------" << endl << endl;
     while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
         if(!empleadoActual.getUsuarioEliminado()){
+            cout << "Empleado: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
             cout << empleadoActual.mostrarDatos() << endl;
             i++;
-            cout << "---------------------" << endl;
+            cout << endl << "--------------------------------" << endl << endl;
         }
     }
     if(i == 0){
         cout << "ERROR: No hay empleados registrados." << endl;
-        cout << "---------------------" << endl;
+        cout << "---------------------" << endl << endl;
     }
     cout << "Total de empleados: " << i << endl;
     fclose(archivo);
@@ -341,17 +358,18 @@ void listarTodosEmpleados(){
     }
     Empleado empleadoActual;
     int i = 0;
-    cout << "Listado de Empleados:" << endl;
-    cout << "---------------------" << endl;
+    cout << "----- LISTADO DE EMPLEADOS -----" << endl;
+    cout << "--------------------------------" << endl << endl;;
     while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        cout << "Empleado: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
         cout << empleadoActual.mostrarDatos() << endl;
         if(empleadoActual.getUsuarioEliminado()) cout << "[ EMPLEADO ELIMINADO ]" << endl;
         i++;
-        cout << "---------------------" << endl;
+        cout << endl << "--------------------------------" << endl << endl;
     }
     if(i == 0){
         cout << "ERROR: No hay empleados registrados." << endl;
-        cout << "---------------------" << endl;
+        cout << "--------------------------------" << endl;
     }
     cout << "Total de empleados: " << i << endl;
     fclose(archivo);
@@ -419,9 +437,7 @@ bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrad
     }
     while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
         Fecha fecha = empleadoActual.getFechaNacimiento();
-        if((fecha.getDia() == fechaNacimiento.getDia())
-        && (fecha.getMes() == fechaNacimiento.getMes())
-        && (fecha.getAnio() == fechaNacimiento.getAnio())){
+        if(compararFechas(fecha, fechaNacimiento)){
         empleadoEncontrado = empleadoActual;
         fclose(archivo);
         return true;
