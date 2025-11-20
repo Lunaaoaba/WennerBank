@@ -2,6 +2,7 @@
 #include <ctime>
 #include "tiempo.h"
 #include "funciones.h"
+
 using namespace std;
 
 Tiempo::Tiempo(){

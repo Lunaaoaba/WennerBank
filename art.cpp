@@ -1,9 +1,10 @@
 #define byte windows_byte
 #include "rlutil.h"
 #undef byte
-#include "art.h"
 #include <iostream>
 #include <string>
+#include "art.h"
+
 using namespace std;
 
 
@@ -103,14 +104,22 @@ void tituloBetaSA(){
     rlutil::setColor(rlutil::WHITE);
 }
 
-string mayusculas(string palabra){
-    string resultado;
-    for(char caracter : palabra){
-        if(caracter >= 'a' && caracter <= 'z') caracter -= 32;
-        resultado += caracter;
+void mayusculas(char* palabra){
+    size_t largo = strlen(palabra);
+    for(size_t i = 0; i < largo; i++){
+        unsigned char c = (unsigned char)palabra[i];
+        
+        if(c >= 'a' && c <= 'z') palabra[i] = static_cast<char>(c - 32);
+
+        else if(c == 160) palabra[i] = static_cast<char>(181);  // á -> Á
+        else if(c == 130) palabra[i] = static_cast<char>(144);  // é -> É
+        else if(c == 161) palabra[i] = static_cast<char>(214);  // í -> Í
+        else if(c == 162) palabra[i] = static_cast<char>(224);  // ó -> Ó
+        else if(c == 163) palabra[i] = static_cast<char>(233);  // ú -> Ú
+        else if(c == 164) palabra[i] = static_cast<char>(165);  // ñ -> Ñ
     }
-    return resultado;
 }
+
 // un dato
 void centrarTexto(string palabra, char dato, size_t largo){
     size_t espacios_izq = (largo - palabra.length()) / 2;

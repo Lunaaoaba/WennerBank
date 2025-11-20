@@ -1,10 +1,11 @@
+#include <iostream>
+#include <cstring>
 #include "persona.h"
 #include "usuario.h"
 #include "ArchivoClientes.h"
 #include "funcionesArchivos.h"
 #include "funciones.h"
-#include <iostream>
-#include <cstring>
+
 using namespace std;
 
 

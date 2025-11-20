@@ -4,6 +4,7 @@
 #include "movimientos.h"
 #include "fecha.h"
 #include "funciones.h"
+
 using namespace std;
 
 Transaccion::Transaccion(){

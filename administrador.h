@@ -1,7 +1,8 @@
 #ifndef ADMINISTRADOR_H
 #define ADMINISTRADOR_H
-#include "tipoUsuario.h"
 #include <iostream>
+#include "tipoUsuario.h"
+
 using namespace std;
 
 
