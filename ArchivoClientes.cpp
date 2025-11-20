@@ -25,21 +25,6 @@ bool guardarClientes(const Cliente& cliente){
     return true;
 }
 
-int generarIdCliente(){
-    FILE* archivo = fopen("clientes.dat", "rb");
-    int maxId = 0;
-    if(archivo == nullptr) return 1;
-
-    Cliente clienteActual;
-    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
-        if(clienteActual.getIdCliente() > maxId){
-            maxId = clienteActual.getIdCliente();
-        }
-    }
-    fclose(archivo);
-    return maxId + 1;
-}
-
 // poner while para q repita todo si hay error en algun dato
 Cliente crearCliente(){
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
@@ -111,23 +96,6 @@ Cliente crearCliente(){
     }
     else cout << "Operacion cancelada." << endl;
     return nuevoCliente;
-}
-
-// despues rehacer para q use sobrecarga y funcione como buscarCliente
-int posicionClientePorId(int idCliente){
-    FILE* archivo = fopen("clientes.dat", "rb");
-    if(archivo == nullptr) return -2;
-    Cliente clienteActual;
-    int pos = 0;
-    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
-        if(clienteActual.getIdCliente() == idCliente){
-            fclose(archivo);
-            return pos;
-        }
-        pos++;
-    }
-    fclose(archivo);
-    return -1;
 }
 
 bool modificarCliente(const Cliente& clienteModificado){
@@ -324,10 +292,6 @@ bool restaurarCliente(int idCliente){
     return false;
 }
 
-// ------ FUNCIONES PARA EL CLIENTE ------
-
-// (etc)
-
 // ------ FUNCIONES PARA BUSQUEDA DE CLIENTES ------
 
 void listarClientes(){
@@ -401,7 +365,7 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
             if(encontrado.getEdad() == valor) seEncontro = true;
         }
         else cout << "Criterio de busqueda no reconocido." << endl;
-
+        
         if(seEncontro) break;
     }
     fclose(archivo);
@@ -427,8 +391,11 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
         else if(strcmp(criterio, "LOCALIDAD") == 0) {
             if(strcmp(encontrado.getLocalidad(), valor) == 0) seEncontro = true;
         }
+        else if(strcmp(criterio, "MAIL") == 0) {
+            if(strcmp(encontrado.getMail(), valor) == 0) seEncontro = true;
+        }
         else cout << "Criterio de busqueda no reconocido." << endl;
-
+        
         if(seEncontro) break;
     }
     fclose(archivo);
@@ -449,32 +416,46 @@ bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
         clienteEncontrado = clienteActual;
         fclose(archivo);
         return true;
-        }
+    }
     }
     fclose(archivo);
     return false;
 }
 
-bool buscarClienteId(int idCliente, Cliente &clienteEncontrado){
-    return buscarCliente("ID", idCliente, clienteEncontrado);
-} 
+// ------ FUNCIONES PARA EL CLIENTE ------
 
-bool buscarClienteDni(int dni, Cliente &clienteEncontrado){
-    return buscarCliente("DNI", dni, clienteEncontrado);
+// (etc)
+
+// ----- FUNCIONES AUXILIARES PARA CLIENTES -----
+
+int generarIdCliente(){
+    FILE* archivo = fopen("clientes.dat", "rb");
+    int maxId = 0;
+    if(archivo == nullptr) return 1;
+
+    Cliente clienteActual;
+    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
+        if(clienteActual.getIdCliente() > maxId){
+            maxId = clienteActual.getIdCliente();
+        }
+    }
+    fclose(archivo);
+    return maxId + 1;
 }
 
-bool buscarClienteNombre(const char* nombre, Cliente &clienteEncontrado){
-    return buscarCliente("NOMBRE", nombre, clienteEncontrado);
-}
-
-bool buscarClienteApellido(const char* apellido, Cliente &clienteEncontrado){
-    return buscarCliente("APELLIDO", apellido, clienteEncontrado);
-}
-
-bool buscarClienteLocalidad(const char* localidad, Cliente &clienteEncontrado){
-    return buscarCliente("LOCALIDAD", localidad, clienteEncontrado);
-}
-
-bool buscarClienteEdad(int edad, Cliente &clienteEncontrado){
-    return buscarCliente("EDAD", edad, clienteEncontrado);
+// despues rehacer para q use sobrecarga y funcione como buscarCliente
+int posicionClientePorId(int idCliente){
+    FILE* archivo = fopen("clientes.dat", "rb");
+    if(archivo == nullptr) return -2;
+    Cliente clienteActual;
+    int pos = 0;
+    while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
+        if(clienteActual.getIdCliente() == idCliente){
+            fclose(archivo);
+            return pos;
+        }
+        pos++;
+    }
+    fclose(archivo);
+    return -1;
 }

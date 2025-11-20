@@ -26,21 +26,6 @@ bool guardarEmpleados(const Empleado& empleado){
     return true;
 }
 
-int generarLegajo(){
-    FILE* archivo = fopen("empleados.dat", "rb");
-    int maxId = 0;
-    if(archivo == nullptr) return 1;
-
-    Empleado empleadoActual;
-    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
-        if(empleadoActual.getLegajo() > maxId){
-            maxId = empleadoActual.getLegajo();
-        }
-    }
-    fclose(archivo);
-    return maxId + 1;
-}
-
 Empleado crearEmpleado(){
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
     int dni, legajo;
@@ -113,22 +98,6 @@ Empleado crearEmpleado(){
     return nuevoEmpleado;
 }
 
-int posicionEmpleadoPorLegajo(int legajo){
-    FILE* archivo = fopen("empleados.dat", "rb");
-    if(archivo == nullptr) return -2;
-    Empleado empleadoActual;
-    int pos = 0;
-    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
-        if(empleadoActual.getLegajo() == legajo){
-            fclose(archivo);
-            return pos;
-        }
-        pos++;
-    }
-    fclose(archivo);
-    return -1;
-}
-
 bool modificarEmpleado(const Empleado& empleadoModificado){
     int pos = posicionEmpleadoPorLegajo(empleadoModificado.getLegajo());
 
@@ -165,11 +134,15 @@ bool modificarDatosEmpleado(int legajo){
         cout << "ERROR: No se puede alterar este empleado." << endl;
         return false;
     }
-
     if(!buscarEmpleado("LEGAJO", legajo, empleadoAModificar)){
         cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
         return false;
     }
+    if(empleadoAModificar.getUsuarioEliminado()){
+        cout << "ERROR: El empleado con legajo " << legajo << " esta eliminado." << endl;
+        return false;
+    }
+
     system("cls");
     cout << "----- MODIFICACION DE DATOS DEL EMPLEADO -----" << endl;
     cout << "Datos actuales del empleado:" << endl;
@@ -233,7 +206,6 @@ bool modificarDatosEmpleado(int legajo){
                 break;
             }
         }
-        break;
     }
     if(modificarEmpleado(empleadoAModificar)){
         cout << "Empleado modificado correctamente." << endl;
@@ -317,10 +289,6 @@ bool restaurarEmpleado(int legajo){
     else cout << "Entrada no reconocida. Operacion cancelada." << endl;
     return false;
 }
-
-// ------ FUNCIONES PARA EL EMPLEADO ------
-
-// (etc)
 
 // ------ FUNCIONES PARA BUSQUEDA DE EMPLEADOS ------
 
@@ -410,7 +378,6 @@ bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrad
     }
     bool seEncontro = false;
     while(fread(&encontrado, sizeof(Empleado), 1, archivo)){
-        if(encontrado.getUsuarioEliminado()) continue;
         if(strcmp(criterio, "NOMBRE") == 0){
             if(strcmp(encontrado.getNombre(), valor) == 0) seEncontro = true;
         }
@@ -447,26 +414,40 @@ bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrad
     return false;
 }
 
-bool buscarEmpleadoLegajo(int legajo, Empleado &empleadoEncontrado){
-    return buscarEmpleado("LEGAJO", legajo, empleadoEncontrado);
+
+// ------ FUNCIONES PARA EL EMPLEADO ------
+
+// (etc)
+
+// ----- FUNCIONES AUXILIARES PARA EMPLEADOS -----
+
+int generarLegajo(){
+    FILE* archivo = fopen("empleados.dat", "rb");
+    int maxId = 0;
+    if(archivo == nullptr) return 1;
+
+    Empleado empleadoActual;
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(empleadoActual.getLegajo() > maxId){
+            maxId = empleadoActual.getLegajo();
+        }
+    }
+    fclose(archivo);
+    return maxId + 1;
 }
 
-bool buscarEmpleadoDni(int dni, Empleado &empleadoEncontrado){
-    return buscarEmpleado("DNI", dni, empleadoEncontrado);
-}
-
-bool buscarEmpleadoNombre(const char* nombre, Empleado &empleadoEncontrado){
-    return buscarEmpleado("NOMBRE", nombre, empleadoEncontrado);
-}
-
-bool buscarEmpleadoApellido(const char* apellido, Empleado &empleadoEncontrado){
-    return buscarEmpleado("APELLIDO", apellido, empleadoEncontrado);
-}
-
-bool buscarEmpleadoLocalidad(const char* localidad, Empleado &empleadoEncontrado){
-    return buscarEmpleado("LOCALIDAD", localidad, empleadoEncontrado);
-}
-
-bool buscarEmpleadoEdad(int edad, Empleado &empleadoEncontrado){
-    return buscarEmpleado("EDAD", edad, empleadoEncontrado);
+int posicionEmpleadoPorLegajo(int legajo){
+    FILE* archivo = fopen("empleados.dat", "rb");
+    if(archivo == nullptr) return -2;
+    Empleado empleadoActual;
+    int pos = 0;
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(empleadoActual.getLegajo() == legajo){
+            fclose(archivo);
+            return pos;
+        }
+        pos++;
+    }
+    fclose(archivo);
+    return -1;
 }

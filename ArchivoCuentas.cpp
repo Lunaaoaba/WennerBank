@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <cstring>
+#include <iostream> 
 #include "ArchivoCuentas.h"
 #include "archivoClientes.h"
 #include "cuentaBancaria.h"
@@ -12,9 +13,7 @@
 
 using namespace std;
 
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA MANEJO DE ARCHIVOS DE CUENTAS
-// ----------------------------------------------------------------------
+// ----- FUNCIONES PARA MANEJO DE ARCHIVOS DE CUENTAS -----
 bool guardarCuentas(const cuentaBancaria& cuenta){
     FILE* archivo = fopen("cuentas.dat", "ab");
     if(archivo == nullptr){
@@ -26,93 +25,9 @@ bool guardarCuentas(const cuentaBancaria& cuenta){
     return true;
 }
 
-int generarIdCuenta(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
-    int maxId = 0;
-    if(archivo == nullptr) return 1;
-    
-    cuentaBancaria reg;
-    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(reg.getIdCuenta() > maxId){
-            maxId = reg.getIdCuenta();
-        }
-    }
-    fclose(archivo);
-    return maxId + 1;
-}
-
-void generarCvu(char* cvu){
-    srand(static_cast<unsigned int>(time(nullptr)));
-    bool existe = false;
-    while(!existe){
-        for(int i = 0; i < 22; i++){
-            cvu[i] = '0' + (rand() % 10);  // Dígito aleatorio 0-9
-        }
-        cvu[22] = '\0';
-        // crear funcion
-        if(!existeCvu(cvu)) existe = true;
-    }
-}
-
-void generarAlias(char* alias){
-    srand(static_cast<unsigned>(time(nullptr)));
-    // to eso para generar alias unico
-    // sustantivos
-
-    // 35+35+35 = 105
-    // 105^3 = 1,157,625 combinaciones posibles
-    // orden aleatorio + repeticion de categorias
-    const char* sustantivos[35] = {
-        "TIGRE", "DRAGON", "FENIX", "COMETA", "RELOJ",
-        "LIBRO", "ESPEJO", "CANDADO", "VOLCAN", "CRISTAL",
-        "TRUENO", "ROBOT", "PIANO", "FARO", "CASTILLO",
-        "PUENTE", "RELAMPAGO", "BRUJULA", "DIAMANTE", "CASCADA",
-        "VELA", "PORTAL", "METEORO", "OASIS", "TORRE",
-        "LAGO", "TEMPO", "MARCO", "CUBO", "PILAR",
-        "CIRCO", "MANTO", "CLAVO", "TORNADO", "AURA"
-
-    };
-    // adjetivos
-    const char* adjetivos[35] = {
-        "INFINITO", "MAGICO", "VELOZ", "SILENCIOSO", "INVISIBLE",
-        "DORADO", "BRILLANTE", "SALVAJE", "HELADO", "ARDIENTE",
-        "COSMICO","FRAGIL", "PODEROSO", "OCULTO", "LIBRE",
-        "REBELDE", "LEGENDARIO", "RADIANTE", "SECRETO", "DIVINO",
-        "SERENO", "TRANQUILO", "FUGAZ", "SUAVE", "AGUDO",
-        "LUMINOSO", "TENUE", "VASTO", "PURO", "ARIDO",
-        "FIRME", "SOLIDO", "NITIDO", "LIVIANO", "INTENSO"
-    };
-    // verbos
-    const char* verbos[35] = {
-        "CORRER", "SALTAR", "VOLAR", "NADAR", "BRILLAR",
-        "CANTAR", "BAILAR", "CRECER", "VIAJAR", "LEER",
-        "JUGAR", "MIRAR", "BUSCAR", "CREAR", "PENSAR",
-        "SENTIR", "VIVIR", "FLUIR", "GIRAR", "TOMAR",
-        "ROMPER", "DAR", "MOVER", "GUIAR", "TEJER",
-        "LLAMAR", "FORJAR", "GUARDAR", "PULSAR", "SEGUIR",
-        "HABLAR", "SOÑAR", "FORMAR", "SUBIR", "BAJAR"
-    };
-
-    const char** categorias[3] = {sustantivos, adjetivos, verbos};
-    bool existe = false;
-    while(!existe){
-        // Elige 3 palabras al azar       (categoría + posición)
-        const char* palabra1 = categorias[rand() % 3] [rand() % 35];
-        const char* palabra2 = categorias[rand() % 3] [rand() % 35];
-        const char* palabra3 = categorias[rand() % 3] [rand() % 35];
-
-        // Formato: "PALABRA1.PALABRA2.PALABRA3"
-        sprintf(alias, "%s.%s.%s", palabra1, palabra2, palabra3);
-
-        if(!existeAlias(alias)){
-            existe = true;
-        }
-    }
-}
-
 cuentaBancaria crearCuenta(int idCliente){
     Cliente cliente;
-    if(!buscarClienteId(idCliente, cliente)){
+    if(!buscarCliente("ID", idCliente, cliente)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return cuentaBancaria();  // Retorna cuenta vacía
     }
@@ -161,6 +76,7 @@ cuentaBancaria crearCuenta(int idCliente){
     char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarCuentas(nuevaCuenta)){
+            system("cls");
             cout << "\n----- CUENTA CREADA CON EXITO -----" << endl;
             cout << "ID Cuenta: " << idCuenta << endl;
             cout << "CVU: " << cvu << endl;
@@ -178,22 +94,6 @@ cuentaBancaria crearCuenta(int idCliente){
     }
     
     return nuevaCuenta;
-}
-
-bool posicionCuentaPorId(int idCuenta){
-    FILE* archivo = fopen("cuentas.dat", "rb");
-    if(archivo == nullptr) return -2;
-    cuentaBancaria cuentaActual;
-    int pos = 0;
-    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(cuentaActual.getIdCuenta() == idCuenta){
-            fclose(archivo);
-            return pos;
-        }
-        pos++;
-    }
-    fclose(archivo);
-    return -1;
 }
 
 bool modificarCuenta(const cuentaBancaria& cuentaModificada){
@@ -270,7 +170,6 @@ bool modificarDatosCuenta(int idCuenta){
                 break;
             }
         }
-        break;
     }
     if(modificarCuenta(cuentaAModificar)){
         cout << "Cuenta modificada correctamente." << endl;
@@ -361,7 +260,35 @@ bool restaurarCuenta(int idCuenta){
 // ----------------------------------------------------------------------}
 
 void listarCuentasCliente(int idCliente){
+    FILE* archivo = fopen("cuentas.dat", "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        return;
+    }
     
+    cuentaBancaria cuentaActual;
+    int contador = 0;
+    
+    system("cls");
+    cout << "----- CUENTAS DEL CLIENTE ID=" << idCliente << " -----" << endl;
+    cout << "----------------------------------------" << endl << endl;
+    
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
+            cout << cuentaActual.mostrarDatos() << endl;
+            contador++;
+            cout << endl << "----------------------------------------" << endl << endl;
+        }
+    }
+    
+    fclose(archivo);
+    
+    if(contador == 0){
+        cout << "El cliente no tiene cuentas bancarias activas." << endl;
+    }
+    else{
+        cout << "Total de cuentas: " << contador << endl;
+    }
 }
 
 void listarCuentas(){
@@ -401,7 +328,7 @@ void listarTodasCuentas(){
     cout << "----------------------------------------" << endl << endl;
     while (fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         cout << cuentaActual.mostrarDatos() << endl;
-        if(!cuentaActual.getCuentaEliminada()) cout << "[ CUENTA ELIMINADA ]" << endl;
+        if(cuentaActual.getCuentaEliminada()) cout << "[ CUENTA ELIMINADA ]" << endl;
             i++;
             cout << endl << "----------------------------------------" << endl << endl;
     }
@@ -482,39 +409,207 @@ bool buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encon
     return seEncontro;
 }
 
-bool buscarCuentaId(int idCuenta, cuentaBancaria &Encontrada){
-    return buscarCuenta("ID", idCuenta, Encontrada);
-}
 
-bool buscarCuentaIdCliente(int idCliente, cuentaBancaria &cuentaEncontrada){
-    return buscarCuenta("IDCLIENTE", idCliente, cuentaEncontrada);
-}
-
-bool buscarCuentaSaldo(double saldo, cuentaBancaria &cuentaEncontrada){
-    return buscarCuenta("SALDO", static_cast<int>(saldo), cuentaEncontrada);
-}
-
-bool buscarCuentaCvu(const char* cvu, cuentaBancaria &cuentaEncontrada){
-    return buscarCuenta("CVU", cvu, cuentaEncontrada);
-}
-
-bool buscarCuentaAlias(const char* alias, cuentaBancaria &cuentaEncontrada){
-    return buscarCuenta("ALIAS", alias, cuentaEncontrada);
-}
-
-bool buscarCuentaNombre(const char* nombreCuenta, cuentaBancaria &cuentaEncontrada){
-    return buscarCuenta("NOMBRECUENTA", nombreCuenta, cuentaEncontrada);
-}
-
-// // por las dudas
-
-//----------------------------------------------------------------------
-//             FUNCIONES PARA LA CUENTA BANCARIA
-// ----------------------------------------------------------------------
+// ----- FUNCIONES PARA LA CUENTA BANCARIA -----
 
 void mostrarSaldo (double saldo) {
 cout<<"Su balance es: $ " <<setprecision(2) << fixed << saldo << endl;
 }
 
+bool depositar(int idCuenta, double monto){
+    if(monto <= 0){
+        cout << "ERROR: El monto debe ser mayor a 0." << endl;
+        return false;
+    }
+    
+    cuentaBancaria cuenta;
+    if(!buscarCuenta("ID", idCuenta, cuenta)){
+        cout << "ERROR: No se encontro la cuenta." << endl;
+        return false;
+    }
+    if(cuenta.getCuentaEliminada()){
+        cout << "ERROR: La cuenta esta cerrada." << endl;
+        return false;
+    }
+    
+    cuenta.setSaldo(cuenta.getSaldo() + monto);
 
-//bool actualizarCuenta(const cuentaBancaria& cuentaModificada) {}
+    if(modificarCuenta(cuenta)){
+        cout << "Deposito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        return true;
+    }
+    
+    cout << "ERROR: No se pudo realizar el deposito." << endl;
+    return false;
+}
+
+bool extraer(int idCuenta, double monto){
+    if(monto <= 0){
+        cout << "ERROR: El monto debe ser mayor a 0." << endl;
+        return false;
+    }
+    
+    cuentaBancaria cuenta;
+    if(!buscarCuenta("ID", idCuenta, cuenta)){
+        cout << "ERROR: No se encontro la cuenta." << endl;
+        return false;
+    }
+    if(cuenta.getCuentaEliminada()){
+        cout << "ERROR: La cuenta esta cerrada." << endl;
+        return false;
+    }
+    if(cuenta.getSaldo() < monto){
+        cout << "ERROR: Saldo insuficiente." << endl;
+        return false;
+    }
+    
+    cuenta.setSaldo(cuenta.getSaldo() - monto);
+    
+    if(modificarCuenta(cuenta)){
+        cout << "Extraccion exitosa. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        return true;
+    }
+    
+    cout << "ERROR: No se pudo realizar la extraccion." << endl;
+    return false;
+}
+
+bool transferir(int idCuentaOrigen, int idCuentaDestino, double monto){
+    if(monto <= 0){
+        cout << "ERROR: El monto debe ser mayor a 0." << endl;
+        return false;
+    }
+    if(idCuentaOrigen == idCuentaDestino){
+        cout << "ERROR: No se puede transferir a la misma cuenta." << endl;
+        return false;
+    }
+
+    cuentaBancaria cuentaOrigen, cuentaDestino;
+    if(!buscarCuenta("ID", idCuentaOrigen, cuentaOrigen)){
+        cout << "ERROR: No se encontro la cuenta origen." << endl;
+        return false;
+    }
+    if(!buscarCuenta("ID", idCuentaDestino, cuentaDestino)){
+        cout << "ERROR: No se encontro la cuenta destino." << endl;
+        return false;
+    }
+    if(cuentaOrigen.getCuentaEliminada() || cuentaDestino.getCuentaEliminada()){
+        cout << "ERROR: Una de las cuentas esta cerrada." << endl;
+        return false;
+    }
+    if(cuentaOrigen.getSaldo() < monto){
+        cout << "ERROR: Saldo insuficiente en cuenta origen." << endl;
+        return false;
+    }
+    
+    // Realizar transferencia
+    cuentaOrigen.setSaldo(cuentaOrigen.getSaldo() - monto);
+    cuentaDestino.setSaldo(cuentaDestino.getSaldo() + monto);
+    
+    if(modificarCuenta(cuentaOrigen) && modificarCuenta(cuentaDestino)){
+        cout << "Transferencia exitosa." << endl;
+        cout << "Saldo cuenta origen: $" << cuentaOrigen.getSaldo() << endl;
+        cout << "Saldo cuenta destino: $" << cuentaDestino.getSaldo() << endl;
+        return true;
+    }
+    
+    cout << "ERROR: No se pudo completar la transferencia." << endl;
+    return false;
+}
+
+// ----- FUNCIONES AUXILIARES PARA CUENTAS -----
+
+int generarIdCuenta(){
+    FILE* archivo = fopen("cuentas.dat", "rb");
+    int maxId = 0;
+    if(archivo == nullptr) return 1;
+    
+    cuentaBancaria reg;
+    while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(reg.getIdCuenta() > maxId){
+            maxId = reg.getIdCuenta();
+        }
+    }
+    fclose(archivo);
+    return maxId + 1;
+}
+
+void generarCvu(char* cvu){
+    srand(static_cast<unsigned int>(time(nullptr)));
+    bool cvuUnico = false;
+    while(!cvuUnico){
+        for(int i = 0; i < 10; i++){
+            cvu[i] = static_cast<char>('0' + (rand() % 10));  // Dígito aleatorio 0-9
+        }
+        cvu[10] = '\0';
+        if(!existeCvu(cvu)){
+            cvuUnico = true;
+        }
+    }
+}
+
+void generarAlias(char* alias){
+    srand(static_cast<unsigned>(time(nullptr)));
+    // 35+35+35 = 105
+    // 105^3 = 1,157,625 combinaciones posibles
+    // orden aleatorio + repeticion de categorias
+    const char* sustantivos[35] = {
+        "TIGRE", "DRAGON", "FENIX", "COMETA", "RELOJ",
+        "LIBRO", "ESPEJO", "CANDADO", "VOLCAN", "CRISTAL",
+        "TRUENO", "ROBOT", "PIANO", "FARO", "CASTILLO",
+        "PUENTE", "RELAMPAGO", "BRUJULA", "DIAMANTE", "CASCADA",
+        "VELA", "PORTAL", "METEORO", "OASIS", "TORRE",
+        "LAGO", "TEMPO", "MARCO", "CUBO", "PILAR",
+        "CIRCO", "MANTO", "CLAVO", "TORNADO", "AURA"
+    };
+    const char* adjetivos[35] = {
+        "INFINITO", "MAGICO", "VELOZ", "SILENCIOSO", "INVISIBLE",
+        "DORADO", "BRILLANTE", "SALVAJE", "HELADO", "ARDIENTE",
+        "COSMICO","FRAGIL", "PODEROSO", "OCULTO", "LIBRE",
+        "REBELDE", "LEGENDARIO", "RADIANTE", "SECRETO", "DIVINO",
+        "SERENO", "TRANQUILO", "FUGAZ", "SUAVE", "AGUDO",
+        "LUMINOSO", "TENUE", "VASTO", "PURO", "ARIDO",
+        "FIRME", "SOLIDO", "NITIDO", "LIVIANO", "INTENSO"
+    };
+    const char* verbos[35] = {
+        "CORRER", "SALTAR", "VOLAR", "NADAR", "BRILLAR",
+        "CANTAR", "BAILAR", "CRECER", "VIAJAR", "LEER",
+        "JUGAR", "MIRAR", "BUSCAR", "CREAR", "PENSAR",
+        "SENTIR", "VIVIR", "FLUIR", "GIRAR", "TOMAR",
+        "ROMPER", "DAR", "MOVER", "GUIAR", "TEJER",
+        "LLAMAR", "FORJAR", "GUARDAR", "PULSAR", "SEGUIR",
+        "HABLAR", "SOÑAR", "FORMAR", "SUBIR", "BAJAR"
+    };
+
+    const char** categorias[3] = {sustantivos, adjetivos, verbos};
+     bool aliasUnico = false;
+    while(!aliasUnico){
+        // Elige 3 palabras al azar       (categoría + posición)
+        const char* palabra1 = categorias[rand() % 3] [rand() % 35];
+        const char* palabra2 = categorias[rand() % 3] [rand() % 35];
+        const char* palabra3 = categorias[rand() % 3] [rand() % 35];
+
+        // Formato: "PALABRA1.PALABRA2.PALABRA3"
+        sprintf(alias, "%s.%s.%s", palabra1, palabra2, palabra3);
+
+        if(!existeAlias(alias)){
+            aliasUnico = true;
+        }
+    }
+}
+
+int posicionCuentaPorId(int idCuenta){
+    FILE* archivo = fopen("cuentas.dat", "rb");
+    if(archivo == nullptr) return -2;
+    cuentaBancaria cuentaActual;
+    int pos = 0;
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(cuentaActual.getIdCuenta() == idCuenta){
+            fclose(archivo);
+            return pos;
+        }
+        pos++;
+    }
+    fclose(archivo);
+    return -1;
+}

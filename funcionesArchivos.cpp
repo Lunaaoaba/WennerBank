@@ -5,6 +5,10 @@
 #include "Tiempo.h"
 #include "administrador.h"
 #include "cuentaBancaria.h"
+#include "ArchivoClientes.h"
+#include "ArchivoEmpleados.h"
+#include "ArchivoCuentas.h"
+#include "ArchivoMovimientos.h"
 
 using namespace std;
 
@@ -174,57 +178,49 @@ bool existeAlias(const char* alias){
     return false;
 }
 
+
+// --- LOGIN ---
+
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado){
-    FILE* archivo = fopen("clientes.dat", "rb");
-    if(archivo == nullptr){
-        cout << "ERROR: No existen registros de usuarios." << endl;
+    if(!buscarCliente("MAIL", mail, clienteEncontrado)){
+        cout << "ERROR: Mail incorrecto." << endl;
         return false;
     }
-    bool mailEncontrado = false;
-    
-    while(fread(&clienteEncontrado, sizeof(Cliente), 1, archivo) == 1){
-        if(strcmp(clienteEncontrado.getMail(), mail) == 0){
-            mailEncontrado = true;
-            if(strcmp(clienteEncontrado.getContrasena(), contrasena) == 0){
-                fclose(archivo);
-                return true;
-            }
-            else{
-                cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
-                fclose(archivo);
-                return false;
-            }
-        }
+    if(clienteEncontrado.getUsuarioEliminado()){
+        cout << "ERROR: El cliente con mail " << mail << " esta eliminado." << endl;
+        return false;
     }
-    if(!mailEncontrado) cout << "ERROR: Mail incorrecto." << endl;
-    fclose(archivo);
-    return false;
+    if(strcmp(clienteEncontrado.getContrasena(), contrasena) != 0){
+        cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
+        return false;
+    }
+
+    return true;
 }
 
 bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleadoEncontrado){
-    FILE* archivo = fopen("empleados.dat", "rb");
-    if(archivo == nullptr){
-        cout << "ERROR: No existen registros de empleados." << endl;
+    Administrador* admin = Administrador::getInstancia();
+    if(admin->getLegajo() == legajo){
+        if(strcmp(admin->getContrasena(), contrasena) == 0){
+            return true;
+        }
+        else return false;
+    }
+
+    if(!buscarEmpleado("LEGAJO", legajo, empleadoEncontrado)){
+        cout << "ERROR: Empleado no encontrado." << endl;
         return false;
     }
-    bool legajoEncontrado = false;
-        while(fread(&empleadoEncontrado, sizeof(Empleado), 1, archivo) == 1){
-        if(empleadoEncontrado.getLegajo() == legajo){
-            legajoEncontrado = true;
-            if(strcmp(empleadoEncontrado.getContrasena(), contrasena) == 0){
-                fclose(archivo);
-                return true;
-            }
-            else{
-                cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
-                fclose(archivo);
-                return false;
-            }
-        }
+    if(empleadoEncontrado.getUsuarioEliminado()){
+        cout << "ERROR: Empleado no encontrado." << endl;
+        return false;
     }
-    if(!legajoEncontrado) cout << "ERROR: Legajo incorrecto." << endl;
-    fclose(archivo);
-    return false;
+    if(strcmp(empleadoEncontrado.getContrasena(), contrasena) != 0){
+        cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
+        return false;
+    }
+
+    return true;
 }
 
 // para comparar dos fechas
