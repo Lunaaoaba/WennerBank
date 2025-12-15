@@ -1,84 +1,18 @@
 #include <cstring>
 #include <iostream>
-#include "tipoUsuario.h"
-#include "Fecha.h"
-#include "Tiempo.h"
+#include "cliente.h"
+#include "empleado.h"
+#include "fecha.h"
+#include "tiempo.h"
 #include "administrador.h"
 #include "cuentaBancaria.h"
-#include "ArchivoClientes.h"
+#include "archivoClientes.h"
 #include "ArchivoEmpleados.h"
 #include "ArchivoCuentas.h"
-#include "ArchivoMovimientos.h"
+#include "archivoTransacciones.h"
+#include "funciones.h"
 
 using namespace std;
-
-
-void iniciarArchivos(){
-// ARCHIVO CLIENTES
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
-    if (archivoClientes == nullptr){ // si no existe, lo crea
-        archivoClientes = fopen ("clientes.dat", "wb");
-        if (archivoClientes == nullptr) {
-            cout << "ERROR FATAL: No se pudo crear el archivo de clientes." << endl;
-            exit(-1);
-        }
-        cout << "Archivo 'clientes.dat' no encontrado. Creando y guardando Cliente Banco..." << endl;
-        // crear cliente del banco
-        Cliente clienteBanco(
-            10000000, // dni
-            "Sistema", // nombre
-            "WennerBank", // apellido
-            "Central", // localidad
-            Fecha(14, 11, 1987), // fecha "nacimiento" / "creacion del banco"
-            "bancoWennerBank@mail.com", // mail
-            "contrasenaSegura123", // contrasena
-            false, // Usuario eliminado (obviamente falso)
-            1 // idCliente
-        );
-        fwrite(&clienteBanco, sizeof(Cliente), 1, archivoClientes);
-        fclose(archivoClientes);
-    }
-    else fclose(archivoClientes);
-
-// ARCHIVO CUENTAS
-    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
-    if (archivoCuentas == nullptr){ // si no existe, lo crea
-        archivoCuentas = fopen ("cuentas.dat", "wb");
-        if (archivoCuentas == nullptr) {
-            cout << "ERROR FATAL: No se pudo crear el archivo de cuentas." << endl;
-            exit(-1);
-        }
-        cout << "Archivo 'cuentas.dat' no encontrado. Creando y guardando Cuenta Banco..." << endl;
-        // crear cuenta bancaria del banco
-        cuentaBancaria cuentaBanco(
-            1, // id cuenta
-            1, // id cliente
-            "Banco Central", // nombre cuenta
-            "0000000000000000000000", // cvu
-            "BANCO.CENTRAL.WENNER", // alias
-            10000000.00, // saldo inicial
-            false // cuenta eliminada
-        );
-        fwrite(&cuentaBanco, sizeof(cuentaBancaria), 1, archivoCuentas);
-        fclose(archivoCuentas);
-    }
-    else fclose(archivoCuentas);
-
-// ARCHIVO EMPLEADOS
-    FILE* archivoEmpleados = fopen("empleados.dat", "ab"); // "ab" es mas seguro, crea si no existe
-    if(archivoEmpleados != nullptr) fclose(archivoEmpleados);
-    else cout << "ERROR FATAL: No se pudo crear el archivo de empleados." << endl;
-
-// ARCHIVO TRANSACCIONES
-    FILE* archivoTransacciones = fopen("transacciones.dat", "ab");
-    if(archivoTransacciones != nullptr) fclose(archivoTransacciones);
-    else cout << "ERROR FATAL: No se pudo crear el archivo de transacciones." << endl;
-
-// ARCHIVO PRESTAMOS
-    FILE* archivoPrestamos = fopen("prestamos.dat", "ab");
-    if(archivoPrestamos != nullptr) fclose(archivoPrestamos);
-    else cout << "ERROR FATAL: No se pudo crear el archivo de prestamos." << endl;
-}
 
 
 // para ver si el mail existe en algun usuario (cliente o empleado)
@@ -182,7 +116,8 @@ bool existeAlias(const char* alias){
 // --- LOGIN ---
 
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado){
-    if(!buscarCliente("MAIL", mail, clienteEncontrado)){
+    ArchivoClientes obj;
+    if(!obj.buscarCliente("MAIL", mail, clienteEncontrado)){
         cout << "ERROR: Mail incorrecto." << endl;
         return false;
     }
@@ -202,12 +137,14 @@ bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleado
     Administrador* admin = Administrador::getInstancia();
     if(admin->getLegajo() == legajo){
         if(strcmp(admin->getContrasena(), contrasena) == 0){
+            empleadoEncontrado = *admin;
             return true;
         }
         else return false;
     }
 
-    if(!buscarEmpleado("LEGAJO", legajo, empleadoEncontrado)){
+    ArchivoEmpleados obj;
+    if(!obj.buscarEmpleado("LEGAJO", legajo, empleadoEncontrado)){
         cout << "ERROR: Empleado no encontrado." << endl;
         return false;
     }

@@ -5,7 +5,8 @@
 #include <cstdlib>
 #include "menu.h"
 #include "cuentaBancaria.h"
-#include "tipoUsuario.h"
+#include "cliente.h"
+#include "empleado.h"
 #include "funciones.h"
 #include "art.h"
 #include "ArchivoClientes.h"
@@ -16,6 +17,7 @@
 #include "menuEmpleado.h"
 #include "menuAdministrador.h"
 #include "menuReportes.h"
+#include "ArchivoTransacciones.h"
 
 using namespace std;
 
@@ -25,6 +27,11 @@ using namespace std;
 // ----------------------------------------------------------------------
 
 void menuTest(){
+    ArchivoClientes objClientes;
+    ArchivoEmpleados objEmpleados;
+    ArchivoCuentas objCuentas;
+    ArchivoTransacciones objTransacciones;
+
     int opcion;
     bool continuar = true;
     while(continuar){
@@ -59,24 +66,26 @@ void menuTest(){
         cout << "17. Restaurar Cuenta" << endl;
         cout << "18. Modificar Cuenta" << endl;
         cout << "---------------------------" << endl;
-        cout << "19. Salir" << endl;
+        cout << "19. Listar Transacciones" << endl;
+        cout << "20. Listar Transacciones de una cuenta" << endl;
+        cout << "21. Salir" << endl;
         cout << "---------------------------" << endl;
         cout << "Ingrese una opcion: ";
-        opcion = validarEntero(1, 19);
+        opcion = validarEntero(1, 21);
         switch (opcion){
             case 1: {
                 system("cls");
-                crearCliente();
+                objClientes.crearCliente();
                 break;
             }
             case 2: {
                 system("cls");
-                listarClientes();
+                objClientes.listarClientes();
                 break;
             }
             case 3: {
                 system("cls");
-                listarTodosClientes();
+                objClientes.listarTodosClientes();
                 break;
             }
             case 4: {
@@ -85,7 +94,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                eliminarCliente(id);
+                objClientes.eliminarCliente(id);
                 break;
             }
             case 5: {
@@ -94,7 +103,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                restaurarCliente(id);
+                objClientes.restaurarCliente(id);
                 break;
             }
             case 6: {
@@ -103,22 +112,22 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                modificarDatosCliente(id);
+                objClientes.modificarDatosCliente(id);
                 break;
             }
             case 7: {
                 system("cls");
-                crearEmpleado();
+                objEmpleados.crearEmpleado();
                 break;
             }
             case 8: {
                 system("cls");
-                listarEmpleados();
+                objEmpleados.listarEmpleados();
                 break;
             }
             case 9: {
                 system("cls");
-                listarTodosEmpleados();
+                objEmpleados.listarTodosEmpleados();
                 break;
             }
             case 10: {
@@ -127,7 +136,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                eliminarEmpleado(id);
+                objEmpleados.eliminarEmpleado(id);
                 break;
             }
             case 11: {
@@ -136,7 +145,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                restaurarEmpleado(id);
+                objEmpleados.restaurarEmpleado(id);
                 break;
             }
             case 12: {
@@ -145,7 +154,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
                 int id = validarEntero(1, 999999);
-                modificarDatosEmpleado(id);
+                objEmpleados.modificarDatosEmpleado(id);
                 break;
             }
             case 13: {
@@ -154,17 +163,17 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID del cliente:" << endl;
                 int idCliente = validarEntero(1, 999999);
-                crearCuenta(idCliente);
+                objCuentas.crearCuenta(idCliente);
                 break;
             }
             case 14: {
                 system("cls");
-                listarCuentas();
+                objCuentas.listarCuentas();
                 break;
             }
             case 15: {
                 system("cls");
-                listarTodasCuentas();
+                objCuentas.listarTodasCuentas();
                 break;
             }
             case 16: {
@@ -173,7 +182,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
                 int idCuenta = validarEntero(1, 999999);
-                eliminarCuenta(idCuenta);
+                objCuentas.eliminarCuenta(idCuenta);
                 break;
             }
             case 17: {
@@ -182,7 +191,7 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
                 int idCuenta = validarEntero(1, 999999);
-                restaurarCuenta(idCuenta);
+                objCuentas.restaurarCuenta(idCuenta);
                 break;
             }
             case 18: {
@@ -191,10 +200,28 @@ void menuTest(){
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
                 int idCuenta = validarEntero(1, 999999);
-                modificarDatosCuenta(idCuenta);
+                objCuentas.modificarDatosCuenta(idCuenta);
                 break;
             }
-            case 19: { 
+            case 19: {
+                system("cls");
+                cout << "Listar Transacciones" << endl;
+                cout << "---------------------" << endl;
+                ArchivoTransacciones archivoTra;
+                archivoTra.listarTransacciones();
+                break;
+            }
+            case 20: {
+                system("cls");
+                cout << "Listar Transacciones de una cuenta" << endl;
+                cout << "---------------------" << endl;
+                cout << "Ingrese el ID de la cuenta:" << endl;
+                int idCuenta = validarEntero(1, 999999);
+                ArchivoTransacciones archivoTra;
+                archivoTra.listarTransaccionesCuenta(idCuenta);
+                break;
+            }
+            case 21: {
                 system("cls");
                 cout << "Saliendo del programa..." << endl << "byebye <3" << endl;
                 system("pause");
@@ -222,7 +249,7 @@ void menuBienvenida(){
                 continuar = false;
                 break;
             }
-            case 18: { // F1
+            case 19: { // F1
                 menuReportes();
                 continuar = false;
                 break;
@@ -236,58 +263,70 @@ void menuBienvenida(){
     }
 }
 
+
 void InicioPrograma(){
     //inicio de sesion
-    bool sesionActiva = false;
+    ArchivoClientes objClientes;
     int idUsuarioActivo = -1;
     int tipoUsuarioActivo = 0; // 1: cliente, 2: empleado, 3: admin
     bool mostrarBienvenida = true;
-    
+
     while(true){
-        if(!sesionActiva){
+        if(tipoUsuarioActivo == 0){
             system("cls");
-            
+
             if(mostrarBienvenida){
+                //rlutil::setBackgroundColor(1);
                 menuBienvenida();
                 mostrarBienvenida = false;
             }
-            
+
             system("cls");
+            //rlutil::setBackgroundColor(1);
+            rlutil::locate(40, 5);
             cout << "========================================" << endl;
+            rlutil::locate(40, 6);
             cout << "      WENNER BANK - MENU PRINCIPAL" << endl;
+            rlutil::locate(40, 7);
             cout << "========================================" << endl << endl;
+            rlutil::locate(40, 8);
             cout << "1. Crear cuenta (Cliente)" << endl;
+            rlutil::locate(40, 9);
             cout << "2. Iniciar sesion (Cliente)" << endl;
+            rlutil::locate(40, 10);
             cout << "3. Iniciar sesion (Empleado/Admin)" << endl;
-            cout << "4. Menu de pruebas (DEBUG)" << endl;
-            cout << "5. Salir" << endl << endl;
-            
-            int opcion = validarEntero(1, 5);
-            
+            rlutil::locate(40, 11);
+            cout << "4. Salir" << endl << endl;
+
+            int opcion = validarEntero(1, 6);
             switch(opcion){
                 case 1: {
-                    crearCliente();
+                    objClientes.crearCliente();
                     system("pause");
                     break;
                 }
                 case 2: {
-                    iniciarSesionCliente(sesionActiva, idUsuarioActivo, tipoUsuarioActivo);
+                    iniciarSesionCliente(idUsuarioActivo, tipoUsuarioActivo);
                     break;
                 }
                 case 3: {
-                    iniciarSesionEmpleado(sesionActiva, idUsuarioActivo, tipoUsuarioActivo);
+                    iniciarSesionEmpleado(idUsuarioActivo, tipoUsuarioActivo);
                     break;
                 }
                 case 4: {
+                    system("cls");
+                    cout << "Saliendo del programa..." << endl;
+                    cout << ":3" << endl;
+                    system("pause");
+                    exit(0);
+                }
+                case 5: {
                     menuTest();
                     break;
                 }
-                case 5: {
-                    system("cls");
-                    cout << "Saliendo del programa..." << endl;
-                    cout << "Gracias por usar Wenner Bank!" << endl;
-                    system("pause");
-                    exit(0);
+                case 6: {
+                    menuReportes();
+                    break;
                 }
             }
         }
@@ -303,13 +342,12 @@ void InicioPrograma(){
                     break;
                 }
                 case 3: {
-                    // menuAdministrador();
+                    menuAdmin();
                     break;
                 }
             }
-            
+
             // Al salir del menú específico, cerrar sesión
-            sesionActiva = false;
             idUsuarioActivo = -1;
             tipoUsuarioActivo = 0;
         }
@@ -318,25 +356,26 @@ void InicioPrograma(){
 
 
 
-void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual){
+void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
     Cliente clienteEncontrado;
     char mail[50], contrasena[50];
 
     system("cls");
+    rlutil::locate(40, 2);
     cout << "========================================" << endl;
     cout << "    INICIO DE SESION - CLIENTE" << endl;
     cout << "========================================" << endl << endl;
-    
+
     cout << "Ingresar mail: ";
     validarCadena(mail, 50);
     cout << "Ingresar contrase" << char(164) << "a: ";
     validarCadenaLargo(contrasena, 8, 50);
 
     if(validarLoginCliente(mail, contrasena, clienteEncontrado)){
-        sesionActiva = true;
         idUsuarioActual = clienteEncontrado.getIdCliente();
         tipoUsuarioActual = 1; // cliente
         system("cls");
+        rlutil::locate(40, 2);
         cout << "========================================" << endl;
         cout << "  Bienvenido/a, " << clienteEncontrado.getNombre() << "!" << endl;
         cout << "========================================" << endl;
@@ -346,12 +385,13 @@ void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsu
     system("pause");
 }
 
-void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual){
+void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
     Empleado empleadoEncontrado;
     int legajo;
     char contrasena[50];
 
     system("cls");
+    rlutil::locate(40, 2);
     cout << "========================================" << endl;
     cout << "    INICIO DE SESION - EMPLEADO" << endl;
     cout << "========================================" << endl << endl;
@@ -362,7 +402,6 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
     validarCadenaLargo(contrasena, 8, 50);
 
     if(validarLoginEmpleado(legajo, contrasena, empleadoEncontrado)){
-        sesionActiva = true;
         idUsuarioActual = legajo;
 
         if(legajo == 1){ // admin
@@ -386,5 +425,3 @@ void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUs
 }
 
 // -------------------------------------------------------------------------------------------------------
-
-

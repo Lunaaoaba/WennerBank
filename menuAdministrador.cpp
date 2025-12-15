@@ -57,6 +57,10 @@ void menuAdmin(){
 }
 
 void menuListadosAdmin(){
+    ArchivoClientes objClientes;
+    ArchivoEmpleados objEmpleados;
+    ArchivoCuentas objCuentas;
+
     bool continuar = true;
     
     while(continuar){
@@ -94,32 +98,32 @@ void menuListadosAdmin(){
                 break;
             }
             case 2: {
-                listarTodasCuentas();
+                objCuentas.listarTodasCuentas();
                 system("pause");
                 break;
             }
             case 3: {
-                listarCuentas();
+                objCuentas.listarCuentas();
                 system("pause");
                 break;
             }
             case 4: {
-                listarTodosEmpleados();
+                objEmpleados.listarTodosEmpleados();
                 system("pause");
                 break;
             }
             case 5: {
-                listarEmpleados();
+                objEmpleados.listarEmpleados();
                 system("pause");
                 break;
             }
             case 6: {
-                listarTodosClientes();
+                objClientes.listarTodosClientes();
                 system("pause");
                 break;
             }
             case 7: {
-                listarClientes();
+                objClientes.listarClientes();
                 system("pause");
                 break;
             }
@@ -177,28 +181,30 @@ void buscarClienteMenu(){
     cout << "3. Buscar por Mail" << endl;
     cout << "4. Cancelar" << endl << endl;
     
-    int opcion = validarEntero(1, 4);
     Cliente clienteEncontrado;
+    ArchivoClientes objClientes;
+    int opcion = validarEntero(1, 4);
+    
     bool encontrado = false;
     
     switch(opcion){
         case 1: {
             cout << "Ingrese el ID: ";
             int id = validarEntero(1, 999999);
-            encontrado = buscarCliente("ID", id, clienteEncontrado);
+            encontrado = objClientes.buscarCliente("ID", id, clienteEncontrado);
             break;
         }
         case 2: {
             cout << "Ingrese el DNI: ";
             int dni = validarEntero(10000000, 99999999);
-            encontrado = buscarCliente("DNI", dni, clienteEncontrado);
+            encontrado = objClientes.buscarCliente("DNI", dni, clienteEncontrado);
             break;
         }
         case 3: {
             char mail[50];
             cout << "Ingrese el Mail: ";
             validarCadena(mail, 50);
-            encontrado = buscarCliente("MAIL", mail, clienteEncontrado);
+            encontrado = objClientes.buscarCliente("MAIL", mail, clienteEncontrado);
             break;
         }
         case 4: {
@@ -231,26 +237,27 @@ void buscarEmpleadoMenu(){
     
     int opcion = validarEntero(1, 4);
     Empleado empleadoEncontrado;
+    ArchivoEmpleados objEmpleados;
     bool encontrado = false;
     
     switch(opcion){
         case 1: {
             cout << "Ingrese el Legajo: ";
             int legajo = validarEntero(1, 999999);
-            encontrado = buscarEmpleado("LEGAJO", legajo, empleadoEncontrado);
+            encontrado = objEmpleados.buscarEmpleado("LEGAJO", legajo, empleadoEncontrado);
             break;
         }
         case 2: {
             cout << "Ingrese el DNI: ";
             int dni = validarEntero(10000000, 99999999);
-            encontrado = buscarEmpleado("DNI", dni, empleadoEncontrado);
+            encontrado = objEmpleados.buscarEmpleado("DNI", dni, empleadoEncontrado);
             break;
         }
         case 3: {
             char mail[50];
             cout << "Ingrese el Mail: ";
             validarCadena(mail, 50);
-            encontrado = buscarEmpleado("MAIL", mail, empleadoEncontrado);
+            encontrado = objEmpleados.buscarEmpleado("MAIL", mail, empleadoEncontrado);
             break;
         }
         case 4: {
@@ -283,20 +290,21 @@ void buscarCuentaMenu(){
     
     int opcion = validarEntero(1, 4);
     cuentaBancaria cuentaEncontrada;
+    ArchivoCuentas objCuentas;
     bool encontrado = false;
     
     switch(opcion){
         case 1: {
             cout << "Ingrese el ID: ";
             int id = validarEntero(1, 999999);
-            encontrado = buscarCuenta("ID", id, cuentaEncontrada);
+            encontrado = objCuentas.buscarCuenta("ID", id, cuentaEncontrada);
             break;
         }
         case 2: {
             char cvu[11];
             cout << "Ingrese el CVU: ";
             validarCadenaNumeros(cvu, 10, 10);
-            encontrado = buscarCuenta("CVU", cvu, cuentaEncontrada);
+            encontrado = objCuentas.buscarCuenta("CVU", cvu, cuentaEncontrada);
             break;
         }
         case 3: {
@@ -304,7 +312,7 @@ void buscarCuentaMenu(){
             cout << "Ingrese el Alias: ";
             validarCadena(alias, 31);
             mayusculas(alias);
-            encontrado = buscarCuenta("ALIAS", alias, cuentaEncontrada);
+            encontrado = objCuentas.buscarCuenta("ALIAS", alias, cuentaEncontrada);
             break;
         }
         case 4: {
@@ -326,6 +334,7 @@ void buscarCuentaMenu(){
 }
 
 void gestionarEmpleados(){
+    ArchivoEmpleados objEmpleados;
     bool continuar = true;
     
     while(continuar){
@@ -343,15 +352,14 @@ void gestionarEmpleados(){
         
         switch(opcion){
             case 1: {
-                
-                crearEmpleado();
+                objEmpleados.crearEmpleado();
                 system("pause");
                 break;
             }
             case 2: {
                 cout << "Ingrese el legajo del empleado: ";
                 int legajo = validarEntero(1, 999999);
-                modificarDatosEmpleado(legajo);
+                objEmpleados.modificarDatosEmpleado(legajo);
                 system("pause");
                 break;
             }
@@ -367,14 +375,14 @@ void gestionarEmpleados(){
                     break;
                 }
                 
-                eliminarEmpleado(legajo);
+                objEmpleados.eliminarEmpleado(legajo);
                 system("pause");
                 break;
             }
             case 4: {
                 cout << "Ingrese el legajo del empleado: ";
                 int legajo = validarEntero(1, 999999);
-                restaurarEmpleado(legajo);
+                objEmpleados.restaurarEmpleado(legajo);
                 system("pause");
                 break;
             }
@@ -387,6 +395,7 @@ void gestionarEmpleados(){
 }
 
 void gestionarClientesAdmin(){
+    ArchivoClientes objClientes;
     bool continuar = true;
     
     while(continuar){
@@ -404,14 +413,14 @@ void gestionarClientesAdmin(){
         
         switch(opcion){
             case 1: {
-                crearCliente();
+                objClientes.crearCliente();
                 system("pause");
                 break;
             }
             case 2: {
                 cout << "Ingrese el ID del cliente: ";
                 int id = validarEntero(1, 999999);
-                modificarDatosCliente(id);
+                objClientes.modificarDatosCliente(id);
                 system("pause");
                 break;
             }
@@ -426,14 +435,14 @@ void gestionarClientesAdmin(){
                     break;
                 }
                 
-                eliminarCliente(id);
+                objClientes.eliminarCliente(id);
                 system("pause");
                 break;
             }
             case 4: {
                 cout << "Ingrese el ID del cliente: ";
                 int id = validarEntero(1, 999999);
-                restaurarCliente(id);
+                objClientes.restaurarCliente(id);
                 system("pause");
                 break;
             }
@@ -446,6 +455,7 @@ void gestionarClientesAdmin(){
 }
 
 void gestionarCuentasAdmin(){
+    ArchivoCuentas objCuentas;
     bool continuar = true;
     
     while(continuar){
@@ -467,7 +477,7 @@ void gestionarCuentasAdmin(){
         switch(opcion){
             case 1: {
                 cuentaBancaria cuentaBanco;
-                if(buscarCuenta("ID", 1, cuentaBanco)){
+                if(objCuentas.buscarCuenta("ID", 1, cuentaBanco)){
                     system("cls");
                     cout << "========================================" << endl;
                     cout << "       CUENTA DEL BANCO" << endl;
@@ -483,14 +493,14 @@ void gestionarCuentasAdmin(){
             case 2: {
                 cout << "Ingrese el ID del cliente: ";
                 int idCliente = validarEntero(1, 999999);
-                crearCuenta(idCliente);
+                objCuentas.crearCuenta(idCliente);
                 system("pause");
                 break;
             }
             case 3: {
                 cout << "Ingrese el ID de la cuenta: ";
                 int id = validarEntero(1, 999999);
-                modificarDatosCuenta(id);
+                objCuentas.modificarDatosCuenta(id);
                 system("pause");
                 break;
             }
@@ -505,21 +515,21 @@ void gestionarCuentasAdmin(){
                     break;
                 }
                 
-                eliminarCuenta(id);
+                objCuentas.eliminarCuenta(id);
                 system("pause");
                 break;
             }
             case 5: {
                 cout << "Ingrese el ID de la cuenta: ";
                 int id = validarEntero(1, 999999);
-                restaurarCuenta(id);
+                objCuentas.restaurarCuenta(id);
                 system("pause");
                 break;
             }
             case 6: {
                 cout << "Ingrese el monto a ingresar al Banco: $";
                 double monto = validarDouble(0.01, 999999999.99);
-                if(depositar(1, monto)){
+                if(objCuentas.depositar(1, monto)){
                     cout << "Dinero ingresado exitosamente." << endl;
                 }
                 system("pause");
@@ -528,7 +538,7 @@ void gestionarCuentasAdmin(){
             case 7: {
                 cout << "Ingrese el monto a retirar del Banco: $";
                 double monto = validarDouble(0.01, 999999999.99);
-                if(extraer(1, monto)){
+                if(objCuentas.extraer(1, monto)){
                     cout << "Dinero retirado exitosamente." << endl;
                 }
                 system("pause");

@@ -12,13 +12,11 @@ void reporteClienteMasTransacciones();
 void reporteMontoTransferenciasPorMes();
 void reporteClientesPorLocalidad();
 void reporteTop5ClientesMayorMonto();
-void reporteClientesConPrestamos();
 
-// Reportes de Empleados
-void reporteEmpleadoMasOperaciones();
-void reporteMontoPrestamosPorMes();
-void reportePromedioPrestamosPorEmpleado();
-void reporteAltaEmpleadosPorMes();
+// Reportes de Empleados (listo)
+void reporteEmpleadosPorLocalidad();
+void reporteEmpleadosActivosVsBaja();
+void reporteEmpleadosPorRangoEdad();
 
 // Reportes Financieros
 void reporteSaldoTotalCuentas();

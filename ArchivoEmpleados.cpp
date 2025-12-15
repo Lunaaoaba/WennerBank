@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
-#include "tipoUsuario.h"
+#include "empleado.h"
 #include "administrador.h"
 #include "funciones.h"
 #include "ArchivoEmpleados.h"
@@ -13,9 +13,9 @@
 using namespace std;
 
 
-// ------ FUNCIONES PARA MANEJO DE ARCHIVOS DE EMPLEADOS ------
+ArchivoEmpleados::ArchivoEmpleados(const char* nombre){ strcpy(_nombreArchivo, nombre); }   
 
-bool guardarEmpleados(const Empleado& empleado){
+bool ArchivoEmpleados::guardarEmpleados(const Empleado& empleado){
     FILE* archivo = fopen("empleados.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -26,7 +26,7 @@ bool guardarEmpleados(const Empleado& empleado){
     return true;
 }
 
-Empleado crearEmpleado(){
+Empleado ArchivoEmpleados::crearEmpleado(){
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
     int dni, legajo;
     Fecha fechaNacimiento;
@@ -98,7 +98,7 @@ Empleado crearEmpleado(){
     return nuevoEmpleado;
 }
 
-bool modificarEmpleado(const Empleado& empleadoModificado){
+bool ArchivoEmpleados::modificarEmpleado(const Empleado& empleadoModificado){
     int pos = posicionEmpleadoPorLegajo(empleadoModificado.getLegajo());
 
     if(pos < 0){
@@ -126,7 +126,7 @@ bool modificarEmpleado(const Empleado& empleadoModificado){
     return exito;
 } 
 
-bool modificarDatosEmpleado(int legajo){
+bool ArchivoEmpleados::modificarDatosEmpleado(int legajo){
     Empleado empleadoAModificar;
 
     Administrador* admin = Administrador::getInstancia(); 
@@ -217,7 +217,7 @@ bool modificarDatosEmpleado(int legajo){
     }
 }
 
-bool eliminarEmpleado(int legajo){
+bool ArchivoEmpleados::eliminarEmpleado(int legajo){
     Empleado empleadoAEliminar;
 
     Administrador* admin = Administrador::getInstancia(); 
@@ -257,7 +257,7 @@ bool eliminarEmpleado(int legajo){
     return false;
 }
 
-bool restaurarEmpleado(int legajo){
+bool ArchivoEmpleados::restaurarEmpleado(int legajo){
     Empleado empleadoARestaurar;
     if(!buscarEmpleado("LEGAJO", legajo, empleadoARestaurar)){
         cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
@@ -292,7 +292,7 @@ bool restaurarEmpleado(int legajo){
 
 // ------ FUNCIONES PARA BUSQUEDA DE EMPLEADOS ------
 
-void listarEmpleados(){
+void ArchivoEmpleados::listarEmpleados(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -318,7 +318,7 @@ void listarEmpleados(){
     fclose(archivo);
 }
 
-void listarTodosEmpleados(){
+void ArchivoEmpleados::listarTodosEmpleados(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -344,7 +344,7 @@ void listarTodosEmpleados(){
 }
 
 //SOBRECARGA - el q usa int: (ID, DNI, EDAD)
-bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
+bool ArchivoEmpleados::buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -370,7 +370,7 @@ bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
 }
 
 //SOBRECARGA - el q usa char: (NOMBRE, APELLIDO, LOCALIDAD)
-bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado){
+bool ArchivoEmpleados::buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
@@ -395,7 +395,7 @@ bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrad
     return seEncontro;
 }
 
-bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado){
+bool ArchivoEmpleados::buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     Empleado empleadoActual;
     if(archivo == nullptr){
@@ -414,14 +414,7 @@ bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrad
     return false;
 }
 
-
-// ------ FUNCIONES PARA EL EMPLEADO ------
-
-// (etc)
-
-// ----- FUNCIONES AUXILIARES PARA EMPLEADOS -----
-
-int generarLegajo(){
+int ArchivoEmpleados::generarLegajo(){
     FILE* archivo = fopen("empleados.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
@@ -436,7 +429,7 @@ int generarLegajo(){
     return maxId + 1;
 }
 
-int posicionEmpleadoPorLegajo(int legajo){
+int ArchivoEmpleados::posicionEmpleadoPorLegajo(int legajo){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr) return -2;
     Empleado empleadoActual;

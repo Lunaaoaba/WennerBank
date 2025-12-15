@@ -1,9 +1,5 @@
 #ifndef ART_H
 #define ART_H
-
-#define byte windows_byte
-#include "rlutil.h"
-#undef byte
 #include <iostream>
 #include <string>
 

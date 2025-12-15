@@ -44,6 +44,14 @@ void menuEmpleado(int legajoEmpleado){
 }
 
 void menuListadosEmpleado(int legajoEmpleado){
+    ArchivoClientes objClientes;
+    Empleado empleadoActual;
+    ArchivoEmpleados objEmpleados;
+    cuentaBancaria cuentaBanco;
+    ArchivoCuentas objCuentas;
+
+
+
     bool continuar = true;
     
     while(continuar){
@@ -62,8 +70,7 @@ void menuListadosEmpleado(int legajoEmpleado){
 
         switch(opcion){
             case 1: {
-                Empleado empleadoActual;
-                if(buscarEmpleado("LEGAJO", legajoEmpleado, empleadoActual)){
+                if(objEmpleados.buscarEmpleado("LEGAJO", legajoEmpleado, empleadoActual)){
                     system("cls");
                     cout << "========================================" << endl;
                     cout << "         MIS DATOS" << endl;
@@ -77,8 +84,7 @@ void menuListadosEmpleado(int legajoEmpleado){
                 break;
             }
             case 2: {
-                cuentaBancaria cuentaBanco;
-                if(buscarCuenta("ID", 1, cuentaBanco)){
+                if(objCuentas.buscarCuenta("ID", 1, cuentaBanco)){
                     system("cls");
                     cout << "========================================" << endl;
                     cout << "     CUENTA DEL BANCO" << endl;
@@ -92,17 +98,17 @@ void menuListadosEmpleado(int legajoEmpleado){
                 break;
             }
             case 3: {
-                listarCuentas();
+                objCuentas.listarCuentas();
                 system("pause");
                 break;
             }
             case 4: {
-                listarEmpleados();
+                objEmpleados.listarEmpleados();
                 system("pause");
                 break;
             }
             case 5: {
-                listarClientes();
+                objClientes.listarClientes();
                 system("pause");
                 break;
             }
@@ -115,6 +121,7 @@ void menuListadosEmpleado(int legajoEmpleado){
 }
 
 void gestionarClientes(){
+    ArchivoClientes objClientes;
     bool continuar = true;
     
     while(continuar){
@@ -133,7 +140,7 @@ void gestionarClientes(){
             case 1: {
                 cout << "Ingrese el ID del cliente: ";
                 int id = validarEntero(1, 999999);
-                modificarDatosCliente(id);
+                objClientes.modificarDatosCliente(id);
                 system("pause");
                 break;
             }
@@ -148,14 +155,14 @@ void gestionarClientes(){
                     break;
                 }
                 
-                eliminarCliente(id);
+                objClientes.eliminarCliente(id);
                 system("pause");
                 break;
             }
             case 3: {
                 cout << "Ingrese el ID del cliente: ";
                 int id = validarEntero(1, 999999);
-                restaurarCliente(id);
+                objClientes.restaurarCliente(id);
                 system("pause");
                 break;
             }
@@ -168,6 +175,7 @@ void gestionarClientes(){
 }
 
 void gestionarCuentas(){
+    ArchivoCuentas objCuentas;
     bool continuar = true;
     
     while(continuar){
@@ -186,7 +194,7 @@ void gestionarCuentas(){
             case 1: {
                 cout << "Ingrese el ID de la cuenta: ";
                 int id = validarEntero(1, 999999);
-                modificarDatosCuenta(id);
+                objCuentas.modificarDatosCuenta(id);
                 system("pause");
                 break;
             }
@@ -201,14 +209,14 @@ void gestionarCuentas(){
                     break;
                 }
                 
-                eliminarCuenta(id);
+                objCuentas.eliminarCuenta(id);
                 system("pause");
                 break;
             }
             case 3: {
                 cout << "Ingrese el ID de la cuenta: ";
                 int id = validarEntero(1, 999999);
-                restaurarCuenta(id);
+                objCuentas.restaurarCuenta(id);
                 system("pause");
                 break;
             }

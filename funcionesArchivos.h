@@ -1,10 +1,10 @@
 #ifndef FUNCIONES_ARCHIVOS_H
 #define FUNCIONES_ARCHIVOS_H
-#include "tipoUsuario.h"
+#include "cliente.h"
+#include "empleado.h"
 #include "fecha.h"
 #include "tiempo.h"
 
-void iniciarArchivos();
 
 bool existeMail(const char* mail);
 bool existeDniCliente(int dni);

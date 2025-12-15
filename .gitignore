@@ -50,4 +50,6 @@ bin/
 obj/
 /.vscode
 /build
-# *.dat
+*.dat
+
+/delete

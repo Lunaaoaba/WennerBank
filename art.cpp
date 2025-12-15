@@ -10,12 +10,12 @@ using namespace std;
 
 void tituloBeta(){
     system("cls");
-    rlutil::setColor(rlutil::YELLOW);
+    rlutil::setColor(2);
     int i = 0;
     while(i<7){
         rlutil::msleep(200);
         // ╔══════════════════════════════════════════════════════════════╗
-        rlutil::locate(40, 2 + i);  
+        rlutil::locate(40, 2 + i);
         if(i==0){
             cout << char(201);
             centrarTexto("", char(205), 40);
@@ -30,7 +30,9 @@ void tituloBeta(){
         // ║               BIENVENIDO/A A WENNER BANK                    ║
         if(i==2){
             cout << char(186);
+            rlutil::setColor(10);
             centrarTexto("BIENVENIDO/A A WENNER BANK", ' ', 40);
+            rlutil::setColor(2);
             cout << char(186);
         }
         // ╠══════════════════════════════════════════════════════════════╣
@@ -42,7 +44,9 @@ void tituloBeta(){
         // ║                  Su banco de confianza                      ║
         if(i==4){
             cout << char(186);
+            rlutil::setColor(10);
             centrarTexto("Su banco de confianza", ' ', 40);
+            rlutil::setColor(2);
             cout << char(186);
         }
         // ║                                                              ║
@@ -59,11 +63,13 @@ void tituloBeta(){
         }
         i++;
     }
+    rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::WHITE);
 }
 // SA version sin animacion
 void tituloBetaSA(){
     system("cls");
+    //rlutil::setBackgroundColor(1);
     rlutil::setColor(rlutil::YELLOW);
 
     rlutil::locate(40, 2);
@@ -101,6 +107,7 @@ void tituloBetaSA(){
     centrarTexto("", char(205), 40);
     cout << char(188) << endl;
 
+    rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::WHITE);
 }
 
@@ -108,7 +115,7 @@ void mayusculas(char* palabra){
     size_t largo = strlen(palabra);
     for(size_t i = 0; i < largo; i++){
         unsigned char c = (unsigned char)palabra[i];
-        
+
         if(c >= 'a' && c <= 'z') palabra[i] = static_cast<char>(c - 32);
 
         else if(c == 160) palabra[i] = static_cast<char>(181);  // á -> Á
@@ -135,7 +142,7 @@ void centrarTexto(string palabra, char dato1, char dato2, size_t largo){
     for(size_t i = 0; i < espacios_izq; i++) izq += (i % 2 == 0) ? dato1 : dato2;
     string der;
     for(size_t i = 0; i < espacios_der; i++) der += ((espacios_izq + i) % 2 == 0) ? dato1 : dato2;
-    
+
     cout << izq << palabra << der;
 }
 

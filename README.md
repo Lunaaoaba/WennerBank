@@ -16,7 +16,7 @@ El sistema implementa una jerarquia de clases para manejar distintos tipos de us
 
 #### Productos Financieros
 * **Cuentas Bancarias:** Creacion de cuentas con generacion automatica de **ID, CVU y Alias** unicos. Soporte para depositos, retiros y transferencias entre cuentas.
-* **Prestamos y Transacciones:** Registro historico de movimientos y gestion de creditos (en desarrollo).
+* **Transacciones:** Registro historico de movimientos (en desarrollo).
 
 #### Seguridad y DiseNIo Tecnico
 * **Persistencia de Datos:** Todos los registros (clientes, empleados, cuentas) se almacenan en archivos binarios (`.dat`) para asegurar la continuidad de la informacion entre ejecuciones.

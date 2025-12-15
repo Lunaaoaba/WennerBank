@@ -3,10 +3,11 @@
 #include <iomanip>
 #include <cstring>
 #include "menuReportes.h"
-#include "ArchivoClientes.h"
-#include "ArchivoEmpleados.h"
-#include "ArchivoCuentas.h"
-#include "ArchivoMovimientos.h"
+#include "archivoClientes.h"
+#include "archivoEmpleados.h"
+#include "archivoCuentas.h"
+#include "archivoCuentas.h"
+#include "archivoTransacciones.h"
 #include "funciones.h"
 
 using namespace std;
@@ -57,37 +58,36 @@ void menuReportesClientes(){
         cout << "========================================" << endl;
         cout << "      REPORTES DE CLIENTES" << endl;
         cout << "========================================" << endl << endl;
-        cout << "1. Cliente con mas transacciones realizadas (no disponible)" << endl;
-        cout << "2. Monto total transferencias por mes (cliente especifico) (no disponible)" << endl;
+        cout << "1. Cliente con mas transacciones realizadas" << endl;
+        cout << "2. Monto total transferencias por mes (cliente especifico)" << endl;
         cout << "3. Cantidad de clientes por localidad" << endl;
-        cout << "4. Top 5 clientes con mayor monto transferido (no disponible)" << endl;
-        cout << "5. Clientes con prestamos vigentes (no disponible)" << endl;
-        cout << "6. Volver" << endl << endl;
+        cout << "4. Top 5 clientes con mayor monto transferido" << endl;
+        cout << "5. Volver" << endl << endl;
 
-        int opcion = validarEntero(1, 6);
+        int opcion = validarEntero(1, 5);
 
         switch(opcion){
             case 1: {
                 reporteClienteMasTransacciones();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 2: {
                 reporteMontoTransferenciasPorMes();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 3: {
                 reporteClientesPorLocalidad();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 4: {
                 reporteTop5ClientesMayorMonto();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 5: {
-                reporteClientesConPrestamos();
-                break;
-            }
-            case 6: {
                 continuar = false;
                 break;
             }
@@ -105,24 +105,27 @@ void menuReportesEmpleados(){
         cout << "========================================" << endl;
         cout << "      REPORTES DE EMPLEADOS" << endl;
         cout << "========================================" << endl << endl;
-        cout << "1. Empleado con mas operaciones realizadas (no disponible)" << endl;
-        cout << "2. Monto total de prestamos por mes (anio especifico) (no disponible)" << endl;
-        cout << "3. Promedio de prestamos otorgados por empleado (no disponible)" << endl;
+        cout << "1. Empleados por localidad" << endl;
+        cout << "2. Empleados activos vs dados de baja" << endl;
+        cout << "3. Empleados por rango de edad" << endl;
         cout << "4. Volver" << endl << endl;
         
         int opcion = validarEntero(1, 4);
         
         switch(opcion){
             case 1: {
-                reporteEmpleadoMasOperaciones();
+                reporteEmpleadosPorLocalidad();
+                system("pause");
                 break;
             }
             case 2: {
-                reporteMontoPrestamosPorMes();
+                reporteEmpleadosActivosVsBaja();
+                system("pause");
                 break;
             }
             case 3: {
-                reportePromedioPrestamosPorEmpleado();
+                reporteEmpleadosPorRangoEdad();
+                system("pause");
                 break;
             }
             case 4: {
@@ -144,7 +147,7 @@ void menuReportesFinancieros(){
         cout << "      REPORTES FINANCIEROS" << endl;
         cout << "========================================" << endl << endl;
         cout << "1. Saldo total de todas las cuentas de clientes" << endl;
-        cout << "2. Monto promedio de las transacciones (no disponible)" << endl;
+        cout << "2. Monto promedio de las transacciones" << endl;
         cout << "3. Ranking de cuentas con mayor saldo" << endl;
         cout << "4. Volver" << endl << endl;
         
@@ -153,18 +156,17 @@ void menuReportesFinancieros(){
         switch(opcion){
             case 1: {
                 reporteSaldoTotalCuentas();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 2: {
                 reportePromedioTransacciones();
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
             case 3: {
                 reporteRankingCuentasMayorSaldo();
-                break;
-            }
-            case 4: {
-                continuar = false;
+                system("pause");  // ⬅️ AGREGAR
                 break;
             }
         }
@@ -176,232 +178,633 @@ void menuReportesFinancieros(){
 // IMPLEMENTACION REPORTES CLIENTES
 
 void reporteClienteMasTransacciones(){
+    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    if(archivoTransacciones == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+    }
+    
+    Transaccion transaccionActual;
+    int clientes[1000];
+    int contadores[1000] = {0};
+    int totalClientes = 0;
+
+    while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
+        int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
+
+        FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+        if(archivoCuentas != nullptr){
+            cuentaBancaria cuentaActual;
+            while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
+                if(cuentaActual.getIdCuenta() == idCuentaOrigen){
+                    int idCliente = cuentaActual.getIdCliente();
+                    bool encontrado = false;
+
+                    for(int i = 0; i < totalClientes; i++){
+                        if(clientes[i] == idCliente){
+                            contadores[i]++;
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if(!encontrado){
+                        clientes[totalClientes] = idCliente;
+                        contadores[totalClientes] = 1;
+                        totalClientes++;
+                    }
+                    break;
+                }
+            }
+            fclose(archivoCuentas);
+        }
+    }
+    
+    fclose(archivoTransacciones);
+
+    int maxTransacciones = 0;
+    int idClienteMax = 0;
+    
+    for(int i = 0; i < totalClientes; i++){
+        if(contadores[i] > maxTransacciones){
+            maxTransacciones = contadores[i];
+            idClienteMax = clientes[i];
+        }
+    }
+
     system("cls");
     cout << "========================================" << endl;
-    cout << "  CLIENTE CON MAS TRANSACCIONES" << endl;
+    cout << " CLIENTE CON MAS TRANSACCIONES" << endl;
     cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere ArchivoMovimientos completo)" << endl << endl;
-    system("pause");
+    
+    if(maxTransacciones == 0){
+        cout << "No hay transacciones registradas." << endl << endl;
+        return;
+    }
+
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    if(archivoClientes != nullptr){
+        Cliente clienteActual;
+        while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
+            if(clienteActual.getIdCliente() == idClienteMax){
+                cout << clienteActual.mostrarDatos() << endl << endl;
+                break;
+            }
+        }
+        fclose(archivoClientes);
+    }
+
+    cout << "========================================" << endl;
+    cout << "Total de transacciones realizadas: " << maxTransacciones << endl;
+    cout << "========================================" << endl << endl;
 }
 
 void reporteMontoTransferenciasPorMes(){
     system("cls");
     cout << "========================================" << endl;
-    cout << "  MONTO TRANSFERENCIAS POR MES" << endl;
+    cout << " MONTO TOTAL TRANSFERENCIAS POR MES" << endl;
     cout << "========================================" << endl << endl;
     
+    // Solicitar ID del cliente
     cout << "Ingrese el ID del cliente: ";
     int idCliente = validarEntero(1, 999999);
+    
+    // Verificar que el cliente existe
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    if(archivoClientes == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        return;
+    }
+    
+    Cliente clienteBuscado;
+    bool clienteEncontrado = false;
 
-    Cliente clienteActual;
-    if(!buscarCliente("ID", idCliente, clienteActual)){
-        cout << "ERROR: Cliente no encontrado." << endl;
-        system("pause");
+    while(fread(&clienteBuscado, sizeof(Cliente), 1, archivoClientes) == 1){
+        if(clienteBuscado.getIdCliente() == idCliente && !clienteBuscado.getUsuarioEliminado()){
+            clienteEncontrado = true;
+            break;
+        }
+    }
+    fclose(archivoClientes);
+    
+    if(!clienteEncontrado){
+        cout << "ERROR: Cliente no encontrado o dado de baja." << endl << endl;
         return;
     }
 
-        cout << endl << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere ArchivoMovimientos completo)" << endl << endl;
-    system("pause");
+    cout << "Ingrese mes (1-12): ";
+    int mes = validarEntero(1, 12);
+    cout << "Ingrese año: ";
+    int anio = validarEntero(2020, 2030);
+    
+    // Buscar todas las cuentas del cliente
+    int cuentasCliente[50];
+    int totalCuentas = 0;
+    
+    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    if(archivoCuentas != nullptr){
+        cuentaBancaria cuentaActual;
+        while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
+            if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
+                cuentasCliente[totalCuentas] = cuentaActual.getIdCuenta();
+                totalCuentas++;
+            }
+        }
+        fclose(archivoCuentas);
+    }
+
+    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    if(archivoTransacciones == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+    }
+    
+    Transaccion transaccionActual;
+    double montoTotal = 0.0;
+    int cantidadTransacciones = 0;
+    
+    while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
+        Fecha fechaTrans = transaccionActual.getFechaTransaccion();
+        if(fechaTrans.getMes() == mes && fechaTrans.getAnio() == anio){
+            int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
+            
+            // Verificar si la cuenta origen pertenece al cliente
+            for(int i = 0; i < totalCuentas; i++){
+                if(cuentasCliente[i] == idCuentaOrigen){
+                    montoTotal += transaccionActual.getMonto();
+                    cantidadTransacciones++;
+                    break;
+                }
+            }
+        }
+    }
+
+    fclose(archivoTransacciones);
+    
+    // Mostrar resultados
+    system("cls");
+    cout << "========================================" << endl;
+    cout << " MONTO TOTAL TRANSFERENCIAS POR MES" << endl;
+    cout << "========================================" << endl << endl;
+    cout << "Cliente: " << clienteBuscado.getNombre() << " " << clienteBuscado.getApellido() << endl;
+    cout << "ID Cliente: CL-" << idCliente << endl;
+    cout << "Periodo: " << mes << "/" << anio << endl << endl;
+    cout << "========================================" << endl;
+    cout << "Cantidad de transferencias: " << cantidadTransacciones << endl;
+    cout << "Monto total transferido: $" << fixed << setprecision(2) << montoTotal << endl;
+    cout << "========================================" << endl << endl;
 }
 
 //dsp pasar a memoria dinamica
 void reporteClientesPorLocalidad(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  CLIENTES POR LOCALIDAD" << endl;
-    cout << "========================================" << endl << endl;
-    
     FILE* archivo = fopen("clientes.dat", "rb");
-    if(archivo == NULL){
-        cout << "ERROR: No se pudo abrir el archivo." << endl;
-        system("pause");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return;
     }
     
-    // Array para contar por localidad (simplificado, máximo 50 localidades)
-    char localidades[50][30];
-    int contadores[50] = {0};
-    int numLocalidades = 0;
-
     Cliente clienteActual;
+    char localidades[100][50];
+    int contadores[100] = {0};
+    int totalLocalidades = 0;
+
     while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         if(!clienteActual.getUsuarioEliminado()){
-            // Buscar si la localidad ya existe
+            const char* localidad = clienteActual.getLocalidad();
             bool encontrada = false;
-            for(int i = 0; i < numLocalidades; i++){
-                if(strcmp(localidades[i], clienteActual.getLocalidad()) == 0){
+            
+            for(int i = 0; i < totalLocalidades; i++){
+                if(strcmp(localidades[i], localidad) == 0){
+                    contadores[i]++;
+                    encontrada = true;
+                    break;
+                }
+            }
+            if(!encontrada){
+                strcpy(localidades[totalLocalidades], localidad);
+                contadores[totalLocalidades] = 1;
+                totalLocalidades++;
+            }
+        }
+    }
+    
+    fclose(archivo);
+    
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "     CLIENTES POR LOCALIDAD" << endl;
+    cout << "========================================" << endl << endl;
+    
+    if(totalLocalidades == 0){
+        cout << "No hay clientes activos registrados." << endl << endl;
+        return;
+    }
+
+    int totalClientes = 0;
+    for(int i = 0; i < totalLocalidades; i++){
+        cout << localidades[i] << ": " << contadores[i];
+        if(contadores[i] == 1){
+            cout << " cliente" << endl;
+        } else {
+            cout << " clientes" << endl;
+        }
+        totalClientes += contadores[i];
+    }
+    
+    cout << "========================================" << endl;
+    cout << "Total de localidades: " << totalLocalidades << endl;
+    cout << "Total de clientes activos: " << totalClientes << endl;
+    cout << "========================================" << endl << endl;
+}
+
+void reporteTop5ClientesMayorMonto(){
+    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    if(archivoTransacciones == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+    }
+    
+    Transaccion transaccionActual;
+    int clientes[1000];
+    double montosTransferidos[1000] = {0.0};
+    int totalClientes = 0;
+
+    while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
+        int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
+
+        FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+        if(archivoCuentas != nullptr){
+            cuentaBancaria cuentaActual;
+            while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
+                if(cuentaActual.getIdCuenta() == idCuentaOrigen){
+                    int idCliente = cuentaActual.getIdCliente();
+                    bool encontrado = false;
+
+                    for(int i = 0; i < totalClientes; i++){
+                        if(clientes[i] == idCliente){
+                            montosTransferidos[i] += transaccionActual.getMonto();
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if(!encontrado){
+                        clientes[totalClientes] = idCliente;
+                        montosTransferidos[totalClientes] = transaccionActual.getMonto();
+                        totalClientes++;
+                    }
+                    break;
+                    }
+            }
+            fclose(archivoCuentas);
+        }
+    }
+
+    fclose(archivoTransacciones);
+
+    for(int i = 0; i < totalClientes - 1; i++){
+        for(int j = 0; j < totalClientes - i - 1; j++){
+            if(montosTransferidos[j] < montosTransferidos[j + 1]){
+                // Intercambiar montos
+                double tempMonto = montosTransferidos[j];
+                montosTransferidos[j] = montosTransferidos[j + 1];
+                montosTransferidos[j + 1] = tempMonto;
+                
+                // Intercambiar IDs
+                int tempId = clientes[j];
+                clientes[j] = clientes[j + 1];
+                clientes[j + 1] = tempId;
+            }
+        }
+    }
+    system("cls");
+    cout << "========================================" << endl;
+    cout << " TOP 5 CLIENTES CON MAYOR MONTO" << endl;
+    cout << "========================================" << endl << endl;
+
+    if(totalClientes == 0){
+        cout << "No hay transacciones registradas." << endl << endl;
+        return;
+    }
+
+    int limite = (totalClientes < 5) ? totalClientes : 5;
+    
+    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    if(archivoClientes != nullptr){
+        for(int i = 0; i < limite; i++){
+            Cliente clienteActual;
+            rewind(archivoClientes);
+            
+            while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
+                if(clienteActual.getIdCliente() == clientes[i]){
+                    cout << "Top " << (i + 1) << ":" << endl;
+                    cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
+                    cout << "ID: CL-" << clientes[i] << endl;
+                    cout << "Monto total transferido: $" << fixed << setprecision(2) << montosTransferidos[i] << endl;
+                    cout << "----------------------------------------" << endl;
+                    break;
+                }
+            }
+        }
+        fclose(archivoClientes);
+    }
+    
+    cout << "========================================" << endl << endl;
+
+
+}
+
+// IMPLEMENTACIÓN REPORTES EMPLEADOS
+
+void reporteEmpleadosPorLocalidad(){
+    FILE* archivo = fopen("empleados.dat", "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+    }
+    
+    Empleado empleadoActual;
+    char localidades[100][50];
+    int contadores[100] = {0};
+    int totalLocalidades = 0;
+
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(!empleadoActual.getUsuarioEliminado()){
+            const char* localidad = empleadoActual.getLocalidad();
+            bool encontrada = false;
+            
+            for(int i = 0; i < totalLocalidades; i++){
+                if(strcmp(localidades[i], localidad) == 0){
                     contadores[i]++;
                     encontrada = true;
                     break;
                 }
             }
             
-            // Si no existe, agregarla
-            if(!encontrada && numLocalidades < 50){
-                strcpy(localidades[numLocalidades], clienteActual.getLocalidad());
-                contadores[numLocalidades] = 1;
-                numLocalidades++;
+            if(!encontrada){
+                strcpy(localidades[totalLocalidades], localidad);
+                contadores[totalLocalidades] = 1;
+                totalLocalidades++;
+            }
+        }
+    }
+    
+    fclose(archivo);
+    
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "     EMPLEADOS POR LOCALIDAD" << endl;
+    cout << "========================================" << endl << endl;
+    
+    if(totalLocalidades == 0){
+        cout << "No hay empleados activos registrados." << endl << endl;
+        return;
+    }
+
+    int totalEmpleados = 0;
+    for(int i = 0; i < totalLocalidades; i++){
+        cout << localidades[i] << ": " << contadores[i];
+        if(contadores[i] == 1){
+            cout << " empleado" << endl;
+        } else {
+            cout << " empleados" << endl;
+        }
+        totalEmpleados += contadores[i];
+    }
+    
+    cout << "========================================" << endl;
+    cout << "Total de localidades: " << totalLocalidades << endl;
+    cout << "Total de empleados activos: " << totalEmpleados << endl;
+    cout << "========================================" << endl << endl;
+}
+
+void reporteEmpleadosActivosVsBaja(){
+    FILE* archivo = fopen("empleados.dat", "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+    }
+
+    Empleado empleadoActual;
+    int activos = 0;
+    int inactivos = 0;
+
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(empleadoActual.getUsuarioEliminado()) inactivos++;
+        else activos++;
+    }
+    
+    fclose(archivo);
+
+    int total = activos + inactivos;
+    
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "   EMPLEADOS ACTIVOS VS DADOS DE BAJA" << endl;
+    cout << "========================================" << endl << endl;
+    cout << "Empleados ACTIVOS:       " << activos << endl;
+    cout << "Empleados DADOS DE BAJA: " << inactivos << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "TOTAL DE EMPLEADOS:      " << total << endl << endl;
+
+    if(total > 0){
+        cout << "----------------------------------------" << endl;
+        double porcentajeActivos = (static_cast<double>(activos) / static_cast<double>(total)) * 100.0;
+        double porcentajeBaja = (static_cast<double>(inactivos) / static_cast<double>(total)) * 100.0;
+
+        cout << "Porcentaje activos:      " << fixed << setprecision(2) << porcentajeActivos << "%" << endl;
+        cout << "Porcentaje dados de baja: " << fixed << setprecision(2) << porcentajeBaja << "%" << endl;
+    }
+    cout << "========================================" << endl << endl;
+}
+
+void reporteEmpleadosPorRangoEdad(){
+    FILE* archivo = fopen("empleados.dat", "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        return;
+    }
+
+    Empleado empleadoActual;
+    int menores30 = 0;
+    int entre30y40 = 0;
+    int entre40y50 = 0;
+    int mayores50 = 0;
+
+    Fecha fechaHoy;
+    fechaHoy.cargarFechaActual();
+    int anioActual = fechaHoy.getAnio();
+    int mesActual = fechaHoy.getMes();
+    int diaActual = fechaHoy.getDia();
+
+    while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
+        if(!empleadoActual.getUsuarioEliminado()){
+            Fecha fechaNac = empleadoActual.getFechaNacimiento();
+            int edad = anioActual - fechaNac.getAnio();
+            
+            if(mesActual < fechaNac.getMes() || (mesActual == fechaNac.getMes() && diaActual < fechaNac.getDia())){
+                edad--;
+            }
+
+            if(edad < 30){
+                menores30++;
+            } else if(edad >= 30 && edad < 40){
+                entre30y40++;
+            } else if(edad >= 40 && edad < 50){
+                entre40y50++;
+            } else {
+                mayores50++;
             }
         }
     }
 
     fclose(archivo);
     
-    cout << "  LOCALIDAD       " << "      CANTIDAD" << endl;
-    cout << "----------------------------------------" << endl;
-    for(int i = 0; i < numLocalidades; i++){
-        cout  << localidades[i] << "  |   " << contadores[i] << endl;
+    int total = menores30 + entre30y40 + entre40y50 + mayores50;
+    
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "   EMPLEADOS POR RANGO DE EDAD" << endl;
+    cout << "========================================" << endl << endl;
+
+    if(total == 0){
+        cout << "No hay empleados activos registrados." << endl << endl;
+        return;
     }
     
-    cout << endl;
-    system("pause");
-}
-
-void reporteTop5ClientesMayorMonto(){
-    system("cls");
+    cout << "Menores de 30 años: " << menores30 << " empleados" << endl;
+    cout << "Entre 30 y 39 años: " << entre30y40 << " empleados" << endl;
+    cout << "Entre 40 y 49 años: " << entre40y50 << " empleados" << endl;
+    cout << "50 años o más:      " << mayores50 << " empleados" << endl;
     cout << "========================================" << endl;
-    cout << "  TOP 5 CLIENTES - MAYOR MONTO" << endl;
+    cout << "Total de empleados activos: " << total << endl;
     cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere ArchivoMovimientos completo)" << endl << endl;
-    system("pause");
 }
 
-void reporteClientesConPrestamos(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  CLIENTES CON PRESTAMOS VIGENTES" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere sistema de Prestamos)" << endl << endl;
-    system("pause");
-}
+// IMPLEMENTACION REPORTES FINANCIEROS
 
-// IMPLEMENTACIÓN REPORTES EMPLEADOS
-
-void reporteEmpleadoMasOperaciones(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  EMPLEADO CON MAS OPERACIONES" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere ArchivoMovimientos completo)" << endl << endl;
-    system("pause");
-}
-
-void reporteMontoPrestamosPorMes(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  MONTO PRESTAMOS POR MES" << endl;
-    cout << "========================================" << endl << endl;
-    
-    cout << "Ingrese el a" << char(164) << "o: ";
-    int anio = validarEntero(2020, 2100);
-    
-    cout << endl << "A" << char(164) << "o seleccionado: " << anio << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere sistema de Prestamos)" << endl << endl;
-    system("pause");
-}
-
-void reportePromedioPrestamosPorEmpleado(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  PROMEDIO PRESTAMOS POR EMPLEADO" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere sistema de Prestamos)" << endl << endl;
-    system("pause");
-}
-
-//   IMPLEMENTACION REPORTES FINANCIEROS
 
 void reporteSaldoTotalCuentas(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  SALDO TOTAL DE CUENTAS" << endl;
-    cout << "========================================" << endl << endl;
-    
     FILE* archivo = fopen("cuentas.dat", "rb");
-    if(archivo == NULL){
-        cout << "ERROR: No se pudo abrir el archivo." << endl;
-        system("pause");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return;
     }
 
-    double saldoTotal = 0;
-    int cantidadCuentas = 0;
-    
-    cuentaBancaria cuenta;
-    while(fread(&cuenta, sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(!cuenta.getCuentaEliminada() && cuenta.getIdCuenta() != 1){
-            saldoTotal += cuenta.getSaldo();
-            cantidadCuentas++;
+    cuentaBancaria cuentaActual;
+    double saldoTotal = 0.0;
+    int totalCuentas = 0;
+    int cuentasActivas = 0;
+
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
+        totalCuentas++;
+        
+        if(!cuentaActual.getCuentaEliminada()){
+            // Excluir la Cuenta Banco (ID = 1)
+            if(cuentaActual.getIdCuenta() != 1){
+                saldoTotal += cuentaActual.getSaldo();
+                cuentasActivas++;
+            }
         }
     }
-
     fclose(archivo);
+
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "   SALDO TOTAL DE TODAS LAS CUENTAS" << endl;
+    cout << "========================================" << endl << endl;
     
-    cout << "Cantidad de cuentas activas: " << cantidadCuentas << endl;
-    cout << "Saldo total: $" << fixed << setprecision(2) << saldoTotal << endl << endl;
+    if(cuentasActivas == 0){
+        cout << "No hay cuentas activas registradas." << endl << endl;
+        return;
+    }
+
+    double saldoPromedio = saldoTotal / static_cast<double>(cuentasActivas);
     
-    system("pause");
+    cout << "Cuentas activas (clientes):  " << cuentasActivas << endl;
+    cout << "Cuentas dadas de baja:       " << (totalCuentas - cuentasActivas - 1) << endl;
+    cout << "========================================" << endl;
+    cout << "Saldo total:                 $" << fixed << setprecision(2) << saldoTotal << endl;
+    cout << "Saldo promedio por cuenta:   $" << fixed << setprecision(2) << saldoPromedio << endl;
+    cout << "========================================" << endl << endl;
 }
 
 void reportePromedioTransacciones(){
+    FILE* archivo = fopen("transacciones.dat", "rb");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        return;
+    }
+
+    Transaccion transaccionActual;
+    double sumaTotal = 0.0;
+    int cantidadTransacciones = 0;
+    double montoMinimo = 0.0;
+    double montoMaximo = 0.0;
+    bool primerRegistro = true;
+
+    while(fread(&transaccionActual, sizeof(Transaccion), 1, archivo) == 1){
+        double monto = transaccionActual.getMonto();
+        sumaTotal += monto;
+        cantidadTransacciones++;
+
+        if(primerRegistro){
+            montoMinimo = monto;
+            montoMaximo = monto;
+            primerRegistro = false;
+        } else {
+            if(monto < montoMinimo) montoMinimo = monto;
+            if(monto > montoMaximo) montoMaximo = monto;
+        }
+    }
+    fclose(archivo);
+    
+    // Mostrar resultados
     system("cls");
     cout << "========================================" << endl;
-    cout << "  PROMEDIO DE TRANSACCIONES" << endl;
+    cout << "  MONTO PROMEDIO DE TRANSACCIONES" << endl;
     cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    cout << "(Requiere ArchivoMovimientos completo)" << endl << endl;
-    system("pause");
+    
+    if(cantidadTransacciones == 0){
+        cout << "No hay transacciones registradas." << endl << endl;
+        return;
+    }
+    double promedio = sumaTotal / static_cast<double>(cantidadTransacciones);
+    
+    cout << "Total de transacciones:      " << cantidadTransacciones << endl;
+    cout << "========================================" << endl;
+    cout << "Monto promedio:              $" << fixed << setprecision(2) << promedio << endl;
+    cout << "Monto mínimo transferido:    $" << fixed << setprecision(2) << montoMinimo << endl;
+    cout << "Monto máximo transferido:    $" << fixed << setprecision(2) << montoMaximo << endl;
+    cout << "Suma total transferida:      $" << fixed << setprecision(2) << sumaTotal << endl;
+    cout << "========================================" << endl << endl;
 }
 
 void reporteRankingCuentasMayorSaldo(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  RANKING CUENTAS - MAYOR SALDO" << endl;
-    cout << "========================================" << endl << endl;
-    
     FILE* archivo = fopen("cuentas.dat", "rb");
-    if(archivo == NULL){
-        cout << "ERROR: No se pudo abrir el archivo." << endl;
-        system("pause");
+    if(archivo == nullptr){
+        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return;
     }
+    cuentaBancaria cuentas[1000];
+    int totalCuentas = 0;
 
-    cuentaBancaria cuenta;
-    int cantidad = 0;
-    while(fread(&cuenta, sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(!cuenta.getCuentaEliminada() && cuenta.getIdCuenta() != 1){
-            cantidad++;
-        }
-    }
-
-    if(cantidad == 0){
-        cout << "No hay cuentas activas." << endl;
-        fclose(archivo);
-        system("pause");
-        return;
-    }
-
-    cuentaBancaria* cuentas = new cuentaBancaria[cantidad];
-    rewind(archivo);
-    int index = 0;
-    while(fread(&cuenta, sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(!cuenta.getCuentaEliminada() && cuenta.getIdCuenta() != 1){
-            cuentas[index] = cuenta;
-            index++;
+    while(fread(&cuentas[totalCuentas], sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(!cuentas[totalCuentas].getCuentaEliminada() && cuentas[totalCuentas].getIdCuenta() != 1){
+            totalCuentas++;
         }
     }
     fclose(archivo);
 
-    for(int i = 0; i < cantidad - 1; i++){
-        for(int j = 0; j < cantidad - i - 1; j++){
+    if(totalCuentas == 0){
+        system("cls");
+        cout << "========================================" << endl;
+        cout << "  RANKING DE CUENTAS CON MAYOR SALDO" << endl;
+        cout << "========================================" << endl << endl;
+        cout << "No hay cuentas activas registradas." << endl << endl;
+        return;
+    }
+
+    for(int i = 0; i < totalCuentas - 1; i++){
+        for(int j = 0; j < totalCuentas - i - 1; j++){
             if(cuentas[j].getSaldo() < cuentas[j + 1].getSaldo()){
                 cuentaBancaria temp = cuentas[j];
                 cuentas[j] = cuentas[j + 1];
@@ -409,32 +812,23 @@ void reporteRankingCuentasMayorSaldo(){
             }
         }
     }
-
-    int topMostrar = (cantidad < 10) ? cantidad : 10;
-
-    cout << " POS  |  NOMBRE CUENTA         |  CVU         |  SALDO" << endl;
-    cout << "--------------------------------------------------------------" << endl;
+    system("cls");
+    cout << "========================================" << endl;
+    cout << "  RANKING DE CUENTAS CON MAYOR SALDO" << endl;
+    cout << "========================================" << endl << endl;
     
-    for(int i = 0; i < topMostrar; i++){
-        if(i + 1 < 10){
-            cout << "  " << (i + 1) << "   |  ";
-        } else {
-            cout << " " << (i + 1) << "   |  ";
-        }
+    int limite = (totalCuentas < 10) ? totalCuentas : 10;
     
-        char nombreTemp[21];
-        strncpy(nombreTemp, cuentas[i].getNombreCuenta(), 20);
-        nombreTemp[20] = '\0';
-        cout << nombreTemp;
-
-        size_t lenNombre = strlen(nombreTemp);
-        for(int j = 0; j < (20 - lenNombre); j++){
-            cout << " ";
-        }
-
-        cout << "  |  " << cuentas[i].getCvu() << "  |  $" << fixed << setprecision(2) << cuentas[i].getSaldo() << endl;
+    for(int i = 0; i < limite; i++){
+        cout << "Top " << (i + 1) << ":" << endl;
+        cout << "Cuenta: " << cuentas[i].getNombreCuenta() << endl;
+        cout << "ID: CU-" << cuentas[i].getIdCuenta() << endl;
+        cout << "Alias: " << cuentas[i].getAlias() << endl;
+        cout << "Saldo: $" << fixed << setprecision(2) << cuentas[i].getSaldo() << endl;
+        cout << "----------------------------------------" << endl;
     }
-    delete[] cuentas;
-    cout << endl;
-    system("pause");
+    
+    cout << "========================================" << endl;
+    cout << "Total de cuentas mostradas: " << limite << " de " << totalCuentas << endl;
+    cout << "========================================" << endl << endl;
 }

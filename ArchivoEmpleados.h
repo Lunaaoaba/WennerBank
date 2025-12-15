@@ -1,35 +1,30 @@
-#ifndef FUNCIONESARCHIVOSEMPLADOS_H
-#define FUNCIONESARCHIVOSEMPLADOS_H
-#include "tipoUsuario.h"
+#ifndef ARCHIVOEMPLEADOS_H
+#define ARCHIVOEMPLEADOS_H
+#include "empleado.h"
 
-// ------ FUNCIONES PARA MANEJO DE ARCHIVOS DE EMPLEADOS ------
+class ArchivoEmpleados{
+    private:
+        char _nombreArchivo[30];
+    public:
+        ArchivoEmpleados(const char* nombre = "empleados.dat");
+        bool guardarEmpleados(const Empleado& empleado);
+        Empleado crearEmpleado();
 
-bool guardarEmpleados(const Empleado& empleado);
-Empleado crearEmpleado();
+        bool modificarEmpleado(const Empleado& empleadoModificado);
+        bool modificarDatosEmpleado(int legajo);
 
-bool modificarEmpleado(const Empleado& empleadoModificado);
-bool modificarDatosEmpleado(int legajo);
+        bool eliminarEmpleado(int legajo);
+        bool restaurarEmpleado(int legajo);
 
-bool eliminarEmpleado(int legajo);
-bool restaurarEmpleado(int legajo);
+        void listarEmpleados();
+        void listarTodosEmpleados();
 
-// ------ FUNCIONES PARA BUSQUEDA DE EMPLEADOS ------
+        bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado);
+        bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado);
+        bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado);
 
-void listarEmpleados();
-void listarTodosEmpleados();
-
-bool buscarEmpleado(const char* criterio, int valor, Empleado& encontrado);
-bool buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado);
-bool buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado &empleadoEncontrado);
-
-// ------ FUNCIONES PARA EL EMPLEADO ------
-
-// (etc)
-
-// ----- FUNCIONES AUXILIARES PARA EMPLEADOS -----
-int generarLegajo();
-int posicionEmpleadoPorLegajo(int legajo);
-
-
+        int generarLegajo();
+        int posicionEmpleadoPorLegajo(int legajo);
+};
 
 #endif

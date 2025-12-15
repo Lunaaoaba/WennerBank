@@ -55,8 +55,10 @@ void menuCliente(int idCliente){
 }
 
 void verMisCuentas(int idCliente){
+    ArchivoCuentas objCuentas;
+
     system("cls");
-    listarCuentasCliente(idCliente);
+    objCuentas.listarCuentasCliente(idCliente);
     system("pause");
 }
 
@@ -74,7 +76,8 @@ void ingresarACuenta(int idCliente){
         int idCuenta = validarEntero(1, 999999);
 
         cuentaBancaria cuentaActual;
-        if(!buscarCuenta("ID", idCuenta, cuentaActual)){
+        ArchivoCuentas objCuentas;
+        if(!objCuentas.buscarCuenta("ID", idCuenta, cuentaActual)){
             cout << "ERROR: No se encontro ninguna cuenta con ese ID." << endl;
             intentos++;
             cout << "Intentos restantes: " << maxIntentos - intentos << endl;
@@ -105,15 +108,17 @@ void ingresarACuenta(int idCliente){
 }
 
 void crearMiCuenta(int idCliente){
+    ArchivoCuentas objCuentas;
     system("cls");
-    crearCuenta(idCliente);
+    objCuentas.crearCuenta(idCliente);
     system("pause");
 }
 
 void verMisDatos(int idCliente){
     system("cls");
     Cliente clienteActual;
-    if(buscarCliente("ID", idCliente, clienteActual)){
+    ArchivoClientes objClientes;
+    if(objClientes.buscarCliente("ID", idCliente, clienteActual)){
         cout << "========================================" << endl;
         cout << "       MIS DATOS PERSONALES" << endl;
         cout << "========================================" << endl << endl;
@@ -126,5 +131,6 @@ void verMisDatos(int idCliente){
 }
 
 void modificarMisDatos(int idCliente){
-    modificarDatosCliente(idCliente);
+    ArchivoClientes objClientes;
+    objClientes.modificarDatosCliente(idCliente);
 }

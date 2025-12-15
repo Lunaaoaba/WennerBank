@@ -32,20 +32,24 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="administrador.cpp" />
+		<Unit filename="administrador.h" />
 		<Unit filename="ArchivoClientes.cpp" />
 		<Unit filename="ArchivoClientes.h" />
 		<Unit filename="ArchivoCuentas.cpp" />
 		<Unit filename="ArchivoCuentas.h" />
 		<Unit filename="ArchivoEmpleados.cpp" />
 		<Unit filename="ArchivoEmpleados.h" />
-		<Unit filename="ArchivoMovimientos.cpp" />
-		<Unit filename="ArchivoMovimientos.h" />
-		<Unit filename="administrador.cpp" />
-		<Unit filename="administrador.h" />
+		<Unit filename="archivoTransacciones.h" />
+        <Unit filename="archivoTransacciones.cpp" />
 		<Unit filename="art.cpp" />
 		<Unit filename="art.h" />
+		<Unit filename="cliente.cpp" />
+		<Unit filename="cliente.h" />
 		<Unit filename="cuentaBancaria.cpp" />
 		<Unit filename="cuentaBancaria.h" />
+		<Unit filename="empleado.cpp" /> 
+		<Unit filename="empleado.h" />
 		<Unit filename="fecha.cpp" />
 		<Unit filename="fecha.h" />
 		<Unit filename="funciones.cpp" />
@@ -65,15 +69,13 @@
 		<Unit filename="menuEmpleado.h" />
 		<Unit filename="menuReportes.cpp" />
 		<Unit filename="menuReportes.h" />
-		<Unit filename="movimientos.cpp" />
-		<Unit filename="movimientos.h" />
 		<Unit filename="persona.cpp" />
 		<Unit filename="persona.h" />
 		<Unit filename="rlutil.h" />
 		<Unit filename="tiempo.cpp" />
 		<Unit filename="tiempo.h" />
-		<Unit filename="tipoUsuario.cpp" />
-		<Unit filename="tipoUsuario.h" />
+		<Unit filename="transaccion.cpp" />
+		<Unit filename="transaccion.h" />
 		<Unit filename="usuario.cpp" />
 		<Unit filename="usuario.h" />
 		<Extensions>

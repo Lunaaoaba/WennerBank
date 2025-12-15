@@ -1,20 +1,20 @@
 #define byte windows_byte
 #include "rlutil.h"
 #undef byte
-#include <cstdio>
-#include <cstring>
 #include <iostream>
-#include "tipoUsuario.h"
+#include <cstring>
+#include "cliente.h"
+#include "fecha.h"
+#include "archivoClientes.h"
 #include "funciones.h"
-#include "ArchivoClientes.h"
 #include "funcionesArchivos.h"
 
 using namespace std;
 
 
-// ------ FUNCIONES PARA MANEJO DE ARCHIVOS DE CLIENTES ------
+ArchivoClientes::ArchivoClientes(const char* nombre){ strcpy(_nombreArchivo, nombre); }
 
-bool guardarClientes(const Cliente& cliente){
+bool ArchivoClientes::guardarClientes(const Cliente& cliente){
     FILE* archivo = fopen("clientes.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -25,8 +25,7 @@ bool guardarClientes(const Cliente& cliente){
     return true;
 }
 
-// poner while para q repita todo si hay error en algun dato
-Cliente crearCliente(){
+Cliente ArchivoClientes::crearCliente(){
     char nombre[50], apellido[50], localidad[50], mail[50], contrasena[50];
     int dni, idCliente;
     Fecha fechaNacimiento;
@@ -98,7 +97,7 @@ Cliente crearCliente(){
     return nuevoCliente;
 }
 
-bool modificarCliente(const Cliente& clienteModificado){
+bool ArchivoClientes::modificarCliente(const Cliente& clienteModificado){
     int pos = posicionClientePorId(clienteModificado.getIdCliente());
 
     if(pos < 0){
@@ -124,9 +123,9 @@ bool modificarCliente(const Cliente& clienteModificado){
 
     fclose(archivo);
     return exito;
-} 
+}
 
-bool modificarDatosCliente(int idCliente){
+bool ArchivoClientes::modificarDatosCliente(int idCliente){
     Cliente clienteAModificar;
 
     if(idCliente == 1){
@@ -142,7 +141,7 @@ bool modificarDatosCliente(int idCliente){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
         return false;
     }
-    
+
     system("cls");
     cout << "----- MODIFICACION DE DATOS DEL CLIENTE -----" << endl;
     cout << "Datos actuales del cliente:" << endl;
@@ -157,7 +156,7 @@ bool modificarDatosCliente(int idCliente){
         cout << "4. Mail" << endl;
         cout << "5. Contrase" << char(164) << "a" << endl; // dsp hacer q pida la contrasena vieja antes de cambiar
         cout << "6. Finalizar/Cancelar modificacion" << endl << endl;
-        // dsp cambiar a rlutil
+
         int opcion = validarEntero(1, 6);
         switch(opcion){
             case 1: {
@@ -194,10 +193,18 @@ bool modificarDatosCliente(int idCliente){
                 break;
             }
             case 5: {
-                char nuevaContrasena[50];
-                cout << "Ingrese la nueva contrase" << char(164) << "a: ";
-                validarCadenaLargo(nuevaContrasena, 8, 50);
-                clienteAModificar.setContrasena(nuevaContrasena);
+                char contrasenaActual[50], nuevaContrasena[50];
+                cout << "Ingresar contrase�a actual: ";
+                validarCadenaLargo(contrasenaActual, 8, 50);
+                if(strcmp(clienteAModificar.getContrasena(), contrasenaActual) == 0){
+                    cout << "Ingrese la nueva contrase" << char(164) << "a: ";
+                    validarCadenaLargo(nuevaContrasena, 8, 50);
+                    if(strcmp(contrasenaActual, nuevaContrasena) != 0){
+                        clienteAModificar.setContrasena(nuevaContrasena);
+                    }
+                    else cout << "La contrase�a no puede ser igual a la anterior.";
+                }
+                else cout << "Contrasena incorrecta, operacion cancelada.";
                 break;
             }
             case 6: {
@@ -218,7 +225,7 @@ bool modificarDatosCliente(int idCliente){
     }
 }
 
-bool eliminarCliente(int idCliente){
+bool ArchivoClientes::eliminarCliente(int idCliente){
     Cliente clienteAEliminar;
 
     if(idCliente == 1){
@@ -259,7 +266,7 @@ bool eliminarCliente(int idCliente){
     return false;
 }
 
-bool restaurarCliente(int idCliente){
+bool ArchivoClientes::restaurarCliente(int idCliente){
     Cliente clienteARestaurar;
     if(!buscarCliente("ID", idCliente, clienteARestaurar)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
@@ -292,9 +299,7 @@ bool restaurarCliente(int idCliente){
     return false;
 }
 
-// ------ FUNCIONES PARA BUSQUEDA DE CLIENTES ------
-
-void listarClientes(){
+void ArchivoClientes::listarClientes(){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -302,7 +307,7 @@ void listarClientes(){
     }
     Cliente clienteActual;
     int i = 0;
-    cout << "----- LISTADO DE CLIENTES -----" << endl;  
+    cout << "----- LISTADO DE CLIENTES -----" << endl;
     cout << "-------------------------------" << endl << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         if(!clienteActual.getUsuarioEliminado()){
@@ -320,8 +325,7 @@ void listarClientes(){
     fclose(archivo);
 }
 
-// sin filtro de eliminados (para uso admin)
-void listarTodosClientes(){
+void ArchivoClientes::listarTodosClientes(){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -329,7 +333,7 @@ void listarTodosClientes(){
     }
     Cliente clienteActual;
     int i = 0;
-    cout << "----- LISTADO DE CLIENTES -----" << endl;  
+    cout << "----- LISTADO DE CLIENTES -----" << endl;
     cout << "-------------------------------" << endl << endl;
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
@@ -347,7 +351,7 @@ void listarTodosClientes(){
 }
 
 //SOBRECARGA - el q usa int: (ID, DNI, EDAD)
-bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
+bool ArchivoClientes::buscarCliente(const char* criterio, int valor, Cliente& encontrado){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -365,7 +369,7 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
             if(encontrado.getEdad() == valor) seEncontro = true;
         }
         else cout << "Criterio de busqueda no reconocido." << endl;
-        
+
         if(seEncontro) break;
     }
     fclose(archivo);
@@ -373,7 +377,7 @@ bool buscarCliente(const char* criterio, int valor, Cliente& encontrado){
 }
 
 //SOBRECARGA - el q usa char: (NOMBRE, APELLIDO, LOCALIDAD)
-bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado){
+bool ArchivoClientes::buscarCliente(const char* criterio, const char* valor, Cliente& encontrado){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
@@ -395,7 +399,7 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
             if(strcmp(encontrado.getMail(), valor) == 0) seEncontro = true;
         }
         else cout << "Criterio de busqueda no reconocido." << endl;
-        
+
         if(seEncontro) break;
     }
     fclose(archivo);
@@ -403,7 +407,7 @@ bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado)
 }
 
 //funcion fuera de sobrecarga pq funciona de otra manera
-bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
+bool ArchivoClientes::buscarClienteNacimiento(const Fecha& fechaNacimiento, Cliente& clienteEncontrado){
     FILE* archivo = fopen("clientes.dat", "rb");
     Cliente clienteActual;
     if(archivo == nullptr){
@@ -422,13 +426,7 @@ bool buscarClienteNacimiento(Fecha fechaNacimiento, Cliente &clienteEncontrado){
     return false;
 }
 
-// ------ FUNCIONES PARA EL CLIENTE ------
-
-// (etc)
-
-// ----- FUNCIONES AUXILIARES PARA CLIENTES -----
-
-int generarIdCliente(){
+int ArchivoClientes::generarIdCliente(){
     FILE* archivo = fopen("clientes.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
@@ -444,7 +442,7 @@ int generarIdCliente(){
 }
 
 // despues rehacer para q use sobrecarga y funcione como buscarCliente
-int posicionClientePorId(int idCliente){
+int ArchivoClientes::posicionClientePorId(int idCliente){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr) return -2;
     Cliente clienteActual;

@@ -7,7 +7,7 @@ void menuTest();
 void InicioPrograma();
 void menuBienvenida();
 
-void iniciarSesionCliente(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual);
-void iniciarSesionEmpleado(bool& sesionActiva, int& idUsuarioActual, int& tipoUsuarioActual);
+void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual);
+void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual);
 
 #endif

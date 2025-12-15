@@ -3,18 +3,19 @@
 #include <iomanip>
 #include <cstring>
 #include <iostream> 
-#include "ArchivoCuentas.h"
-#include "archivoClientes.h"
 #include "cuentaBancaria.h"
-#include "ArchivoMovimientos.h"
-#include "funcionesArchivos.h"
+#include "cliente.h"
 #include "funciones.h"
-#include "tipoUsuario.h"
+#include "funcionesArchivos.h"
+#include "archivoClientes.h"
+#include "archivoCuentas.h"
+#include "archivoTransacciones.h"
 
 using namespace std;
 
-// ----- FUNCIONES PARA MANEJO DE ARCHIVOS DE CUENTAS -----
-bool guardarCuentas(const cuentaBancaria& cuenta){
+ArchivoCuentas::ArchivoCuentas(const char* nombre){ strcpy(_nombreArchivo, nombre); }
+
+bool ArchivoCuentas::guardarCuentas(const cuentaBancaria& cuenta){
     FILE* archivo = fopen("cuentas.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -25,11 +26,12 @@ bool guardarCuentas(const cuentaBancaria& cuenta){
     return true;
 }
 
-cuentaBancaria crearCuenta(int idCliente){
+cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
     Cliente cliente;
-    if(!buscarCliente("ID", idCliente, cliente)){
+    ArchivoClientes obj;
+    if(!obj.buscarCliente("ID", idCliente, cliente)){
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
-        return cuentaBancaria();  // Retorna cuenta vacía
+        return cuentaBancaria();
     }
     if(cliente.getUsuarioEliminado()){
         cout << "ERROR: El cliente con ID " << idCliente << " esta inactivo." << endl;
@@ -85,18 +87,18 @@ cuentaBancaria crearCuenta(int idCliente){
         }
         else{
             cout << "ERROR: No se pudo guardar la nueva cuenta." << endl;
-            return cuentaBancaria();  // Retorna cuenta vacía
+            return cuentaBancaria();
         }
     }
     else{
         cout << "Operacion cancelada." << endl;
-        return cuentaBancaria();  // Retorna cuenta vacía
+        return cuentaBancaria(); 
     }
     
     return nuevaCuenta;
 }
 
-bool modificarCuenta(const cuentaBancaria& cuentaModificada){
+bool ArchivoCuentas::modificarCuenta(const cuentaBancaria& cuentaModificada){
     int pos = posicionCuentaPorId(cuentaModificada.getIdCuenta());
 
     if(pos < 0){
@@ -122,7 +124,7 @@ bool modificarCuenta(const cuentaBancaria& cuentaModificada){
     return exito;
 }
 
-bool modificarDatosCuenta(int idCuenta){
+bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
     cuentaBancaria cuentaAModificar;
     if(idCuenta == 1){
         cout << "ERROR: No se puede alterar esta cuenta." << endl;
@@ -181,7 +183,7 @@ bool modificarDatosCuenta(int idCuenta){
     }
 }
 
-bool eliminarCuenta(int idCuenta){
+bool ArchivoCuentas::eliminarCuenta(int idCuenta){
     cuentaBancaria cuentaAEliminar;
 
     if(idCuenta == 1){
@@ -222,7 +224,7 @@ bool eliminarCuenta(int idCuenta){
     return false;
 }
 
-bool restaurarCuenta(int idCuenta){
+bool ArchivoCuentas::restaurarCuenta(int idCuenta){
     cuentaBancaria cuentaARestaurar;
     if(!buscarCuenta("ID", idCuenta, cuentaARestaurar)){
         cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << "." << endl;
@@ -255,11 +257,7 @@ bool restaurarCuenta(int idCuenta){
     return false;
 }
 
-// ----------------------------------------------------------------------
-//             FUNCIONES PARA BUSQUEDA DE CUENTAS
-// ----------------------------------------------------------------------}
-
-void listarCuentasCliente(int idCliente){
+void ArchivoCuentas::listarCuentasCliente(int idCliente){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -291,7 +289,7 @@ void listarCuentasCliente(int idCliente){
     }
 }
 
-void listarCuentas(){
+void ArchivoCuentas::listarCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -316,7 +314,7 @@ void listarCuentas(){
     fclose(archivo);
 }
 
-void listarTodasCuentas(){
+void ArchivoCuentas::listarTodasCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -341,7 +339,7 @@ void listarTodasCuentas(){
 
 }
 
-bool buscarCuenta(const char* criterio, int valor, cuentaBancaria& encontrada){
+bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancaria& encontrada){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -375,7 +373,7 @@ bool buscarCuenta(const char* criterio, int valor, cuentaBancaria& encontrada){
     return seEncontro;
 }
 
-bool buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encontrada){
+bool ArchivoCuentas::buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encontrada){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
@@ -409,14 +407,7 @@ bool buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encon
     return seEncontro;
 }
 
-
-// ----- FUNCIONES PARA LA CUENTA BANCARIA -----
-
-void mostrarSaldo (double saldo) {
-cout<<"Su balance es: $ " <<setprecision(2) << fixed << saldo << endl;
-}
-
-bool depositar(int idCuenta, double monto){
+bool ArchivoCuentas::depositar(int idCuenta, double monto){
     if(monto <= 0){
         cout << "ERROR: El monto debe ser mayor a 0." << endl;
         return false;
@@ -435,6 +426,21 @@ bool depositar(int idCuenta, double monto){
     cuenta.setSaldo(cuenta.getSaldo() + monto);
 
     if(modificarCuenta(cuenta)){
+        Fecha fechaActual;
+        fechaActual.cargarFechaActual();
+        Tiempo tiempoActual;
+        tiempoActual.cargarTiempoActual();
+        ArchivoTransacciones trActual;
+        Transaccion nuevaTransaccion(
+            trActual.generarIdTransaccion(),
+            -1,
+            idCuenta,
+            monto,
+            fechaActual,
+            tiempoActual
+        );
+        trActual.guardarTransaccion(nuevaTransaccion);
+
         cout << "Deposito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
         return true;
     }
@@ -443,7 +449,7 @@ bool depositar(int idCuenta, double monto){
     return false;
 }
 
-bool extraer(int idCuenta, double monto){
+bool ArchivoCuentas::extraer(int idCuenta, double monto){
     if(monto <= 0){
         cout << "ERROR: El monto debe ser mayor a 0." << endl;
         return false;
@@ -466,7 +472,21 @@ bool extraer(int idCuenta, double monto){
     cuenta.setSaldo(cuenta.getSaldo() - monto);
     
     if(modificarCuenta(cuenta)){
-        cout << "Extraccion exitosa. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        Fecha fechaActual;
+        fechaActual.cargarFechaActual();
+        Tiempo tiempoActual;
+        tiempoActual.cargarTiempoActual();
+        ArchivoTransacciones trActual;
+        Transaccion nuevaTransaccion(
+            trActual.generarIdTransaccion(),
+            idCuenta,
+            -1,
+            monto,
+            fechaActual,
+            tiempoActual
+        );
+        trActual.guardarTransaccion(nuevaTransaccion);
+        cout << "Extraccion exitosa. Nuevo saldo: $" << cuenta.getSaldo() << endl;
         return true;
     }
     
@@ -474,7 +494,7 @@ bool extraer(int idCuenta, double monto){
     return false;
 }
 
-bool transferir(int idCuentaOrigen, int idCuentaDestino, double monto){
+bool ArchivoCuentas::transferir(int idCuentaOrigen, int idCuentaDestino, double monto){
     if(monto <= 0){
         cout << "ERROR: El monto debe ser mayor a 0." << endl;
         return false;
@@ -507,6 +527,22 @@ bool transferir(int idCuentaOrigen, int idCuentaDestino, double monto){
     cuentaDestino.setSaldo(cuentaDestino.getSaldo() + monto);
     
     if(modificarCuenta(cuentaOrigen) && modificarCuenta(cuentaDestino)){
+        Fecha fechaActual;
+        fechaActual.cargarFechaActual();
+        Tiempo tiempoActual;
+        tiempoActual.cargarTiempoActual();
+        ArchivoTransacciones trActual;
+
+        Transaccion nuevaTransaccion(
+            trActual.generarIdTransaccion(),
+            idCuentaOrigen,
+            idCuentaDestino,
+            monto,
+            fechaActual,
+            tiempoActual
+        );
+        trActual.guardarTransaccion(nuevaTransaccion);
+
         cout << "Transferencia exitosa." << endl;
         cout << "Saldo cuenta origen: $" << cuentaOrigen.getSaldo() << endl;
         cout << "Saldo cuenta destino: $" << cuentaDestino.getSaldo() << endl;
@@ -517,9 +553,7 @@ bool transferir(int idCuentaOrigen, int idCuentaDestino, double monto){
     return false;
 }
 
-// ----- FUNCIONES AUXILIARES PARA CUENTAS -----
-
-int generarIdCuenta(){
+int ArchivoCuentas::generarIdCuenta(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
@@ -534,7 +568,7 @@ int generarIdCuenta(){
     return maxId + 1;
 }
 
-void generarCvu(char* cvu){
+void ArchivoCuentas::generarCvu(char* cvu){
     srand(static_cast<unsigned int>(time(nullptr)));
     bool cvuUnico = false;
     while(!cvuUnico){
@@ -548,7 +582,7 @@ void generarCvu(char* cvu){
     }
 }
 
-void generarAlias(char* alias){
+void ArchivoCuentas::generarAlias(char* alias){
     srand(static_cast<unsigned>(time(nullptr)));
     // 35+35+35 = 105
     // 105^3 = 1,157,625 combinaciones posibles
@@ -582,7 +616,7 @@ void generarAlias(char* alias){
     };
 
     const char** categorias[3] = {sustantivos, adjetivos, verbos};
-     bool aliasUnico = false;
+    bool aliasUnico = false;
     while(!aliasUnico){
         // Elige 3 palabras al azar       (categoría + posición)
         const char* palabra1 = categorias[rand() % 3] [rand() % 35];
@@ -598,7 +632,8 @@ void generarAlias(char* alias){
     }
 }
 
-int posicionCuentaPorId(int idCuenta){
+// despues rehacer para q use sobrecarga
+int ArchivoCuentas::posicionCuentaPorId(int idCuenta){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr) return -2;
     cuentaBancaria cuentaActual;

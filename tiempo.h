@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 class Tiempo{
     private:
         int _hora, _minuto, _segundo;

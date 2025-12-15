@@ -402,7 +402,6 @@ eliminado : bool
 
 --------------------------------------------------------------
 
-ARCHIVO: "tipoUsuario.h"
 
 Cliente : public Usuario
 
@@ -450,15 +449,6 @@ idCuentaDestino : char[5] // clave foranea (a donde)
 monto : double
 fechaTransaccion : Fecha
 horaTransaccion : Tiempo
-
-Prestamo
-
-idPrestamo : char[5] // clave principal
-idCliente : char[5] // clave foranea
-monto : double
-tasaInteres : float
-fechaInicio : Fecha
-fechaVencimiento : Fecha
 
 ----------------------------------------------------------------------------
 
@@ -509,7 +499,6 @@ ARCHIVOS .DAT UTILIZADOS:
 clientes.dat
 empleados.dat
 cuentas.dat
-prestamos.dat
 transacciones.dat
 
 --------------------------------------------------------------

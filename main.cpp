@@ -1,7 +1,11 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <windows.h>
 #include "menu.h"
 #include "funcionesArchivos.h"
+#include "config.h"
 using namespace std;
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -12,16 +16,14 @@ using namespace std;
 
 
 int main(){
-    SetConsoleCP(437);
-    SetConsoleOutputCP(437);
 
-    iniciarArchivos(); // crea los archivos si no existen
-    
-    // menuTest();
 
-    InicioPrograma();
+    config();
 
-    system("pause");
-    //--------------------------------------------------------------
+    menuTest();
+    // InicioPrograma();
+
+
+    system("pause"); // reemplazar todos los system("pause") por "rlutil::anykey();" o "getch();" o etc...
     return 0;
 }

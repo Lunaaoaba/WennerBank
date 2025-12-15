@@ -12,13 +12,13 @@ Administrador* Administrador::getInstancia(){
     return instancia;
 }
 Administrador::Administrador() : Empleado(
-    10000000,
+    10000001,
     "Admin",
     "Sistema",
     "Central",
     Fecha(26,6,1985),
-    "admin1234@gmail.com"
-    ,"contraSeguraAdmin5678",
+    "admin1234@gmail.com",
+    "abcd1234",
     false,
     1
 ){ _permisosGlobales = true; }

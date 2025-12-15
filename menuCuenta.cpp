@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <cstring>
 #include "menuCuenta.h"
 #include "ArchivoCuentas.h"
 #include "ArchivoClientes.h"
@@ -10,10 +11,12 @@
 using namespace std;
 
 void menuCuenta(int idCliente, int idCuenta){
+    cuentaBancaria cuenta;
+    ArchivoCuentas objCuentas;
     bool continuar = true;
+    
     while(continuar){
-        cuentaBancaria cuenta;
-        if(!buscarCuenta("ID", idCuenta, cuenta)){
+        if(!objCuentas.buscarCuenta("ID", idCuenta, cuenta)){
             cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << "." << endl;
             return;
         }
@@ -23,6 +26,7 @@ void menuCuenta(int idCliente, int idCuenta){
         cout << "         MENU CUENTA BANCARIA" << endl;
         cout << "========================================" << endl << endl;
         cout << "Cuenta: " << cuenta.getNombreCuenta() << endl;
+        cout << "ID de la cuenta: " << cuenta.getIdCuenta() << endl;
         cout << "CVU: " << cuenta.getCvu() << endl;
         cout << "Alias: " << cuenta.getAlias() << endl;
         cout << "Saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
@@ -30,12 +34,11 @@ void menuCuenta(int idCliente, int idCuenta){
         cout << "1. Ingresar dinero" << endl;
         cout << "2. Retirar dinero" << endl;
         cout << "3. Transferir dinero" << endl;
-        cout << "4. Mis prestamos" << endl;
-        cout << "5. Modificar datos de la cuenta" << endl;
-        cout << "6. Cerrar cuenta" << endl;
-        cout << "7. Volver al menu principal" << endl << endl;
+        cout << "4. Modificar datos de la cuenta" << endl;
+        cout << "5. Cerrar cuenta" << endl;
+        cout << "6. Volver al menu principal" << endl << endl;
 
-        int opcion = validarEntero(1, 7);
+        int opcion = validarEntero(1, 6);
         switch(opcion){
             case 1: {
                 ingresarDinero(idCuenta);
@@ -50,18 +53,14 @@ void menuCuenta(int idCliente, int idCuenta){
                 break;
             }
             case 4: {
-                misPrestamos(idCuenta, idCliente);
-                break;
-            }
-            case 5: {
                 modificarDatosCuentaMenu(idCuenta, idCliente);
                 break;
             }
-            case 6: {
+            case 5: {
                 cerrarCuenta(idCuenta, idCliente);
                 break;
             }
-            case 7: {
+            case 6: {
                 continuar = false;
                 break;
             }
@@ -69,16 +68,18 @@ void menuCuenta(int idCliente, int idCuenta){
     }
 }
 
+
 void ingresarDinero(int idCuenta){
+    ArchivoCuentas objCuentas;
     system("cls");
     cout << "========================================" << endl;
     cout << "           INGRESAR DINERO" << endl;
     cout << "========================================" << endl << endl;
-    
+
     cout << "Ingrese el monto a depositar: $";
     double monto = validarDouble(0.01, 999999999.99);
-    
-    if(depositar(idCuenta, monto)){
+
+    if(objCuentas.depositar(idCuenta, monto)){
         system("pause");
     }
     else{
@@ -88,22 +89,23 @@ void ingresarDinero(int idCuenta){
 
 void retirarDinero(int idCuenta){
     cuentaBancaria cuenta;
-    if(!buscarCuenta("ID", idCuenta, cuenta)){
+    ArchivoCuentas objCuentas;
+    if(!objCuentas.buscarCuenta("ID", idCuenta, cuenta)){
         cout << "ERROR: No se pudo cargar la cuenta." << endl;
         system("pause");
         return;
     }
-    
+
     system("cls");
     cout << "========================================" << endl;
     cout << "           RETIRAR DINERO" << endl;
     cout << "========================================" << endl << endl;
     cout << "Saldo disponible: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl << endl;
-    
+
     cout << "Ingrese el monto a retirar: $";
     double monto = validarDouble(0.01, 999999999.99);
-    
-    if(extraer(idCuenta, monto)){
+
+    if(objCuentas.extraer(idCuenta, monto)){
         system("pause");
     }
     else{
@@ -113,11 +115,12 @@ void retirarDinero(int idCuenta){
 
 void transferirDinero(int idCuenta){
     bool continuar = true;
-    
+
     while(continuar){
 
         cuentaBancaria cuentaOrigen;
-        if(!buscarCuenta("ID", idCuenta, cuentaOrigen)){
+        ArchivoCuentas objCuentas;
+        if(!objCuentas.buscarCuenta("ID", idCuenta, cuentaOrigen)){
             cout << "ERROR: No se pudo cargar la cuenta." << endl;
             system("pause");
             return;
@@ -140,7 +143,7 @@ void transferirDinero(int idCuenta){
                 char cvuDestino[11];
                 cout << "Ingrese el CVU de la cuenta a transferir: ";
                 validarCadenaNumeros(cvuDestino, 10, 10);
-                cuentaEncontrada = buscarCuenta("CVU", cvuDestino, cuentaDestino);
+                cuentaEncontrada = objCuentas.buscarCuenta("CVU", cvuDestino, cuentaDestino);
                 break;
             }
             case 2 : {
@@ -148,7 +151,7 @@ void transferirDinero(int idCuenta){
                 cout << "Ingrese el Alias de la cuenta a transferir: ";
                 validarCadena(aliasDestino, 30);
                 mayusculas(aliasDestino);
-                cuentaEncontrada = buscarCuenta("ALIAS", aliasDestino, cuentaDestino);
+                cuentaEncontrada = objCuentas.buscarCuenta("ALIAS", aliasDestino, cuentaDestino);
                 break;
             }
             case 3: {
@@ -156,6 +159,8 @@ void transferirDinero(int idCuenta){
                 break;
             }
         }
+        if(continuar == false) continue;
+
         if(!cuentaEncontrada){
             cout << "ERROR: No se encontro la cuenta a transferir." << endl;
             system("pause");
@@ -180,7 +185,7 @@ void transferirDinero(int idCuenta){
         char confirmacion = validarSiNo();
 
         if(confirmacion == 'S' || confirmacion == 's'){
-            if(transferir(idCuenta, cuentaDestino.getIdCuenta(), monto)){
+            if(objCuentas.transferir(idCuenta, cuentaDestino.getIdCuenta(), monto)){
                 cout << "Transferencia realizada con exito." << endl;
                 cout << "Desea realizar otra transferencia? (S/N): ";
                 char otra = validarSiNo();
@@ -202,66 +207,17 @@ void transferirDinero(int idCuenta){
     }
 }
 
-void misPrestamos(int idCuenta, int idCliente){
-    bool continuar = true;
-    while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "            MIS PRESTAMOS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Pedir prestamo" << endl;
-        cout << "2. Pagar prestamo" << endl;
-        cout << "3. Volver" << endl << endl;
-
-        int opcion = validarEntero(1, 3);
-        switch(opcion){
-            case 1: {
-                pedirPrestamo(idCuenta, idCliente);
-                break;
-            }
-            case 2: {
-                pagarPrestamo(idCuenta, idCliente);
-                break;
-            }
-            case 3: {
-                continuar = false;
-                break;
-            }
-        }
-    }
-}
-
-void pedirPrestamo(int idCuenta, int idCliente){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "           PEDIR PRESTAMO" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    (void)idCuenta;
-    (void)idCliente;
-    system("pause");
-}
-
-void pagarPrestamo(int idCuenta, int idCliente){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "           PAGAR PRESTAMO" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Funcion en desarrollo..." << endl;
-    (void)idCuenta;
-    (void)idCliente;
-    system("pause");
-}
-
 void modificarDatosCuentaMenu(int idCuenta, int idCliente){
     cuentaBancaria cuenta;
-    if(!buscarCuenta("ID", idCuenta, cuenta)){
+    ArchivoCuentas objCuentas;
+    if(!objCuentas.buscarCuenta("ID", idCuenta, cuenta)){
         cout << "ERROR: No se pudo cargar la cuenta." << endl;
         system("pause");
         return;
     }
     Cliente cliente;
-    if(!buscarCliente("ID", idCliente, cliente)){
+    ArchivoClientes objClientes;
+    if(!objClientes.buscarCliente("ID", idCliente, cliente)){
         cout << "ERROR: No se pudo verificar la identidad." << endl;
         system("pause");
         return;
@@ -275,7 +231,7 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
         cout << "1. Cambiar nombre de la cuenta" << endl;
         cout << "2. Regenerar Alias" << endl;
         cout << "3. Volver" << endl << endl;
-        
+
         int opcion = validarEntero(1, 3);
 
         switch(opcion){
@@ -284,7 +240,7 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
                 cout << "Ingrese el nuevo nombre: ";
                 validarCadenaLetras(nuevoNombre, 50);
                 cuenta.setNombreCuenta(nuevoNombre);
-                if(modificarCuenta(cuenta)){
+                if(objCuentas.modificarCuenta(cuenta)){
                     cout << "Nombre modificado correctamente." << endl;
                 }
                 system("pause");
@@ -292,9 +248,9 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
             }
             case 2: {
                 char nuevoAlias[31];
-                generarAlias(nuevoAlias);
+                objCuentas.generarAlias(nuevoAlias);
                 cuenta.setAlias(nuevoAlias);
-                if(modificarCuenta(cuenta)){
+                if(objCuentas.modificarCuenta(cuenta)){
                     cout << "Alias regenerado: " << nuevoAlias << endl;
                 }
                 system("pause");
@@ -310,7 +266,8 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
 
 void cerrarCuenta(int idCuenta, int idCliente){
     cuentaBancaria cuenta;
-    if(!buscarCuenta("ID", idCuenta, cuenta)){
+    ArchivoCuentas objCuentas;
+    if(!objCuentas.buscarCuenta("ID", idCuenta, cuenta)){
         cout << "ERROR: No se pudo cargar la cuenta." << endl;
         system("pause");
         return;
@@ -322,7 +279,8 @@ void cerrarCuenta(int idCuenta, int idCliente){
     }
 
     Cliente clienteActual;
-    if(!buscarCliente("ID", idCliente, clienteActual)){
+    ArchivoClientes objClientes;
+    if(!objClientes.buscarCliente("ID", idCliente, clienteActual)){
         cout << "ERROR: No se pudo verificar la identidad." << endl;
         system("pause");
         return;
@@ -332,18 +290,18 @@ void cerrarCuenta(int idCuenta, int idCliente){
     cout << "========================================" << endl;
     cout << "           CERRAR CUENTA" << endl;
     cout << "========================================" << endl << endl;
-    
+
     cout << "ADVERTENCIA: Esta accion cerrara la cuenta permanentemente." << endl;
     cout << "Saldo actual: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl << endl;
-    
+
     if(cuenta.getSaldo() > 0){
         cout << "NOTA: El saldo restante sera transferido a la cuenta del banco." << endl << endl;
     }
-    
+
     cout << "Para continuar, ingrese su contrase" << char(164) << "a: ";
     char contrasena[50];
     validarCadenaLargo(contrasena, 8, 50);
-    
+
     if(strcmp(clienteActual.getContrasena(), contrasena) != 0){
         cout << endl << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
         system("pause");
@@ -356,16 +314,16 @@ void cerrarCuenta(int idCuenta, int idCliente){
     if(confirmacion == 'S' || confirmacion == 's'){
         // Si tiene saldo, transferirlo a la cuenta del banco
         if(cuenta.getSaldo() > 0){
-            if(transferir(idCuenta, 1, cuenta.getSaldo())){
+            if(objCuentas.transferir(idCuenta, 1, cuenta.getSaldo())){
                 cout << endl << "Saldo transferido a la cuenta del banco exitosamente." << endl;
             }
             else{
                 cout << endl << "ADVERTENCIA: No se pudo transferir el saldo." << endl;
             }
         }
-        
+
         // Cerrar la cuenta
-        if(eliminarCuenta(idCuenta)){
+        if(objCuentas.eliminarCuenta(idCuenta)){
             cout << "Cuenta cerrada exitosamente." << endl;
             cout << "Sera redirigido al menu principal." << endl;
             system("pause");

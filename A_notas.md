@@ -16,9 +16,12 @@ funcion para el menu "iniciarSesion" donde adentro estaran las siguentes funcion
     Para iniciar sesion (empleado) se deben validar los datos, lo mismo que al cliente.
     - Para iniciar sesion como admin, debe entrar a iniciar sesion de empleado, sigue el mismo proceso (pensaba hacer un if de q si los datos coinciden, activar el bool de Permisos globales de la clase de admin)
     - variables principales:
-        - bool 'sesionActiva'
         - int 'idUsuarioActual'
-        - char[20] o int 'tipoUsuario'
+        - int 'tipoUsuario':
+            - 0 = usuario no activo
+            - 1 = cliente activo
+            - 2 = empleado activo
+            - 3 = admin activo
 
 2. ✅ funciones BORRAR CLIENTE/EMPLEADO/CUENTA:
 estan los esqueletos pero no las funciones, tengo igual algunas a medio hacer, asi que solo es adaptarlo a lo que se necesita. Creo q se podria hacer sobrecarga.
@@ -98,7 +101,6 @@ MI ESTADO EN EL PROYECTO: Corregi mas errores y conflictos, elimine ArchivoTrans
         2. **"empleados.dat:"** 5 empleados pre cargados (+ administrador pre generado a parte).
         3. **"cuentas.dat:** 5 cuentas pre cargadas (1 x cliente).
         4. **"transacciones.dat:"** *Aun no es posible.*
-        5. **"prestamos.dat:"** *Aun no es posible.*
 
 ### NOTAS EXTRAS AL TERMINAR:
 #### Aca pongo las cosas que vi a mitad del proceso para modificar:

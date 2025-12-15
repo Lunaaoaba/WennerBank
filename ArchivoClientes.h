@@ -1,36 +1,32 @@
-#ifndef FUNCIONESARCHIVOSCLIENTES_H
-#define FUNCIONESARCHIVOSCLIENTES_H
-#include "tipoUsuario.h"
+#ifndef ARCHIVOCLIENTES_H
+#define ARCHIVOCLIENTES_H
+#include "cliente.h"
+#include "fecha.h"
 
-// ------ FUNCIONES PARA MANEJO DE ARCHIVOS DE CLIENTES ------
+class ArchivoClientes{
+    private:
+        char _nombreArchivo[30];
+    public:
+        ArchivoClientes(const char* nombre = "clientes.dat");
 
-bool guardarClientes(const Cliente& cliente);
-Cliente crearCliente();
+        bool guardarClientes(const Cliente& cliente);
+        Cliente crearCliente();
 
-bool modificarCliente(const Cliente& clienteModificado);
-bool modificarDatosCliente(int idCliente);
+        bool modificarCliente(const Cliente& clienteModificado);
+        bool modificarDatosCliente(int idCliente);
 
-bool eliminarCliente(int idCliente);
-bool restaurarCliente(int idCliente);
+        bool eliminarCliente(int idCliente);
+        bool restaurarCliente(int idCliente);
 
-// ------ FUNCIONES PARA BUSQUEDA DE CLIENTES ------
+        void listarClientes();
+        void listarTodosClientes();
 
-void listarClientes();
-void listarTodosClientes();
+        bool buscarCliente(const char* criterio, int valor, Cliente& encontrado);
+        bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado);
+        bool buscarClienteNacimiento(const Fecha& fechaNacimiento, Cliente& clienteEncontrado);
 
-bool buscarCliente(const char* criterio, int valor, Cliente& encontrado);
-bool buscarCliente(const char* criterio, const char* valor, Cliente& encontrado);
-bool buscarClienteNacimiento(const Fecha& fecha, Cliente& encontrado);
-
-// ------ FUNCIONES PARA EL CLIENTE ------
-
-// aca se ponen nose, crear cuentas bancarias, ver saldo, etc
-// no hacer funciones de archivo aca y no copypaste de ia :P
-
-// ----- FUNCIONES AUXILIARES PARA CLIENTES -----
-
-int generarIdCliente();
-int posicionClientePorId(int idCliente);
-
+        int generarIdCliente();
+        int posicionClientePorId(int idCliente);
+};
 
 #endif
