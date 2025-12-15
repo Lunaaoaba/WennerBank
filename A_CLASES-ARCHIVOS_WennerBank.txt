@@ -1,332 +1,118 @@
-========================================================================
-INGRESOS PARA TEST: (algunas fallas deben ser manuales, otras automaticas cuando se ingresa)
-========================================================================
+APERTURAS - CARÁCTERES - USUARIOS
 
---- INGRESO DE CLIENTES ---
+"rb" = Read Binary (Lectura Binaria): Abre para leer, si no existe retorna nullptr.
 
-dni // unico
-nombres
-apellidos
-localidad de residencia
-año de nacimiento
-mes de nacimiento
-dia de nacimiento
-mail // unico
-contraseña
+"wb" = Write Binary (Escritura Binaria): Abre para escritura sobreescribiendo. Si no existe lo crea.
 
--- datos test 1 -- (Falla: DNI no numérico)
+"ab" = Append Binary (Agregar Binaria): Abre para agregar al final, Si no existe lo crea, si existe escribe al final sin borrar contenido existente.
 
-hola
-12345678
-Juan
-Pérez
-La Plata
-1990
-1
-1
-juancito_perez_ok@gmail.com
-password123
-S
+"rb+" = Read Binary Plus (Lectura + Escritura Binaria): Abre para lectura y escritura, el archivo debe existir, se puede leer y escribir en cualquier posición.
 
--- datos test 2 -- (Falla: DNI fuera de rango)
+"wb+" = Write Binary Plus (Escritura + Lectura Binaria): Abre para escritura y lectura, si existe lo sobreescribe, sino lo crea
 
-123
-12345679
-María
-González
-Quilmes
-1991
-2
-2
-mary.gonzalez.90@gmail.com
-password123
-S
+"ab+" = Append Binary Plus (Agregar + Lectura Binaria): Abre para agregar y leer, si no existe lo crea, siempre escribe al final pero se puede leer desde cualquier posición.
 
--- datos test 3 -- (Falla: Nombre con números)
 
-12345680
-Carlos Alberto
-Rodríguez
-Prueba
-Lanus
-1992
-3
-3
-el_charly_rodriguez_55@gmail.com
-password123
-S
 
--- datos test 4 -- (Falla: Apellido demasiado largo)
+carácter | código 
+á = char(160)á
+é = char(130)é
+í = char(161)í
+ó = char(162) 
+ú = char(163)
+Á = char(181) 
+É = char(144)
+Í = char(214)
+Ó = char(224)
+Ú = char(233)
+ñ = char(164)
+Ñ = char(165)
 
-12345681
-Ana Laura
-Fernández EsteEsUnApellidoDemasiadoLargoQueSuperaLosCincuentaCaracteres
-Avellaneda
-1993
-4
-4
-anita.laura.fer22@gmail.com
-password123
-S
 
--- datos test 5 -- (Falla: Fecha - Día inválido en mes NO bisiesto)
-
-12345682
-José Luis
-García López
-CABA
-2025
-2
-29
-28
-pepe_garcia_lopez@gmail.com
-password123
-S
-
--- datos test 6 -- (Falla: Fecha - Día inválido en mes bisiesto)
-
-12345683
-Sofía
-Martínez Sánchez
-CABA
-2024
-2
-30
-29
-sofi_martinez_sanchez_01@gmail.com
-password123
-S
-
--- datos test 7 -- (Falla: Menor de edad)
-
-12345684
-Miguel Ángel
-Torres Ruiz
-Moron
-2010
-5
-10
-migue_angel_torres@gmail.com
-password123
-
--- datos test 8 -- (Falla: Menor de edad por un día)
-
-12345685
-Lucía Belén
-Díaz Romero
-Olivos
-2007
-11
-17
-luli.belen.dr@gmail.com
-password123
-
--- datos test 9 -- (Falla: Mail duplicado)
-
-12345686
-Pedro Pablo
-Ramírez Flores
-Tigre
-1995
-8
-20
+=======================================
+CLIENTES: 
+=======================================
+Sistema WennerBank
 bancoWennerBank@mail.com
-pedropablo_ramirez_flores@gmail.com
-password123
-S
-
--- datos test 10 -- (Falla: Contraseña muy corta)
-
-12345687
-Carmen Elena
-Morales Ortiz
-San Isidro
-1996
-9
-21
-carmen_elena_m_85@gmail.com
-1234
-password123
-S
-
--- datos test 11 -- (ÉXITO: Todos los datos válidos)
-
-12345688
-Francisco Javier
-Herrera Gil
-Pilar
-1997
-10
-22
-pancho_herrera_gil@gmail.com
-passwordSegura123
-S
-
-------------------------------------------------------------------------
-
---- INGRESO DE EMPLEADOS ---
-
-dni // unico
-nombres
-apellidos
-localidad de residencia
-año de nacimiento
-mes de nacimiento
-dia de nacimiento
-mail // unico
+abcd1234
+---------------------------------------
+Luna Baricalla
+lunabaricalla@mail.com
+abcd1234
+---------------------------------------
+Juan Pérez
+juancito_perez_ok@gmail.com
 contraseña
-
--- datos test 1 -- (Falla: DNI con letras)
-
-legajo1
-12345678
-Isabel Cristina
-Castro Vargas
-Central
-1990
-1
-1
-isa_castro_vargas_2000@gmail.com
-clave1234
-S
-
--- datos test 2 -- (Falla: DNI fuera de rango)
-
-999
-20123456
-Antonio Manuel
-Medina Silva
-Sucursal Uno
-1991
-2
-2
-tony_medina_silva@gmail.com
-clave1234
-S
-
--- datos test 3 -- (Falla: Nombre con símbolos)
-
-20123457
-Rosa María
-Jiménez Navarro
-Test
-Sucursal Dos
-1992
-3
-3
-rosamaria.jn@gmail.com
-clave1234
-S
-
--- datos test 4 -- (Falla: Apellido vacío - Solo Enter)
-
-20123458
-David Alejandro
-
-Ortega Ríos
-Sucursal Tres
-1993
-4
-4
-vicky_mendoza_paz_star@gmail.com
-clave1234
-S
-
--- datos test 5 -- (Falla: Fecha - Mes inválido)
-
-20123459
-Elena Victoria
-Mendoza Paz
-CABA
-1994
-13
-12
-5
-davo_ortega_rios_10@gmail.com
-clave1234
-S
-
--- datos test 6 -- (Falla: Fecha - Día inválido para el mes)
-
-20123460
-Jorge Luis
-Castillo Soto
-CABA
-1995
-4
-31
-30
-vicky_mendoza_paz_star@gmail.com
-clave1234
-S
-
--- datos test 7 -- (Falla: Menor de edad - 17 años)
-
-20123461
-Teresa De Jesús
-Vega Cruz
-Cordoba
-2008
-11
-17
-tere_vega_cruz@gmail.com
-clave1234
-
--- datos test 8 -- (Falla: Mail duplicado con un Cliente existente)
-
-20123462
-Luis Fernando
-Guzmán León
-Rosario
-1980
-1
-1
-tere_vega_cruz@gmail.com
-luifer_guzman_leon@gmail.com
-clave1234
-S
-
--- datos test 9 -- (Falla: Contraseña corta)
-
-20123463
-Clara Inés
-Ponce De León
-Mendoza
-1985
-5
-5
-clarita_ponce_leon@gmail.com
-123
-claveSegura
-S
-
--- datos test 10 -- (ÉXITO: Empleado Válido)
-
-20123464
-Roberto Carlos
-De La Fuente
-Planta Baja
-1990
-10
-20
-roberto_carlos_dlf_music@gmail.com
-seguridadTotal1
-S
-
-========================================================================
+---------------------------------------
+Carlos Alberto Rodríguez
+el_charly_rodriguez_55@gmail.com
+contraseña
+---------------------------------------
+Ana Laura Fernández
+anita.laura.fer22@gmail.com
+contraseña
+---------------------------------------
+José Luis García Lopez
+pepe_garcia_lopez@gmail.com
+contraseña
+---------------------------------------
+Sofía Martínez Sánchez
+sofi_martinez_sanchez_01@gmail.com
+contraseña
+---------------------------------------
+Miguel Ángel Torres Ruiz
+miguel_angel_torres@gmail.com
+contraseña
+---------------------------------------
+Lucía Belén Díaz Romero
+luli.belen.dr@gmail.com
+contraseña
+=======================================
 
 
-
-
-
-
-
-
-
-
-
-
-
+=======================================
+EMPLEADOS:
+=======================================
+Jorgito Pérez
+Legajo: 2
+contraseña
+---------------------------------------
+María González
+Legajo: 3
+contraseña
+---------------------------------------
+Isabel Cristina Castro Vargas
+Legajo: 4
+contraseña
+---------------------------------------
+Antonio Manuel Medina Silva
+Legajo: 5
+contraseña
+---------------------------------------
+David Alejandro Ortega Ríos
+Legajo: 6
+contraseña
+---------------------------------------
+Elena Victoria Mendoza Paz
+Legajo: 7
+contraseña
+---------------------------------------
+Jorge Luis Castillo Soto
+Legajo: 8
+contraseña
+---------------------------------------
+Teresa De Jesús Vega Cruz
+Legajo: 9
+contraseña
+---------------------------------------
+Clara Inés Ponce De León
+Legajo: 10
+contraseña
+---------------------------------------
+Roberto Carlos De La Fuente
+Legajo: 11
+contraseña
+=======================================
 
 
 
