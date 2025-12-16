@@ -1,3 +1,6 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <ctime> // libreria para obtener fecha y hora del sistema
 #include <limits>
@@ -52,6 +55,58 @@ void Fecha::cargarFecha(){
     }
     cout << "Ingrese dia: ";
     _dia = validarEntero(1, diaMaximo);
+}
+
+// Sobrecarga con posicionamiento para formularios
+void Fecha::cargarFecha(int x, int y){
+    int lineaActual = y;
+    
+    // Año
+    rlutil::locate(x, lineaActual);
+    cout << "A" << char(164) << "o:  ";
+    rlutil::locate(x + 6, lineaActual);
+    _anio = validarEntero(1900, 2025);
+    // Limpiar el campo después de validación exitosa
+    rlutil::locate(x, lineaActual);
+    cout << "A" << char(164) << "o:  " << _anio << "    ";
+    
+    // Mes
+    lineaActual++;
+    rlutil::locate(x, lineaActual);
+    cout << "Mes:  ";
+    rlutil::locate(x + 6, lineaActual);
+    _mes = validarEntero(1, 12);
+    // Limpiar el campo después de validación exitosa
+    rlutil::locate(x, lineaActual);
+    cout << "Mes:  " << _mes << "    ";
+    
+    // Calcular dias maximos por mes
+    int diaMaximo;
+    switch(_mes){
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            diaMaximo = 31;
+            break;
+        case 4: case 6: case 9: case 11:
+            diaMaximo = 30;
+            break;
+        case 2:
+            if((_anio % 4 == 0 && _anio % 100 != 0) || (_anio % 400 == 0)) diaMaximo = 29;
+            else diaMaximo = 28;
+            break;
+        default:
+            diaMaximo = 31;
+            break;
+    }
+    
+    // Dia
+    lineaActual++;
+    rlutil::locate(x, lineaActual);
+    cout << "D" << char(161) << "a:  ";
+    rlutil::locate(x + 6, lineaActual);
+    _dia = validarEntero(1, diaMaximo);
+    // Limpiar el campo después de validación exitosa
+    rlutil::locate(x, lineaActual);
+    cout << "D" << char(161) << "a:  " << _dia << "    ";
 }
 
 void Fecha::cargarFechaActual(){

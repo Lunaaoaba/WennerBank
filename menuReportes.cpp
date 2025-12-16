@@ -1,3 +1,6 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
@@ -9,168 +12,372 @@
 #include "archivoCuentas.h"
 #include "archivoTransacciones.h"
 #include "funciones.h"
+#include "config.h"
+#include "art.h"
 
 using namespace std;
 
 void menuReportes(){
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "           MENU DE REPORTES" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Reportes de Clientes" << endl;
-        cout << "2. Reportes de Empleados" << endl;
-        cout << "3. Reportes Financieros" << endl;
-        cout << "4. Volver al menu principal" << endl << endl;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(35, 3);
+            cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
+            rlutil::locate(35, 4);
+            cout << char(186); centrarTexto("MENU DE REPORTES", ' ', 50); cout << char(186);
+            rlutil::locate(35, 5);
+            cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(45, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Reportes de Clientes"; break;
+                    case 1: cout << "Reportes de Empleados"; break;
+                    case 2: cout << "Reportes Financieros"; break;
+                    case 3: cout << "Volver al men" << char(163) << " principal"; break;
+                }
+                colorTexto(7);
+            }
+            curs = false;
+        }
         
-        int opcion = validarEntero(1, 4);
+        int tecla = rlutil::getkey();
         
-        switch(opcion){
-            case 1: {
-                menuReportesClientes();
-                break;
-            }
-            case 2: {
-                menuReportesEmpleados();
-                break;
-            }
-            case 3: {
-                menuReportesFinancieros();
-                break;
-            }
-            case 4: {
-                continuar = false;
-                break;
+        if(tecla == 14){ // Flecha arriba
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){ // Flecha abajo
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){ // Enter
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    menuReportesClientes();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    menuReportesEmpleados();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    menuReportesFinancieros();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 // MENU REPORTES DE CLIENTES
 
 void menuReportesClientes(){
+    int opcionActual = 0;
+    int totalOpciones = 5;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      REPORTES DE CLIENTES" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Cliente con mas transacciones realizadas" << endl;
-        cout << "2. Monto total transferencias por mes (cliente especifico)" << endl;
-        cout << "3. Cantidad de clientes por localidad" << endl;
-        cout << "4. Top 5 clientes con mayor monto transferido" << endl;
-        cout << "5. Volver" << endl << endl;
-
-        int opcion = validarEntero(1, 5);
-
-        switch(opcion){
-            case 1: {
-                reporteClienteMasTransacciones();
-                system("pause");  // ⬅️ AGREGAR
-                break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("REPORTES DE CLIENTES", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(35, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Cliente con m" << char(160) << "s transacciones realizadas"; break;
+                    case 1: cout << "Monto total transferencias por mes (cliente espec" << char(161) << "fico)"; break;
+                    case 2: cout << "Cantidad de clientes por localidad"; break;
+                    case 3: cout << "Top 5 clientes con mayor monto transferido"; break;
+                    case 4: cout << "Volver"; break;
+                }
+                colorTexto(7);
             }
-            case 2: {
-                reporteMontoTransferenciasPorMes();
-                system("pause");  // ⬅️ AGREGAR
-                break;
-            }
-            case 3: {
-                reporteClientesPorLocalidad();
-                system("pause");  // ⬅️ AGREGAR
-                break;
-            }
-            case 4: {
-                reporteTop5ClientesMayorMonto();
-                system("pause");  // ⬅️ AGREGAR
-                break;
-            }
-            case 5: {
-                continuar = false;
-                break;
+            curs = false;
+        }
+        
+        int tecla = rlutil::getkey();
+        
+        if(tecla == 14){ // Flecha arriba
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){ // Flecha abajo
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){ // Enter
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    reporteClienteMasTransacciones();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    reporteMontoTransferenciasPorMes();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    reporteClientesPorLocalidad();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    reporteTop5ClientesMayorMonto();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 4: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 // MENU REPORTES DE EMPLEADOS
 
 void menuReportesEmpleados(){
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      REPORTES DE EMPLEADOS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Empleados por localidad" << endl;
-        cout << "2. Empleados activos vs dados de baja" << endl;
-        cout << "3. Empleados por rango de edad" << endl;
-        cout << "4. Volver" << endl << endl;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("REPORTES DE EMPLEADOS", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(40, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Empleados por localidad"; break;
+                    case 1: cout << "Empleados activos vs dados de baja"; break;
+                    case 2: cout << "Empleados por rango de edad"; break;
+                    case 3: cout << "Volver"; break;
+                }
+                colorTexto(7);
+            }
+            curs = false;
+        }
         
-        int opcion = validarEntero(1, 4);
+        int tecla = rlutil::getkey();
         
-        switch(opcion){
-            case 1: {
-                reporteEmpleadosPorLocalidad();
-                system("pause");
-                break;
-            }
-            case 2: {
-                reporteEmpleadosActivosVsBaja();
-                system("pause");
-                break;
-            }
-            case 3: {
-                reporteEmpleadosPorRangoEdad();
-                system("pause");
-                break;
-            }
-            case 4: {
-                continuar = false;
-                break;
+        if(tecla == 14){ // Flecha arriba
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){ // Flecha abajo
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){ // Enter
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    reporteEmpleadosPorLocalidad();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    reporteEmpleadosActivosVsBaja();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    reporteEmpleadosPorRangoEdad();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 // MENU REPORTES FINANCIEROS
 
 void menuReportesFinancieros(){
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      REPORTES FINANCIEROS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Saldo total de todas las cuentas de clientes" << endl;
-        cout << "2. Monto promedio de las transacciones" << endl;
-        cout << "3. Ranking de cuentas con mayor saldo" << endl;
-        cout << "4. Volver" << endl << endl;
-        
-        int opcion = validarEntero(1, 4);
-        
-        switch(opcion){
-            case 1: {
-                reporteSaldoTotalCuentas();
-                system("pause");  // ⬅️ AGREGAR
-                break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("REPORTES FINANCIEROS", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(35, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Saldo total de todas las cuentas de clientes"; break;
+                    case 1: cout << "Monto promedio de las transacciones"; break;
+                    case 2: cout << "Ranking de cuentas con mayor saldo"; break;
+                    case 3: cout << "Volver"; break;
+                }
+                colorTexto(7);
             }
-            case 2: {
-                reportePromedioTransacciones();
-                system("pause");  // ⬅️ AGREGAR
-                break;
-            }
-            case 3: {
-                reporteRankingCuentasMayorSaldo();
-                system("pause");  // ⬅️ AGREGAR
-                break;
+            curs = false;
+        }
+        
+        int tecla = rlutil::getkey();
+        
+        if(tecla == 14){ // Flecha arriba
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){ // Flecha abajo
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){ // Enter
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    reporteSaldoTotalCuentas();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    reportePromedioTransacciones();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    reporteRankingCuentasMayorSaldo();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 
@@ -231,13 +438,23 @@ void reporteClienteMasTransacciones(){
         }
     }
 
-    system("cls");
-    cout << "========================================" << endl;
-    cout << " CLIENTE CON MAS TRANSACCIONES" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("CLIENTE CON MAS TRANSACCIONES", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
     
     if(maxTransacciones == 0){
-        cout << "No hay transacciones registradas." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay transacciones registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
@@ -246,32 +463,73 @@ void reporteClienteMasTransacciones(){
         Cliente clienteActual;
         while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
             if(clienteActual.getIdCliente() == idClienteMax){
-                cout << clienteActual.mostrarDatos() << endl << endl;
+                char idFormateado[15];
+                formatearId(idFormateado, "CL", idClienteMax, 6);
+                
+                rlutil::locate(30, 8);
+                colorTexto(6);
+                cout << "ID: ";
+                colorTexto(7);
+                cout << idFormateado;
+                rlutil::locate(30, 9);
+                colorTexto(6);
+                cout << "Nombre: ";
+                colorTexto(7);
+                cout << clienteActual.getNombre() << " " << clienteActual.getApellido();
+                rlutil::locate(30, 10);
+                colorTexto(6);
+                cout << "DNI: ";
+                colorTexto(7);
+                cout << clienteActual.getDni();
+                rlutil::locate(30, 11);
+                colorTexto(6);
+                cout << "Email: ";
+                colorTexto(7);
+                cout << clienteActual.getMail();
                 break;
             }
         }
         fclose(archivoClientes);
     }
 
-    cout << "========================================" << endl;
-    cout << "Total de transacciones realizadas: " << maxTransacciones << endl;
-    cout << "========================================" << endl << endl;
+    rlutil::locate(25, 14);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 15);
+    colorTexto(2);
+    cout << "Total de transacciones realizadas: " << maxTransacciones;
+    colorTexto(7);
+    rlutil::locate(25, 16);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 19);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reporteMontoTransferenciasPorMes(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << " MONTO TOTAL TRANSFERENCIAS POR MES" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
     
-    // Solicitar ID del cliente
+    rlutil::locate(20, 3);
+    cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
+    rlutil::locate(20, 4);
+    cout << char(186); centrarTexto("MONTO TOTAL TRANSFERENCIAS POR MES", ' ', 80); cout << char(186);
+    rlutil::locate(20, 5);
+    cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
+    
+    rlutil::locate(30, 8);
+    colorTexto(6);
     cout << "Ingrese el ID del cliente: ";
+    colorTexto(7);
+    rlutil::showcursor();
     int idCliente = validarEntero(1, 999999);
     
-    // Verificar que el cliente existe
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        rlutil::locate(30, 10);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de clientes.";
+        colorTexto(7);
+        rlutil::hidecursor();
         return;
     }
     
@@ -287,16 +545,26 @@ void reporteMontoTransferenciasPorMes(){
     fclose(archivoClientes);
     
     if(!clienteEncontrado){
-        cout << "ERROR: Cliente no encontrado o dado de baja." << endl << endl;
+        rlutil::locate(30, 10);
+        colorTexto(3);
+        cout << "ERROR: Cliente no encontrado o dado de baja.";
+        colorTexto(7);
+        rlutil::hidecursor();
         return;
     }
 
+    rlutil::locate(30, 9);
+    colorTexto(6);
     cout << "Ingrese mes (1-12): ";
+    colorTexto(7);
     int mes = validarEntero(1, 12);
-    cout << "Ingrese año: ";
+    rlutil::locate(30, 10);
+    colorTexto(6);
+    cout << "Ingrese a" << char(164) << "o: ";
+    colorTexto(7);
     int anio = validarEntero(2020, 2030);
+    rlutil::hidecursor();
     
-    // Buscar todas las cuentas del cliente
     int cuentasCliente[50];
     int totalCuentas = 0;
     
@@ -314,7 +582,11 @@ void reporteMontoTransferenciasPorMes(){
 
     FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
     if(archivoTransacciones == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        limpiarPantalla();
+        rlutil::locate(30, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de transacciones.";
+        colorTexto(7);
         return;
     }
     
@@ -327,7 +599,6 @@ void reporteMontoTransferenciasPorMes(){
         if(fechaTrans.getMes() == mes && fechaTrans.getAnio() == anio){
             int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
             
-            // Verificar si la cuenta origen pertenece al cliente
             for(int i = 0; i < totalCuentas; i++){
                 if(cuentasCliente[i] == idCuentaOrigen){
                     montoTotal += transaccionActual.getMonto();
@@ -340,25 +611,64 @@ void reporteMontoTransferenciasPorMes(){
 
     fclose(archivoTransacciones);
     
-    // Mostrar resultados
-    system("cls");
-    cout << "========================================" << endl;
-    cout << " MONTO TOTAL TRANSFERENCIAS POR MES" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Cliente: " << clienteBuscado.getNombre() << " " << clienteBuscado.getApellido() << endl;
-    cout << "ID Cliente: CL-" << idCliente << endl;
-    cout << "Periodo: " << mes << "/" << anio << endl << endl;
-    cout << "========================================" << endl;
-    cout << "Cantidad de transferencias: " << cantidadTransacciones << endl;
-    cout << "Monto total transferido: $" << fixed << setprecision(2) << montoTotal << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(20, 3);
+    cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
+    rlutil::locate(20, 4);
+    cout << char(186); centrarTexto("MONTO TOTAL TRANSFERENCIAS POR MES", ' ', 80); cout << char(186);
+    rlutil::locate(20, 5);
+    cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
+    
+    char idFormateado[15];
+    formatearId(idFormateado, "CL", idCliente, 6);
+    
+    rlutil::locate(30, 8);
+    colorTexto(6);
+    cout << "Cliente: ";
+    colorTexto(7);
+    cout << clienteBuscado.getNombre() << " " << clienteBuscado.getApellido();
+    rlutil::locate(30, 9);
+    colorTexto(6);
+    cout << "ID: ";
+    colorTexto(7);
+    cout << idFormateado;
+    rlutil::locate(30, 10);
+    colorTexto(6);
+    cout << "Periodo: ";
+    colorTexto(7);
+    cout << mes << "/" << anio;
+    
+    rlutil::locate(25, 13);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 14);
+    colorTexto(6);
+    cout << "Cantidad de transferencias: ";
+    colorTexto(7);
+    cout << cantidadTransacciones;
+    rlutil::locate(30, 15);
+    colorTexto(6);
+    cout << "Monto total transferido: ";
+    colorTexto(2);
+    cout << "$" << fixed << setprecision(2) << montoTotal;
+    colorTexto(7);
+    rlutil::locate(25, 16);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 19);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 //dsp pasar a memoria dinamica
 void reporteClientesPorLocalidad(){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de clientes.";
+        colorTexto(7);
         return;
     }
     
@@ -389,37 +699,73 @@ void reporteClientesPorLocalidad(){
     
     fclose(archivo);
     
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "     CLIENTES POR LOCALIDAD" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CLIENTES POR LOCALIDAD", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     
     if(totalLocalidades == 0){
-        cout << "No hay clientes activos registrados." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay clientes activos registrados.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
     int totalClientes = 0;
+    int lineaActual = 8;
     for(int i = 0; i < totalLocalidades; i++){
-        cout << localidades[i] << ": " << contadores[i];
+        rlutil::locate(35, lineaActual);
+        colorTexto(6);
+        cout << localidades[i] << ": ";
+        colorTexto(7);
+        cout << contadores[i];
         if(contadores[i] == 1){
-            cout << " cliente" << endl;
+            cout << " cliente";
         } else {
-            cout << " clientes" << endl;
+            cout << " clientes";
         }
         totalClientes += contadores[i];
+        lineaActual++;
     }
     
-    cout << "========================================" << endl;
-    cout << "Total de localidades: " << totalLocalidades << endl;
-    cout << "Total de clientes activos: " << totalClientes << endl;
-    cout << "========================================" << endl << endl;
+    lineaActual++;
+    rlutil::locate(30, lineaActual);
+    cout << char(196); centrarTexto("", char(196), 60); cout << char(196);
+    lineaActual++;
+    rlutil::locate(35, lineaActual);
+    colorTexto(2);
+    cout << "Total de localidades: " << totalLocalidades;
+    colorTexto(7);
+    lineaActual++;
+    rlutil::locate(35, lineaActual);
+    colorTexto(2);
+    cout << "Total de clientes activos: " << totalClientes;
+    colorTexto(7);
+    lineaActual++;
+    rlutil::locate(30, lineaActual);
+    cout << char(196); centrarTexto("", char(196), 60); cout << char(196);
+    
+    lineaActual += 2;
+    rlutil::locate(30, lineaActual);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reporteTop5ClientesMayorMonto(){
     FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
     if(archivoTransacciones == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de transacciones.";
+        colorTexto(7);
         return;
     }
     
@@ -463,25 +809,34 @@ void reporteTop5ClientesMayorMonto(){
     for(int i = 0; i < totalClientes - 1; i++){
         for(int j = 0; j < totalClientes - i - 1; j++){
             if(montosTransferidos[j] < montosTransferidos[j + 1]){
-                // Intercambiar montos
                 double tempMonto = montosTransferidos[j];
                 montosTransferidos[j] = montosTransferidos[j + 1];
                 montosTransferidos[j + 1] = tempMonto;
                 
-                // Intercambiar IDs
                 int tempId = clientes[j];
                 clientes[j] = clientes[j + 1];
                 clientes[j + 1] = tempId;
             }
         }
     }
-    system("cls");
-    cout << "========================================" << endl;
-    cout << " TOP 5 CLIENTES CON MAYOR MONTO" << endl;
-    cout << "========================================" << endl << endl;
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("TOP 5 CLIENTES CON MAYOR MONTO", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
 
     if(totalClientes == 0){
-        cout << "No hay transacciones registradas." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay transacciones registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
@@ -489,25 +844,45 @@ void reporteTop5ClientesMayorMonto(){
     
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
+        int lineaActual = 8;
         for(int i = 0; i < limite; i++){
             Cliente clienteActual;
             rewind(archivoClientes);
             
             while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
                 if(clienteActual.getIdCliente() == clientes[i]){
-                    cout << "Top " << (i + 1) << ":" << endl;
-                    cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido() << endl;
-                    cout << "ID: CL-" << clientes[i] << endl;
-                    cout << "Monto total transferido: $" << fixed << setprecision(2) << montosTransferidos[i] << endl;
-                    cout << "----------------------------------------" << endl;
+                    char idFormateado[15];
+                    formatearId(idFormateado, "CL", clientes[i], 6);
+                    
+                    rlutil::locate(30, lineaActual);
+                    colorTexto(6);
+                    cout << "Top " << (i + 1) << ":";
+                    colorTexto(7);
+                    lineaActual++;
+                    rlutil::locate(30, lineaActual);
+                    cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido();
+                    lineaActual++;
+                    rlutil::locate(30, lineaActual);
+                    cout << "ID: " << idFormateado;
+                    lineaActual++;
+                    rlutil::locate(30, lineaActual);
+                    colorTexto(2);
+                    cout << "Monto total transferido: $" << fixed << setprecision(2) << montosTransferidos[i];
+                    colorTexto(7);
+                    lineaActual++;
+                    rlutil::locate(28, lineaActual);
+                    cout << char(196); centrarTexto("", char(196), 62); cout << char(196);
+                    lineaActual++;
                     break;
                 }
             }
         }
         fclose(archivoClientes);
+        
+        lineaActual++;
+        rlutil::locate(30, lineaActual);
+        cout << "Presione cualquier tecla para continuar...";
     }
-    
-    cout << "========================================" << endl << endl;
 
 
 }
@@ -517,7 +892,11 @@ void reporteTop5ClientesMayorMonto(){
 void reporteEmpleadosPorLocalidad(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de empleados.";
+        colorTexto(7);
         return;
     }
     
@@ -549,37 +928,73 @@ void reporteEmpleadosPorLocalidad(){
     
     fclose(archivo);
     
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "     EMPLEADOS POR LOCALIDAD" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("EMPLEADOS POR LOCALIDAD", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     
     if(totalLocalidades == 0){
-        cout << "No hay empleados activos registrados." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay empleados activos registrados.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
     int totalEmpleados = 0;
+    int lineaActual = 8;
     for(int i = 0; i < totalLocalidades; i++){
-        cout << localidades[i] << ": " << contadores[i];
+        rlutil::locate(35, lineaActual);
+        colorTexto(6);
+        cout << localidades[i] << ": ";
+        colorTexto(7);
+        cout << contadores[i];
         if(contadores[i] == 1){
-            cout << " empleado" << endl;
+            cout << " empleado";
         } else {
-            cout << " empleados" << endl;
+            cout << " empleados";
         }
         totalEmpleados += contadores[i];
+        lineaActual++;
     }
     
-    cout << "========================================" << endl;
-    cout << "Total de localidades: " << totalLocalidades << endl;
-    cout << "Total de empleados activos: " << totalEmpleados << endl;
-    cout << "========================================" << endl << endl;
+    lineaActual++;
+    rlutil::locate(30, lineaActual);
+    cout << char(196); centrarTexto("", char(196), 60); cout << char(196);
+    lineaActual++;
+    rlutil::locate(35, lineaActual);
+    colorTexto(2);
+    cout << "Total de localidades: " << totalLocalidades;
+    colorTexto(7);
+    lineaActual++;
+    rlutil::locate(35, lineaActual);
+    colorTexto(2);
+    cout << "Total de empleados activos: " << totalEmpleados;
+    colorTexto(7);
+    lineaActual++;
+    rlutil::locate(30, lineaActual);
+    cout << char(196); centrarTexto("", char(196), 60); cout << char(196);
+    
+    lineaActual += 2;
+    rlutil::locate(30, lineaActual);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reporteEmpleadosActivosVsBaja(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de empleados.";
+        colorTexto(7);
         return;
     }
 
@@ -596,30 +1011,68 @@ void reporteEmpleadosActivosVsBaja(){
 
     int total = activos + inactivos;
     
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "   EMPLEADOS ACTIVOS VS DADOS DE BAJA" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "Empleados ACTIVOS:       " << activos << endl;
-    cout << "Empleados DADOS DE BAJA: " << inactivos << endl;
-    cout << "----------------------------------------" << endl;
-    cout << "TOTAL DE EMPLEADOS:      " << total << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("EMPLEADOS ACTIVOS VS DADOS DE BAJA", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
+    
+    rlutil::locate(30, 8);
+    colorTexto(2);
+    cout << "Empleados ACTIVOS:       ";
+    colorTexto(7);
+    cout << activos;
+    rlutil::locate(30, 9);
+    colorTexto(3);
+    cout << "Empleados DADOS DE BAJA: ";
+    colorTexto(7);
+    cout << inactivos;
+    rlutil::locate(25, 10);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 11);
+    colorTexto(6);
+    cout << "TOTAL DE EMPLEADOS:      ";
+    colorTexto(7);
+    cout << total;
 
     if(total > 0){
-        cout << "----------------------------------------" << endl;
+        rlutil::locate(25, 13);
+        cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
         double porcentajeActivos = (static_cast<double>(activos) / static_cast<double>(total)) * 100.0;
         double porcentajeBaja = (static_cast<double>(inactivos) / static_cast<double>(total)) * 100.0;
 
-        cout << "Porcentaje activos:      " << fixed << setprecision(2) << porcentajeActivos << "%" << endl;
-        cout << "Porcentaje dados de baja: " << fixed << setprecision(2) << porcentajeBaja << "%" << endl;
+        rlutil::locate(30, 14);
+        colorTexto(6);
+        cout << "Porcentaje activos:      ";
+        colorTexto(2);
+        cout << fixed << setprecision(2) << porcentajeActivos << "%";
+        colorTexto(7);
+        rlutil::locate(30, 15);
+        colorTexto(6);
+        cout << "Porcentaje dados de baja: ";
+        colorTexto(3);
+        cout << fixed << setprecision(2) << porcentajeBaja << "%";
+        colorTexto(7);
     }
-    cout << "========================================" << endl << endl;
+    rlutil::locate(25, 17);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 20);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reporteEmpleadosPorRangoEdad(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de empleados.";
+        colorTexto(7);
         return;
     }
 
@@ -660,23 +1113,57 @@ void reporteEmpleadosPorRangoEdad(){
     
     int total = menores30 + entre30y40 + entre40y50 + mayores50;
     
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "   EMPLEADOS POR RANGO DE EDAD" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("EMPLEADOS POR RANGO DE EDAD", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
 
     if(total == 0){
-        cout << "No hay empleados activos registrados." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay empleados activos registrados.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
     
-    cout << "Menores de 30 años: " << menores30 << " empleados" << endl;
-    cout << "Entre 30 y 39 años: " << entre30y40 << " empleados" << endl;
-    cout << "Entre 40 y 49 años: " << entre40y50 << " empleados" << endl;
-    cout << "50 años o más:      " << mayores50 << " empleados" << endl;
-    cout << "========================================" << endl;
-    cout << "Total de empleados activos: " << total << endl;
-    cout << "========================================" << endl << endl;
+    rlutil::locate(30, 8);
+    colorTexto(6);
+    cout << "Menores de 30 a" << char(164) << "os: ";
+    colorTexto(7);
+    cout << menores30 << " empleados";
+    rlutil::locate(30, 9);
+    colorTexto(6);
+    cout << "Entre 30 y 39 a" << char(164) << "os: ";
+    colorTexto(7);
+    cout << entre30y40 << " empleados";
+    rlutil::locate(30, 10);
+    colorTexto(6);
+    cout << "Entre 40 y 49 a" << char(164) << "os: ";
+    colorTexto(7);
+    cout << entre40y50 << " empleados";
+    rlutil::locate(30, 11);
+    colorTexto(6);
+    cout << "50 a" << char(164) << "os o m" << char(160) << "s:      ";
+    colorTexto(7);
+    cout << mayores50 << " empleados";
+    rlutil::locate(25, 13);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 14);
+    colorTexto(2);
+    cout << "Total de empleados activos: " << total;
+    colorTexto(7);
+    rlutil::locate(25, 15);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 18);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 // IMPLEMENTACION REPORTES FINANCIEROS
@@ -685,7 +1172,11 @@ void reporteEmpleadosPorRangoEdad(){
 void reporteSaldoTotalCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de cuentas.";
+        colorTexto(7);
         return;
     }
 
@@ -698,7 +1189,6 @@ void reporteSaldoTotalCuentas(){
         totalCuentas++;
         
         if(!cuentaActual.getCuentaEliminada()){
-            // Excluir la Cuenta Banco (ID = 1)
             if(cuentaActual.getIdCuenta() != 1){
                 saldoTotal += cuentaActual.getSaldo();
                 cuentasActivas++;
@@ -707,30 +1197,67 @@ void reporteSaldoTotalCuentas(){
     }
     fclose(archivo);
 
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "   SALDO TOTAL DE TODAS LAS CUENTAS" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("SALDO TOTAL DE TODAS LAS CUENTAS", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
     
     if(cuentasActivas == 0){
-        cout << "No hay cuentas activas registradas." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay cuentas activas registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
     double saldoPromedio = saldoTotal / static_cast<double>(cuentasActivas);
     
-    cout << "Cuentas activas (clientes):  " << cuentasActivas << endl;
-    cout << "Cuentas dadas de baja:       " << (totalCuentas - cuentasActivas - 1) << endl;
-    cout << "========================================" << endl;
-    cout << "Saldo total:                 $" << fixed << setprecision(2) << saldoTotal << endl;
-    cout << "Saldo promedio por cuenta:   $" << fixed << setprecision(2) << saldoPromedio << endl;
-    cout << "========================================" << endl << endl;
+    rlutil::locate(30, 8);
+    colorTexto(6);
+    cout << "Cuentas activas (clientes):  ";
+    colorTexto(7);
+    cout << cuentasActivas;
+    rlutil::locate(30, 9);
+    colorTexto(6);
+    cout << "Cuentas dadas de baja:       ";
+    colorTexto(7);
+    cout << (totalCuentas - cuentasActivas - 1);
+    rlutil::locate(25, 11);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 12);
+    colorTexto(6);
+    cout << "Saldo total:                 ";
+    colorTexto(2);
+    cout << "$" << fixed << setprecision(2) << saldoTotal;
+    colorTexto(7);
+    rlutil::locate(30, 13);
+    colorTexto(6);
+    cout << "Saldo promedio por cuenta:   ";
+    colorTexto(2);
+    cout << "$" << fixed << setprecision(2) << saldoPromedio;
+    colorTexto(7);
+    rlutil::locate(25, 14);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 17);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reportePromedioTransacciones(){
     FILE* archivo = fopen("transacciones.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de transacciones.";
+        colorTexto(7);
         return;
     }
 
@@ -757,31 +1284,71 @@ void reportePromedioTransacciones(){
     }
     fclose(archivo);
     
-    // Mostrar resultados
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  MONTO PROMEDIO DE TRANSACCIONES" << endl;
-    cout << "========================================" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("MONTO PROMEDIO DE TRANSACCIONES", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
     
     if(cantidadTransacciones == 0){
-        cout << "No hay transacciones registradas." << endl << endl;
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay transacciones registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
     double promedio = sumaTotal / static_cast<double>(cantidadTransacciones);
     
-    cout << "Total de transacciones:      " << cantidadTransacciones << endl;
-    cout << "========================================" << endl;
-    cout << "Monto promedio:              $" << fixed << setprecision(2) << promedio << endl;
-    cout << "Monto mínimo transferido:    $" << fixed << setprecision(2) << montoMinimo << endl;
-    cout << "Monto máximo transferido:    $" << fixed << setprecision(2) << montoMaximo << endl;
-    cout << "Suma total transferida:      $" << fixed << setprecision(2) << sumaTotal << endl;
-    cout << "========================================" << endl << endl;
+    rlutil::locate(30, 8);
+    colorTexto(6);
+    cout << "Total de transacciones:      ";
+    colorTexto(7);
+    cout << cantidadTransacciones;
+    rlutil::locate(25, 10);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    rlutil::locate(30, 11);
+    colorTexto(6);
+    cout << "Monto promedio:              ";
+    colorTexto(2);
+    cout << "$" << fixed << setprecision(2) << promedio;
+    colorTexto(7);
+    rlutil::locate(30, 12);
+    colorTexto(6);
+    cout << "Monto m" << char(161) << "nimo transferido:    ";
+    colorTexto(7);
+    cout << "$" << fixed << setprecision(2) << montoMinimo;
+    rlutil::locate(30, 13);
+    colorTexto(6);
+    cout << "Monto m" << char(160) << "ximo transferido:    ";
+    colorTexto(7);
+    cout << "$" << fixed << setprecision(2) << montoMaximo;
+    rlutil::locate(30, 14);
+    colorTexto(6);
+    cout << "Suma total transferida:      ";
+    colorTexto(2);
+    cout << "$" << fixed << setprecision(2) << sumaTotal;
+    colorTexto(7);
+    rlutil::locate(25, 15);
+    cout << char(196); centrarTexto("", char(196), 70); cout << char(196);
+    
+    rlutil::locate(30, 18);
+    cout << "Presione cualquier tecla para continuar...";
 }
 
 void reporteRankingCuentasMayorSaldo(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de cuentas.";
+        colorTexto(7);
         return;
     }
     cuentaBancaria cuentas[1000];
@@ -795,11 +1362,20 @@ void reporteRankingCuentasMayorSaldo(){
     fclose(archivo);
 
     if(totalCuentas == 0){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "  RANKING DE CUENTAS CON MAYOR SALDO" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "No hay cuentas activas registradas." << endl << endl;
+        limpiarPantalla();
+        colorTexto(7);
+        rlutil::locate(25, 3);
+        cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+        rlutil::locate(25, 4);
+        cout << char(186); centrarTexto("RANKING DE CUENTAS CON MAYOR SALDO", ' ', 70); cout << char(186);
+        rlutil::locate(25, 5);
+        cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay cuentas activas registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
         return;
     }
 
@@ -812,23 +1388,56 @@ void reporteRankingCuentasMayorSaldo(){
             }
         }
     }
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "  RANKING DE CUENTAS CON MAYOR SALDO" << endl;
-    cout << "========================================" << endl << endl;
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(25, 3);
+    cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
+    rlutil::locate(25, 4);
+    cout << char(186); centrarTexto("RANKING DE CUENTAS CON MAYOR SALDO", ' ', 70); cout << char(186);
+    rlutil::locate(25, 5);
+    cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
     
     int limite = (totalCuentas < 10) ? totalCuentas : 10;
     
+    int lineaActual = 8;
     for(int i = 0; i < limite; i++){
-        cout << "Top " << (i + 1) << ":" << endl;
-        cout << "Cuenta: " << cuentas[i].getNombreCuenta() << endl;
-        cout << "ID: CU-" << cuentas[i].getIdCuenta() << endl;
-        cout << "Alias: " << cuentas[i].getAlias() << endl;
-        cout << "Saldo: $" << fixed << setprecision(2) << cuentas[i].getSaldo() << endl;
-        cout << "----------------------------------------" << endl;
+        char idFormateado[15];
+        formatearId(idFormateado, "CU", cuentas[i].getIdCuenta(), 6);
+        
+        rlutil::locate(30, lineaActual);
+        colorTexto(6);
+        cout << "Top " << (i + 1) << ":";
+        colorTexto(7);
+        lineaActual++;
+        rlutil::locate(30, lineaActual);
+        cout << "Cuenta: " << cuentas[i].getNombreCuenta();
+        lineaActual++;
+        rlutil::locate(30, lineaActual);
+        cout << "ID: " << idFormateado;
+        lineaActual++;
+        rlutil::locate(30, lineaActual);
+        cout << "Alias: " << cuentas[i].getAlias();
+        lineaActual++;
+        rlutil::locate(30, lineaActual);
+        colorTexto(2);
+        cout << "Saldo: $" << fixed << setprecision(2) << cuentas[i].getSaldo();
+        colorTexto(7);
+        lineaActual++;
+        rlutil::locate(28, lineaActual);
+        cout << char(196); centrarTexto("", char(196), 62); cout << char(196);
+        lineaActual++;
     }
     
-    cout << "========================================" << endl;
-    cout << "Total de cuentas mostradas: " << limite << " de " << totalCuentas << endl;
-    cout << "========================================" << endl << endl;
+    lineaActual++;
+    rlutil::locate(30, lineaActual);
+    colorTexto(6);
+    cout << "Total de cuentas mostradas: ";
+    colorTexto(7);
+    cout << limite << " de " << totalCuentas;
+    
+    lineaActual += 3;
+    rlutil::locate(30, lineaActual);
+    cout << "Presione cualquier tecla para continuar...";
 }

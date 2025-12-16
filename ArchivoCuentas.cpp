@@ -1,3 +1,6 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <ctime>
 #include <cstdio>
 #include <iomanip>
@@ -10,6 +13,8 @@
 #include "archivoClientes.h"
 #include "archivoCuentas.h"
 #include "archivoTransacciones.h"
+#include "config.h"
+#include "art.h"
 
 using namespace std;
 
@@ -30,11 +35,25 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
     Cliente cliente;
     ArchivoClientes obj;
     if(!obj.buscarCliente("ID", idCliente, cliente)){
-        cout << "ERROR: No se encontro el cliente con ID " << idCliente << "." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro el cliente con ID " << idCliente << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return cuentaBancaria();
     }
     if(cliente.getUsuarioEliminado()){
-        cout << "ERROR: El cliente con ID " << idCliente << " esta inactivo." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: El cliente con ID " << idCliente << " esta inactivo.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return cuentaBancaria();
     }
 
@@ -43,15 +62,30 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
     double saldo;
     bool cuentaEliminada = false;
 
-    system("cls");
-    cout << "----- CREACION DE NUEVA CUENTA BANCARIA -----" << endl;
-    cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido() << endl;
-    cout << "ID Cliente: " << idCliente << endl << endl;
-
-    cout << "Ingrese un nombre para la cuenta: ";
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CREACION DE NUEVA CUENTA BANCARIA", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido();
+    colorTexto(7);
+    rlutil::locate(35, 8);
+    cout << "ID Cliente: " << idCliente;
+    
+    rlutil::locate(35, 11);
+    cout << "Nombre para la cuenta: ";
+    rlutil::locate(60, 11);
     validarCadenaLetras(nombreCuenta, 50);
 
-    cout << "Imgrese un saldo inicial (min $0.00, max $999999999.99): $ ";
+    rlutil::locate(35, 13);
+    cout << "Saldo inicial (min $0.00, max $999999999.99): $ ";
     saldo = validarDouble(0.0, 999999999.99);
 
     idCuenta = generarIdCuenta();
@@ -68,30 +102,72 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
         cuentaEliminada
     );
     
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido() << endl;
-    cout << "ID Cliente: " << idCliente << endl << endl;
-    cout << nuevaCuenta.mostrarDatos() << endl;
+    limpiarPantalla();
+    colorTexto(7);
     
-    cout << "\nConfirma la creacion de la cuenta? (S/N): ";
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE DATOS", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido();
+    colorTexto(7);
+    
+    rlutil::locate(35, 9);
+    cout << "ID Cuenta: " << idCuenta;
+    rlutil::locate(35, 10);
+    cout << "Nombre: " << nombreCuenta;
+    rlutil::locate(35, 11);
+    cout << "CVU: " << cvu;
+    rlutil::locate(35, 12);
+    cout << "Alias: " << alias;
+    rlutil::locate(35, 13);
+    cout << "Saldo inicial: $" << fixed << setprecision(2) << saldo;
+    
+    rlutil::locate(35, 16);
+    colorTexto(6);
+    cout << char(175) << " Confirma la creacion de la cuenta? (S/N): ";
+    colorTexto(7);
     char confirmacion = validarSiNo();
+    
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarCuentas(nuevaCuenta)){
-            system("cls");
-            cout << "\n----- CUENTA CREADA CON EXITO -----" << endl;
-            cout << "ID Cuenta: " << idCuenta << endl;
-            cout << "CVU: " << cvu << endl;
-            cout << "Alias: " << alias << endl;
-            cout << "Saldo inicial: $" << fixed << setprecision(2) << saldo << endl;
+            limpiarPantalla();
+            rlutil::locate(30, 8);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 9);
+            cout << char(186); centrarTexto("CUENTA CREADA CON EXITO", ' ', 60); cout << char(186);
+            rlutil::locate(30, 10);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            rlutil::locate(35, 12);
+            colorTexto(2);
+            cout << char(251) << " ID Cuenta: " << idCuenta;
+            colorTexto(7);
+            rlutil::locate(35, 13);
+            cout << "CVU: " << cvu;
+            rlutil::locate(35, 14);
+            cout << "Alias: " << alias;
+            rlutil::locate(35, 15);
+            cout << "Saldo inicial: $" << fixed << setprecision(2) << saldo;
         }
         else{
-            cout << "ERROR: No se pudo guardar la nueva cuenta." << endl;
+            rlutil::locate(35, 18);
+            colorTexto(3);
+            cout << "ERROR: No se pudo guardar la nueva cuenta.";
+            colorTexto(7);
             return cuentaBancaria();
         }
     }
     else{
-        cout << "Operacion cancelada." << endl;
+        rlutil::locate(35, 18);
+        colorTexto(6);
+        cout << "Operacion cancelada.";
+        colorTexto(7);
         return cuentaBancaria(); 
     }
     
@@ -103,17 +179,26 @@ bool ArchivoCuentas::modificarCuenta(const cuentaBancaria& cuentaModificada){
 
     if(pos < 0){
         if(pos == -1){
+            rlutil::locate(1, 1);
+            colorTexto(3);
             cout << "ERROR: No se encontro la cuenta con ID " << cuentaModificada.getIdCuenta() << "." << endl;
+            colorTexto(7);
             return false;
         }
         if(pos == -2){
+            rlutil::locate(1, 1);
+            colorTexto(3);
             cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+            colorTexto(7);
             return false;
         }
     }
     FILE* archivo = fopen("cuentas.dat", "rb+");
     if(archivo == nullptr){
+        rlutil::locate(1, 1);
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de cuentas para modificar." << endl;
+        colorTexto(7);
         return false;
     }
 
@@ -121,64 +206,172 @@ bool ArchivoCuentas::modificarCuenta(const cuentaBancaria& cuentaModificada){
     bool exito;
     if (fwrite(&cuentaModificada, sizeof(cuentaBancaria), 1, archivo) == 1) exito = true;
     fclose(archivo);
+    colorTexto(7);
     return exito;
 }
 
 bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
     cuentaBancaria cuentaAModificar;
     if(idCuenta == 1){
-        cout << "ERROR: No se puede alterar esta cuenta." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se puede alterar esta cuenta.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
     if(!buscarCuenta("ID", idCuenta, cuentaAModificar)){
-        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << "." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
     if(cuentaAModificar.getCuentaEliminada()){
-        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << "." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
 
-    system("cls");
-    cout << "----- MODIFICACION DE CUENTA BANCARIA -----" << endl;
-    cout << "Datos actuales de la cuenta:" << endl;
-    cout << cuentaAModificar.mostrarDatos() << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("MODIFICACION DE CUENTA BANCARIA", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Datos actuales de la cuenta:";
+    colorTexto(7);
+    
+    rlutil::locate(40, 9);
+    cout << "ID Cuenta: " << cuentaAModificar.getIdCuenta();
+    rlutil::locate(40, 10);
+    cout << "Nombre: " << cuentaAModificar.getNombreCuenta();
+    rlutil::locate(40, 11);
+    cout << "CVU: " << cuentaAModificar.getCvu();
+    rlutil::locate(40, 12);
+    cout << "Alias: " << cuentaAModificar.getAlias();
+    rlutil::locate(40, 13);
+    cout << "Saldo: $" << fixed << setprecision(2) << cuentaAModificar.getSaldo();
 
     bool continuar = true;
     while(continuar){
-        cout << "Seleccione el dato a modificar:" << endl;
-        cout << "1. Nombre de la cuenta bancaria" << endl;
-        cout << "2. Volver a generar Alias" << endl;
-        cout << "3. Finalizar/Cancelar modificacion" << endl << endl;
-        // dsp cambiar a rlutil
+        // Limpiar area de menu y trabajo
+        for(int i = 15; i <= 25; i++){
+            rlutil::locate(35, i);
+            cout << string(55, ' ');
+        }
+        
+        rlutil::locate(35, 15);
+        colorTexto(6);
+        cout << "Seleccione el dato a modificar:";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "1. Nombre de la cuenta bancaria";
+        rlutil::locate(40, 18);
+        cout << "2. Volver a generar Alias";
+        rlutil::locate(40, 19);
+        cout << "3. Finalizar/Cancelar modificacion";
+        
+        rlutil::locate(35, 22);
+        cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 3);
+        
+        // Limpiar area de trabajo para la operacion
+        for(int i = 15; i <= 25; i++){
+            rlutil::locate(35, i);
+            cout << string(55, ' ');
+        }
+        
         switch(opcion){
             case 1: {
                 char nuevoNombre[50];
-                cout << "Ingrese el nuevo nombre de la cuenta: ";
+                rlutil::locate(35, 17);
+                colorTexto(6);
+                cout << "Modificar Nombre de la Cuenta";
+                colorTexto(7);
+                rlutil::locate(40, 19);
+                cout << "Actual: " << cuentaAModificar.getNombreCuenta();
+                rlutil::locate(40, 20);
+                cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoNombre, 50);
                 cuentaAModificar.setNombreCuenta(nuevoNombre);
+                
+                rlutil::locate(40, 10);
+                cout << string(40, ' ');
+                rlutil::locate(40, 10);
+                cout << "Nombre: " << nuevoNombre;
+                
+                rlutil::locate(40, 22);
+                colorTexto(2);
+                cout << char(251) << " Nombre actualizado!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 2: {
                 char nuevoAlias[31];
                 generarAlias(nuevoAlias);
                 cuentaAModificar.setAlias(nuevoAlias);
-                cout << "Nuevo alias generado: " << nuevoAlias << endl;
+                
+                rlutil::locate(35, 17);
+                colorTexto(6);
+                cout << "Generar Nuevo Alias";
+                colorTexto(7);
+                
+                rlutil::locate(40, 12);
+                cout << string(40, ' ');
+                rlutil::locate(40, 12);
+                cout << "Alias: " << nuevoAlias;
+                
+                rlutil::locate(40, 19);
+                colorTexto(2);
+                cout << char(251) << " Nuevo alias generado: " << nuevoAlias;
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 3: {
+                rlutil::locate(40, 17);
+                colorTexto(6);
+                cout << "Finalizando modificacion...";
+                colorTexto(7);
+                rlutil::msleep(1000);
                 continuar = false;
                 break;
             }
         }
     }
+    
     if(modificarCuenta(cuentaAModificar)){
-        cout << "Cuenta modificada correctamente." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(2);
+        cout << char(251) << " Cuenta modificada correctamente!";
+        colorTexto(7);
         return true;
     }
     else{
-        cout << "ERROR: No se pudo modificar la cuenta." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo modificar la cuenta.";
+        colorTexto(7);
         return false;
     }
 }
@@ -187,154 +380,368 @@ bool ArchivoCuentas::eliminarCuenta(int idCuenta){
     cuentaBancaria cuentaAEliminar;
 
     if(idCuenta == 1){
-        cout << "ERROR: No se puede eliminar esta cuenta." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se puede eliminar esta cuenta.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
 
     if(!buscarCuenta("ID", idCuenta, cuentaAEliminar)){
-        cout << "ERROR: No se encontro la cuenta con ID " << cuentaAEliminar.getIdCuenta() << "." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
 
     if(cuentaAEliminar.getCuentaEliminada()){
-        cout << "ERROR: La cuenta con ID " << cuentaAEliminar.getIdCuenta() << " ya se encuentra eliminada." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: La cuenta con ID " << idCuenta << " ya se encuentra eliminada.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
 
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << "Cuenta a eliminar:" << endl;
-    cout << cuentaAEliminar.mostrarDatos() << endl;
-    cout << "\nConfirma la eliminacion de la cuenta? (S/N): ";
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE ELIMINACION", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Cuenta a eliminar:";
+    colorTexto(7);
+    
+    char idFormateado[15];
+    formatearId(idFormateado, "CU", cuentaAEliminar.getIdCuenta(), 6);
+    
+    rlutil::locate(40, 9);
+    cout << "ID: " << idFormateado;
+    rlutil::locate(40, 10);
+    cout << "Nombre: " << cuentaAEliminar.getNombreCuenta();
+    rlutil::locate(40, 11);
+    cout << "CVU: " << cuentaAEliminar.getCvu();
+    rlutil::locate(40, 12);
+    cout << "Alias: " << cuentaAEliminar.getAlias();
+    rlutil::locate(40, 13);
+    cout << "Saldo: $" << fixed << setprecision(2) << cuentaAEliminar.getSaldo();
+    
+    rlutil::locate(30, 16);
+    colorTexto(6);
+    cout << char(175) << " Confirma la eliminaci" << char(162) << "n de la cuenta? (S/N): ";
+    colorTexto(7);
 
     char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         cuentaAEliminar.setCuentaEliminada(true);
         if(modificarCuenta(cuentaAEliminar)){
-            cout << "Cuenta con ID " << cuentaAEliminar.getIdCuenta() << " eliminada correctamente." << endl;
+            limpiarPantalla();
+            rlutil::locate(40, 15);
+            colorTexto(2);
+            cout << char(251) << " Cuenta con ID " << idFormateado << " eliminada correctamente.";
+            colorTexto(7);
             return true;
         }
         else{
-            cout << "ERROR: No se pudo eliminar la cuenta con ID " << idCuenta << "." << endl;
+            limpiarPantalla();
+            rlutil::locate(40, 15);
+            colorTexto(3);
+            cout << "ERROR: No se pudo eliminar la cuenta con ID " << idFormateado << ".";
+            colorTexto(7);
             return false;
         }
     }
-    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
-    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    else if (confirmacion == 'N' || confirmacion == 'n'){
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(6);
+        cout << "Operaci" << char(162) << "n cancelada.";
+        colorTexto(7);
+    }
+    else{
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "Entrada no reconocida. Operaci" << char(162) << "n cancelada.";
+        colorTexto(7);
+    }
     return false;
 }
 
 bool ArchivoCuentas::restaurarCuenta(int idCuenta){
     cuentaBancaria cuentaARestaurar;
     if(!buscarCuenta("ID", idCuenta, cuentaARestaurar)){
-        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << "." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro la cuenta con ID " << idCuenta << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
     if(!cuentaARestaurar.getCuentaEliminada()){
-        cout << "ERROR: La cuenta con ID " << idCuenta << " se encuentra activa." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: La cuenta con ID " << idCuenta << " se encuentra activa.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << "Cuenta a restaurar:" << endl;
-    cout << cuentaARestaurar.mostrarDatos() << endl;
-    cout << "\nConfirma la restauracion de la cuenta? (S/N): ";
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE RESTAURACION", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Cuenta a restaurar:";
+    colorTexto(7);
+    
+    char idFormateado[15];
+    formatearId(idFormateado, "CU", cuentaARestaurar.getIdCuenta(), 6);
+    
+    rlutil::locate(40, 9);
+    cout << "ID: " << idFormateado;
+    rlutil::locate(40, 10);
+    cout << "Nombre: " << cuentaARestaurar.getNombreCuenta();
+    rlutil::locate(40, 11);
+    cout << "CVU: " << cuentaARestaurar.getCvu();
+    rlutil::locate(40, 12);
+    cout << "Alias: " << cuentaARestaurar.getAlias();
+    rlutil::locate(40, 13);
+    cout << "Saldo: $" << fixed << setprecision(2) << cuentaARestaurar.getSaldo();
+    
+    rlutil::locate(30, 16);
+    colorTexto(6);
+    cout << char(175) << " Confirma la restauraci" << char(162) << "n de la cuenta? (S/N): ";
+    colorTexto(7);
 
     char confirmacion = validarSiNo();
     if(confirmacion == 'S' || confirmacion == 's'){
         cuentaARestaurar.setCuentaEliminada(false);
         if(modificarCuenta(cuentaARestaurar)){
-            cout << "Cuenta con ID " << cuentaARestaurar.getIdCuenta() << " restaurada correctamente." << endl;
+            limpiarPantalla();
+            rlutil::locate(40, 15);
+            colorTexto(2);
+            cout << char(251) << " Cuenta con ID " << idFormateado << " restaurada correctamente.";
+            colorTexto(7);
             return true;
         }
         else{
-            cout << "ERROR: No se pudo restaurar la cuenta con ID " << cuentaARestaurar.getIdCuenta() << "." << endl;
+            limpiarPantalla();
+            rlutil::locate(40, 15);
+            colorTexto(3);
+            cout << "ERROR: No se pudo restaurar la cuenta con ID " << idFormateado << ".";
+            colorTexto(7);
             return false;
         }
     }
-    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
-    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
+    else if (confirmacion == 'N' || confirmacion == 'n'){
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(6);
+        cout << "Operaci" << char(162) << "n cancelada.";
+        colorTexto(7);
+    }
+    else{
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "Entrada no reconocida. Operaci" << char(162) << "n cancelada.";
+        colorTexto(7);
+    }
     return false;
 }
 
 void ArchivoCuentas::listarCuentasCliente(int idCliente){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de cuentas.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return;
     }
     
     cuentaBancaria cuentaActual;
     int contador = 0;
     
-    system("cls");
-    cout << "----- CUENTAS DEL CLIENTE ID=" << idCliente << " -----" << endl;
-    cout << "----------------------------------------" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(20, 3);
+    cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
+    rlutil::locate(20, 4);
+    cout << char(186); centrarTexto("CUENTAS DEL CLIENTE ID=" + to_string(idCliente), ' ', 80); cout << char(186);
+    rlutil::locate(20, 5);
+    cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
+    
+    rlutil::locate(1, 7);
     
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
-            cout << cuentaActual.mostrarDatos() << endl;
+            char idFormateado[15];
+            formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
+            
+            cout << "  ID: " << idFormateado << endl;
+            cout << "  Nombre: " << cuentaActual.getNombreCuenta() << endl;
+            cout << "  CVU: " << cuentaActual.getCvu() << endl;
+            cout << "  Alias: " << cuentaActual.getAlias() << endl;
+            cout << "  Saldo: $" << fixed << setprecision(2) << cuentaActual.getSaldo() << endl;
+            cout << "  " << string(76, char(196)) << endl << endl;
             contador++;
-            cout << endl << "----------------------------------------" << endl << endl;
         }
     }
     
     fclose(archivo);
     
     if(contador == 0){
-        cout << "El cliente no tiene cuentas bancarias activas." << endl;
+        colorTexto(3);
+        cout << "  El cliente no tiene cuentas bancarias activas." << endl;
+        colorTexto(7);
     }
     else{
-        cout << "Total de cuentas: " << contador << endl;
+        colorTexto(2);
+        cout << "  Total de cuentas: " << contador << endl;
+        colorTexto(7);
     }
 }
 
 void ArchivoCuentas::listarCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de cuentas.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return;
     }
     cuentaBancaria cuentaActual;
     int i = 0;
-    cout << "----- LISTADO DE CUENTAS BANCARIAS -----" << endl;
-    cout << "----------------------------------------" << endl << endl;
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(20, 3);
+    cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
+    rlutil::locate(20, 4);
+    cout << char(186); centrarTexto("LISTADO DE CUENTAS BANCARIAS", ' ', 80); cout << char(186);
+    rlutil::locate(20, 5);
+    cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
+    
+    rlutil::locate(1, 7);
+    
     while (fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(!cuentaActual.getCuentaEliminada()){
-            cout << cuentaActual.mostrarDatos() << endl;
+            char idFormateado[15];
+            formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
+            
+            cout << "  ID: " << idFormateado << endl;
+            cout << "  Nombre: " << cuentaActual.getNombreCuenta() << endl;
+            cout << "  CVU: " << cuentaActual.getCvu() << endl;
+            cout << "  Alias: " << cuentaActual.getAlias() << endl;
+            cout << "  Saldo: $" << fixed << setprecision(2) << cuentaActual.getSaldo() << endl;
+            cout << "  " << string(76, char(196)) << endl << endl;
             i++;
-            cout << endl << "----------------------------------------" << endl << endl;
         }
     }
     if(i == 0){
-        cout << "ERROR: No hay cuentas bancarias registradas." << endl;
-        cout << "--------------------------------" << endl << endl;
+        colorTexto(3);
+        cout << "  No hay cuentas bancarias registradas." << endl;
+        colorTexto(7);
     }
-    cout << "Total de cuentas bancarias: " << i << endl;
+    else{
+        colorTexto(2);
+        cout << "  Total de cuentas bancarias: " << i << endl;
+        colorTexto(7);
+    }
     fclose(archivo);
 }
 
 void ArchivoCuentas::listarTodasCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
-        cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo abrir el archivo de cuentas.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return;
     }
     cuentaBancaria cuentaActual;
     int i = 0;
-    cout << "----- LISTADO DE CUENTAS BANCARIAS -----" << endl;
-    cout << "----------------------------------------" << endl << endl;
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(20, 3);
+    cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
+    rlutil::locate(20, 4);
+    cout << char(186); centrarTexto("LISTADO COMPLETO DE CUENTAS BANCARIAS", ' ', 80); cout << char(186);
+    rlutil::locate(20, 5);
+    cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
+    
+    rlutil::locate(1, 7);
+    
     while (fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
-        cout << cuentaActual.mostrarDatos() << endl;
-        if(cuentaActual.getCuentaEliminada()) cout << "[ CUENTA ELIMINADA ]" << endl;
-            i++;
-            cout << endl << "----------------------------------------" << endl << endl;
+        char idFormateado[15];
+        formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
+        
+        cout << "  ID: " << idFormateado;
+        if(cuentaActual.getCuentaEliminada()){
+            colorTexto(3);
+            cout << " [ ELIMINADO ]";
+            colorTexto(7);
+        }
+        cout << endl;
+        cout << "  Nombre: " << cuentaActual.getNombreCuenta() << endl;
+        cout << "  CVU: " << cuentaActual.getCvu() << endl;
+        cout << "  Alias: " << cuentaActual.getAlias() << endl;
+        cout << "  Saldo: $" << fixed << setprecision(2) << cuentaActual.getSaldo() << endl;
+        cout << "  " << string(76, char(196)) << endl << endl;
+        i++;
     }
     if(i == 0){
-        cout << "ERROR: No hay cuentas bancarias registradas." << endl;
-        cout << "--------------------------------" << endl << endl;
+        colorTexto(3);
+        cout << "  No hay cuentas bancarias registradas." << endl;
+        colorTexto(7);
     }
-    cout << "Total de cuentas bancarias: " << i << endl;
+    else{
+        colorTexto(2);
+        cout << "  Total de cuentas bancarias: " << i << endl;
+        colorTexto(7);
+    }
     fclose(archivo);
 
 }
@@ -342,7 +749,10 @@ void ArchivoCuentas::listarTodasCuentas(){
 bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancaria& encontrada){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
+        rlutil::locate(1, 1);
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        colorTexto(7);
         return false;
     }
     bool seEncontro = false;
@@ -365,7 +775,11 @@ bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancari
                 break;
             }
         }
-        else cout << "Criterio de busqueda invalido." << endl;
+        else{
+            colorTexto(3);
+            cout << "Criterio de b" << char(163) << "squeda inv" << char(160) << "lido." << endl;
+            colorTexto(7);
+        }
 
         if (seEncontro) break;
     }
@@ -376,7 +790,10 @@ bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancari
 bool ArchivoCuentas::buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encontrada){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
+        rlutil::locate(1, 1);
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
+        colorTexto(7);
         return false;
     }
     bool seEncontro = false;
@@ -399,7 +816,11 @@ bool ArchivoCuentas::buscarCuenta(const char* criterio, const char* valor, cuent
                 break;
             }
         }
-        else cout << "Criterio de busqueda invalido." << endl;
+        else{
+            colorTexto(3);
+            cout << "Criterio de b" << char(163) << "squeda inv" << char(160) << "lido." << endl;
+            colorTexto(7);
+        }
 
         if (seEncontro) break;
     }
@@ -409,17 +830,23 @@ bool ArchivoCuentas::buscarCuenta(const char* criterio, const char* valor, cuent
 
 bool ArchivoCuentas::depositar(int idCuenta, double monto){
     if(monto <= 0){
+        colorTexto(3);
         cout << "ERROR: El monto debe ser mayor a 0." << endl;
+        colorTexto(7);
         return false;
     }
     
     cuentaBancaria cuenta;
     if(!buscarCuenta("ID", idCuenta, cuenta)){
-        cout << "ERROR: No se encontro la cuenta." << endl;
+        colorTexto(3);
+        cout << "ERROR: No se encontr" << char(162) << " la cuenta." << endl;
+        colorTexto(7);
         return false;
     }
     if(cuenta.getCuentaEliminada()){
-        cout << "ERROR: La cuenta esta cerrada." << endl;
+        colorTexto(3);
+        cout << "ERROR: La cuenta est" << char(160) << " cerrada." << endl;
+        colorTexto(7);
         return false;
     }
     
@@ -441,31 +868,43 @@ bool ArchivoCuentas::depositar(int idCuenta, double monto){
         );
         trActual.guardarTransaccion(nuevaTransaccion);
 
-        cout << "Deposito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        colorTexto(2);
+        cout << char(251) << " Dep" << char(162) << "sito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        colorTexto(7);
         return true;
     }
     
-    cout << "ERROR: No se pudo realizar el deposito." << endl;
+    colorTexto(3);
+    cout << "ERROR: No se pudo realizar el dep" << char(162) << "sito." << endl;
+    colorTexto(7);
     return false;
 }
 
 bool ArchivoCuentas::extraer(int idCuenta, double monto){
     if(monto <= 0){
+        colorTexto(3);
         cout << "ERROR: El monto debe ser mayor a 0." << endl;
+        colorTexto(7);
         return false;
     }
     
     cuentaBancaria cuenta;
     if(!buscarCuenta("ID", idCuenta, cuenta)){
-        cout << "ERROR: No se encontro la cuenta." << endl;
+        colorTexto(3);
+        cout << "ERROR: No se encontr" << char(162) << " la cuenta." << endl;
+        colorTexto(7);
         return false;
     }
     if(cuenta.getCuentaEliminada()){
-        cout << "ERROR: La cuenta esta cerrada." << endl;
+        colorTexto(3);
+        cout << "ERROR: La cuenta est" << char(160) << " cerrada." << endl;
+        colorTexto(7);
         return false;
     }
     if(cuenta.getSaldo() < monto){
+        colorTexto(3);
         cout << "ERROR: Saldo insuficiente." << endl;
+        colorTexto(7);
         return false;
     }
     
@@ -486,11 +925,15 @@ bool ArchivoCuentas::extraer(int idCuenta, double monto){
             tiempoActual
         );
         trActual.guardarTransaccion(nuevaTransaccion);
-        cout << "Extraccion exitosa. Nuevo saldo: $" << cuenta.getSaldo() << endl;
+        colorTexto(2);
+        cout << char(251) << " Extracci" << char(162) << "n exitosa. Nuevo saldo: $" << cuenta.getSaldo() << endl;
+        colorTexto(7);
         return true;
     }
     
-    cout << "ERROR: No se pudo realizar la extraccion." << endl;
+    colorTexto(3);
+    cout << "ERROR: No se pudo realizar la extracci" << char(162) << "n." << endl;
+    colorTexto(7);
     return false;
 }
 

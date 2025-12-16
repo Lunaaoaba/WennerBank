@@ -14,4 +14,6 @@ void gestionarEmpleados();
 void gestionarClientesAdmin();
 void gestionarCuentasAdmin();
 
+void menuTransaccionesAdmin();
+
 #endif

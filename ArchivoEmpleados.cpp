@@ -9,6 +9,8 @@
 #include "funciones.h"
 #include "ArchivoEmpleados.h"
 #include "funcionesArchivos.h"
+#include "config.h"
+#include "art.h"
 
 using namespace std;
 
@@ -32,32 +34,81 @@ Empleado ArchivoEmpleados::crearEmpleado(){
     Fecha fechaNacimiento;
     bool estado = false;
 
-    system("cls");
-    cout << "----- CREACION DE NUEVO EMPLEADO -----" << endl;
-    cout << "Primer paso, ingresar datos del nuevo empleado:" << endl << endl;
-    cout << "Ingrese DNI: ";
-    dni = validarEntero(1000000, 99999999);
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(35, 3);
+    cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
+    rlutil::locate(35, 4);
+    cout << char(186); centrarTexto("REGISTRO DE NUEVO EMPLEADO", ' ', 50); cout << char(186);
+    rlutil::locate(35, 5);
+    cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
+    
+    cout << endl << endl;
+    rlutil::locate(40, 7);
+    cout << "DNI: ";
+    rlutil::locate(60, 7);
+    dni = validarEntero(10000000, 99999999);
     while(existeDniEmpleado(dni)){
-        cout << "ERROR: DNI ya registrado." << endl;
-        cout << "Ingrese el DNI: ";
-        dni = validarEntero(1000000, 99999999);
+        rlutil::locate(60, 7);
+        cout << string(20, ' ');
+        rlutil::locate(40, 7);
+        cout << string(40, ' ');
+        rlutil::locate(40, 7);
+        colorTexto(3);
+        cout << "ERROR: DNI ya registrado";
+        colorTexto(7);
+        rlutil::msleep(1500);
+        rlutil::locate(40, 7);
+        cout << string(40, ' ');
+        rlutil::locate(40, 7);
+        cout << "DNI: ";
+        rlutil::locate(60, 7);
+        dni = validarEntero(10000000, 99999999);
     }
-    cout << "Ingrese Nombre: ";
+    
+    rlutil::locate(40, 9);
+    cout << "Nombre: ";
+    rlutil::locate(60, 9);
     validarCadenaLetras(nombre, 50);
-    cout << "Ingrese Apellido: ";
+    
+    rlutil::locate(40, 11);
+    cout << "Apellido: ";
+    rlutil::locate(60, 11);
     validarCadenaLetras(apellido, 50);
-    cout << "Ingrese Localidad: ";
+    
+    rlutil::locate(40, 13);
+    cout << "Localidad: ";
+    rlutil::locate(60, 13);
     validarCadenaLetras(localidad, 50);
-    cout << "Ingrese Fecha de Nacimiento:" << endl;
-    fechaNacimiento.cargarFecha();
-    cout << "Ingrese Mail: ";
+    
+    rlutil::locate(40, 16);
+    cout << "Fecha de Nacimiento:";
+    fechaNacimiento.cargarFecha(60, 17);
+    
+    rlutil::locate(40, 21);
+    cout << "Mail: ";
+    rlutil::locate(60, 21);
     validarCadena(mail, 50);
     while(existeMail(mail)){
-        cout << "ERROR: Mail ya registrado." << endl;
-        cout << "Ingrese el mail: ";
+        rlutil::locate(40, 21);
+        cout << string(40, ' ');
+        rlutil::locate(40, 21);
+        colorTexto(3);
+        cout << "ERROR: Mail ya registrado";
+        colorTexto(7);
+        rlutil::msleep(1500);
+        rlutil::locate(40, 21);
+        cout << string(40, ' ');
+        rlutil::locate(40, 21);
+        cout << "Mail: ";
+        rlutil::locate(60, 21);
         validarCadena(mail, 50);
     }
-    cout << "Ingrese Contrase" << char(164) << "a: ";
+    
+    rlutil::locate(40, 23);
+    cout << "Contrase" << char(164) << "a (min 8 caracteres): ";
+    rlutil::locate(60, 24);
     validarCadenaLargo(contrasena, 8, 50);
 
     legajo = generarLegajo();
@@ -76,25 +127,83 @@ Empleado ArchivoEmpleados::crearEmpleado(){
 
     int edad = nuevoEmpleado.getEdad();
     if(edad < 18){
-        cout << "ERROR: El empleado debe ser mayor de edad (actual: " << edad << " a" << char(164) << "os)." << endl;
-        return Empleado(); // empleado vacio
+        rlutil::locate(40, 26);
+        colorTexto(3);
+        cout << "ERROR: El empleado debe ser mayor de edad";
+        rlutil::locate(40, 27);
+        cout << "(Edad actual: " << edad << " a" << char(164) << "os - Requerido: 18+)";
+        colorTexto(7);
+        rlutil::locate(40, 29);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
+        return Empleado();
     }
 
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << nuevoEmpleado.mostrarDatos() << endl;
-    cout << "\nConfirma la creacion del empleado? (S/N): ";
+    limpiarPantalla();
+    colorTexto(7);
     
+    rlutil::locate(35, 3);
+    cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
+    rlutil::locate(35, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE DATOS", ' ', 50); cout << char(186);
+    rlutil::locate(35, 5);
+    cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
+    
+    cout << endl << endl;
+    rlutil::locate(40, 7);
+    cout << "DNI: ";
+    rlutil::locate(65, 7);
+    cout << nuevoEmpleado.getDni();
+    rlutil::locate(40, 8);
+    cout << "Nombre: ";
+    rlutil::locate(65, 8);
+    cout << nuevoEmpleado.getNombre();
+    rlutil::locate(40, 9);
+    cout << "Apellido: ";
+    rlutil::locate(65, 9);
+    cout << nuevoEmpleado.getApellido();
+    rlutil::locate(40, 10);
+    cout << "Localidad: ";
+    rlutil::locate(65, 10);
+    cout << nuevoEmpleado.getLocalidad();
+    rlutil::locate(40, 11);
+    cout << "Fecha de Nacimiento: ";
+    rlutil::locate(65, 11);
+    cout << nuevoEmpleado.getFechaNacimiento().mostrarFecha() << " (Edad: " << nuevoEmpleado.getEdad() << " a" << char(164) << "os)";
+    rlutil::locate(40, 12);
+    cout << "Mail: ";
+    rlutil::locate(65, 12);
+    cout << nuevoEmpleado.getMail();
+    rlutil::locate(40, 13);
+    cout << "Legajo: ";
+    rlutil::locate(65, 13);
+    cout << nuevoEmpleado.getLegajo();
+    rlutil::locate(40, 17);
+    colorTexto(6);
+    cout << char(175) << " Confirma la creacion del empleado? (S/N): ";
+    colorTexto(7);
     char confirmacion = validarSiNo();
+    
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarEmpleados(nuevoEmpleado)){
-            cout << "Empleado creado con exito. Legajo: " << nuevoEmpleado.getLegajo() << endl;
+            rlutil::locate(40, 19);
+            colorTexto(2);
+            cout << char(251) << " Empleado creado con " << char(130) << "xito. Legajo: " << nuevoEmpleado.getLegajo();
+            colorTexto(7);
         }
         else{
-            cout << "ERROR: No se pudo guardar el nuevo empleado." << endl;
+            rlutil::locate(40, 19);
+            colorTexto(3);
+            cout << "ERROR: No se pudo guardar el nuevo empleado.";
+            colorTexto(7);
         }
     }
-    else cout << "Operacion cancelada." << endl;
+    else{
+        rlutil::locate(40, 19);
+        colorTexto(6);
+        cout << "Operacion cancelada.";
+        colorTexto(7);
+    }
     return nuevoEmpleado;
 }
 
@@ -103,17 +212,26 @@ bool ArchivoEmpleados::modificarEmpleado(const Empleado& empleadoModificado){
 
     if(pos < 0){
         if(pos == -1){
+            rlutil::locate(1, 1);
+            colorTexto(3);
             cout << "ERROR: No se encontro el empleado con legajo " << empleadoModificado.getLegajo() << "." << endl;
+            colorTexto(7);
             return false;
         }
         if(pos == -2){
+            rlutil::locate(1, 1);
+            colorTexto(3);
             cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+            colorTexto(7);
             return false;
         }
     }
     FILE* archivo = fopen("empleados.dat", "rb+");
     if(archivo == nullptr){
+        rlutil::locate(1, 1);
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados para modificar." << endl;
+        colorTexto(7);
         return false;
     }
 
@@ -123,6 +241,7 @@ bool ArchivoEmpleados::modificarEmpleado(const Empleado& empleadoModificado){
     else exito = false;
 
     fclose(archivo);
+    colorTexto(7);
     return exito;
 } 
 
@@ -131,88 +250,258 @@ bool ArchivoEmpleados::modificarDatosEmpleado(int legajo){
 
     Administrador* admin = Administrador::getInstancia(); 
     if(admin->getLegajo() == legajo){
-        cout << "ERROR: No se puede alterar este empleado." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se puede alterar este empleado.";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
     if(!buscarEmpleado("LEGAJO", legajo, empleadoAModificar)){
-        cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro el empleado con legajo " << legajo << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
     if(empleadoAModificar.getUsuarioEliminado()){
-        cout << "ERROR: El empleado con legajo " << legajo << " esta eliminado." << endl;
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro el empleado con legajo " << legajo << ".";
+        colorTexto(7);
+        rlutil::locate(40, 17);
+        cout << "Presione cualquier tecla para continuar...";
+        rlutil::anykey();
         return false;
     }
 
-    system("cls");
-    cout << "----- MODIFICACION DE DATOS DEL EMPLEADO -----" << endl;
-    cout << "Datos actuales del empleado:" << endl;
-    cout << empleadoAModificar.mostrarDatos() << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("MODIFICACION DE DATOS DEL EMPLEADO", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Datos actuales del empleado:";
+    colorTexto(7);
+    
+    rlutil::locate(40, 9);
+    cout << "DNI: " << empleadoAModificar.getDni();
+    rlutil::locate(40, 10);
+    cout << "Nombre: " << empleadoAModificar.getNombre();
+    rlutil::locate(40, 11);
+    cout << "Apellido: " << empleadoAModificar.getApellido();
+    rlutil::locate(40, 12);
+    cout << "Localidad: " << empleadoAModificar.getLocalidad();
+    rlutil::locate(40, 13);
+    cout << "Fecha de Nacimiento: " << empleadoAModificar.getFechaNacimiento().mostrarFecha();
+    rlutil::locate(40, 14);
+    cout << "Mail: " << empleadoAModificar.getMail();
 
     bool continuar = true;
     while(continuar){
-        cout << "Seleccione el dato a modificar:" << endl;
-        cout << "1. Nombre" << endl;
-        cout << "2. Apellido" << endl;
-        cout << "3. Localidad" << endl;
-        cout << "4. Mail" << endl;
-        cout << "5. Contrase" << char(164) << "a" << endl;
-        cout << "6. Finalizar/Cancelar modificacion" << endl << endl;
-        // dsp cambiar a rlutil
+        // Limpiar area de menu y trabajo
+        for(int i = 16; i <= 28; i++){
+            rlutil::locate(35, i);
+            cout << string(55, ' ');
+        }
+        
+        rlutil::locate(35, 16);
+        colorTexto(6);
+        cout << "Seleccione el dato a modificar:";
+        colorTexto(7);
+        rlutil::locate(40, 18);
+        cout << "1. Nombre";
+        rlutil::locate(40, 19);
+        cout << "2. Apellido";
+        rlutil::locate(40, 20);
+        cout << "3. Localidad";
+        rlutil::locate(40, 21);
+        cout << "4. Mail";
+        rlutil::locate(40, 22);
+        cout << "5. Contrase" << char(164) << "a";
+        rlutil::locate(40, 23);
+        cout << "6. Finalizar/Cancelar modificacion";
+        
+        rlutil::locate(35, 25);
+        cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 6);
+        
+        // Limpiar area de trabajo para la operacion
+        for(int i = 16; i <= 28; i++){
+            rlutil::locate(35, i);
+            cout << string(55, ' ');
+        }
+        
         switch(opcion){
             case 1: {
                 char nuevoNombre[50];
-                cout << "Ingrese el nuevo nombre: ";
+                rlutil::locate(35, 18);
+                colorTexto(6);
+                cout << "Modificar Nombre";
+                colorTexto(7);
+                rlutil::locate(40, 20);
+                cout << "Actual: " << empleadoAModificar.getNombre();
+                rlutil::locate(40, 21);
+                cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoNombre, 50);
                 empleadoAModificar.setNombre(nuevoNombre);
+                
+                rlutil::locate(40, 10);
+                cout << string(40, ' ');
+                rlutil::locate(40, 10);
+                cout << "Nombre: " << nuevoNombre;
+                
+                rlutil::locate(40, 23);
+                colorTexto(2);
+                cout << char(251) << " Nombre actualizado!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 2: {
                 char nuevoApellido[50];
-                cout << "Ingrese el nuevo apellido: ";
+                rlutil::locate(35, 18);
+                colorTexto(6);
+                cout << "Modificar Apellido";
+                colorTexto(7);
+                rlutil::locate(40, 20);
+                cout << "Actual: " << empleadoAModificar.getApellido();
+                rlutil::locate(40, 21);
+                cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoApellido, 50);
                 empleadoAModificar.setApellido(nuevoApellido);
+                
+                rlutil::locate(40, 11);
+                cout << string(40, ' ');
+                rlutil::locate(40, 11);
+                cout << "Apellido: " << nuevoApellido;
+                
+                rlutil::locate(40, 23);
+                colorTexto(2);
+                cout << char(251) << " Apellido actualizado!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 3: {
                 char nuevaLocalidad[50];
-                cout << "Ingrese la nueva localidad: ";
+                rlutil::locate(35, 18);
+                colorTexto(6);
+                cout << "Modificar Localidad";
+                colorTexto(7);
+                rlutil::locate(40, 20);
+                cout << "Actual: " << empleadoAModificar.getLocalidad();
+                rlutil::locate(40, 21);
+                cout << "Nueva:  ";
                 validarCadenaLetras(nuevaLocalidad, 50);
                 empleadoAModificar.setLocalidad(nuevaLocalidad);
+                
+                rlutil::locate(40, 12);
+                cout << string(40, ' ');
+                rlutil::locate(40, 12);
+                cout << "Localidad: " << nuevaLocalidad;
+                
+                rlutil::locate(40, 23);
+                colorTexto(2);
+                cout << char(251) << " Localidad actualizada!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 4: {
                 char nuevoMail[50];
-                cout << "Ingrese el nuevo mail: ";
+                rlutil::locate(35, 18);
+                colorTexto(6);
+                cout << "Modificar Mail";
+                colorTexto(7);
+                rlutil::locate(40, 20);
+                cout << "Actual: " << empleadoAModificar.getMail();
+                rlutil::locate(40, 21);
+                cout << "Nuevo:  ";
                 validarCadena(nuevoMail, 50);
                 while(existeMail(nuevoMail)){
-                    cout << "ERROR: Mail ya registrado." << endl;
-                    cout << "Ingrese el mail: ";
+                    rlutil::locate(40, 21);
+                    cout << string(50, ' ');
+                    rlutil::locate(40, 21);
+                    colorTexto(3);
+                    cout << "ERROR: Mail ya registrado";
+                    colorTexto(7);
+                    rlutil::msleep(1500);
+                    rlutil::locate(40, 21);
+                    cout << string(50, ' ');
+                    rlutil::locate(40, 21);
+                    cout << "Nuevo:  ";
                     validarCadena(nuevoMail, 50);
                 }
                 empleadoAModificar.setMail(nuevoMail);
+                
+                rlutil::locate(40, 14);
+                cout << string(40, ' ');
+                rlutil::locate(40, 14);
+                cout << "Mail: " << nuevoMail;
+                
+                rlutil::locate(40, 23);
+                colorTexto(2);
+                cout << char(251) << " Mail actualizado!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 5: {
                 char nuevaContrasena[50];
-                cout << "Ingrese la nueva contrase" << char(164) << "a: ";
+                rlutil::locate(35, 18);
+                colorTexto(6);
+                cout << "Modificar Contrase" << char(164) << "a";
+                colorTexto(7);
+                rlutil::locate(40, 20);
+                cout << "Nueva contrase" << char(164) << "a: ";
                 validarCadenaLargo(nuevaContrasena, 8, 50);
                 empleadoAModificar.setContrasena(nuevaContrasena);
+                
+                rlutil::locate(40, 23);
+                colorTexto(2);
+                cout << char(251) << " Contrase" << char(164) << "a actualizada!";
+                colorTexto(7);
+                rlutil::msleep(1500);
                 break;
             }
             case 6: {
-                cout << "Modificacion finalizada..." << endl;
+                rlutil::locate(40, 18);
+                colorTexto(6);
+                cout << "Finalizando modificacion...";
+                colorTexto(7);
+                rlutil::msleep(1000);
                 continuar = false;
                 break;
             }
         }
     }
+    
     if(modificarEmpleado(empleadoAModificar)){
-        cout << "Empleado modificado correctamente." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(2);
+        cout << char(251) << " Empleado modificado correctamente!";
+        colorTexto(7);
         return true;
     }
     else{
-        cout << "ERROR: No se pudo modificar el empleado." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se pudo modificar el empleado.";
+        colorTexto(7);
         return false;
     }
 }
@@ -222,72 +511,172 @@ bool ArchivoEmpleados::eliminarEmpleado(int legajo){
 
     Administrador* admin = Administrador::getInstancia(); 
     if(admin->getLegajo() == legajo){
-        cout << "ERROR: No se puede alterar este empleado." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se puede eliminar este empleado.";
+        colorTexto(7);
         return false;
     }
 
     if(!buscarEmpleado("LEGAJO", legajo, empleadoAEliminar)){
-        cout << "ERROR: No se encontro el empleado con legajo " << empleadoAEliminar.getLegajo() << "." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro el empleado con legajo " << legajo << ".";
+        colorTexto(7);
         return false;
     }
     if(empleadoAEliminar.getUsuarioEliminado()){
-        cout << "ERROR: El empleado con legajo " << empleadoAEliminar.getLegajo() << " ya se encuentra eliminado." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: El empleado ya se encuentra eliminado.";
+        colorTexto(7);
         return false;
     }
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << "Empleado a eliminar:" << endl;
-    cout << empleadoAEliminar.mostrarDatos() << endl;
-    cout << "\nConfirma la eliminacion del empleado? (S/N): ";
-
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE ELIMINACION", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Empleado a eliminar:";
+    colorTexto(7);
+    
+    rlutil::locate(40, 9);
+    cout << "Legajo: " << empleadoAEliminar.getLegajo();
+    rlutil::locate(40, 10);
+    cout << "DNI: " << empleadoAEliminar.getDni();
+    rlutil::locate(40, 11);
+    cout << "Nombre: " << empleadoAEliminar.getNombre() << " " << empleadoAEliminar.getApellido();
+    rlutil::locate(40, 12);
+    cout << "Localidad: " << empleadoAEliminar.getLocalidad();
+    rlutil::locate(40, 13);
+    cout << "Mail: " << empleadoAEliminar.getMail();
+    rlutil::locate(40, 14);
+    cout << "Fecha Nacimiento: " << empleadoAEliminar.getFechaNacimiento().mostrarFecha();
+    
+    rlutil::locate(35, 17);
+    colorTexto(6);
+    cout << char(175) << " Confirma la eliminacion del empleado? (S/N): ";
+    colorTexto(7);
     char confirmacion = validarSiNo();
+    
     if(confirmacion == 'S' || confirmacion == 's'){
         empleadoAEliminar.setUsuarioEliminado(true);
         if(modificarEmpleado(empleadoAEliminar)){
-            cout << "Empleado con legajo " << legajo << " eliminado correctamente." << endl;
+            rlutil::locate(40, 19);
+            colorTexto(2);
+            cout << char(251) << " Empleado eliminado correctamente!";
+            colorTexto(7);
+            rlutil::locate(40, 21);
             return true;
         }
         else{
-            cout << "ERROR: No se pudo eliminar el empleado con legajo " << legajo << "." << endl;
+            rlutil::locate(40, 19);
+            colorTexto(3);
+            cout << "ERROR: No se pudo eliminar el empleado.";
+            colorTexto(7);
+            rlutil::locate(40, 21);
             return false;
         }
     }
-    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
-    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
-    return false;
+    else{
+        rlutil::locate(40, 19);
+        colorTexto(6);
+        cout << "Operacion cancelada.";
+        colorTexto(7);
+        rlutil::locate(40, 21);
+        return false;
+    }
 }
 
 bool ArchivoEmpleados::restaurarEmpleado(int legajo){
     Empleado empleadoARestaurar;
+    
     if(!buscarEmpleado("LEGAJO", legajo, empleadoARestaurar)){
-        cout << "ERROR: No se encontro el empleado con legajo " << legajo << "." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: No se encontro el empleado con legajo " << legajo << ".";
+        colorTexto(7);
         return false;
     }
     if(!empleadoARestaurar.getUsuarioEliminado()){
-        cout << "ERROR: El empleado con legajo " << legajo << " se encuentra activo." << endl;
+        limpiarPantalla();
+        rlutil::locate(40, 15);
+        colorTexto(3);
+        cout << "ERROR: El empleado se encuentra activo.";
+        colorTexto(7);
         return false;
     }
-    system("cls");
-    cout << "----- CONFIRMACION DE DATOS -----" << endl;
-    cout << "Empleado a restaurar:" << endl;
-    cout << empleadoARestaurar.mostrarDatos() << endl;
-    cout << "\nConfirma la restauracion del empleado? (S/N): ";
-
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("CONFIRMACION DE RESTAURACION", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(35, 7);
+    colorTexto(6);
+    cout << "Empleado a restaurar:";
+    colorTexto(7);
+    
+    rlutil::locate(40, 9);
+    cout << "Legajo: " << empleadoARestaurar.getLegajo();
+    rlutil::locate(40, 10);
+    cout << "DNI: " << empleadoARestaurar.getDni();
+    rlutil::locate(40, 11);
+    cout << "Nombre: " << empleadoARestaurar.getNombre() << " " << empleadoARestaurar.getApellido();
+    rlutil::locate(40, 12);
+    cout << "Localidad: " << empleadoARestaurar.getLocalidad();
+    rlutil::locate(40, 13);
+    cout << "Mail: " << empleadoARestaurar.getMail();
+    rlutil::locate(40, 14);
+    cout << "Fecha Nacimiento: " << empleadoARestaurar.getFechaNacimiento().mostrarFecha();
+    
+    rlutil::locate(35, 17);
+    colorTexto(6);
+    cout << char(175) << " Confirma la restauracion del empleado? (S/N): ";
+    colorTexto(7);
     char confirmacion = validarSiNo();
+    
     if(confirmacion == 'S' || confirmacion == 's'){
         empleadoARestaurar.setUsuarioEliminado(false);
         if(modificarEmpleado(empleadoARestaurar)){
-            cout << "Empleado con legajo " << empleadoARestaurar.getLegajo() << " restaurado correctamente." << endl;
+            rlutil::locate(40, 19);
+            colorTexto(2);
+            cout << char(251) << " Empleado restaurado correctamente!";
+            colorTexto(7);
             return true;
         }
         else{
-            cout << "ERROR: No se pudo restaurar el empleado con legajo " << empleadoARestaurar.getLegajo() << "." << endl;
+            rlutil::locate(40, 19);
+            colorTexto(3);
+            cout << "ERROR: No se pudo restaurar el empleado.";
+            colorTexto(7);
             return false;
         }
     }
-    else if (confirmacion == 'N' || confirmacion == 'n') cout << "Operacion cancelada." << endl;
-    else cout << "Entrada no reconocida. Operacion cancelada." << endl;
-    return false;
+    else{
+        rlutil::locate(40, 19);
+        colorTexto(6);
+        cout << "Operacion cancelada.";
+        colorTexto(7);
+        return false;
+    }
 }
 
 // ------ FUNCIONES PARA BUSQUEDA DE EMPLEADOS ------
@@ -295,59 +684,132 @@ bool ArchivoEmpleados::restaurarEmpleado(int legajo){
 void ArchivoEmpleados::listarEmpleados(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
+        limpiarPantalla();
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        colorTexto(7);
         return;
     }
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    cout << char(201); 
+    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(187) << endl;
+    cout << char(186); 
+    centrarTexto("LISTADO DE EMPLEADOS ACTIVOS", ' ', 60); 
+    cout << char(186) << endl;
+    cout << char(200); 
+    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(188) << endl << endl;
+    
     Empleado empleadoActual;
-    int i = 0;
-    cout << "----- LISTADO DE EMPLEADOS -----" << endl;
-    cout << "--------------------------------" << endl << endl;
+    int contador = 0;
+    
     while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
         if(!empleadoActual.getUsuarioEliminado()){
-            cout << "Empleado: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
-            cout << empleadoActual.mostrarDatos() << endl;
-            i++;
-            cout << endl << "--------------------------------" << endl << endl;
+            char legajoFormateado[20];
+            formatearId(legajoFormateado, "EMP-", empleadoActual.getLegajo(), 6);
+            
+            cout << "Empleado #" << (contador + 1) << endl;
+            cout << "Legajo: " << legajoFormateado << endl;
+            cout << "DNI: " << empleadoActual.getDni() << endl;
+            cout << "Nombre: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
+            cout << "Localidad: " << empleadoActual.getLocalidad() << endl;
+            cout << "Mail: " << empleadoActual.getMail() << endl;
+            cout << "Edad: " << empleadoActual.getEdad() << " a" << char(164) << "os" << endl;
+            cout << endl;
+            for(int i = 0; i < 60; i++) cout << char(196);
+            cout << endl << endl;
+            contador++;
         }
     }
-    if(i == 0){
-        cout << "ERROR: No hay empleados registrados." << endl;
-        cout << "---------------------" << endl << endl;
+    
+    if(contador == 0){
+        colorTexto(3);
+        cout << "No hay empleados registrados." << endl;
+        colorTexto(7);
     }
-    cout << "Total de empleados: " << i << endl;
+    else{
+        colorTexto(2);
+        cout << "Total de empleados: " << contador << endl;
+        colorTexto(7);
+    }
+    
     fclose(archivo);
 }
 
 void ArchivoEmpleados::listarTodosEmpleados(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
+        limpiarPantalla();
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        colorTexto(7);
         return;
     }
+    
+    limpiarPantalla();
+    colorTexto(7);
+    
+    cout << char(201); 
+    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(187) << endl;
+    cout << char(186); 
+    centrarTexto("LISTADO COMPLETO DE EMPLEADOS", ' ', 60); 
+    cout << char(186) << endl;
+    cout << char(200); 
+    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(188) << endl << endl;
+    
     Empleado empleadoActual;
-    int i = 0;
-    cout << "----- LISTADO DE EMPLEADOS -----" << endl;
-    cout << "--------------------------------" << endl << endl;;
+    int contador = 0;
+    
     while (fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
-        cout << "Empleado: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
-        cout << empleadoActual.mostrarDatos() << endl;
-        if(empleadoActual.getUsuarioEliminado()) cout << "[ EMPLEADO ELIMINADO ]" << endl;
-        i++;
-        cout << endl << "--------------------------------" << endl << endl;
+        char legajoFormateado[20];
+        formatearId(legajoFormateado, "EMP-", empleadoActual.getLegajo(), 6);
+        
+        cout << "Empleado #" << (contador + 1);
+        if(empleadoActual.getUsuarioEliminado()){
+            colorTexto(3);
+            cout << " [ ELIMINADO ]";
+            colorTexto(7);
+        }
+        cout << endl;
+        cout << "Legajo: " << legajoFormateado << endl;
+        cout << "DNI: " << empleadoActual.getDni() << endl;
+        cout << "Nombre: " << empleadoActual.getNombre() << " " << empleadoActual.getApellido() << endl;
+        cout << "Localidad: " << empleadoActual.getLocalidad() << endl;
+        cout << "Mail: " << empleadoActual.getMail() << endl;
+        cout << "Edad: " << empleadoActual.getEdad() << " a" << char(164) << "os" << endl;
+        cout << endl;
+        for(int i = 0; i < 60; i++) cout << char(196);
+        cout << endl << endl;
+        contador++;
     }
-    if(i == 0){
-        cout << "ERROR: No hay empleados registrados." << endl;
-        cout << "--------------------------------" << endl;
+    
+    if(contador == 0){
+        colorTexto(3);
+        cout << "No hay empleados registrados." << endl;
+        colorTexto(7);
     }
-    cout << "Total de empleados: " << i << endl;
+    else{
+        colorTexto(2);
+        cout << "Total de empleados: " << contador << endl;
+        colorTexto(7);
+    }
+    
     fclose(archivo);
 }
 
-//SOBRECARGA - el q usa int: (ID, DNI, EDAD)
+//SOBRECARGA - el q usa int: (LEGAJO, DNI, EDAD)
 bool ArchivoEmpleados::buscarEmpleado(const char* criterio, int valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        colorTexto(7);
         return false;
     }
     bool seEncontro = false;
@@ -361,7 +823,11 @@ bool ArchivoEmpleados::buscarEmpleado(const char* criterio, int valor, Empleado&
         else if(strcmp(criterio, "EDAD") == 0){
             if(encontrado.getEdad() == valor) seEncontro = true;
         }
-        else cout << "Criterio de busqueda no reconocido." << endl;
+        else {
+            colorTexto(3);
+            cout << "Criterio de b" << char(163) << "squeda no reconocido." << endl;
+            colorTexto(7);
+        }
 
         if(seEncontro) break;
     }
@@ -373,7 +839,9 @@ bool ArchivoEmpleados::buscarEmpleado(const char* criterio, int valor, Empleado&
 bool ArchivoEmpleados::buscarEmpleado(const char* criterio, const char* valor, Empleado& encontrado){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        colorTexto(7);
         return false;
     }
     bool seEncontro = false;
@@ -387,7 +855,11 @@ bool ArchivoEmpleados::buscarEmpleado(const char* criterio, const char* valor, E
         else if(strcmp(criterio, "LOCALIDAD") == 0) {
             if(strcmp(encontrado.getLocalidad(), valor) == 0) seEncontro = true;
         }
-        else cout << "Criterio de busqueda no reconocido." << endl;
+        else {
+            colorTexto(3);
+            cout << "Criterio de b" << char(163) << "squeda no reconocido." << endl;
+            colorTexto(7);
+        }
 
         if(seEncontro) break;
     }
@@ -399,15 +871,17 @@ bool ArchivoEmpleados::buscarEmpleadoNacimiento(Fecha fechaNacimiento, Empleado 
     FILE* archivo = fopen("empleados.dat", "rb");
     Empleado empleadoActual;
     if(archivo == nullptr){
+        colorTexto(3);
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
+        colorTexto(7);
         return false;
     }
     while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
         Fecha fecha = empleadoActual.getFechaNacimiento();
         if(compararFechas(fecha, fechaNacimiento)){
-        empleadoEncontrado = empleadoActual;
-        fclose(archivo);
-        return true;
+            empleadoEncontrado = empleadoActual;
+            fclose(archivo);
+            return true;
         }
     }
     fclose(archivo);

@@ -4,111 +4,91 @@
 #include <iostream>
 #include <string>
 #include "art.h"
+#include "config.h"
 
 using namespace std;
 
+void titulo(bool animado){
+    limpiarPantalla();
+    colorTexto(5);
 
-void tituloBeta(){
-    system("cls");
-    rlutil::setColor(2);
-    int i = 0;
-    while(i<7){
-        rlutil::msleep(200);
-        // ╔══════════════════════════════════════════════════════════════╗
-        rlutil::locate(40, 2 + i);
-        if(i==0){
-            cout << char(201);
-            centrarTexto("", char(205), 40);
-            cout << char(187);
+    if(!animado){
+        string titulo[4] = {
+            " _ _ _                        _____         _   ",
+            "| | | |___ ___ ___ ___ ___   | __  |___ ___| |_ ",
+            "| | | | -_|   |   | -_|  _|  | __ -| .'|   | '_|",
+            "|_____|___|_|_|_|_|___|_|    |_____|__,|_|_|_,_|"
+        };
+        
+        for(int i = 0; i < 4; i++){
+            rlutil::locate(40, 5 + i);
+            cout << titulo[i] << endl;
         }
-        // ║                                                              ║
-        if(i==1){
-            cout << char(186);
-            centrarTexto("", ' ', 40);
-            cout << char(186);
-        }
-        // ║               BIENVENIDO/A A WENNER BANK                    ║
-        if(i==2){
-            cout << char(186);
-            rlutil::setColor(10);
-            centrarTexto("BIENVENIDO/A A WENNER BANK", ' ', 40);
-            rlutil::setColor(2);
-            cout << char(186);
-        }
-        // ╠══════════════════════════════════════════════════════════════╣
-        if(i==3){
-            cout << char(204);
-            centrarTexto("", char(205), 40);
-            cout << char(185);
-        }
-        // ║                  Su banco de confianza                      ║
-        if(i==4){
-            cout << char(186);
-            rlutil::setColor(10);
-            centrarTexto("Su banco de confianza", ' ', 40);
-            rlutil::setColor(2);
-            cout << char(186);
-        }
-        // ║                                                              ║
-        if(i==5){
-            cout << char(186);
-            centrarTexto("", ' ', 40);
-            cout << char(186);
-        }
-        // ╚══════════════════════════════════════════════════════════════╝
-        if(i==6){
-            cout << char(200);
-            centrarTexto("", char(205), 40);
-            cout << char(188) << endl;
-        }
-        i++;
     }
-    rlutil::setBackgroundColor(rlutil::BLACK);
-    rlutil::setColor(rlutil::WHITE);
+    else{
+        // LETRAS
+        string w[4] = {" _ _ _ ", "| | | |", "| | | |", "|_____|"};
+        string e[4] = {"    ", "___ ", " -_|", "___|"};
+        string n[4] = {"    ", "___ ", "   |", "_|_|"};
+        string r[4] = {"      ", "___   ", "  _|  ", "_|    "};
+        string b[4] = {" _____ ", "|  __ |", "|  __-|", "|_____|"};
+        string a[4] = {"    ", "___ ", " .'|", "_|_|"};
+        string nk[4] = {"    ", "___|", "   |", "_|_|"};
+        string k[4] = {"_   ", " |_ ", " '_|", "_,_|"};     
+        
+        string* palabra[] = {w, e, n, n, e, r, b, a, n, k};
+        int numLetras = 10;
+        
+        int posX = 36;
+        int posY = 5;
+        int espacioX = posX;
+        
+        for(int i = 0; i < numLetras; i++){
+            rlutil::msleep(150);
+            
+            for(int linea = 0; linea < 4; linea++){
+                rlutil::locate(espacioX, posY + linea);
+                colorTexto(5);
+                cout << palabra[i][linea];
+            }
+            
+            espacioX += static_cast<int>(palabra[i][0].length());
+        }
+    }
+    // rlutil::anykey();
 }
-// SA version sin animacion
-void tituloBetaSA(){
-    system("cls");
-    //rlutil::setBackgroundColor(1);
-    rlutil::setColor(rlutil::YELLOW);
+void entrada(){
+    limpiarPantalla();
+    colorTexto(5);
 
-    rlutil::locate(40, 2);
-    cout << char(201);
-    centrarTexto("", char(205), 40);
-    cout << char(187);
+    titulo(true);
 
-    rlutil::locate(40, 3);
-    cout << char(186);
-    centrarTexto("", ' ', 40);
-    cout << char(186);
+    rlutil::locate(36, 9);
+    string linea = "------------------------------------------------";
+    for(char c : linea){
+        rlutil::msleep(20);
+        cout << c << flush;
+    }
 
-    rlutil::locate(40, 4);
-    cout << char(186);
-    centrarTexto("BIENVENIDO/A A WENNER BANK", ' ', 40);
-    cout << char(186);
+    rlutil::locate(40, 11);
+    centrarTexto("Bienvenido/a a su banco de confianza!", ' ', 40);
 
-    rlutil::locate(40, 5);
-    cout << char(204);
-    centrarTexto("", char(205), 40);
-    cout << char(185);
+    rlutil::locate(1, 30);
+    rlutil::anykey();
+    colorTexto(1);
+}
 
-    rlutil::locate(40, 6);
-    cout << char(186);
-    centrarTexto("Su banco de confianza", ' ', 40);
-    cout << char(186);
+void entradaSA(){
+    colorTexto(5);
+    limpiarPantalla();
 
-    rlutil::locate(40, 7);
-    cout << char(186);
-    centrarTexto("", ' ', 40);
-    cout << char(186);
+    titulo(false);
+    rlutil::locate(40, 11);
+    centrarTexto("Bienvenido/a a su banco de confianza", ' ', 40);
 
-    rlutil::locate(40, 8);
-    cout << char(200);
-    centrarTexto("", char(205), 40);
-    cout << char(188) << endl;
+    rlutil::anykey();
+    colorTexto(1);
 
-    rlutil::setBackgroundColor(rlutil::BLACK);
-    rlutil::setColor(rlutil::WHITE);
 }
 
 void mayusculas(char* palabra){
@@ -149,8 +129,7 @@ void centrarTexto(string palabra, char dato1, char dato2, size_t largo){
 //-------------------------------------
 // PARA UTILIZAR EN EL MENU CON RLUTIL
 //-------------------------------------
-//rlutil::cls(); -> Limpia la Pantalla: Borra todo el texto que se encuentra actualmente visible en la ventana de la consola. y vuelve a dibujar el menu.
-//rlutil::setBackgroundColor(rlutil::BLUE); ->cambia el color del fondo
+//system("cls"); -> Limpia la Pantalla: Borra todo el texto que se encuentra actualmente visible en la ventana de la consola. y vuelve a dibujar el menu.
 //rlutil::setColor(rlutil::WHITE); ->cambia el color de las letras
 //rlutil::setColor(rlutil::RED); -> puede ir antes de un texto con error, luego de mostrar el mensaje devolver su color original.
 //rlutil::locate(2, 5); -> coloca el mensaje en la posicion que le pongas

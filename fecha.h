@@ -21,6 +21,7 @@ class Fecha{
         int getAnio() const;
         
         void cargarFecha();
+        void cargarFecha(int x, int y); // Sobrecarga con posicionamiento
         void cargarFechaActual();
         string mostrarFecha() const;
 };

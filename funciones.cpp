@@ -1,25 +1,84 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <limits>
 #include <cstring>
 #include "funciones.h"
+#include "config.h"
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 
 using namespace std;
 
+// Funciones para obtener la posición del cursor
+int wherex(){
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)){
+        return csbi.dwCursorPosition.X + 1; // +1 porque rlutil usa 1-based
+    }
+#endif
+    return 1;
+}
+
+int wherey(){
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)){
+        return csbi.dwCursorPosition.Y + 1; // +1 porque rlutil usa 1-based
+    }
+#endif
+    return 1;
+}
+
 int validarEntero(int min, int max){
     int valor;
+    int posX = wherex();
+    int posY = wherey();
+    
     while (true){
         if (!(cin >> valor)){
-            cout << "Error: Debe ingresar un numero entero." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Debe ingresar un numero entero";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(30, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         if (valor < min || valor > max){
-            cout << "Error: El valor debe estar entre " << min << " y " << max << "." << endl;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "El valor debe estar entre " << min << " y " << max;
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(30, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         return valor;
     }
 }
@@ -52,45 +111,128 @@ bool esMonedaValida(const string& ingreso){
 // por ahora solo para saldo, por eso el mensaje "saldo valido"
 double validarDouble(double min, double max){
     string ingreso;
+    int posX = wherex();
+    int posY = wherey();
+    
     while (true){
         if (!(cin >> ingreso)){
-            cout << "Error: Debe ingresar un valor valido (ej: XXX.XX)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Debe ingresar un valor valido (ej: XXX.XX)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(30, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         if(!esMonedaValida(ingreso)){
-            cout << "Error: solo se aceptan valores con maximo de 2 decimales (ej: XXX.XX)" << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Maximo 2 decimales (ej: XXX.XX)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(30, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         double valor = stod(ingreso);
         
         if (valor < min || valor > max) {
-            cout << "Error: El valor del saldo debe estar entre " << min << " y " << max << "." << endl;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "El valor debe estar entre " << min << " y " << max;
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(30, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         return valor;
     }
 }
 
 void validarCadenaNumeros(char* numero, int min, int max){
+    int posX = wherex();
+    int posY = wherey();
+    
     while(true){
         cin.getline(numero, max + 1);
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (maximo " << max - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Demasiado largo (max " << max - 1 << " caracteres)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         size_t largo = strlen(numero);
-        if((int)largo < min){
-            cout << "ERROR: El ingreso debe tener al menos " << min << " caracteres." << endl;
+        if(largo == 0){
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "No puede estar vacio";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
-        if(largo == 0){
-            cout << "ERROR: El ingreso no puede estar vacio." << endl;
+        if((int)largo < min){
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Minimo " << min << " caracteres";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         bool soloNumero = true;
@@ -101,9 +243,23 @@ void validarCadenaNumeros(char* numero, int min, int max){
             }
         }
         if (!soloNumero) {
-            cout << "ERROR: El ingreso solo puede contener numeros." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Solo puede contener numeros";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         break;
     }
 }
@@ -111,18 +267,46 @@ void validarCadenaNumeros(char* numero, int min, int max){
 // maxLength +1 de lo que se quiere para el \0
 // version que solo acepta letras y espacios (para nombres, apellidos, localidades, etc)
 void validarCadenaLetras(char* palabra, int maxLength){
+    int posX = wherex();
+    int posY = wherey();
+    
     while(true){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacio." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "No puede estar vacio";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Demasiado largo (max " << maxLength - 1 << " caracteres)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         // si e solo letra o espacio o tildes
@@ -155,68 +339,172 @@ void validarCadenaLetras(char* palabra, int maxLength){
         }
 
         if (!letra) {
-            cout << "ERROR: El ingreso solo puede contener letras y espacios." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Solo puede contener letras y espacios";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         break;
     }
 }
 
 // version que acepta cualquier caracter (para mails, etc)
 void validarCadena(char* palabra, int maxLength){
+    int posX = wherex();
+    int posY = wherey();
+    
     while(true){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacio." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "No puede estar vacio";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Demasiado largo (max " << maxLength - 1 << " caracteres)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         break;
     }
 }
 
 // version q acepta cualquier caracter + incluye un minimo de largo (para contrasenas y nose q mas)
 void validarCadenaLargo(char* palabra, int minLength, int maxLength){
+    int posX = wherex();
+    int posY = wherey();
+    
     while(true){
         cin.getline(palabra, maxLength + 1);
         // si no ta vacio
         if(strlen(palabra) == 0){
-            cout << "ERROR: El ingreso no puede estar vacio." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "No puede estar vacio";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         // si no llega al minimo
         if(strlen(palabra) < (size_t)minLength){
-            cout << "ERROR: El ingreso debe tener al menos " << minLength << " caracteres." << endl;
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Minimo " << minLength << " caracteres";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
         // si se pasa de largo
         if(cin.fail()){
-            cout << "ERROR: El ingreso es demasiado largo (maximo " << maxLength - 1 << " caracteres)." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            rlutil::locate(44, 15);
+            colorTexto(3);
+            cout << "Demasiado largo (max " << maxLength - 1 << " caracteres)";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
+            
+            rlutil::locate(posX, posY);
+            cout << string(50, ' ');
+            rlutil::locate(posX, posY);
             continue;
         }
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
         break;
     }
 }
 
 char validarSiNo(){
     char c;
+    int posX = wherex();
+    int posY = wherey();
+    
     while(true){
         cin >> c;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         if(c == 'S' || c == 's' || c == 'N' || c == 'n'){
+            rlutil::locate(44, 15);
+            cout << string(80, ' ');
             return c;
         }
-        cout << "ERROR: Ingrese 'S' para Si o 'N' para No: ";
+        
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
+        rlutil::locate(44, 15);
+        colorTexto(3);
+        cout << "Ingrese 'S' para Si o 'N' para No";
+        colorTexto(7);
+        rlutil::msleep(1500);
+        rlutil::locate(44, 15);
+        cout << string(80, ' ');
+        
+        rlutil::locate(posX, posY);
+        cout << string(10, ' ');
+        rlutil::locate(posX, posY);
     }
 }
 

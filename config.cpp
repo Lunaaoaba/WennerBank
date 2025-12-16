@@ -25,7 +25,8 @@ void config(){
     // configuraciones obligatorias 
     consola();
     // establece el Background de la consola
-    fondoRgb();
+    colorTexto(4);
+    limpiarPantalla();
     // inicia los archivos necesarios
     iniciarArchivos();
 
@@ -52,9 +53,70 @@ void consola(){
     SetConsoleMode(hOut, dwMode);
 }
 
-void fondoRgb(){
+void limpiarPantalla(){
     cout << "\033[48;2;18;29;68m";
     system("cls");
+}
+
+// usa "codigos" para cambiar el color de texto o mostrar lista de colores disponibles
+void colorTexto(int num){
+    // plantilla = cout << "\033[38;2;X;X;Xm";
+    switch(num){
+        case 0: {
+            cout << "Codigos de color disponibles:" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "0: Lista de colores" << endl;
+            cout << "1: Blanco" << endl;
+            cout << "2: Gris" << endl;
+            cout << "3: Rojo" << endl;
+            cout << "4: Verde" << endl;
+            cout << "proximamente..." << endl;
+            cout << "-----------------------------" << endl;
+            break;
+        }
+        case 1: {
+            cout << "\033[38;2;255;255;255m"; // blanco
+            break;
+        }
+        case 2: {
+            cout << "\033[38;2;150;150;150m"; // gris
+            break;
+        }
+        case 3: {
+            cout << "\033[38;2;134;23;23m"; // rojo
+            break;
+        }
+        case 4: {
+            cout << "\033[38;2;73;134;23m"; // verde
+            break;
+        }
+        case 5: {
+            cout << "\033[38;2;170;140;50m"; // doradito
+            break;
+        }
+        case 6: {
+            cout << "\033[38;2;247;129;35m"; // naranja
+            break;
+        }
+        case 7: {
+            cout << "\033[38;2;245;220;140m"; // amarillo
+            break;
+        }
+        default: {
+            cout << "Codigos de color disponibles:" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "0: Lista de colores" << endl;
+            cout << "1: Blanco" << endl;
+            cout << "2: Gris" << endl;
+            cout << "3: Rojo" << endl;
+            cout << "4: Verde" << endl;
+            cout << "5: Dorado" << endl;
+            cout << "6: Naranja" << endl;
+            cout << "7: Amarillo" << endl;
+            cout << "-----------------------------" << endl;
+            break;
+        }
+    }
 }
 
 // inicia los archivos si no existen con los datos principales
@@ -145,30 +207,30 @@ void iniciarUsuarios(){
     fwrite(&cliente3, sizeof(Cliente), 1, archivoClientes);
 
     char apellido3[50] = {'R', 'o', 'd', 'r', char(161), 'g', 'u', 'e', 'z', '\0'};
-    Cliente cliente5(15000123, "Carlos Alberto", apellido3, "Lanus", Fecha(3, 3, 1992), "el_charly_rodriguez_55@gmail.com", contrasena, false, 5);
+    Cliente cliente5(15000123, "Carlos Alberto", apellido3, "Lanus", Fecha(3, 3, 1992), "el_charly_rodriguez_55@gmail.com", contrasena, false, 4);
     fwrite(&cliente5, sizeof(Cliente), 1, archivoClientes);
 
     char apellido4[50] = {'F', 'e', 'r', 'n', char(160), 'n', 'd', 'e', 'z', '\0'};
-    Cliente cliente6(16000123, "Ana Laura", apellido4, "Avellaneda", Fecha(4, 4, 1993), "anita.laura.fer22@gmail.com", contrasena, false, 6);
+    Cliente cliente6(16000123, "Ana Laura", apellido4, "Avellaneda", Fecha(4, 4, 1993), "anita.laura.fer22@gmail.com", contrasena, false, 5);
     fwrite(&cliente6, sizeof(Cliente), 1, archivoClientes);
 
     char nombre1[50] = {'J', 'o', 's', char(130), ' ', 'L', 'u', 'i', 's', '\0'};
     char apellido5[50] = {'G', 'a', 'r', 'c', char(161), 'a', ' ', 'L', 'o', 'p', 'e', 'z', '\0'};
-    Cliente cliente7(17000123, nombre1, apellido5, "CABA", Fecha(20, 2, 2005), "pepe_garcia_lopez@gmail.com", contrasena, false, 7);
+    Cliente cliente7(17000123, nombre1, apellido5, "CABA", Fecha(20, 2, 2005), "pepe_garcia_lopez@gmail.com", contrasena, false, 6);
     fwrite(&cliente7, sizeof(Cliente), 1, archivoClientes);
 
     char nombre2[50] = {'S', 'o', 'f', char(161), 'a', '\0'};
     char apellido6[50] = {'M', 'a', 'r', 't', char(161), 'n', 'e', 'z', ' ', 'S', char(160), 'n', 'c', 'h', 'e', 'z', '\0'};
-    Cliente cliente8(18000123, nombre2, apellido6, "CABA", Fecha(22, 3, 2004), "sofi_martinez_sanchez_01@gmail.com", contrasena, false, 8);
+    Cliente cliente8(18000123, nombre2, apellido6, "CABA", Fecha(22, 3, 2004), "sofi_martinez_sanchez_01@gmail.com", contrasena, false, 7);
     fwrite(&cliente8, sizeof(Cliente), 1, archivoClientes);
 
     char nombre3[50] = {'M', 'i', 'g', 'u', 'e', 'l', ' ', char(181), 'n', 'g', 'e', 'l', '\0'};
-    Cliente cliente9(19000123, nombre3, "Torres Ruiz", "Moron", Fecha(10, 5, 2000), "miguel_angel_torres@gmail.com", contrasena, false, 9);
+    Cliente cliente9(19000123, nombre3, "Torres Ruiz", "Moron", Fecha(10, 5, 2000), "miguel_angel_torres@gmail.com", contrasena, false, 8);
     fwrite(&cliente9, sizeof(Cliente), 1, archivoClientes);
 
     char nombre4[50] = {'L', 'u', 'c', char(161), 'a', ' ', 'B', 'e', 'l', char(130), 'n', '\0'};
     char apellido7[50] = {'D', char(161), 'a', 'z', ' ', 'R', 'o', 'm', 'e', 'r', 'o', '\0'};
-    Cliente cliente10(20000123, nombre4, apellido7, "Olivos", Fecha(17, 11, 2002), "luli.belen.dr@gmail.com", contrasena, false, 10);
+    Cliente cliente10(20000123, nombre4, apellido7, "Olivos", Fecha(17, 11, 2002), "luli.belen.dr@gmail.com", contrasena, false, 9);
     fwrite(&cliente10, sizeof(Cliente), 1, archivoClientes);
 
     fclose(archivoClientes);
@@ -210,3 +272,4 @@ void iniciarUsuarios(){
 
     fclose(archivoEmpleados);
 }
+

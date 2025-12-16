@@ -18,6 +18,7 @@
 #include "menuAdministrador.h"
 #include "menuReportes.h"
 #include "ArchivoTransacciones.h"
+#include "config.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ void menuTest(){
     int opcion;
     bool continuar = true;
     while(continuar){
-        system("cls");
+        limpiarPantalla();
         cout << "---------------------------" << endl;
         cout << "Menu de Pruebas - WennerBank" << endl;
         cout << "---------------------------" << endl;
@@ -58,7 +59,6 @@ void menuTest(){
         cout << "11. Restaurar Empleado" << endl;
         cout << "12. Modificar Empleado" << endl;
         cout << "---------------------------" << endl;
-                // ya es posible implementar
         cout << "13. Crear Cuenta" << endl;
         cout << "14. Listar Cuentas" << endl;
         cout << "15. Listar TODAS las cuentas" << endl;
@@ -72,24 +72,21 @@ void menuTest(){
         cout << "---------------------------" << endl;
         cout << "Ingrese una opcion: ";
         opcion = validarEntero(1, 21);
+        limpiarPantalla();
         switch (opcion){
             case 1: {
-                system("cls");
                 objClientes.crearCliente();
                 break;
             }
             case 2: {
-                system("cls");
                 objClientes.listarClientes();
                 break;
             }
             case 3: {
-                system("cls");
                 objClientes.listarTodosClientes();
                 break;
             }
             case 4: {
-                system("cls");
                 cout << "Eliminar Cliente" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -98,7 +95,6 @@ void menuTest(){
                 break;
             }
             case 5: {
-                system("cls");
                 cout << "Restaurar Cliente" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -107,7 +103,6 @@ void menuTest(){
                 break;
             }
             case 6: {
-                system("cls");
                 cout << "Modificar Cliente" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -116,22 +111,18 @@ void menuTest(){
                 break;
             }
             case 7: {
-                system("cls");
                 objEmpleados.crearEmpleado();
                 break;
             }
             case 8: {
-                system("cls");
                 objEmpleados.listarEmpleados();
                 break;
             }
             case 9: {
-                system("cls");
                 objEmpleados.listarTodosEmpleados();
                 break;
             }
             case 10: {
-                system("cls");
                 cout << "Borrar Empleado" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -140,7 +131,6 @@ void menuTest(){
                 break;
             }
             case 11: {
-                system("cls");
                 cout << "Restaurar Empleado" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -149,7 +139,6 @@ void menuTest(){
                 break;
             }
             case 12: {
-                system("cls");
                 cout << "Modificar Empleado" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese un ID/Legajo de usuario:" << endl;
@@ -158,7 +147,6 @@ void menuTest(){
                 break;
             }
             case 13: {
-                system("cls");
                 cout << "Crear Cuenta Bancaria" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID del cliente:" << endl;
@@ -167,7 +155,6 @@ void menuTest(){
                 break;
             }
             case 14: {
-                system("cls");
                 objCuentas.listarCuentas();
                 break;
             }
@@ -177,7 +164,6 @@ void menuTest(){
                 break;
             }
             case 16: {
-                system("cls");
                 cout << "Eliminar Cuenta Bancaria" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
@@ -186,7 +172,6 @@ void menuTest(){
                 break;
             }
             case 17: {
-                system("cls");
                 cout << "Restaurar Cuenta Bancaria" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
@@ -195,7 +180,6 @@ void menuTest(){
                 break;
             }
             case 18: {
-                system("cls");
                 cout << "Modificar Cuenta Bancaria" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
@@ -204,7 +188,6 @@ void menuTest(){
                 break;
             }
             case 19: {
-                system("cls");
                 cout << "Listar Transacciones" << endl;
                 cout << "---------------------" << endl;
                 ArchivoTransacciones archivoTra;
@@ -212,7 +195,6 @@ void menuTest(){
                 break;
             }
             case 20: {
-                system("cls");
                 cout << "Listar Transacciones de una cuenta" << endl;
                 cout << "---------------------" << endl;
                 cout << "Ingrese el ID de la cuenta:" << endl;
@@ -222,112 +204,172 @@ void menuTest(){
                 break;
             }
             case 21: {
-                system("cls");
                 cout << "Saliendo del programa..." << endl << "byebye <3" << endl;
-                system("pause");
+                rlutil::anykey();
                 continuar = false;
                 break;
             }
         }
-    system("pause");
-    }
-}
-
-// ---------------------------
-// --- NUCLEO DEL PROGRAMA ---
-// ---------------------------
-
-void menuBienvenida(){
-    system("cls");
-    tituloBeta();
-    bool continuar = true;
-    while(continuar){
-        int key = rlutil::getkey();
-        tituloBetaSA();
-        switch(key){
-            case 1: { // ENTER
-                continuar = false;
-                break;
-            }
-            case 19: { // F1
-                menuReportes();
-                continuar = false;
-                break;
-            }
-            default: {
-                cout << "Presione \"ENTER\" para continuar..." << endl;
-                break;
-            }
-
-        }
+    rlutil::anykey();
     }
 }
 
 
 void InicioPrograma(){
-    //inicio de sesion
     ArchivoClientes objClientes;
     int idUsuarioActivo = -1;
-    int tipoUsuarioActivo = 0; // 1: cliente, 2: empleado, 3: admin
+    int tipoUsuarioActivo = 0;
     bool mostrarBienvenida = true;
 
     while(true){
         if(tipoUsuarioActivo == 0){
-            system("cls");
-
             if(mostrarBienvenida){
-                //rlutil::setBackgroundColor(1);
-                menuBienvenida();
+                entrada();
                 mostrarBienvenida = false;
             }
 
-            system("cls");
-            //rlutil::setBackgroundColor(1);
+            rlutil::hidecursor();
+            int opcion = 0;
+            bool curs = true;
+            
+            // LIMPIAR Y DIBUJAR MENÚ UNA SOLA VEZ (FUERA DEL BUCLE)
+            colorTexto(7);
+            limpiarPantalla();
+            
             rlutil::locate(40, 5);
-            cout << "========================================" << endl;
+            cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
             rlutil::locate(40, 6);
-            cout << "      WENNER BANK - MENU PRINCIPAL" << endl;
+            cout << char(186); centrarTexto("WENNER BANK - MENU PRINCIPAL", ' ', 38); cout << char(186);
             rlutil::locate(40, 7);
-            cout << "========================================" << endl << endl;
-            rlutil::locate(40, 8);
-            cout << "1. Crear cuenta (Cliente)" << endl;
-            rlutil::locate(40, 9);
-            cout << "2. Iniciar sesion (Cliente)" << endl;
-            rlutil::locate(40, 10);
-            cout << "3. Iniciar sesion (Empleado/Admin)" << endl;
-            rlutil::locate(40, 11);
-            cout << "4. Salir" << endl << endl;
-
-            int opcion = validarEntero(1, 6);
-            switch(opcion){
-                case 1: {
-                    objClientes.crearCliente();
-                    system("pause");
-                    break;
+            cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+            
+            rlutil::locate(44, 9);
+            cout << "Crear cuenta";
+            rlutil::locate(44, 10);
+            cout << "Iniciar sesion";
+            rlutil::locate(44, 11);
+            cout << "Iniciar sesion como empleado";
+            rlutil::locate(44, 12);
+            cout << "Salir";
+            
+            // BUCLE SOLO PARA NAVEGACIÓN (SIN LIMPIAR PANTALLA)
+            while(curs){
+                // Mostrar indicador en posición actual
+                rlutil::locate(42, 9 + opcion);
+                cout << (char)175; // ►
+                
+                // Capturar tecla
+                int tecla = rlutil::getkey();
+                
+                // Borrar indicador antes de moverlo
+                rlutil::locate(42, 9 + opcion);
+                cout << " ";
+                
+                switch(tecla){
+                    case 14: // Flecha arriba
+                        opcion--;
+                        if(opcion < 0) opcion = 3;
+                        break;
+                        
+                    case 15: // Flecha abajo
+                        opcion++;
+                        if(opcion > 3) opcion = 0;
+                        break;
+                        
+                    case 1: // Enter
+                        curs = false;
+                        rlutil::showcursor();
+                        limpiarPantalla();
+                        
+                        switch(opcion){
+                            case 0: // Crear cuenta
+                                objClientes.crearCliente();
+                                rlutil::anykey();
+                                curs = true;
+                                rlutil::hidecursor();
+                                
+                                // Redibujar menú completo
+                                colorTexto(7);
+                                limpiarPantalla();
+                                rlutil::locate(40, 5);
+                                cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+                                rlutil::locate(40, 6);
+                                cout << char(186); centrarTexto("WENNER BANK - MENU PRINCIPAL", ' ', 38); cout << char(186);
+                                rlutil::locate(40, 7);
+                                cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+                                rlutil::locate(44, 9);
+                                cout << "Crear cuenta";
+                                rlutil::locate(44, 10);
+                                cout << "Iniciar sesion";
+                                rlutil::locate(44, 11);
+                                cout << "Iniciar sesion como empleado";
+                                rlutil::locate(44, 12);
+                                cout << "Salir";
+                                break;
+                                
+                            case 1: // Iniciar sesion
+                                iniciarSesionCliente(idUsuarioActivo, tipoUsuarioActivo);
+                                if(tipoUsuarioActivo == 0){
+                                    curs = true;
+                                    rlutil::hidecursor();
+                                    
+                                    // Redibujar menú completo
+                                    colorTexto(7);
+                                    limpiarPantalla();
+                                    rlutil::locate(40, 5);
+                                    cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+                                    rlutil::locate(40, 6);
+                                    cout << char(186); centrarTexto("WENNER BANK - MENU PRINCIPAL", ' ', 38); cout << char(186);
+                                    rlutil::locate(40, 7);
+                                    cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+                                    rlutil::locate(44, 9);
+                                    cout << "Crear cuenta";
+                                    rlutil::locate(44, 10);
+                                    cout << "Iniciar sesion";
+                                    rlutil::locate(44, 11);
+                                    cout << "Iniciar sesion como empleado";
+                                    rlutil::locate(44, 12);
+                                    cout << "Salir";
+                                }
+                                break;
+                                
+                            case 2: // Iniciar sesion como empleado
+                                iniciarSesionEmpleado(idUsuarioActivo, tipoUsuarioActivo);
+                                if(tipoUsuarioActivo == 0){
+                                    curs = true;
+                                    rlutil::hidecursor();
+                                    
+                                    // Redibujar menú completo
+                                    colorTexto(7);
+                                    limpiarPantalla();
+                                    rlutil::locate(40, 5);
+                                    cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+                                    rlutil::locate(40, 6);
+                                    cout << char(186); centrarTexto("WENNER BANK - MENU PRINCIPAL", ' ', 38); cout << char(186);
+                                    rlutil::locate(40, 7);
+                                    cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+                                    rlutil::locate(44, 9);
+                                    cout << "Crear cuenta";
+                                    rlutil::locate(44, 10);
+                                    cout << "Iniciar sesion";
+                                    rlutil::locate(44, 11);
+                                    cout << "Iniciar sesion como empleado";
+                                    rlutil::locate(44, 12);
+                                    cout << "Salir";
+                                }
+                                break;
+                                
+                            case 3: // Salir
+                                limpiarPantalla();
+                                cout << "Saliendo del programa..." << endl;
+                                cout << ":3" << endl;
+                                rlutil::anykey();
+                                exit(0);
+                        }
+                        break;
                 }
-                case 2: {
-                    iniciarSesionCliente(idUsuarioActivo, tipoUsuarioActivo);
-                    break;
-                }
-                case 3: {
-                    iniciarSesionEmpleado(idUsuarioActivo, tipoUsuarioActivo);
-                    break;
-                }
-                case 4: {
-                    system("cls");
-                    cout << "Saliendo del programa..." << endl;
-                    cout << ":3" << endl;
-                    system("pause");
-                    exit(0);
-                }
-                case 5: {
-                    menuTest();
-                    break;
-                }
-                case 6: {
-                    menuReportes();
-                    break;
-                }
+                
+                if(tipoUsuarioActivo != 0) break;
             }
         }
         else{
@@ -360,68 +402,235 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
     Cliente clienteEncontrado;
     char mail[50], contrasena[50];
 
-    system("cls");
-    rlutil::locate(40, 2);
-    cout << "========================================" << endl;
-    cout << "    INICIO DE SESION - CLIENTE" << endl;
-    cout << "========================================" << endl << endl;
+    int intentos = 0;
+    while(intentos < 3){
+        colorTexto(7);
+        limpiarPantalla();
+        
+        rlutil::locate(40, 5);
+        cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+        rlutil::locate(40, 6);
+        cout << char(186); centrarTexto("INICIO DE SESION - CLIENTE", ' ', 38); cout << char(186);
+        rlutil::locate(40, 7);
+        cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+        
+        rlutil::locate(44, 9);
+        cout << "Ingresar mail: ";
+        cin.getline(mail, 51);
+        
+        // Validar mail no vacío
+        if(strlen(mail) == 0){
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "El mail no puede estar vacio";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue; // Redibuja todo
+        }
+        
+        rlutil::locate(44, 10);
+        cout << "Ingresar contrase" << char(164) << "a: ";
+        cin.getline(contrasena, 51);
+        
+        // Validar contraseña no vacía y mínimo 8 caracteres
+        if(strlen(contrasena) == 0){
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "La contrasena no puede estar vacia";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue; // Redibuja todo
+        }
+        if(strlen(contrasena) < 8){
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "La contrasena debe tener al menos 8 caracteres";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue; // Redibuja todo
+        }
 
-    cout << "Ingresar mail: ";
-    validarCadena(mail, 50);
-    cout << "Ingresar contrase" << char(164) << "a: ";
-    validarCadenaLargo(contrasena, 8, 50);
-
-    if(validarLoginCliente(mail, contrasena, clienteEncontrado)){
-        idUsuarioActual = clienteEncontrado.getIdCliente();
-        tipoUsuarioActual = 1; // cliente
-        system("cls");
-        rlutil::locate(40, 2);
-        cout << "========================================" << endl;
-        cout << "  Bienvenido/a, " << clienteEncontrado.getNombre() << "!" << endl;
-        cout << "========================================" << endl;
+        if(validarLoginCliente(mail, contrasena, clienteEncontrado)){
+            idUsuarioActual = clienteEncontrado.getIdCliente();
+            tipoUsuarioActual = 1; // cliente
+            
+            limpiarPantalla();
+            colorTexto(2);
+            rlutil::locate(40, 8);
+            cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+            rlutil::locate(40, 9);
+            cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+            rlutil::locate(40, 10);
+            cout << char(186);
+            string mensaje = "Bienvenido/a, " + string(clienteEncontrado.getNombre()) + "!";
+            centrarTexto(mensaje, ' ', 38);
+            cout << char(186);
+            rlutil::locate(40, 11);
+            cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+            rlutil::locate(40, 12);
+            cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+            colorTexto(7);
+            rlutil::anykey();
+            break;
+        }
+        else{
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "Datos incorrectos";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+        }
     }
-    else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
-
-    system("pause");
-}
+    
+    // Si llegó aquí, se acabaron los intentos
+    if(tipoUsuarioActual == 0){
+        limpiarPantalla();
+        rlutil::locate(44, 10);
+        colorTexto(3);
+        cout << "Demasiados intentos fallidos";
+        colorTexto(7);
+        rlutil::msleep(2000);
+    }
+}   
 
 void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
     Empleado empleadoEncontrado;
     int legajo;
     char contrasena[50];
 
-    system("cls");
-    rlutil::locate(40, 2);
-    cout << "========================================" << endl;
-    cout << "    INICIO DE SESION - EMPLEADO" << endl;
-    cout << "========================================" << endl << endl;
+    int intentos = 0;
+    while(intentos < 3){
+        colorTexto(7);
+        limpiarPantalla();
+        
+        rlutil::locate(40, 5);
+        cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+        rlutil::locate(40, 6);
+        cout << char(186); centrarTexto("INICIO DE SESION - EMPLEADO", ' ', 38); cout << char(186);
+        rlutil::locate(40, 7);
+        cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+        
+        rlutil::locate(44, 9);
+        cout << "Ingresar legajo: ";
+        cin >> legajo;
+        
+        // Validar que cin no falló
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "Debe ingresar un numero";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue;
+        }
+        
+        // Validar rango
+        if(legajo < 1 || legajo > 999999){
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "El legajo debe estar entre 1 y 999999";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue;
+        }
+        
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        
+        rlutil::locate(44, 10);
+        cout << "Ingresar contrase" << char(164) << "a: ";
+        cin.getline(contrasena, 51);
+        
+        // Validar contraseña no vacía y mínimo 8 caracteres
+        if(strlen(contrasena) == 0){
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "La contrasena no puede estar vacia";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue;
+        }
+        if(strlen(contrasena) < 8){
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "La contrasena debe tener al menos 8 caracteres";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
+            continue;
+        }
 
-    cout << "Ingresar legajo: ";
-    legajo = validarEntero(1, 999999);
-    cout << "Ingresar contrase" << char(164) << "a: ";
-    validarCadenaLargo(contrasena, 8, 50);
+        if(validarLoginEmpleado(legajo, contrasena, empleadoEncontrado)){
+            idUsuarioActual = legajo;
 
-    if(validarLoginEmpleado(legajo, contrasena, empleadoEncontrado)){
-        idUsuarioActual = legajo;
-
-        if(legajo == 1){ // admin
-            tipoUsuarioActual = 3; // admin
-            system("cls");
-            cout << "========================================" << endl;
-            cout << "  Bienvenido/a, Administrador!" << endl;
-            cout << "========================================" << endl;
+            if(legajo == 1){ // admin
+                tipoUsuarioActual = 3; // admin
+                
+                limpiarPantalla();
+                colorTexto(2);
+                rlutil::locate(40, 8);
+                cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+                rlutil::locate(40, 9);
+                cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+                rlutil::locate(40, 10);
+                cout << char(186); centrarTexto("Bienvenido/a, Administrador!", ' ', 38); cout << char(186);
+                rlutil::locate(40, 11);
+                cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+                rlutil::locate(40, 12);
+                cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+                colorTexto(7);
+            }
+            else{
+                tipoUsuarioActual = 2; // empleado normal
+                
+                limpiarPantalla();
+                colorTexto(2);
+                rlutil::locate(40, 8);
+                cout << char(201); centrarTexto("", char(205), 38); cout << char(187);
+                rlutil::locate(40, 9);
+                cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+                rlutil::locate(40, 10);
+                cout << char(186);
+                string mensaje = "Bienvenido/a, " + string(empleadoEncontrado.getNombre()) + "!";
+                centrarTexto(mensaje, ' ', 38);
+                cout << char(186);
+                rlutil::locate(40, 11);
+                cout << char(186); centrarTexto("", ' ', 38); cout << char(186);
+                rlutil::locate(40, 12);
+                cout << char(200); centrarTexto("", char(205), 38); cout << char(188);
+                colorTexto(7);
+            }
+            rlutil::anykey();
+            break;
         }
         else{
-            tipoUsuarioActual = 2; // empleado normal
-            system("cls");
-            cout << "========================================" << endl;
-            cout << "  Bienvenido/a, " << empleadoEncontrado.getNombre() << "!" << endl;
-            cout << "========================================" << endl;
+            rlutil::locate(44, 13);
+            colorTexto(3);
+            cout << "Datos incorrectos";
+            colorTexto(7);
+            rlutil::msleep(1500);
+            intentos++;
         }
     }
-    else cout << "ERROR: Credenciales incorrectas. Intente nuevamente." << endl;
-
-    system("pause");
+    
+    // Si llegó aquí, se acabaron los intentos
+    if(tipoUsuarioActual == 0){
+        limpiarPantalla();
+        rlutil::locate(44, 10);
+        colorTexto(3);
+        cout << "Demasiados intentos fallidos";
+        colorTexto(7);
+        rlutil::msleep(2000);
+    }
 }
 
 // -------------------------------------------------------------------------------------------------------

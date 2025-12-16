@@ -118,15 +118,12 @@ bool existeAlias(const char* alias){
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado){
     ArchivoClientes obj;
     if(!obj.buscarCliente("MAIL", mail, clienteEncontrado)){
-        cout << "ERROR: Mail incorrecto." << endl;
         return false;
     }
     if(clienteEncontrado.getUsuarioEliminado()){
-        cout << "ERROR: El cliente con mail " << mail << " esta eliminado." << endl;
         return false;
     }
     if(strcmp(clienteEncontrado.getContrasena(), contrasena) != 0){
-        cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
         return false;
     }
 
@@ -145,15 +142,12 @@ bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleado
 
     ArchivoEmpleados obj;
     if(!obj.buscarEmpleado("LEGAJO", legajo, empleadoEncontrado)){
-        cout << "ERROR: Empleado no encontrado." << endl;
         return false;
     }
     if(empleadoEncontrado.getUsuarioEliminado()){
-        cout << "ERROR: Empleado no encontrado." << endl;
         return false;
     }
     if(strcmp(empleadoEncontrado.getContrasena(), contrasena) != 0){
-        cout << "ERROR: Contrase" << char(164) << "a incorrecta." << endl;
         return false;
     }
 

@@ -16,14 +16,19 @@ using namespace std;
 
 
 int main(){
-
-
     config();
-
-    menuTest();
     // InicioPrograma();
 
+    menuTest();
+    rlutil::anykey();
 
-    system("pause"); // reemplazar todos los system("pause") por "rlutil::anykey();" o "getch();" o etc...
+    // color
+    // colorTexto();
+
+    // limpia:
+    // limpiarPantalla();
+
+    // pausa:
+    // rlutil::anykey();
     return 0;
 }

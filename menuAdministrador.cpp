@@ -1,59 +1,134 @@
+#define byte windows_byte
+#include "rlutil.h"
+#undef byte
 #include <iostream>
 #include <cstdlib>
+#include <iomanip>
 #include "menuAdministrador.h"
 #include "ArchivoClientes.h"
 #include "ArchivoEmpleados.h"
 #include "ArchivoCuentas.h"
+#include "archivoTransacciones.h"
+#include "menuReportes.h"
 #include "administrador.h"
 #include "funciones.h"
+#include "config.h"
 #include "art.h"
+#include "menu.h"
 
 using namespace std;
 
 void menuAdmin(){
+    int opcionActual = 0;
+    int totalOpciones = 8;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "       MENU ADMINISTRADOR" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Listados" << endl;
-        cout << "2. Busquedas" << endl;
-        cout << "3. Empleados" << endl;
-        cout << "4. Clientes" << endl;
-        cout << "5. Cuentas" << endl;
-        cout << "6. Cerrar sesion" << endl << endl;
-
-        int opcion = validarEntero(1, 6);
-
-        switch(opcion){
-            case 1: {
-                menuListadosAdmin();
-                break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(35, 3);
+            cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
+            rlutil::locate(35, 4);
+            cout << char(186); centrarTexto("MENU ADMINISTRADOR", ' ', 50); cout << char(187);
+            rlutil::locate(35, 5);
+            cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(45, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Listados"; break;
+                    case 1: cout << "B" << char(163) << "squedas"; break;
+                    case 2: cout << "Gesti" << char(162) << "n de Empleados"; break;
+                    case 3: cout << "Gesti" << char(162) << "n de Clientes"; break;
+                    case 4: cout << "Gesti" << char(162) << "n de Cuentas"; break;
+                    case 5: cout << "Transacciones"; break;
+                    case 6: cout << "Reportes"; break;
+                    case 7: cout << "Cerrar sesi" << char(162) << "n"; break;
+                }
+                colorTexto(7);
             }
-            case 2: {
-                menuBusquedasAdmin();
-                break;
-            }
-            case 3: {
-                gestionarEmpleados();
-                break;
-            }
-            case 4: {
-                gestionarClientesAdmin();
-                break;
-            }
-            case 5: {
-                gestionarCuentasAdmin();
-                break;
-            }
-            case 6: {
-                continuar = false;
-                break;
+            curs = false;
+        }
+        
+        int tecla = rlutil::getkey();
+        
+        if(tecla == 14){ // Flecha arriba
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){ // Flecha abajo
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){ // Enter
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    menuListadosAdmin();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    menuBusquedasAdmin();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    gestionarEmpleados();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    gestionarClientesAdmin();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 4: {
+                    gestionarCuentasAdmin();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 5: {
+                    menuTransaccionesAdmin();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 6: {
+                    menuReportes();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 7: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 void menuListadosAdmin(){
@@ -61,125 +136,278 @@ void menuListadosAdmin(){
     ArchivoEmpleados objEmpleados;
     ArchivoCuentas objCuentas;
 
+    int opcionActual = 0;
+    int totalOpciones = 8;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "           LISTADOS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Listar mis datos" << endl;
-        cout << "2. Listar todas las cuentas bancarias" << endl;
-        cout << "3. Listar cuentas activas" << endl;
-        cout << "4. Listar todos los empleados" << endl;
-        cout << "5. Listar empleados activos" << endl;
-        cout << "6. Listar todos los clientes" << endl;
-        cout << "7. Listar clientes activos" << endl;
-        cout << "8. Volver" << endl << endl;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("LISTADOS", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(40, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Listar mis datos"; break;
+                    case 1: cout << "Listar TODAS las cuentas bancarias"; break;
+                    case 2: cout << "Listar cuentas activas"; break;
+                    case 3: cout << "Listar TODOS los empleados"; break;
+                    case 4: cout << "Listar empleados activos"; break;
+                    case 5: cout << "Listar TODOS los clientes"; break;
+                    case 6: cout << "Listar clientes activos"; break;
+                    case 7: cout << "Volver"; break;
+                }
+                colorTexto(7);
+            }
+            curs = false;
+        }
         
-        int opcion = validarEntero(1, 8);
-
-        switch(opcion){
-            case 1: {
-                Administrador* admin = Administrador::getInstancia();
-                system("cls");
-                cout << "========================================" << endl;
-                cout << "       MIS DATOS (ADMINISTRADOR)" << endl;
-                cout << "========================================" << endl << endl;
-                cout << "Nombre: " << admin->getNombre() << endl;
-                cout << "Apellido: " << admin->getApellido() << endl;
-                cout << "DNI: " << admin->getDni() << endl;
-                cout << "Mail: " << admin->getMail() << endl;
-                cout << "Legajo: " << admin->getLegajo() << endl;
-                cout << "Edad: " << admin->getEdad() << endl;
-                cout << "Localidad: " << admin->getLocalidad() << endl;
-                cout << "========================================" << endl;
-                system("pause");
-                break;
-            }
-            case 2: {
-                objCuentas.listarTodasCuentas();
-                system("pause");
-                break;
-            }
-            case 3: {
-                objCuentas.listarCuentas();
-                system("pause");
-                break;
-            }
-            case 4: {
-                objEmpleados.listarTodosEmpleados();
-                system("pause");
-                break;
-            }
-            case 5: {
-                objEmpleados.listarEmpleados();
-                system("pause");
-                break;
-            }
-            case 6: {
-                objClientes.listarTodosClientes();
-                system("pause");
-                break;
-            }
-            case 7: {
-                objClientes.listarClientes();
-                system("pause");
-                break;
-            }
-            case 8: {
-                continuar = false;
-                break;
+        int tecla = rlutil::getkey();
+        
+        if(tecla == 14){
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    Administrador* admin = Administrador::getInstancia();
+                    limpiarPantalla();
+                    colorTexto(7);
+                    
+                    rlutil::locate(30, 3);
+                    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                    rlutil::locate(30, 4);
+                    cout << char(186); centrarTexto("MIS DATOS (ADMINISTRADOR)", ' ', 60); cout << char(186);
+                    rlutil::locate(30, 5);
+                    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                    
+                    char legajoFormateado[15];
+                    formatearId(legajoFormateado, "EMP", admin->getLegajo(), 6);
+                    
+                    rlutil::locate(35, 8);
+                    colorTexto(6);
+                    cout << "Nombre: ";
+                    colorTexto(7);
+                    cout << admin->getNombre() << " " << admin->getApellido();
+                    rlutil::locate(35, 9);
+                    colorTexto(6);
+                    cout << "Legajo: ";
+                    colorTexto(7);
+                    cout << legajoFormateado;
+                    rlutil::locate(35, 10);
+                    colorTexto(6);
+                    cout << "DNI: ";
+                    colorTexto(7);
+                    cout << admin->getDni();
+                    rlutil::locate(35, 11);
+                    colorTexto(6);
+                    cout << "Mail: ";
+                    colorTexto(7);
+                    cout << admin->getMail();
+                    rlutil::locate(35, 12);
+                    colorTexto(6);
+                    cout << "Edad: ";
+                    colorTexto(7);
+                    cout << admin->getEdad() << " a" << char(164) << "os";
+                    rlutil::locate(35, 13);
+                    colorTexto(6);
+                    cout << "Localidad: ";
+                    colorTexto(7);
+                    cout << admin->getLocalidad();
+                    
+                    rlutil::locate(35, 16);
+                    cout << "Presione cualquier tecla para continuar...";
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    objCuentas.listarTodasCuentas();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    objCuentas.listarCuentas();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    objEmpleados.listarTodosEmpleados();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 4: {
+                    objEmpleados.listarEmpleados();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 5: {
+                    objClientes.listarTodosClientes();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 6: {
+                    objClientes.listarClientes();
+                    rlutil::anykey();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 7: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 void menuBusquedasAdmin(){
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    
+    rlutil::hidecursor();
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "           BUSQUEDAS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Buscar cliente" << endl;
-        cout << "2. Buscar empleado" << endl;
-        cout << "3. Buscar cuenta bancaria" << endl;
-        cout << "4. Volver" << endl << endl;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(35, 3);
+            cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
+            rlutil::locate(35, 4);
+            cout << char(186); centrarTexto("BUSQUEDAS", ' ', 50); cout << char(186);
+            rlutil::locate(35, 5);
+            cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
+            
+            for(int i = 0; i < totalOpciones; i++){
+                rlutil::locate(45, 8 + i);
+                if(i == opcionActual){
+                    colorTexto(6);
+                    cout << char(175) << " ";
+                } else {
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Buscar cliente"; break;
+                    case 1: cout << "Buscar empleado"; break;
+                    case 2: cout << "Buscar cuenta bancaria"; break;
+                    case 3: cout << "Volver"; break;
+                }
+                colorTexto(7);
+            }
+            curs = false;
+        }
         
-        int opcion = validarEntero(1, 4);
+        int tecla = rlutil::getkey();
         
-        switch(opcion){
-            case 1: {
-                buscarClienteMenu();
-                break;
-            }
-            case 2: {
-                buscarEmpleadoMenu();
-                break;
-            }
-            case 3: {
-                buscarCuentaMenu();
-                break;
-            }
-            case 4: {
-                continuar = false;
-                break;
+        if(tecla == 14){
+            opcionActual--;
+            if(opcionActual < 0) opcionActual = totalOpciones - 1;
+            curs = true;
+        }
+        else if(tecla == 15){
+            opcionActual++;
+            if(opcionActual >= totalOpciones) opcionActual = 0;
+            curs = true;
+        }
+        else if(tecla == 1){
+            rlutil::showcursor();
+            
+            switch(opcionActual){
+                case 0: {
+                    buscarClienteMenu();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 1: {
+                    buscarEmpleadoMenu();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 2: {
+                    buscarCuentaMenu();
+                    curs = true;
+                    rlutil::hidecursor();
+                    break;
+                }
+                case 3: {
+                    continuar = false;
+                    break;
+                }
             }
         }
     }
+    
+    rlutil::showcursor();
 }
 
 void buscarClienteMenu(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "        BUSCAR CLIENTE" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "1. Buscar por ID" << endl;
-    cout << "2. Buscar por DNI" << endl;
-    cout << "3. Buscar por Mail" << endl;
-    cout << "4. Cancelar" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("BUSCAR CLIENTE", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(40, 8);
+    cout << "1. Buscar por ID";
+    rlutil::locate(40, 9);
+    cout << "2. Buscar por DNI";
+    rlutil::locate(40, 10);
+    cout << "3. Buscar por Mail";
+    rlutil::locate(40, 11);
+    cout << "4. Cancelar";
+    
+    rlutil::locate(35, 14);
+    cout << char(175) << " Opci" << char(162) << "n: ";
     
     Cliente clienteEncontrado;
     ArchivoClientes objClientes;
@@ -189,20 +417,29 @@ void buscarClienteMenu(){
     
     switch(opcion){
         case 1: {
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el ID: ";
+            colorTexto(7);
             int id = validarEntero(1, 999999);
             encontrado = objClientes.buscarCliente("ID", id, clienteEncontrado);
             break;
         }
         case 2: {
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el DNI: ";
+            colorTexto(7);
             int dni = validarEntero(10000000, 99999999);
             encontrado = objClientes.buscarCliente("DNI", dni, clienteEncontrado);
             break;
         }
         case 3: {
             char mail[50];
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el Mail: ";
+            colorTexto(7);
             validarCadena(mail, 50);
             encontrado = objClientes.buscarCliente("MAIL", mail, clienteEncontrado);
             break;
@@ -212,28 +449,91 @@ void buscarClienteMenu(){
         }
     }
     
-    system("cls");
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    
     if(encontrado){
-        cout << "========================================" << endl;
-        cout << "      CLIENTE ENCONTRADO" << endl;
-        cout << "========================================" << endl << endl;
-        cout << clienteEncontrado.mostrarDatos() << endl;
+        cout << char(186); centrarTexto("CLIENTE ENCONTRADO", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+        
+        char idFormateado[15];
+        formatearId(idFormateado, "CL", clienteEncontrado.getIdCliente(), 6);
+        
+        rlutil::locate(35, 8);
+        colorTexto(6);
+        cout << "ID: ";
+        colorTexto(7);
+        cout << idFormateado;
+        rlutil::locate(35, 9);
+        colorTexto(6);
+        cout << "Nombre: ";
+        colorTexto(7);
+        cout << clienteEncontrado.getNombre() << " " << clienteEncontrado.getApellido();
+        rlutil::locate(35, 10);
+        colorTexto(6);
+        cout << "DNI: ";
+        colorTexto(7);
+        cout << clienteEncontrado.getDni();
+        rlutil::locate(35, 11);
+        colorTexto(6);
+        cout << "Mail: ";
+        colorTexto(7);
+        cout << clienteEncontrado.getMail();
+        rlutil::locate(35, 12);
+        colorTexto(6);
+        cout << "Localidad: ";
+        colorTexto(7);
+        cout << clienteEncontrado.getLocalidad();
+        rlutil::locate(35, 13);
+        colorTexto(6);
+        cout << "Estado: ";
+        if(clienteEncontrado.getUsuarioEliminado()){
+            colorTexto(3);
+            cout << "DADO DE BAJA";
+        } else {
+            colorTexto(2);
+            cout << "ACTIVO";
+        }
+        colorTexto(7);
     }
     else{
-        cout << "Cliente no encontrado." << endl;
+        cout << char(186); centrarTexto("CLIENTE NO ENCONTRADO", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     }
-    system("pause");
+    
+    rlutil::locate(35, 16);
+    cout << "Presione cualquier tecla para continuar...";
+    rlutil::anykey();
 }
 
 void buscarEmpleadoMenu(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "        BUSCAR EMPLEADO" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "1. Buscar por Legajo" << endl;
-    cout << "2. Buscar por DNI" << endl;
-    cout << "3. Buscar por Mail" << endl;
-    cout << "4. Cancelar" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("BUSCAR EMPLEADO", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(40, 8);
+    cout << "1. Buscar por Legajo";
+    rlutil::locate(40, 9);
+    cout << "2. Buscar por DNI";
+    rlutil::locate(40, 10);
+    cout << "3. Buscar por Mail";
+    rlutil::locate(40, 11);
+    cout << "4. Cancelar";
+    
+    rlutil::locate(35, 14);
+    cout << char(175) << " Opci" << char(162) << "n: ";
     
     int opcion = validarEntero(1, 4);
     Empleado empleadoEncontrado;
@@ -242,20 +542,29 @@ void buscarEmpleadoMenu(){
     
     switch(opcion){
         case 1: {
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el Legajo: ";
+            colorTexto(7);
             int legajo = validarEntero(1, 999999);
             encontrado = objEmpleados.buscarEmpleado("LEGAJO", legajo, empleadoEncontrado);
             break;
         }
         case 2: {
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el DNI: ";
+            colorTexto(7);
             int dni = validarEntero(10000000, 99999999);
             encontrado = objEmpleados.buscarEmpleado("DNI", dni, empleadoEncontrado);
             break;
         }
         case 3: {
             char mail[50];
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el Mail: ";
+            colorTexto(7);
             validarCadena(mail, 50);
             encontrado = objEmpleados.buscarEmpleado("MAIL", mail, empleadoEncontrado);
             break;
@@ -265,28 +574,91 @@ void buscarEmpleadoMenu(){
         }
     }
     
-    system("cls");
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    
     if(encontrado){
-        cout << "========================================" << endl;
-        cout << "      EMPLEADO ENCONTRADO" << endl;
-        cout << "========================================" << endl << endl;
-        cout << empleadoEncontrado.mostrarDatos() << endl;
+        cout << char(186); centrarTexto("EMPLEADO ENCONTRADO", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+        
+        char legajoFormateado[15];
+        formatearId(legajoFormateado, "EMP", empleadoEncontrado.getLegajo(), 6);
+        
+        rlutil::locate(35, 8);
+        colorTexto(6);
+        cout << "Legajo: ";
+        colorTexto(7);
+        cout << legajoFormateado;
+        rlutil::locate(35, 9);
+        colorTexto(6);
+        cout << "Nombre: ";
+        colorTexto(7);
+        cout << empleadoEncontrado.getNombre() << " " << empleadoEncontrado.getApellido();
+        rlutil::locate(35, 10);
+        colorTexto(6);
+        cout << "DNI: ";
+        colorTexto(7);
+        cout << empleadoEncontrado.getDni();
+        rlutil::locate(35, 11);
+        colorTexto(6);
+        cout << "Mail: ";
+        colorTexto(7);
+        cout << empleadoEncontrado.getMail();
+        rlutil::locate(35, 12);
+        colorTexto(6);
+        cout << "Localidad: ";
+        colorTexto(7);
+        cout << empleadoEncontrado.getLocalidad();
+        rlutil::locate(35, 13);
+        colorTexto(6);
+        cout << "Estado: ";
+        if(empleadoEncontrado.getUsuarioEliminado()){
+            colorTexto(3);
+            cout << "DADO DE BAJA";
+        } else {
+            colorTexto(2);
+            cout << "ACTIVO";
+        }
+        colorTexto(7);
     }
     else{
-        cout << "Empleado no encontrado." << endl;
+        cout << char(186); centrarTexto("EMPLEADO NO ENCONTRADO", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     }
-    system("pause");
+    
+    rlutil::locate(35, 16);
+    cout << "Presione cualquier tecla para continuar...";
+    rlutil::anykey();
 }
 
 void buscarCuentaMenu(){
-    system("cls");
-    cout << "========================================" << endl;
-    cout << "        BUSCAR CUENTA" << endl;
-    cout << "========================================" << endl << endl;
-    cout << "1. Buscar por ID" << endl;
-    cout << "2. Buscar por CVU" << endl;
-    cout << "3. Buscar por Alias" << endl;
-    cout << "4. Cancelar" << endl << endl;
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    cout << char(186); centrarTexto("BUSCAR CUENTA", ' ', 60); cout << char(186);
+    rlutil::locate(30, 5);
+    cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+    
+    rlutil::locate(40, 8);
+    cout << "1. Buscar por ID";
+    rlutil::locate(40, 9);
+    cout << "2. Buscar por CVU";
+    rlutil::locate(40, 10);
+    cout << "3. Buscar por Alias";
+    rlutil::locate(40, 11);
+    cout << "4. Cancelar";
+    
+    rlutil::locate(35, 14);
+    cout << char(175) << " Opci" << char(162) << "n: ";
     
     int opcion = validarEntero(1, 4);
     cuentaBancaria cuentaEncontrada;
@@ -295,21 +667,30 @@ void buscarCuentaMenu(){
     
     switch(opcion){
         case 1: {
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el ID: ";
+            colorTexto(7);
             int id = validarEntero(1, 999999);
             encontrado = objCuentas.buscarCuenta("ID", id, cuentaEncontrada);
             break;
         }
         case 2: {
             char cvu[11];
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el CVU: ";
+            colorTexto(7);
             validarCadenaNumeros(cvu, 10, 10);
             encontrado = objCuentas.buscarCuenta("CVU", cvu, cuentaEncontrada);
             break;
         }
         case 3: {
             char alias[31];
+            rlutil::locate(35, 16);
+            colorTexto(6);
             cout << "Ingrese el Alias: ";
+            colorTexto(7);
             validarCadena(alias, 31);
             mayusculas(alias);
             encontrado = objCuentas.buscarCuenta("ALIAS", alias, cuentaEncontrada);
@@ -320,234 +701,641 @@ void buscarCuentaMenu(){
         }
     }
     
-    system("cls");
+    limpiarPantalla();
+    colorTexto(7);
+    
+    rlutil::locate(30, 3);
+    cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+    rlutil::locate(30, 4);
+    
     if(encontrado){
-        cout << "========================================" << endl;
-        cout << "      CUENTA ENCONTRADA" << endl;
-        cout << "========================================" << endl << endl;
-        cout << cuentaEncontrada.mostrarDatos() << endl;
+        cout << char(186); centrarTexto("CUENTA ENCONTRADA", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+        
+        char idFormateado[15];
+        formatearId(idFormateado, "CU", cuentaEncontrada.getIdCuenta(), 6);
+        
+        rlutil::locate(35, 8);
+        colorTexto(6);
+        cout << "ID: ";
+        colorTexto(7);
+        cout << idFormateado;
+        rlutil::locate(35, 9);
+        colorTexto(6);
+        cout << "Nombre: ";
+        colorTexto(7);
+        cout << cuentaEncontrada.getNombreCuenta();
+        rlutil::locate(35, 10);
+        colorTexto(6);
+        cout << "CVU: ";
+        colorTexto(7);
+        cout << cuentaEncontrada.getCvu();
+        rlutil::locate(35, 11);
+        colorTexto(6);
+        cout << "Alias: ";
+        colorTexto(7);
+        cout << cuentaEncontrada.getAlias();
+        rlutil::locate(35, 12);
+        colorTexto(6);
+        cout << "Saldo: ";
+        colorTexto(2);
+        cout << "$" << fixed << setprecision(2) << cuentaEncontrada.getSaldo();
+        colorTexto(7);
+        rlutil::locate(35, 13);
+        colorTexto(6);
+        cout << "Estado: ";
+        if(cuentaEncontrada.getCuentaEliminada()){
+            colorTexto(3);
+            cout << "DADA DE BAJA";
+        } else {
+            colorTexto(2);
+            cout << "ACTIVA";
+        }
+        colorTexto(7);
     }
     else{
-        cout << "Cuenta no encontrada." << endl;
+        cout << char(186); centrarTexto("CUENTA NO ENCONTRADA", ' ', 60); cout << char(186);
+        rlutil::locate(30, 5);
+        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     }
-    system("pause");
+    
+    rlutil::locate(35, 16);
+    cout << "Presione cualquier tecla para continuar...";
+    rlutil::anykey();
 }
 
 void gestionarEmpleados(){
     ArchivoEmpleados objEmpleados;
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    int tecla;
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      GESTION DE EMPLEADOS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Crear empleado" << endl;
-        cout << "2. Modificar empleado" << endl;
-        cout << "3. Eliminar empleado" << endl;
-        cout << "4. Restaurar empleado" << endl;
-        cout << "5. Volver" << endl << endl;
-        
-        int opcion = validarEntero(1, 5);
-        
-        switch(opcion){
-            case 1: {
-                objEmpleados.crearEmpleado();
-                system("pause");
-                break;
-            }
-            case 2: {
-                cout << "Ingrese el legajo del empleado: ";
-                int legajo = validarEntero(1, 999999);
-                objEmpleados.modificarDatosEmpleado(legajo);
-                system("pause");
-                break;
-            }
-            case 3: {
-                cout << "Ingrese el legajo del empleado: ";
-                int legajo = validarEntero(1, 999999);
-                
-                // Verificar que no sea el admin
-                Administrador* admin = Administrador::getInstancia();
-                if(legajo == admin->getLegajo()){
-                    cout << "ERROR: No se puede eliminar al Administrador." << endl;
-                    system("pause");
-                    break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("GESTION DE EMPLEADOS", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i <= totalOpciones; i++){
+                rlutil::locate(40, 9 + i);
+                if(i == opcionActual){
+                    colorTexto(2);
+                    cout << char(175) << " ";
+                } else {
+                    colorTexto(7);
+                    cout << "  ";
                 }
                 
-                objEmpleados.eliminarEmpleado(legajo);
-                system("pause");
-                break;
+                switch(i){
+                    case 0: cout << "Crear empleado"; break;
+                    case 1: cout << "Modificar empleado"; break;
+                    case 2: cout << "Eliminar empleado"; break;
+                    case 3: cout << "Restaurar empleado"; break;
+                    case 4: cout << "Volver"; break;
+                }
             }
-            case 4: {
-                cout << "Ingrese el legajo del empleado: ";
-                int legajo = validarEntero(1, 999999);
-                objEmpleados.restaurarEmpleado(legajo);
-                system("pause");
+            colorTexto(7);
+            curs = false;
+        }
+        
+        rlutil::hidecursor();
+        tecla = rlutil::getkey();
+        
+        switch(tecla){
+            case 14: // Flecha arriba
+                if(opcionActual > 0){
+                    opcionActual--;
+                    curs = true;
+                }
                 break;
-            }
-            case 5: {
-                continuar = false;
+            case 15: // Flecha abajo
+                if(opcionActual < totalOpciones){
+                    opcionActual++;
+                    curs = true;
+                }
                 break;
-            }
+            case 1: // Enter
+                rlutil::showcursor();
+                limpiarPantalla();
+                
+                switch(opcionActual){
+                    case 0: {
+                        objEmpleados.crearEmpleado();
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 1: {
+                        cout << "Ingrese el legajo del empleado: ";
+                        int legajo = validarEntero(1, 999999);
+                        objEmpleados.modificarDatosEmpleado(legajo);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 2: {
+                        cout << "Ingrese el legajo del empleado: ";
+                        int legajo = validarEntero(1, 999999);
+                        
+                        // Verificar que no sea el admin
+                        Administrador* admin = Administrador::getInstancia();
+                        if(legajo == admin->getLegajo()){
+                            cout << "ERROR: No se puede eliminar al Administrador." << endl;
+                            rlutil::anykey();
+                            break;
+                        }
+                        
+                        objEmpleados.eliminarEmpleado(legajo);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 3: {
+                        cout << "Ingrese el legajo del empleado: ";
+                        int legajo = validarEntero(1, 999999);
+                        objEmpleados.restaurarEmpleado(legajo);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 4: {
+                        continuar = false;
+                        break;
+                    }
+                }
+                curs = true;
+                break;
         }
     }
+    rlutil::showcursor();
 }
 
 void gestionarClientesAdmin(){
     ArchivoClientes objClientes;
+    int opcionActual = 0;
+    int totalOpciones = 4;
     bool continuar = true;
+    bool curs = true;
+    int tecla;
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      GESTION DE CLIENTES" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Crear cliente" << endl;
-        cout << "2. Modificar cliente" << endl;
-        cout << "3. Eliminar cliente" << endl;
-        cout << "4. Restaurar cliente" << endl;
-        cout << "5. Volver" << endl << endl;
-        
-        int opcion = validarEntero(1, 5);
-        
-        switch(opcion){
-            case 1: {
-                objClientes.crearCliente();
-                system("pause");
-                break;
-            }
-            case 2: {
-                cout << "Ingrese el ID del cliente: ";
-                int id = validarEntero(1, 999999);
-                objClientes.modificarDatosCliente(id);
-                system("pause");
-                break;
-            }
-            case 3: {
-                cout << "Ingrese el ID del cliente: ";
-                int id = validarEntero(1, 999999);
-                
-                // Verificar que no sea el Cliente Banco
-                if(id == 1){
-                    cout << "ERROR: No se puede eliminar el Cliente Banco." << endl;
-                    system("pause");
-                    break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("GESTION DE CLIENTES", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i <= totalOpciones; i++){
+                rlutil::locate(40, 9 + i);
+                if(i == opcionActual){
+                    colorTexto(2);
+                    cout << char(175) << " ";
+                } else {
+                    colorTexto(7);
+                    cout << "  ";
                 }
                 
-                objClientes.eliminarCliente(id);
-                system("pause");
-                break;
+                switch(i){
+                    case 0: cout << "Crear cliente"; break;
+                    case 1: cout << "Modificar cliente"; break;
+                    case 2: cout << "Eliminar cliente"; break;
+                    case 3: cout << "Restaurar cliente"; break;
+                    case 4: cout << "Volver"; break;
+                }
             }
-            case 4: {
-                cout << "Ingrese el ID del cliente: ";
-                int id = validarEntero(1, 999999);
-                objClientes.restaurarCliente(id);
-                system("pause");
+            colorTexto(7);
+            curs = false;
+        }
+        
+        rlutil::hidecursor();
+        tecla = rlutil::getkey();
+        
+        switch(tecla){
+            case 14: // Flecha arriba
+                if(opcionActual > 0){
+                    opcionActual--;
+                    curs = true;
+                }
                 break;
-            }
-            case 5: {
-                continuar = false;
+            case 15: // Flecha abajo
+                if(opcionActual < totalOpciones){
+                    opcionActual++;
+                    curs = true;
+                }
                 break;
-            }
+            case 1: // Enter
+                rlutil::showcursor();
+                limpiarPantalla();
+                
+                switch(opcionActual){
+                    case 0: {
+                        objClientes.crearCliente();
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 1: {
+                        cout << "Ingrese el ID del cliente: ";
+                        int id = validarEntero(1, 999999);
+                        objClientes.modificarDatosCliente(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 2: {
+                        cout << "Ingrese el ID del cliente: ";
+                        int id = validarEntero(1, 999999);
+                        
+                        // Verificar que no sea el Cliente Banco
+                        if(id == 1){
+                            cout << "ERROR: No se puede eliminar el Cliente Banco." << endl;
+                            rlutil::anykey();
+                            break;
+                        }
+                        
+                        objClientes.eliminarCliente(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 3: {
+                        cout << "Ingrese el ID del cliente: ";
+                        int id = validarEntero(1, 999999);
+                        objClientes.restaurarCliente(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 4: {
+                        continuar = false;
+                        break;
+                    }
+                }
+                curs = true;
+                break;
         }
     }
+    rlutil::showcursor();
 }
 
 void gestionarCuentasAdmin(){
     ArchivoCuentas objCuentas;
+    int opcionActual = 0;
+    int totalOpciones = 7;
     bool continuar = true;
+    bool curs = true;
+    int tecla;
     
     while(continuar){
-        system("cls");
-        cout << "========================================" << endl;
-        cout << "      GESTION DE CUENTAS" << endl;
-        cout << "========================================" << endl << endl;
-        cout << "1. Ver cuenta del Banco" << endl;
-        cout << "2. Crear cuenta" << endl;
-        cout << "3. Modificar cuenta" << endl;
-        cout << "4. Eliminar cuenta" << endl;
-        cout << "5. Restaurar cuenta" << endl;
-        cout << "6. Ingresar dinero (Banco)" << endl;
-        cout << "7. Retirar dinero (Banco)" << endl;
-        cout << "8. Volver" << endl << endl;
-        
-        int opcion = validarEntero(1, 8);
-        
-        switch(opcion){
-            case 1: {
-                cuentaBancaria cuentaBanco;
-                if(objCuentas.buscarCuenta("ID", 1, cuentaBanco)){
-                    system("cls");
-                    cout << "========================================" << endl;
-                    cout << "       CUENTA DEL BANCO" << endl;
-                    cout << "========================================" << endl << endl;
-                    cout << cuentaBanco.mostrarDatos() << endl;
-                }
-                else{
-                    cout << "ERROR: No se pudo cargar la cuenta del banco." << endl;
-                }
-                system("pause");
-                break;
-            }
-            case 2: {
-                cout << "Ingrese el ID del cliente: ";
-                int idCliente = validarEntero(1, 999999);
-                objCuentas.crearCuenta(idCliente);
-                system("pause");
-                break;
-            }
-            case 3: {
-                cout << "Ingrese el ID de la cuenta: ";
-                int id = validarEntero(1, 999999);
-                objCuentas.modificarDatosCuenta(id);
-                system("pause");
-                break;
-            }
-            case 4: {
-                cout << "Ingrese el ID de la cuenta: ";
-                int id = validarEntero(1, 999999);
-                
-                // Verificar que no sea la Cuenta Banco
-                if(id == 1){
-                    cout << "ERROR: No se puede eliminar la Cuenta Banco." << endl;
-                    system("pause");
-                    break;
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("GESTION DE CUENTAS", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i <= totalOpciones; i++){
+                rlutil::locate(40, 9 + i);
+                if(i == opcionActual){
+                    colorTexto(2);
+                    cout << char(175) << " ";
+                } else {
+                    colorTexto(7);
+                    cout << "  ";
                 }
                 
-                objCuentas.eliminarCuenta(id);
-                system("pause");
-                break;
-            }
-            case 5: {
-                cout << "Ingrese el ID de la cuenta: ";
-                int id = validarEntero(1, 999999);
-                objCuentas.restaurarCuenta(id);
-                system("pause");
-                break;
-            }
-            case 6: {
-                cout << "Ingrese el monto a ingresar al Banco: $";
-                double monto = validarDouble(0.01, 999999999.99);
-                if(objCuentas.depositar(1, monto)){
-                    cout << "Dinero ingresado exitosamente." << endl;
+                switch(i){
+                    case 0: cout << "Ver cuenta del Banco"; break;
+                    case 1: cout << "Crear cuenta"; break;
+                    case 2: cout << "Modificar cuenta"; break;
+                    case 3: cout << "Eliminar cuenta"; break;
+                    case 4: cout << "Restaurar cuenta"; break;
+                    case 5: cout << "Ingresar dinero (Banco)"; break;
+                    case 6: cout << "Retirar dinero (Banco)"; break;
+                    case 7: cout << "Volver"; break;
                 }
-                system("pause");
-                break;
             }
-            case 7: {
-                cout << "Ingrese el monto a retirar del Banco: $";
-                double monto = validarDouble(0.01, 999999999.99);
-                if(objCuentas.extraer(1, monto)){
-                    cout << "Dinero retirado exitosamente." << endl;
+            colorTexto(7);
+            curs = false;
+        }
+        
+        rlutil::hidecursor();
+        tecla = rlutil::getkey();
+        
+        switch(tecla){
+            case 14: // Flecha arriba
+                if(opcionActual > 0){
+                    opcionActual--;
+                    curs = true;
                 }
-                system("pause");
                 break;
-            }
-            case 8: {
-                continuar = false;
+            case 15: // Flecha abajo
+                if(opcionActual < totalOpciones){
+                    opcionActual++;
+                    curs = true;
+                }
                 break;
-            }
+            case 1: // Enter
+                rlutil::showcursor();
+                limpiarPantalla();
+                
+                switch(opcionActual){
+                    case 0: {
+                        cuentaBancaria cuentaBanco;
+                        if(objCuentas.buscarCuenta("ID", 1, cuentaBanco)){
+                            limpiarPantalla();
+                            colorTexto(7);
+                            
+                            rlutil::locate(30, 3);
+                            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                            rlutil::locate(30, 4);
+                            cout << char(186); centrarTexto("CUENTA DEL BANCO", ' ', 60); cout << char(186);
+                            rlutil::locate(30, 5);
+                            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                            
+                            char idFormateado[15];
+                            formatearId(idFormateado, "CU", 1, 6);
+                            
+                            rlutil::locate(35, 8);
+                            colorTexto(6);
+                            cout << "ID: ";
+                            colorTexto(7);
+                            cout << idFormateado;
+                            rlutil::locate(35, 9);
+                            colorTexto(6);
+                            cout << "Nombre: ";
+                            colorTexto(7);
+                            cout << cuentaBanco.getNombreCuenta();
+                            rlutil::locate(35, 10);
+                            colorTexto(6);
+                            cout << "CVU: ";
+                            colorTexto(7);
+                            cout << cuentaBanco.getCvu();
+                            rlutil::locate(35, 11);
+                            colorTexto(6);
+                            cout << "Alias: ";
+                            colorTexto(7);
+                            cout << cuentaBanco.getAlias();
+                            rlutil::locate(35, 12);
+                            colorTexto(6);
+                            cout << "Saldo: ";
+                            colorTexto(2);
+                            cout << "$" << fixed << setprecision(2) << cuentaBanco.getSaldo();
+                            colorTexto(7);
+                        }
+                        else{
+                            cout << "ERROR: No se pudo cargar la cuenta del banco." << endl;
+                        }
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 1: {
+                        cout << "Ingrese el ID del cliente: ";
+                        int idCliente = validarEntero(1, 999999);
+                        objCuentas.crearCuenta(idCliente);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 2: {
+                        cout << "Ingrese el ID de la cuenta: ";
+                        int id = validarEntero(1, 999999);
+                        objCuentas.modificarDatosCuenta(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 3: {
+                        cout << "Ingrese el ID de la cuenta: ";
+                        int id = validarEntero(1, 999999);
+                        
+                        // Verificar que no sea la Cuenta Banco
+                        if(id == 1){
+                            cout << "ERROR: No se puede eliminar la Cuenta Banco." << endl;
+                            rlutil::anykey();
+                            break;
+                        }
+                        
+                        objCuentas.eliminarCuenta(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 4: {
+                        cout << "Ingrese el ID de la cuenta: ";
+                        int id = validarEntero(1, 999999);
+                        objCuentas.restaurarCuenta(id);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 5: {
+                        cout << "Ingrese el monto a ingresar al Banco: $";
+                        double monto = validarDouble(0.01, 999999999.99);
+                        if(objCuentas.depositar(1, monto)){
+                            cout << "Dinero ingresado exitosamente." << endl;
+                        }
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 6: {
+                        cout << "Ingrese el monto a retirar del Banco: $";
+                        double monto = validarDouble(0.01, 999999999.99);
+                        if(objCuentas.extraer(1, monto)){
+                            cout << "Dinero retirado exitosamente." << endl;
+                        }
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 7: {
+                        continuar = false;
+                        break;
+                    }
+                }
+                curs = true;
+                break;
         }
     }
+    rlutil::showcursor();
+}
+
+void menuTransaccionesAdmin(){
+    ArchivoTransacciones objTransacciones;
+    int opcionActual = 0;
+    int totalOpciones = 3;
+    bool continuar = true;
+    bool curs = true;
+    int tecla;
+    
+    while(continuar){
+        if(curs){
+            limpiarPantalla();
+            colorTexto(7);
+            
+            rlutil::locate(30, 3);
+            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+            rlutil::locate(30, 4);
+            cout << char(186); centrarTexto("GESTIONAR TRANSACCIONES", ' ', 60); cout << char(186);
+            rlutil::locate(30, 5);
+            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+            
+            for(int i = 0; i <= totalOpciones; i++){
+                rlutil::locate(40, 9 + i);
+                if(i == opcionActual){
+                    colorTexto(2);
+                    cout << char(175) << " ";
+                } else {
+                    colorTexto(7);
+                    cout << "  ";
+                }
+                
+                switch(i){
+                    case 0: cout << "Listar TODAS las transacciones"; break;
+                    case 1: cout << "Listar transacciones de una cuenta"; break;
+                    case 2: cout << "Buscar transacci" << char(162) << "n espec" << char(161) << "fica"; break;
+                    case 3: cout << "Volver"; break;
+                }
+            }
+            colorTexto(7);
+            curs = false;
+        }
+        
+        rlutil::hidecursor();
+        tecla = rlutil::getkey();
+        
+        switch(tecla){
+            case 14: // Flecha arriba
+                if(opcionActual > 0){
+                    opcionActual--;
+                    curs = true;
+                }
+                break;
+            case 15: // Flecha abajo
+                if(opcionActual < totalOpciones){
+                    opcionActual++;
+                    curs = true;
+                }
+                break;
+            case 1: // Enter
+                rlutil::showcursor();
+                limpiarPantalla();
+                
+                switch(opcionActual){
+                    case 0: {
+                        colorTexto(7);
+                        rlutil::locate(30, 3);
+                        cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                        rlutil::locate(30, 4);
+                        cout << char(186); centrarTexto("TODAS LAS TRANSACCIONES", ' ', 60); cout << char(186);
+                        rlutil::locate(30, 5);
+                        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                        cout << endl;
+                        
+                        objTransacciones.listarTransacciones();
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 1: {
+                        cout << "Ingrese el ID de la cuenta: ";
+                        int idCuenta = validarEntero(1, 999999);
+                        
+                        limpiarPantalla();
+                        colorTexto(7);
+                        rlutil::locate(30, 3);
+                        cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                        rlutil::locate(30, 4);
+                        cout << char(186); centrarTexto("TRANSACCIONES DE LA CUENTA", ' ', 60); cout << char(186);
+                        rlutil::locate(30, 5);
+                        cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                        cout << endl;
+                        
+                        objTransacciones.listarTransaccionesCuenta(idCuenta);
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 2: {
+                        cout << "Ingrese el ID de la transacci" << char(162) << "n: ";
+                        int idTransaccion = validarEntero(1, 999999);
+                        
+                        Transaccion transEncontrada;
+                        if(objTransacciones.buscarTransaccion(idTransaccion, transEncontrada)){
+                            limpiarPantalla();
+                            colorTexto(7);
+                            
+                            rlutil::locate(30, 3);
+                            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                            rlutil::locate(30, 4);
+                            cout << char(186); centrarTexto("TRANSACCION ENCONTRADA", ' ', 60); cout << char(186);
+                            rlutil::locate(30, 5);
+                            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                            
+                            char idFormateado[15];
+                            formatearId(idFormateado, "TR", transEncontrada.getIdTransaccion(), 6);
+                            
+                            char idOrigenFormateado[15];
+                            formatearId(idOrigenFormateado, "CU", transEncontrada.getIdCuentaOrigen(), 6);
+                            char idDestinoFormateado[15];
+                            formatearId(idDestinoFormateado, "CU", transEncontrada.getIdCuentaDestino(), 6);
+                            
+                            rlutil::locate(35, 8);
+                            colorTexto(6);
+                            cout << "ID: ";
+                            colorTexto(7);
+                            cout << idFormateado;
+                            rlutil::locate(35, 9);
+                            colorTexto(6);
+                            cout << "Cuenta Origen: ";
+                            colorTexto(7);
+                            cout << idOrigenFormateado;
+                            rlutil::locate(35, 10);
+                            colorTexto(6);
+                            cout << "Cuenta Destino: ";
+                            colorTexto(7);
+                            cout << idDestinoFormateado;
+                            rlutil::locate(35, 11);
+                            colorTexto(6);
+                            cout << "Monto: ";
+                            colorTexto(2);
+                            cout << "$" << fixed << setprecision(2) << transEncontrada.getMonto();
+                            colorTexto(7);
+                            rlutil::locate(35, 12);
+                            colorTexto(6);
+                            cout << "Fecha: ";
+                            colorTexto(7);
+                            cout << transEncontrada.getFechaTransaccion().mostrarFecha();
+                            rlutil::locate(35, 13);
+                            colorTexto(6);
+                            cout << "Hora: ";
+                            colorTexto(7);
+                            cout << transEncontrada.getHoraTransaccion().mostrarTiempo();
+                        }
+                        else{
+                            limpiarPantalla();
+                            colorTexto(7);
+                            rlutil::locate(30, 3);
+                            cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
+                            rlutil::locate(30, 4);
+                            cout << char(186); centrarTexto("TRANSACCION NO ENCONTRADA", ' ', 60); cout << char(186);
+                            rlutil::locate(30, 5);
+                            cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
+                        }
+                        rlutil::anykey();
+                        break;
+                    }
+                    case 3: {
+                        continuar = false;
+                        break;
+                    }
+                }
+                curs = true;
+                break;
+        }
+    }
+    rlutil::showcursor();
 }

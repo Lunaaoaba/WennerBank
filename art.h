@@ -5,8 +5,9 @@
 
 using namespace std;
 
-void tituloBeta();
-void tituloBetaSA();
+void titulo(bool animado);
+void entrada();
+void entradaSA();
 
 void mayusculas(char* palabra);
 

@@ -7,5 +7,7 @@ void menuListadosEmpleado(int legajoEmpleado);
 
 void gestionarClientes();
 void gestionarCuentas();
+void operacionesBancariasEmpleado();
+void menuTransaccionesEmpleado();
 
 #endif

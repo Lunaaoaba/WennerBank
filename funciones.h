@@ -2,6 +2,9 @@
 #define FUNCIONES_H 
 #include <limits>
 
+// Funciones para obtener posición del cursor
+int wherex();
+int wherey();
 
 int validarEntero(int min, int max);
 double validarDouble(double min, double max);

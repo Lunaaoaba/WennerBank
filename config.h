@@ -6,7 +6,8 @@ using namespace std;
 void config();
 
 void consola();
-void fondoRgb();
+void limpiarPantalla();
+void colorTexto(int num);
 void iniciarArchivos();
 void iniciarUsuarios();
 
