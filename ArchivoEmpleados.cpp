@@ -310,7 +310,6 @@ bool ArchivoEmpleados::modificarDatosEmpleado(int legajo){
 
     bool continuar = true;
     while(continuar){
-        // Limpiar area de menu y trabajo
         for(int i = 16; i <= 28; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
@@ -337,7 +336,6 @@ bool ArchivoEmpleados::modificarDatosEmpleado(int legajo){
         cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 6);
         
-        // Limpiar area de trabajo para la operacion
         for(int i = 16; i <= 28; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');

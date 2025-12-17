@@ -23,7 +23,7 @@ void redibujarMenuCliente(const Cliente& clienteActual, const char* idFormateado
     rlutil::locate(35, 3);
     cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
     rlutil::locate(35, 4);
-    cout << char(186); centrarTexto("MENU CLIENTE", ' ', 50); cout << char(186);
+    cout << char(186); centrarTexto("MENU PRINCIPAL", ' ', 50); cout << char(186);
     rlutil::locate(35, 5);
     cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
     
@@ -684,8 +684,7 @@ void cambiarPassword(int idCliente){
     colorTexto(7);
     rlutil::locate(35, 9);
     char passwordActual[50];
-    cin.ignore();
-    cin.getline(passwordActual, 50);
+    validarCadena(passwordActual, 50);
     
     if(strcmp(clienteActual.getContrasena(), passwordActual) != 0){
         limpiarPantalla();
@@ -705,7 +704,7 @@ void cambiarPassword(int idCliente){
     colorTexto(7);
     rlutil::locate(35, 12);
     char passwordNueva[50];
-    cin.getline(passwordNueva, 50);
+    validarCadena(passwordNueva, 50);
     
     if(strlen(passwordNueva) < 6){
         limpiarPantalla();
@@ -725,7 +724,7 @@ void cambiarPassword(int idCliente){
     colorTexto(7);
     rlutil::locate(35, 15);
     char passwordConfirm[50];
-    cin.getline(passwordConfirm, 50);
+    validarCadena(passwordConfirm, 50);
     
     if(strcmp(passwordNueva, passwordConfirm) != 0){
         limpiarPantalla();

@@ -17,18 +17,8 @@ using namespace std;
 
 int main(){
     config();
-    // InicioPrograma();
+    InicioPrograma();
 
-    menuTest();
     rlutil::anykey();
-
-    // color
-    // colorTexto();
-
-    // limpia:
-    // limpiarPantalla();
-
-    // pausa:
-    // rlutil::anykey();
     return 0;
 }

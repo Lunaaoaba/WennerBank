@@ -309,7 +309,6 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
 
     bool continuar = true;
     while(continuar){
-        // Limpiar area de menu y trabajo
         for(int i = 16; i <= 28; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
@@ -336,7 +335,6 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
         cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 6);
         
-        // Limpiar area de trabajo para la operacion
         for(int i = 16; i <= 28; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
@@ -930,7 +928,6 @@ int ArchivoClientes::generarIdCliente(){
     return maxId + 1;
 }
 
-// despues rehacer para q use sobrecarga y funcione como buscarCliente
 int ArchivoClientes::posicionClientePorId(int idCliente){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr) return -2;

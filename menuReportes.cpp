@@ -562,7 +562,7 @@ void reporteMontoTransferenciasPorMes(){
     colorTexto(6);
     cout << "Ingrese a" << char(164) << "o: ";
     colorTexto(7);
-    int anio = validarEntero(2020, 2030);
+    int anio = validarEntero(2000, 2050);
     rlutil::hidecursor();
     
     int cuentasCliente[50];
