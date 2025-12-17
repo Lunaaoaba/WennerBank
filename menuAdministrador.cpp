@@ -64,17 +64,17 @@ void menuAdmin(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -811,19 +811,19 @@ void gestionarEmpleados(){
         tecla = rlutil::getkey();
         
         switch(tecla){
-            case 14: // Flecha arriba
+            case 14:
                 if(opcionActual > 0){
                     opcionActual--;
                     curs = true;
                 }
                 break;
-            case 15: // Flecha abajo
+            case 15:
                 if(opcionActual < totalOpciones){
                     opcionActual++;
                     curs = true;
                 }
                 break;
-            case 1: // Enter
+            case 1:
                 rlutil::showcursor();
                 limpiarPantalla();
                 
@@ -844,7 +844,6 @@ void gestionarEmpleados(){
                         cout << "Ingrese el legajo del empleado: ";
                         int legajo = validarEntero(1, 999999);
                         
-                        // Verificar que no sea el admin
                         Administrador* admin = Administrador::getInstancia();
                         if(legajo == admin->getLegajo()){
                             cout << "ERROR: No se puede eliminar al Administrador." << endl;
@@ -921,19 +920,19 @@ void gestionarClientesAdmin(){
         tecla = rlutil::getkey();
         
         switch(tecla){
-            case 14: // Flecha arriba
+            case 14:
                 if(opcionActual > 0){
                     opcionActual--;
                     curs = true;
                 }
                 break;
-            case 15: // Flecha abajo
+            case 15: 
                 if(opcionActual < totalOpciones){
                     opcionActual++;
                     curs = true;
                 }
                 break;
-            case 1: // Enter
+            case 1: 
                 rlutil::showcursor();
                 limpiarPantalla();
                 
@@ -954,7 +953,6 @@ void gestionarClientesAdmin(){
                         cout << "Ingrese el ID del cliente: ";
                         int id = validarEntero(1, 999999);
                         
-                        // Verificar que no sea el Cliente Banco
                         if(id == 1){
                             cout << "ERROR: No se puede eliminar el Cliente Banco." << endl;
                             rlutil::anykey();
@@ -1033,19 +1031,19 @@ void gestionarCuentasAdmin(){
         tecla = rlutil::getkey();
         
         switch(tecla){
-            case 14: // Flecha arriba
+            case 14:
                 if(opcionActual > 0){
                     opcionActual--;
                     curs = true;
                 }
                 break;
-            case 15: // Flecha abajo
+            case 15:
                 if(opcionActual < totalOpciones){
                     opcionActual++;
                     curs = true;
                 }
                 break;
-            case 1: // Enter
+            case 1:
                 rlutil::showcursor();
                 limpiarPantalla();
                 
@@ -1117,7 +1115,6 @@ void gestionarCuentasAdmin(){
                         cout << "Ingrese el ID de la cuenta: ";
                         int id = validarEntero(1, 999999);
                         
-                        // Verificar que no sea la Cuenta Banco
                         if(id == 1){
                             cout << "ERROR: No se puede eliminar la Cuenta Banco." << endl;
                             rlutil::anykey();
@@ -1210,19 +1207,19 @@ void menuTransaccionesAdmin(){
         tecla = rlutil::getkey();
         
         switch(tecla){
-            case 14: // Flecha arriba
+            case 14: 
                 if(opcionActual > 0){
                     opcionActual--;
                     curs = true;
                 }
                 break;
-            case 15: // Flecha abajo
+            case 15: 
                 if(opcionActual < totalOpciones){
                     opcionActual++;
                     curs = true;
                 }
                 break;
-            case 1: // Enter
+            case 1:
                 rlutil::showcursor();
                 limpiarPantalla();
                 

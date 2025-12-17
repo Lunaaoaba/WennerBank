@@ -132,9 +132,7 @@ Cliente ArchivoClientes::crearCliente(){
         rlutil::locate(40, 27);
         cout << "(Edad actual: " << edad << " a" << char(164) << "os - Requerido: 18+)";
         colorTexto(7);
-        rlutil::locate(40, 29);
-        cout << "Presione cualquier tecla para continuar...";
-        pausa();
+
         return Cliente();
     }
 
@@ -252,9 +250,7 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
         colorTexto(3);
         cout << "ERROR: No se puede alterar este cliente.";
         colorTexto(7);
-        rlutil::locate(40, 17);
-        cout << "Presione cualquier tecla para continuar...";
-        pausa();
+
         return false;
     }
 
@@ -263,9 +259,7 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
         colorTexto(3);
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << ".";
         colorTexto(7);
-        rlutil::locate(40, 17);
-        cout << "Presione cualquier tecla para continuar...";
-        pausa();
+
         return false;
     }
     if(clienteAModificar.getUsuarioEliminado()){
@@ -273,9 +267,6 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
         colorTexto(3);
         cout << "ERROR: No se encontro el cliente con ID " << idCliente << ".";
         colorTexto(7);
-        rlutil::locate(40, 17);
-        cout << "Presione cualquier tecla para continuar...";
-        pausa();
         return false;
     }
 

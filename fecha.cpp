@@ -2,7 +2,7 @@
 #include "rlutil.h"
 #undef byte
 #include <iostream>
-#include <ctime> // libreria para obtener fecha y hora del sistema
+#include <ctime>
 #include <limits>
 #include <string>
 #include "Fecha.h"
@@ -32,12 +32,10 @@ int Fecha::getMes() const{ return _mes; }
 int Fecha::getAnio() const{ return _anio; }
 
 void Fecha::cargarFecha(){
-    // se ingresa en orden de "aNIo -> mes -> dia" para facilitar la validacion de dias por mes
     cout << "Ingrese a" << char(164) << "o: ";
     _anio = validarEntero(1900, 2025);
     cout << "Ingrese mes: ";
     _mes = validarEntero(1, 12);
-    // ajustar dias maximos por mes
     int diaMaximo;
     switch(_mes){
         case 1: case 3: case 5: case 7: case 8: case 10: case 12:
@@ -47,9 +45,7 @@ void Fecha::cargarFecha(){
             diaMaximo = 30;
             break;
         case 2:
-            // aNIo biciesto
             if((_anio % 4 == 0 && _anio % 100 != 0) || (_anio % 400 == 0)) diaMaximo = 29;
-            // aNIo no biciesto
             else diaMaximo = 28;
             break;
     }
@@ -61,26 +57,26 @@ void Fecha::cargarFecha(){
 void Fecha::cargarFecha(int x, int y){
     int lineaActual = y;
     
-    // Año
+    // aNIo
     rlutil::locate(x, lineaActual);
     cout << "A" << char(164) << "o:  ";
     rlutil::locate(x + 6, lineaActual);
     _anio = validarEntero(1900, 2025);
-    // Limpiar el campo después de validación exitosa
+
     rlutil::locate(x, lineaActual);
     cout << "A" << char(164) << "o:  " << _anio << "    ";
     
-    // Mes
+    // mes
     lineaActual++;
     rlutil::locate(x, lineaActual);
     cout << "Mes:  ";
     rlutil::locate(x + 6, lineaActual);
     _mes = validarEntero(1, 12);
-    // Limpiar el campo después de validación exitosa
+
     rlutil::locate(x, lineaActual);
     cout << "Mes:  " << _mes << "    ";
     
-    // Calcular dias maximos por mes
+    // dia dependiendo del mes y aNIo
     int diaMaximo;
     switch(_mes){
         case 1: case 3: case 5: case 7: case 8: case 10: case 12:
@@ -98,13 +94,13 @@ void Fecha::cargarFecha(int x, int y){
             break;
     }
     
-    // Dia
+    // dia
     lineaActual++;
     rlutil::locate(x, lineaActual);
     cout << "D" << char(161) << "a:  ";
     rlutil::locate(x + 6, lineaActual);
     _dia = validarEntero(1, diaMaximo);
-    // Limpiar el campo después de validación exitosa
+
     rlutil::locate(x, lineaActual);
     cout << "D" << char(161) << "a:  " << _dia << "    ";
 }

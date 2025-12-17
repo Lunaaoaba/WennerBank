@@ -127,7 +127,6 @@ void ArchivoTransacciones::listarTransaccionesCuenta(int idCuenta){
             
             cout << "  ID Transacci" << char(162) << "n: " << idFormateado << " ";
             
-            // Indicar si es entrada o salida con colores
             if(transaccionActual.getIdCuentaOrigen() == idCuenta && transaccionActual.getIdCuentaDestino() == idCuenta){
                 colorTexto(6);
                 cout << "[INTERNO]";

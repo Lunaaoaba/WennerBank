@@ -41,25 +41,6 @@ const char* cuentaBancaria::getAlias() const{ return _alias; }
 double cuentaBancaria::getSaldo() const{ return _saldo; }
 bool cuentaBancaria::getCuentaEliminada() const{ return _cuentaEliminada; }
 
-void cuentaBancaria::cargarDatos(){
-    cout << "\n--- Ingrese los datos de la cuenta bancaria ---" << endl;
-    cout << "ID Cuenta (4 digitos): ";
-    _idCuenta = validarEntero(1, 999999);
-    cout << "ID Cliente (4 digitos): ";
-    _idCliente = validarEntero(1, 999999);
-    cout << "Nombre de la Cuenta: ";
-    cin.ignore(); // Limpiar el buffer antes de usar getline
-    validarCadenaLetras(_nombreCuenta, 50);
-    cout << "CVU (10 digitos): ";
-    validarCadenaNumeros(_cvu, 11, 11);
-    cout << "Alias (max 30 caracteres): ";
-    cin.ignore(); // Limpiar el buffer antes de usar getline
-    validarCadenaLetras(_alias, 30);
-    cout << "Saldo inicial: $";
-    _saldo = validarDouble(0.01, 999999999.99);
-    _cuentaEliminada = false; 
-    cout << "----------------------------------------------\n" << endl;
-}
 string cuentaBancaria::mostrarDatos() const{
     string linea = string("ID Cuenta: ") + to_string(_idCuenta)
             + "\nID Cliente: " + to_string(_idCliente)

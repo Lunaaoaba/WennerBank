@@ -83,17 +83,17 @@ void menuEmpleado(int legajoEmpleado){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){ 
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -188,17 +188,17 @@ void menuListadosEmpleado(int legajoEmpleado){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -361,17 +361,17 @@ void gestionarClientes(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -602,17 +602,17 @@ void gestionarCuentas(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -849,17 +849,17 @@ void operacionesBancariasEmpleado(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -867,7 +867,6 @@ void operacionesBancariasEmpleado(){
                     limpiarPantalla();
                     colorTexto(7);
                     
-                    // Usar siempre la cuenta del banco (ID=1)
                     int idCuenta = 1;
                     
                     cuentaBancaria cuenta;
@@ -916,7 +915,6 @@ void operacionesBancariasEmpleado(){
                     limpiarPantalla();
                     colorTexto(7);
                     
-                    // Usar siempre la cuenta del banco (ID=1)
                     int idCuenta = 1;
                     
                     cuentaBancaria cuenta;
@@ -1015,17 +1013,17 @@ void menuTransaccionesEmpleado(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){

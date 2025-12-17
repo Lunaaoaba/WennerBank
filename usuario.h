@@ -11,15 +11,15 @@ class Usuario : public Persona{
     public:
         Usuario();
         Usuario(int dni, const char* nombre, const char* apellido, const char* localidad, Fecha fechaNacimiento, const char* mail, const char* contrasena, bool UsuarioEliminado);
-        //set
+
         void setMail(const char* mail);
         void setContrasena(const char* contrasena);
         void setUsuarioEliminado(bool UsuarioEliminado);
-        //get
+
         const char* getMail() const;
         const char* getContrasena() const;
         bool getUsuarioEliminado() const;
-        //otros
+
         void cargarDatos();
         string mostrarDatos() const;
 };

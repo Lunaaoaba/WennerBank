@@ -15,14 +15,11 @@
 using namespace std;
 
 
-// para ver si el mail existe en algun usuario (cliente o empleado)
 bool existeMail(const char* mail){
-    // primero revisa si es el mail del admin
     Administrador* admin = Administrador::getInstancia();
     if (strcmp(admin->getMail(), mail) == 0){
         return true;
     }
-    // busca mail cliente q ya exista
     FILE* archivoClientes = fopen("clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente clienteActual;
@@ -34,7 +31,6 @@ bool existeMail(const char* mail){
         }
         fclose(archivoClientes);
     }
-    // busca mail empleado q ya exista
     FILE* archivoEmpleados = fopen("empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
         Empleado empleadoActual;
@@ -112,9 +108,6 @@ bool existeAlias(const char* alias){
     return false;
 }
 
-
-// --- LOGIN ---
-
 bool validarLoginCliente(const char* mail, const char* contrasena, Cliente& clienteEncontrado){
     ArchivoClientes obj;
     if(!obj.buscarCliente("MAIL", mail, clienteEncontrado)){
@@ -154,7 +147,6 @@ bool validarLoginEmpleado(int legajo, const char* contrasena, Empleado& empleado
     return true;
 }
 
-// para comparar dos fechas
 bool compararFechas(const Fecha& fecha1, const Fecha& fecha2){
     if((fecha1.getDia() == fecha2.getDia())
     && (fecha1.getMes() == fecha2.getMes())
@@ -164,7 +156,6 @@ bool compararFechas(const Fecha& fecha1, const Fecha& fecha2){
     else return false;
 }
 
-// para comparar dos horarios
 bool compararHorarios(const Tiempo& tiempo1, const Tiempo& tiempo2){
     if((tiempo1.getHora() == tiempo2.getHora())
     && (tiempo1.getMinuto() == tiempo2.getMinuto())

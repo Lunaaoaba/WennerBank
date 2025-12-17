@@ -15,7 +15,6 @@
 
 using namespace std;
 
-// Función auxiliar para redibujar el menú
 void redibujarMenuCliente(const Cliente& clienteActual, const char* idFormateado){
     colorTexto(7);
     limpiarPantalla();
@@ -77,11 +76,9 @@ void menuCliente(int idCliente){
         int opcion = 0;
         bool curs = true;
         
-        // Dibujar menú una sola vez (fuera del bucle)
         colorTexto(7);
         limpiarPantalla();
         
-        // Header con nombre del cliente
         rlutil::locate(35, 3);
         cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
         rlutil::locate(35, 4);
@@ -89,7 +86,6 @@ void menuCliente(int idCliente){
         rlutil::locate(35, 5);
         cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
         
-        // Información del cliente
         rlutil::locate(40, 7);
         colorTexto(6);
         cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido();
@@ -100,7 +96,6 @@ void menuCliente(int idCliente){
         rlutil::locate(40, 8);
         cout << "ID: " << idFormateado;
         
-        // Opciones del menú
         rlutil::locate(44, 11);
         cout << "Ver mis cuentas";
         rlutil::locate(44, 12);
@@ -122,99 +117,95 @@ void menuCliente(int idCliente){
         rlutil::locate(44, 20);
         cout << "Cerrar sesi" << char(162) << "n";
         
-        // Bucle de navegación
         while(curs){
-            // Mostrar indicador
             rlutil::locate(42, 11 + opcion);
-            cout << char(175); // ►
-            
+            cout << char(175);
             int tecla = rlutil::getkey();
             
-            // Borrar indicador
             rlutil::locate(42, 11 + opcion);
             cout << " ";
             
             switch(tecla){
-                case 14: // Flecha arriba
+                case 14: 
                     opcion--;
                     if(opcion < 0) opcion = 9;
                     break;
                     
-                case 15: // Flecha abajo
+                case 15: 
                     opcion++;
                     if(opcion > 9) opcion = 0;
                     break;
                     
-                case 1: // Enter
+                case 1:
                     curs = false;
                     rlutil::showcursor();
                     limpiarPantalla();
                     
                     switch(opcion){
-                        case 0: // Ver mis cuentas
+                        case 0: 
                             verMisCuentas(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 1: // Ingresar a una cuenta
+                        case 1: 
                             ingresarACuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 2: // Crear nueva cuenta
+                        case 2:
                             crearMiCuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 3: // Ver historial de transacciones
+                        case 3: 
                             verMisTransacciones(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 4: // Cerrar una cuenta
+                        case 4:
                             cerrarMiCuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 5: // Ver saldo total
+                        case 5: 
                             verSaldoTotal(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 6: // Ver mis datos
+                        case 6: 
                             verMisDatos(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 7: // Modificar mis datos
+                        case 7: 
                             modificarMisDatos(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 8: // Cambiar contraseña
+                        case 8: 
                             cambiarPassword(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
                             
-                        case 9: // Cerrar sesión
+                        case 9:
                             continuar = false;
                             curs = false;
                             rlutil::showcursor();

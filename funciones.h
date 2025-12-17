@@ -2,7 +2,6 @@
 #define FUNCIONES_H 
 #include <limits>
 
-// Funciones para obtener posición del cursor
 int wherex();
 int wherey();
 
@@ -18,8 +17,5 @@ char validarSiNo();
 
 void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTotal);
 
-void pausa();
-
-void limpiarEntrada();
 
 #endif

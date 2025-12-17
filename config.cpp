@@ -22,17 +22,14 @@ using namespace std;
 
 // varias funciones en una sola para simplificar el main
 void config(){
-    // configuraciones obligatorias 
     consola();
-    // establece el Background de la consola
+
     colorTexto(4);
     limpiarPantalla();
-    // inicia los archivos necesarios
+
     iniciarArchivos();
 
-    // agrega usuarios de prueba
     int key = rlutil::getkey();
-    // NUMPAD 0 
     if (key == 31){ 
         cout << "Iniciar usuarios de prueba? (S/N): " << endl;
         char respuesta = validarSiNo();
@@ -58,9 +55,7 @@ void limpiarPantalla(){
     system("cls");
 }
 
-// usa "codigos" para cambiar el color de texto o mostrar lista de colores disponibles
 void colorTexto(int num){
-    // plantilla = cout << "\033[38;2;X;X;Xm";
     switch(num){
         case 0: {
             cout << "Codigos de color disponibles:" << endl;
@@ -119,10 +114,9 @@ void colorTexto(int num){
     }
 }
 
-// inicia los archivos si no existen con los datos principales
 void iniciarArchivos(){
     FILE* archivoClientes = fopen("clientes.dat", "rb");
-    if (archivoClientes == nullptr){ // si no existe, lo crea
+    if (archivoClientes == nullptr){
         archivoClientes = fopen ("clientes.dat", "wb");
         if (archivoClientes == nullptr) {
             cout << "ERROR FATAL: No se pudo crear el archivo de clientes." << endl;
@@ -140,15 +134,13 @@ void iniciarArchivos(){
     }
     else fclose(archivoClientes);
 
-// ARCHIVO CUENTAS
     FILE* archivoCuentas = fopen("cuentas.dat", "rb");
-    if (archivoCuentas == nullptr){ // si no existe, lo crea
+    if (archivoCuentas == nullptr){
         archivoCuentas = fopen ("cuentas.dat", "wb");
         if (archivoCuentas == nullptr) {
             cout << "ERROR FATAL: No se pudo crear el archivo de cuentas." << endl;
             exit(-1);
         }
-        // crear cuenta bancaria del banco
         cuentaBancaria cuentaBanco(
             1, // id cuenta
             1, // id cliente
@@ -163,7 +155,6 @@ void iniciarArchivos(){
     }
     else fclose(archivoCuentas);
 
-// ARCHIVO EMPLEADOS
     FILE* archivoEmpleados = fopen("empleados.dat", "rb");
     if(archivoEmpleados == nullptr){
         archivoEmpleados = fopen("empleados.dat", "wb");
@@ -186,13 +177,11 @@ void iniciarArchivos(){
     }
     else fclose(archivoEmpleados);
 
-// ARCHIVO TRANSACCIONES
-    FILE* archivoTransacciones = fopen("transacciones.dat", "ab");  // "ab" es mas seguro, crea si no existe
+    FILE* archivoTransacciones = fopen("transacciones.dat", "ab");
     if(archivoTransacciones != nullptr) fclose(archivoTransacciones);
     else cout << "ERROR FATAL: No se pudo crear el archivo de transacciones." << endl;
 }
 
-// inicia usuarios de prueba (clientes y empleados), cuentas bancarias no pq q sean manuales alta paja
 void iniciarUsuarios(){
     char contrasena[50] = {'c', 'o', 'n', 't', 'r', 'a', 's', 'e', char(164), 'a', '\0'};
 

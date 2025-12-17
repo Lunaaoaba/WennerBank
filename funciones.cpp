@@ -84,7 +84,6 @@ int validarEntero(int min, int max){
 }
 
 
-// valida q sea un numero con max 2 decimales (XXX.XX)
 bool esMonedaValida(const string& ingreso){
     int puntos = 0;
     int posicion_punto = -1;
@@ -95,20 +94,20 @@ bool esMonedaValida(const string& ingreso){
             posicion_punto = static_cast<int>(i);
         }
         else if(!isdigit(ingreso[i])){
-            return false; // No es digito ni punto
+            return false;
         }
     }
-    // max 1 punto (separador decimal)
+
     if(puntos > 1) return false;
-    // si hay punto, max 2 digitos despues
+
     if(puntos == 1){
         int digitos_despues = static_cast<int>(ingreso.length()) - posicion_punto - 1;
-        if(digitos_despues > 2) return false; // Mas de 2 decimales
-        if(digitos_despues == 0) return false; // Punto al final (ej: "100.")
+        if(digitos_despues > 2) return false;
+        if(digitos_despues == 0) return false;
     }
     return true;
 }
-// por ahora solo para saldo, por eso el mensaje "saldo valido"
+
 double validarDouble(double min, double max){
     string ingreso;
     int posX = wherex();
@@ -264,8 +263,6 @@ void validarCadenaNumeros(char* numero, int min, int max){
     }
 }
 
-// maxLength +1 de lo que se quiere para el \0
-// version que solo acepta letras y espacios (para nombres, apellidos, localidades, etc)
 void validarCadenaLetras(char* palabra, int maxLength){
     int posX = wherex();
     int posY = wherey();
@@ -289,7 +286,7 @@ void validarCadenaLetras(char* palabra, int maxLength){
             rlutil::locate(posX, posY);
             continue;
         }
-        // si se pasa de largo
+
         if(cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -309,7 +306,7 @@ void validarCadenaLetras(char* palabra, int maxLength){
             rlutil::locate(posX, posY);
             continue;
         }
-        // si e solo letra o espacio o tildes
+
         bool letra = true;
         size_t largo = strlen(palabra);
 
@@ -360,7 +357,7 @@ void validarCadenaLetras(char* palabra, int maxLength){
     }
 }
 
-// version que acepta cualquier caracter (para mails, etc)
+
 void validarCadena(char* palabra, int maxLength){
     int posX = wherex();
     int posY = wherey();
@@ -384,7 +381,7 @@ void validarCadena(char* palabra, int maxLength){
             rlutil::locate(posX, posY);
             continue;
         }
-        // si se pasa de largo
+
         if(cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -410,7 +407,6 @@ void validarCadena(char* palabra, int maxLength){
     }
 }
 
-// version q acepta cualquier caracter + incluye un minimo de largo (para contrasenas y nose q mas)
 void validarCadenaLargo(char* palabra, int minLength, int maxLength){
     int posX = wherex();
     int posY = wherey();
@@ -434,7 +430,7 @@ void validarCadenaLargo(char* palabra, int minLength, int maxLength){
             rlutil::locate(posX, posY);
             continue;
         }
-        // si no llega al minimo
+
         if(strlen(palabra) < (size_t)minLength){
             rlutil::locate(44, 15);
             cout << string(80, ' ');
@@ -451,7 +447,7 @@ void validarCadenaLargo(char* palabra, int minLength, int maxLength){
             rlutil::locate(posX, posY);
             continue;
         }
-        // si se pasa de largo
+
         if(cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -517,21 +513,3 @@ void formatearId(char* resultado, const char* prefijo, int idNumero, int largoTo
     * : toma el ancho del siguiente argumento (largoTotal)
     d : indica que es un entero */
 }
-
-
-
-
-// Funcion auxiliar para pausar y limpiar el buffer de entrada
-void pausa(){
-    cout << "\n...";
-    cin.ignore(10000, '\n');
-    cin.get();
-}
-
-// Funcion auxiliar para limpiar la entrada despues de un error de cin
-void limpiarEntrada(){
-    cin.clear(); // LIMPIA EL ESTADO DE ERROR DEL CIN
-    cin.ignore(10000, '\n'); // LIMPIA EL BUFFER DE ENTRADA
-}
-
-

@@ -271,7 +271,6 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
 
     bool continuar = true;
     while(continuar){
-        // Limpiar area de menu y trabajo
         for(int i = 15; i <= 25; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
@@ -292,7 +291,6 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
         cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 3);
         
-        // Limpiar area de trabajo para la operacion
         for(int i = 15; i <= 25; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
@@ -965,7 +963,6 @@ bool ArchivoCuentas::transferir(int idCuentaOrigen, int idCuentaDestino, double 
         return false;
     }
     
-    // Realizar transferencia
     cuentaOrigen.setSaldo(cuentaOrigen.getSaldo() - monto);
     cuentaDestino.setSaldo(cuentaDestino.getSaldo() + monto);
     
@@ -1075,7 +1072,6 @@ void ArchivoCuentas::generarAlias(char* alias){
     }
 }
 
-// despues rehacer para q use sobrecarga
 int ArchivoCuentas::posicionCuentaPorId(int idCuenta){
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr) return -2;

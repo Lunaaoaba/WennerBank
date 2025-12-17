@@ -34,7 +34,6 @@ void menuCuenta(int idCliente, int idCuenta){
         limpiarPantalla();
         colorTexto(7);
         
-        // Header
         rlutil::locate(30, 3);
         cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
         rlutil::locate(30, 4);
@@ -42,7 +41,6 @@ void menuCuenta(int idCliente, int idCuenta){
         rlutil::locate(30, 5);
         cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
         
-        // Información de la cuenta
         char idFormateado[15];
         formatearId(idFormateado, "CU", cuenta.getIdCuenta(), 6);
         
@@ -61,7 +59,6 @@ void menuCuenta(int idCliente, int idCuenta){
         cout << "Saldo: $" << fixed << setprecision(2) << cuenta.getSaldo();
         colorTexto(7);
         
-        // Opciones
         rlutil::locate(40, 14);
         cout << "1. Ingresar dinero";
         rlutil::locate(40, 15);

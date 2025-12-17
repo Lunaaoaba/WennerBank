@@ -59,17 +59,17 @@ void menuReportes(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -101,8 +101,6 @@ void menuReportes(){
     
     rlutil::showcursor();
 }
-
-// MENU REPORTES DE CLIENTES
 
 void menuReportesClientes(){
     int opcionActual = 0;
@@ -147,17 +145,17 @@ void menuReportesClientes(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -199,8 +197,6 @@ void menuReportesClientes(){
     
     rlutil::showcursor();
 }
-
-// MENU REPORTES DE EMPLEADOS
 
 void menuReportesEmpleados(){
     int opcionActual = 0;
@@ -244,17 +240,17 @@ void menuReportesEmpleados(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -289,8 +285,6 @@ void menuReportesEmpleados(){
     
     rlutil::showcursor();
 }
-
-// MENU REPORTES FINANCIEROS
 
 void menuReportesFinancieros(){
     int opcionActual = 0;
@@ -334,17 +328,17 @@ void menuReportesFinancieros(){
         
         int tecla = rlutil::getkey();
         
-        if(tecla == 14){ // Flecha arriba
+        if(tecla == 14){  
             opcionActual--;
             if(opcionActual < 0) opcionActual = totalOpciones - 1;
             curs = true;
         }
-        else if(tecla == 15){ // Flecha abajo
+        else if(tecla == 15){  
             opcionActual++;
             if(opcionActual >= totalOpciones) opcionActual = 0;
             curs = true;
         }
-        else if(tecla == 1){ // Enter
+        else if(tecla == 1){  
             rlutil::showcursor();
             
             switch(opcionActual){
@@ -381,8 +375,6 @@ void menuReportesFinancieros(){
 }
 
 
-
-// IMPLEMENTACION REPORTES CLIENTES
 
 void reporteClienteMasTransacciones(){
     FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
@@ -660,7 +652,6 @@ void reporteMontoTransferenciasPorMes(){
     cout << "Presione cualquier tecla para continuar...";
 }
 
-//dsp pasar a memoria dinamica
 void reporteClientesPorLocalidad(){
     FILE* archivo = fopen("clientes.dat", "rb");
     if(archivo == nullptr){
@@ -886,8 +877,6 @@ void reporteTop5ClientesMayorMonto(){
 
 
 }
-
-// IMPLEMENTACIÓN REPORTES EMPLEADOS
 
 void reporteEmpleadosPorLocalidad(){
     FILE* archivo = fopen("empleados.dat", "rb");
@@ -1165,9 +1154,6 @@ void reporteEmpleadosPorRangoEdad(){
     rlutil::locate(30, 18);
     cout << "Presione cualquier tecla para continuar...";
 }
-
-// IMPLEMENTACION REPORTES FINANCIEROS
-
 
 void reporteSaldoTotalCuentas(){
     FILE* archivo = fopen("cuentas.dat", "rb");

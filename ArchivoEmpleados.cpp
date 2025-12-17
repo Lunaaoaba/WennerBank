@@ -677,8 +677,6 @@ bool ArchivoEmpleados::restaurarEmpleado(int legajo){
     }
 }
 
-// ------ FUNCIONES PARA BUSQUEDA DE EMPLEADOS ------
-
 void ArchivoEmpleados::listarEmpleados(){
     FILE* archivo = fopen("empleados.dat", "rb");
     if(archivo == nullptr){

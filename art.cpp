@@ -55,7 +55,6 @@ void titulo(bool animado){
             espacioX += static_cast<int>(palabra[i][0].length());
         }
     }
-    // rlutil::anykey();
 }
 void entrada(){
     limpiarPantalla();
@@ -125,18 +124,3 @@ void centrarTexto(string palabra, char dato1, char dato2, size_t largo){
 
     cout << izq << palabra << der;
 }
-
-//-------------------------------------
-// PARA UTILIZAR EN EL MENU CON RLUTIL
-//-------------------------------------
-//system("cls"); -> Limpia la Pantalla: Borra todo el texto que se encuentra actualmente visible en la ventana de la consola. y vuelve a dibujar el menu.
-//rlutil::setColor(rlutil::WHITE); ->cambia el color de las letras
-//rlutil::setColor(rlutil::RED); -> puede ir antes de un texto con error, luego de mostrar el mensaje devolver su color original.
-//rlutil::locate(2, 5); -> coloca el mensaje en la posicion que le pongas
-// =============================================
-// |    system("cls")    |    rlutil::cls()    |
-// |=====================|=====================|
-// |   resetea colores   |  mantiene colores   |
-// |---------------------|---------------------|
-// | reset a locate(1,1) | reset a locate(1,1) |
-// ---------------------------------------------

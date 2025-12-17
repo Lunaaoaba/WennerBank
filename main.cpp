@@ -8,17 +8,10 @@
 #include "config.h"
 using namespace std;
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODAS LAS ANOTACIONES SE ELIMINARAN EN LA VERSION FINAL
-// PARA DEJAR EL CODIGO MAS LIMPIO Y SIN TANTOS COMENTARIOS
-// Exepciones marcadas con : (*)
-// ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
-
 
 int main(){
     config();
     InicioPrograma();
-
     rlutil::anykey();
     return 0;
 }

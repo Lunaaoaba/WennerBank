@@ -23,10 +23,6 @@
 using namespace std;
 
 
-// ----------------------------------------------------------------------
-// menu en base al diagrama WennerBank_path.png
-// ----------------------------------------------------------------------
-
 void menuTest(){
     ArchivoClientes objClientes;
     ArchivoEmpleados objEmpleados;
@@ -232,7 +228,6 @@ void InicioPrograma(){
             int opcion = 0;
             bool curs = true;
             
-            // LIMPIAR Y DIBUJAR MENÚ UNA SOLA VEZ (FUERA DEL BUCLE)
             colorTexto(7);
             limpiarPantalla();
             
@@ -252,43 +247,38 @@ void InicioPrograma(){
             rlutil::locate(44, 12);
             cout << "Salir";
             
-            // BUCLE SOLO PARA NAVEGACIÓN (SIN LIMPIAR PANTALLA)
             while(curs){
-                // Mostrar indicador en posición actual
                 rlutil::locate(42, 9 + opcion);
-                cout << (char)175; // ►
+                cout << (char)175;
                 
-                // Capturar tecla
                 int tecla = rlutil::getkey();
                 
-                // Borrar indicador antes de moverlo
                 rlutil::locate(42, 9 + opcion);
                 cout << " ";
                 
                 switch(tecla){
-                    case 14: // Flecha arriba
+                    case 14:
                         opcion--;
                         if(opcion < 0) opcion = 3;
                         break;
                         
-                    case 15: // Flecha abajo
+                    case 15: 
                         opcion++;
                         if(opcion > 3) opcion = 0;
                         break;
                         
-                    case 1: // Enter
+                    case 1:
                         curs = false;
                         rlutil::showcursor();
                         limpiarPantalla();
                         
                         switch(opcion){
-                            case 0: // Crear cuenta
+                            case 0:
                                 objClientes.crearCliente();
                                 rlutil::anykey();
                                 curs = true;
                                 rlutil::hidecursor();
                                 
-                                // Redibujar menú completo
                                 colorTexto(7);
                                 limpiarPantalla();
                                 rlutil::locate(40, 5);
@@ -307,13 +297,12 @@ void InicioPrograma(){
                                 cout << "Salir";
                                 break;
                                 
-                            case 1: // Iniciar sesion
+                            case 1:
                                 iniciarSesionCliente(idUsuarioActivo, tipoUsuarioActivo);
                                 if(tipoUsuarioActivo == 0){
                                     curs = true;
                                     rlutil::hidecursor();
                                     
-                                    // Redibujar menú completo
                                     colorTexto(7);
                                     limpiarPantalla();
                                     rlutil::locate(40, 5);
@@ -333,13 +322,12 @@ void InicioPrograma(){
                                 }
                                 break;
                                 
-                            case 2: // Iniciar sesion como empleado
+                            case 2: 
                                 iniciarSesionEmpleado(idUsuarioActivo, tipoUsuarioActivo);
                                 if(tipoUsuarioActivo == 0){
                                     curs = true;
                                     rlutil::hidecursor();
                                     
-                                    // Redibujar menú completo
                                     colorTexto(7);
                                     limpiarPantalla();
                                     rlutil::locate(40, 5);
@@ -359,10 +347,9 @@ void InicioPrograma(){
                                 }
                                 break;
                                 
-                            case 3: // Salir
+                            case 3:
                                 limpiarPantalla();
                                 cout << "Saliendo del programa..." << endl;
-                                cout << ":3" << endl;
                                 rlutil::anykey();
                                 exit(0);
                         }
@@ -373,7 +360,6 @@ void InicioPrograma(){
             }
         }
         else{
-            // Usuario logueado - mostrar menú según tipo
             switch(tipoUsuarioActivo){
                 case 1: {
                     menuCliente(idUsuarioActivo);
@@ -389,7 +375,6 @@ void InicioPrograma(){
                 }
             }
 
-            // Al salir del menú específico, cerrar sesión
             idUsuarioActivo = -1;
             tipoUsuarioActivo = 0;
         }
@@ -418,7 +403,6 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
         cout << "Ingresar mail: ";
         cin.getline(mail, 51);
         
-        // Validar mail no vacío
         if(strlen(mail) == 0){
             rlutil::locate(44, 13);
             colorTexto(3);
@@ -426,14 +410,13 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
             colorTexto(7);
             rlutil::msleep(1500);
             intentos++;
-            continue; // Redibuja todo
+            continue; 
         }
         
         rlutil::locate(44, 10);
         cout << "Ingresar contrase" << char(164) << "a: ";
         cin.getline(contrasena, 51);
         
-        // Validar contraseña no vacía y mínimo 8 caracteres
         if(strlen(contrasena) == 0){
             rlutil::locate(44, 13);
             colorTexto(3);
@@ -441,7 +424,7 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
             colorTexto(7);
             rlutil::msleep(1500);
             intentos++;
-            continue; // Redibuja todo
+            continue;
         }
         if(strlen(contrasena) < 8){
             rlutil::locate(44, 13);
@@ -450,12 +433,12 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
             colorTexto(7);
             rlutil::msleep(1500);
             intentos++;
-            continue; // Redibuja todo
+            continue;
         }
 
         if(validarLoginCliente(mail, contrasena, clienteEncontrado)){
             idUsuarioActual = clienteEncontrado.getIdCliente();
-            tipoUsuarioActual = 1; // cliente
+            tipoUsuarioActual = 1;
             
             limpiarPantalla();
             colorTexto(2);
@@ -486,7 +469,6 @@ void iniciarSesionCliente(int& idUsuarioActual, int& tipoUsuarioActual){
         }
     }
     
-    // Si llegó aquí, se acabaron los intentos
     if(tipoUsuarioActual == 0){
         limpiarPantalla();
         rlutil::locate(44, 10);
@@ -518,7 +500,6 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
         cout << "Ingresar legajo: ";
         cin >> legajo;
         
-        // Validar que cin no falló
         if(cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -531,7 +512,6 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
             continue;
         }
         
-        // Validar rango
         if(legajo < 1 || legajo > 999999){
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             rlutil::locate(44, 13);
@@ -549,7 +529,6 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
         cout << "Ingresar contrase" << char(164) << "a: ";
         cin.getline(contrasena, 51);
         
-        // Validar contraseña no vacía y mínimo 8 caracteres
         if(strlen(contrasena) == 0){
             rlutil::locate(44, 13);
             colorTexto(3);
@@ -572,8 +551,8 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
         if(validarLoginEmpleado(legajo, contrasena, empleadoEncontrado)){
             idUsuarioActual = legajo;
 
-            if(legajo == 1){ // admin
-                tipoUsuarioActual = 3; // admin
+            if(legajo == 1){ 
+                tipoUsuarioActual = 3;
                 
                 limpiarPantalla();
                 colorTexto(2);
@@ -590,7 +569,7 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
                 colorTexto(7);
             }
             else{
-                tipoUsuarioActual = 2; // empleado normal
+                tipoUsuarioActual = 2;
                 
                 limpiarPantalla();
                 colorTexto(2);
@@ -622,7 +601,6 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
         }
     }
     
-    // Si llegó aquí, se acabaron los intentos
     if(tipoUsuarioActual == 0){
         limpiarPantalla();
         rlutil::locate(44, 10);
@@ -632,5 +610,3 @@ void iniciarSesionEmpleado(int& idUsuarioActual, int& tipoUsuarioActual){
         rlutil::msleep(2000);
     }
 }
-
-// -------------------------------------------------------------------------------------------------------
