@@ -29,13 +29,10 @@ void config(){
 
     iniciarArchivos();
 
-    int key = rlutil::getkey();
-    if (key == 31){ 
-        cout << "Iniciar usuarios de prueba? (S/N): " << endl;
-        char respuesta = validarSiNo();
-        system("cls");
-        if(respuesta == 'S' || respuesta == 's') iniciarUsuarios();
-    }
+    cout << "Iniciar usuarios de prueba? (S/N): " << endl;
+    char respuesta = validarSiNo();
+    system("cls");
+    if(respuesta == 'S' || respuesta == 's') iniciarUsuarios();
 }
 
 void consola(){
@@ -122,7 +119,7 @@ void iniciarArchivos(){
             cout << "ERROR FATAL: No se pudo crear el archivo de clientes." << endl;
             exit(-1);
         }
-        
+
         Cliente clienteBanco(10000000, "Sistema", "WennerBank", "Central", Fecha(14, 11, 1987), "bancoWennerBank@mail.com", "abcd1234", false, 1);
         fwrite(&clienteBanco, sizeof(Cliente), 1, archivoClientes);
 
@@ -252,7 +249,7 @@ void iniciarUsuarios(){
     fwrite(&empleado8, sizeof(Empleado), 1, archivoEmpleados);
 
     char nombre6[50] = {'C', 'l', 'a', 'r', 'a', ' ', 'I', 'n', char(130), 's', '\0'};
-    char apellido9[50] = {'P', 'o', 'n', 'c', 'e', ' ', 'D', 'e', ' ', 'L', 'e', char(162), 'n', '\0'};   
+    char apellido9[50] = {'P', 'o', 'n', 'c', 'e', ' ', 'D', 'e', ' ', 'L', 'e', char(162), 'n', '\0'};
     Empleado empleado9(27000123, nombre6, apellido9, "El Talar", Fecha(5, 5, 1985), "clarita_ponce_leon@gmail.com", contrasena, false, 10);
     fwrite(&empleado9, sizeof(Empleado), 1, archivoEmpleados);
 

@@ -18,21 +18,21 @@ using namespace std;
 void redibujarMenuCliente(const Cliente& clienteActual, const char* idFormateado){
     colorTexto(7);
     limpiarPantalla();
-    
+
     rlutil::locate(35, 3);
     cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
     rlutil::locate(35, 4);
     cout << char(186); centrarTexto("MENU PRINCIPAL", ' ', 50); cout << char(186);
     rlutil::locate(35, 5);
     cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
-    
+
     rlutil::locate(40, 7);
     colorTexto(6);
     cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido();
     colorTexto(7);
     rlutil::locate(40, 8);
     cout << "ID: " << idFormateado;
-    
+
     rlutil::locate(44, 11);
     cout << "Ver mis cuentas";
     rlutil::locate(44, 12);
@@ -58,7 +58,7 @@ void redibujarMenuCliente(const Cliente& clienteActual, const char* idFormateado
 void menuCliente(int idCliente){
     ArchivoClientes objClientes;
     Cliente clienteActual;
-    
+
     if(!objClientes.buscarCliente("ID", idCliente, clienteActual)){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -69,33 +69,33 @@ void menuCliente(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     bool continuar = true;
     while(continuar){
         rlutil::hidecursor();
         int opcion = 0;
         bool curs = true;
-        
+
         colorTexto(7);
         limpiarPantalla();
-        
+
         rlutil::locate(35, 3);
         cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
         rlutil::locate(35, 4);
         cout << char(186); centrarTexto("MENU CLIENTE", ' ', 50); cout << char(186);
         rlutil::locate(35, 5);
         cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
-        
+
         rlutil::locate(40, 7);
         colorTexto(6);
         cout << "Cliente: " << clienteActual.getNombre() << " " << clienteActual.getApellido();
         colorTexto(7);
-        
+
         char idFormateado[15];
         formatearId(idFormateado, "CL", idCliente, 6);
         rlutil::locate(40, 8);
         cout << "ID: " << idFormateado;
-        
+
         rlutil::locate(44, 11);
         cout << "Ver mis cuentas";
         rlutil::locate(44, 12);
@@ -116,95 +116,95 @@ void menuCliente(int idCliente){
         cout << "Cambiar contrase" << char(164) << "a";
         rlutil::locate(44, 20);
         cout << "Cerrar sesi" << char(162) << "n";
-        
+
         while(curs){
             rlutil::locate(42, 11 + opcion);
             cout << char(175);
             int tecla = rlutil::getkey();
-            
+
             rlutil::locate(42, 11 + opcion);
             cout << " ";
-            
+
             switch(tecla){
-                case 14: 
+                case 14:
                     opcion--;
                     if(opcion < 0) opcion = 9;
                     break;
-                    
-                case 15: 
+
+                case 15:
                     opcion++;
                     if(opcion > 9) opcion = 0;
                     break;
-                    
+
                 case 1:
                     curs = false;
                     rlutil::showcursor();
                     limpiarPantalla();
-                    
+
                     switch(opcion){
-                        case 0: 
+                        case 0:
                             verMisCuentas(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 1: 
+
+                        case 1:
                             ingresarACuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
+
                         case 2:
                             crearMiCuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 3: 
+
+                        case 3:
                             verMisTransacciones(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
+
                         case 4:
                             cerrarMiCuenta(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 5: 
+
+                        case 5:
                             verSaldoTotal(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 6: 
+
+                        case 6:
                             verMisDatos(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 7: 
+
+                        case 7:
                             modificarMisDatos(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
-                        case 8: 
+
+                        case 8:
                             cambiarPassword(idCliente);
                             curs = true;
                             rlutil::hidecursor();
                             redibujarMenuCliente(clienteActual, idFormateado);
                             break;
-                            
+
                         case 9:
                             continuar = false;
                             curs = false;
@@ -230,14 +230,14 @@ void ingresarACuenta(int idCliente){
     while(intentos < maxIntentos){
         limpiarPantalla();
         colorTexto(7);
-        
+
         rlutil::locate(30, 3);
         cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
         rlutil::locate(30, 4);
         cout << char(186); centrarTexto("INGRESAR A CUENTA BANCARIA", ' ', 60); cout << char(186);
         rlutil::locate(30, 5);
         cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-        
+
         rlutil::locate(35, 8);
         colorTexto(6);
         cout << "Ingrese el ID de la cuenta: ";
@@ -309,7 +309,7 @@ void crearMiCuenta(int idCliente){
 void verMisDatos(int idCliente){
     limpiarPantalla();
     colorTexto(7);
-    
+
     Cliente clienteActual;
     ArchivoClientes objClientes;
     if(objClientes.buscarCliente("ID", idCliente, clienteActual)){
@@ -319,7 +319,7 @@ void verMisDatos(int idCliente){
         cout << char(186); centrarTexto("MIS DATOS PERSONALES", ' ', 60); cout << char(186);
         rlutil::locate(30, 5);
         cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-        
+
         rlutil::locate(1, 7);
         cout << clienteActual.mostrarDatos() << endl;
     }
@@ -342,10 +342,10 @@ void modificarMisDatos(int idCliente){
 void verMisTransacciones(int idCliente){
     limpiarPantalla();
     colorTexto(7);
-    
+
     ArchivoCuentas objCuentas;
     ArchivoTransacciones objTransacciones;
-    
+
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
@@ -357,17 +357,17 @@ void verMisTransacciones(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     cuentaBancaria cuentaActual;
     int totalCuentas = 0;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             totalCuentas++;
         }
     }
     fclose(archivo);
-    
+
     if(totalCuentas == 0){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -378,28 +378,28 @@ void verMisTransacciones(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     rlutil::locate(25, 3);
     cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
     rlutil::locate(25, 4);
     cout << char(186); centrarTexto("MIS TRANSACCIONES", ' ', 70); cout << char(186);
     rlutil::locate(25, 5);
     cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
-    
+
     rlutil::locate(30, 8);
     colorTexto(6);
     cout << "Seleccione una cuenta para ver sus transacciones:";
     colorTexto(7);
-    
+
     archivo = fopen("cuentas.dat", "rb");
     int linea = 10;
     int contador = 1;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             char idFormateado[15];
             formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-            
+
             rlutil::locate(35, linea);
             cout << contador << ". " << idFormateado << " - " << cuentaActual.getNombreCuenta();
             rlutil::locate(70, linea);
@@ -409,20 +409,20 @@ void verMisTransacciones(int idCliente){
         }
     }
     fclose(archivo);
-    
+
     rlutil::locate(35, linea + 1);
     cout << contador << ". Volver al men" << char(163) << " anterior";
-    
+
     rlutil::locate(30, linea + 3);
     cout << char(175) << " Opci" << char(162) << "n: ";
     int opcion = validarEntero(1, contador);
-    
+
     if(opcion == contador) return;
-    
+
     archivo = fopen("cuentas.dat", "rb");
     contador = 1;
     int idCuentaSeleccionada = -1;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             if(contador == opcion){
@@ -433,7 +433,7 @@ void verMisTransacciones(int idCliente){
         }
     }
     fclose(archivo);
-    
+
     if(idCuentaSeleccionada != -1){
         objTransacciones.listarTransaccionesCuenta(idCuentaSeleccionada);
         rlutil::locate(1, 25);
@@ -445,9 +445,9 @@ void verMisTransacciones(int idCliente){
 void cerrarMiCuenta(int idCliente){
     limpiarPantalla();
     colorTexto(7);
-    
+
     ArchivoCuentas objCuentas;
-    
+
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
@@ -459,17 +459,17 @@ void cerrarMiCuenta(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     cuentaBancaria cuentaActual;
     int totalCuentas = 0;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             totalCuentas++;
         }
     }
     fclose(archivo);
-    
+
     if(totalCuentas == 0){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -480,28 +480,28 @@ void cerrarMiCuenta(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CERRAR CUENTA BANCARIA", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 8);
     colorTexto(6);
     cout << "Seleccione la cuenta que desea cerrar:";
     colorTexto(7);
-    
+
     archivo = fopen("cuentas.dat", "rb");
     int linea = 10;
     int contador = 1;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             char idFormateado[15];
             formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-            
+
             rlutil::locate(35, linea);
             cout << contador << ". " << idFormateado << " - " << cuentaActual.getNombreCuenta();
             rlutil::locate(70, linea);
@@ -511,20 +511,20 @@ void cerrarMiCuenta(int idCliente){
         }
     }
     fclose(archivo);
-    
+
     rlutil::locate(35, linea + 1);
     cout << contador << ". Cancelar operaci" << char(162) << "n";
-    
+
     rlutil::locate(30, linea + 3);
     cout << char(175) << " Opci" << char(162) << "n: ";
     int opcion = validarEntero(1, contador);
-    
+
     if(opcion == contador) return;
-    
+
     archivo = fopen("cuentas.dat", "rb");
     contador = 1;
     int idCuentaSeleccionada = -1;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             if(contador == opcion){
@@ -535,7 +535,7 @@ void cerrarMiCuenta(int idCliente){
         }
     }
     fclose(archivo);
-    
+
     if(idCuentaSeleccionada != -1){
         cuentaBancaria cuentaACerrar;
         if(objCuentas.buscarCuenta("ID", idCuentaSeleccionada, cuentaACerrar)){
@@ -553,7 +553,7 @@ void cerrarMiCuenta(int idCliente){
                 return;
             }
         }
-        
+
         objCuentas.eliminarCuenta(idCuentaSeleccionada);
         rlutil::anykey();
     }
@@ -562,7 +562,7 @@ void cerrarMiCuenta(int idCliente){
 void verSaldoTotal(int idCliente){
     limpiarPantalla();
     colorTexto(7);
-    
+
     FILE* archivo = fopen("cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
@@ -574,45 +574,45 @@ void verSaldoTotal(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     cuentaBancaria cuentaActual;
     double saldoTotal = 0.0;
     int totalCuentas = 0;
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("RESUMEN FINANCIERO", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 8);
     colorTexto(6);
     cout << "Mis Cuentas Bancarias:";
     colorTexto(7);
-    
+
     int linea = 10;
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             char idFormateado[15];
             formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-            
+
             rlutil::locate(38, linea);
             cout << idFormateado << " - " << cuentaActual.getNombreCuenta();
-            
+
             rlutil::locate(70, linea);
             colorTexto(2);
             cout << "$" << fixed << setprecision(2) << cuentaActual.getSaldo();
             colorTexto(7);
-            
+
             saldoTotal += cuentaActual.getSaldo();
             totalCuentas++;
             linea++;
         }
     }
     fclose(archivo);
-    
+
     if(totalCuentas == 0){
         rlutil::locate(40, 12);
         colorTexto(3);
@@ -622,24 +622,24 @@ void verSaldoTotal(int idCliente){
     else{
         rlutil::locate(38, linea + 1);
         cout << string(45, char(196));
-        
+
         rlutil::locate(38, linea + 3);
         colorTexto(6);
         cout << "SALDO TOTAL:";
         colorTexto(7);
-        
+
         rlutil::locate(70, linea + 3);
         colorTexto(2);
         cout << "$" << fixed << setprecision(2) << saldoTotal;
         colorTexto(7);
-        
+
         rlutil::locate(38, linea + 5);
         cout << "Total de cuentas: ";
         colorTexto(2);
         cout << totalCuentas;
         colorTexto(7);
     }
-    
+
     rlutil::locate(35, linea + 8);
     cout << "Presione cualquier tecla para continuar...";
     rlutil::anykey();
@@ -648,14 +648,14 @@ void verSaldoTotal(int idCliente){
 void cambiarPassword(int idCliente){
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CAMBIAR CONTRASENA", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     Cliente clienteActual;
     ArchivoClientes objClientes;
     if(!objClientes.buscarCliente("ID", idCliente, clienteActual)){
@@ -668,7 +668,7 @@ void cambiarPassword(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     rlutil::locate(35, 8);
     colorTexto(6);
     cout << "Ingrese su contrase" << char(164) << "a actual:";
@@ -676,7 +676,7 @@ void cambiarPassword(int idCliente){
     rlutil::locate(35, 9);
     char passwordActual[50];
     validarCadena(passwordActual, 50);
-    
+
     if(strcmp(clienteActual.getContrasena(), passwordActual) != 0){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -688,7 +688,7 @@ void cambiarPassword(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     rlutil::locate(35, 11);
     colorTexto(6);
     cout << "Ingrese su nueva contrase" << char(164) << "a:";
@@ -696,7 +696,7 @@ void cambiarPassword(int idCliente){
     rlutil::locate(35, 12);
     char passwordNueva[50];
     validarCadena(passwordNueva, 50);
-    
+
     if(strlen(passwordNueva) < 6){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -708,7 +708,7 @@ void cambiarPassword(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     rlutil::locate(35, 14);
     colorTexto(6);
     cout << "Confirme su nueva contrase" << char(164) << "a:";
@@ -716,7 +716,7 @@ void cambiarPassword(int idCliente){
     rlutil::locate(35, 15);
     char passwordConfirm[50];
     validarCadena(passwordConfirm, 50);
-    
+
     if(strcmp(passwordNueva, passwordConfirm) != 0){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -728,14 +728,14 @@ void cambiarPassword(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     clienteActual.setContrasena(passwordNueva);
-    
+
     if(objClientes.modificarCliente(clienteActual)){
         limpiarPantalla();
         rlutil::locate(40, 15);
         colorTexto(2);
-        cout << char(251) << " Contrase" << char(164) << "a cambiada exitosamente!";
+        cout << " Contrase" << char(164) << "a cambiada exitosamente!";
         colorTexto(7);
     }
     else{
@@ -745,7 +745,7 @@ void cambiarPassword(int idCliente){
         cout << "ERROR: No se pudo cambiar la contrase" << char(164) << "a.";
         colorTexto(7);
     }
-    
+
     rlutil::locate(40, 17);
     cout << "Presione cualquier tecla para continuar...";
     rlutil::anykey();

@@ -321,7 +321,7 @@ void transferirDinero(int idCuenta){
                 limpiarPantalla();
                 rlutil::locate(40, 15);
                 colorTexto(2);
-                cout << char(251) << " Transferencia realizada con " << char(130) << "xito!";
+                cout << " Transferencia realizada con " << char(130) << "xito!";
                 colorTexto(7);
                 rlutil::locate(40, 17);
                 colorTexto(6);
@@ -429,7 +429,7 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
                 if(objCuentas.modificarCuenta(cuenta)){
                     rlutil::locate(35, 11);
                     colorTexto(2);
-                    cout << char(251) << " Nombre modificado correctamente.";
+                    cout << " Nombre modificado correctamente.";
                     colorTexto(7);
                 }
                 rlutil::locate(35, 13);
@@ -454,7 +454,7 @@ void modificarDatosCuentaMenu(int idCuenta, int idCliente){
                 if(objCuentas.modificarCuenta(cuenta)){
                     rlutil::locate(35, 8);
                     colorTexto(2);
-                    cout << char(251) << " Alias regenerado: " << nuevoAlias;
+                    cout << " Alias regenerado: " << nuevoAlias;
                     colorTexto(7);
                 }
                 rlutil::locate(35, 11);
@@ -565,7 +565,7 @@ void cerrarCuenta(int idCuenta, int idCliente){
                 limpiarPantalla();
                 rlutil::locate(40, 14);
                 colorTexto(2);
-                cout << char(251) << " Saldo transferido a la cuenta del banco exitosamente.";
+                cout << " Saldo transferido a la cuenta del banco exitosamente.";
                 colorTexto(7);
             }
             else{
@@ -580,7 +580,7 @@ void cerrarCuenta(int idCuenta, int idCliente){
             limpiarPantalla();
             rlutil::locate(40, 15);
             colorTexto(2);
-            cout << char(251) << " Cuenta cerrada exitosamente.";
+            cout << " Cuenta cerrada exitosamente.";
             colorTexto(7);
             rlutil::locate(40, 16);
             cout << "Ser" << char(160) << " redirigido al men" << char(163) << " principal.";

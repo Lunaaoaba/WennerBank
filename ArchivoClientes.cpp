@@ -35,14 +35,14 @@ Cliente ArchivoClientes::crearCliente(){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(35, 3);
     cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
     rlutil::locate(35, 4);
     cout << char(186); centrarTexto("REGISTRO DE NUEVO CLIENTE", ' ', 50); cout << char(186);
     rlutil::locate(35, 5);
     cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
-    
+
     cout << endl << endl;
     rlutil::locate(40, 7);
     cout << "DNI: ";
@@ -65,26 +65,26 @@ Cliente ArchivoClientes::crearCliente(){
         rlutil::locate(60, 7);
         dni = validarEntero(10000000, 99999999);
     }
-    
+
     rlutil::locate(40, 9);
     cout << "Nombre: ";
     rlutil::locate(60, 9);
     validarCadenaLetras(nombre, 50);
-    
+
     rlutil::locate(40, 11);
     cout << "Apellido: ";
     rlutil::locate(60, 11);
     validarCadenaLetras(apellido, 50);
-    
+
     rlutil::locate(40, 13);
     cout << "Localidad: ";
     rlutil::locate(60, 13);
     validarCadenaLetras(localidad, 50);
-    
+
     rlutil::locate(40, 16);
     cout << "Fecha de Nacimiento:";
     fechaNacimiento.cargarFecha(60, 17);
-    
+
     rlutil::locate(40, 21);
     cout << "Mail: ";
     rlutil::locate(60, 21);
@@ -104,7 +104,7 @@ Cliente ArchivoClientes::crearCliente(){
         rlutil::locate(60, 21);
         validarCadena(mail, 50);
     }
-    
+
     rlutil::locate(40, 23);
     cout << "Contrase" << char(164) << "a (min 8 caracteres): ";
     rlutil::locate(60, 24);
@@ -138,14 +138,14 @@ Cliente ArchivoClientes::crearCliente(){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(35, 3);
     cout << char(201); centrarTexto("", char(205), 50); cout << char(187);
     rlutil::locate(35, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE DATOS", ' ', 50); cout << char(186);
     rlutil::locate(35, 5);
     cout << char(200); centrarTexto("", char(205), 50); cout << char(188);
-    
+
     cout << endl << endl;
     rlutil::locate(40, 7);
     cout << "DNI: ";
@@ -180,7 +180,7 @@ Cliente ArchivoClientes::crearCliente(){
     cout << char(175) << " Confirma la creacion del cliente? (S/N): ";
     colorTexto(7);
     char confirmacion = validarSiNo();
-    
+
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarClientes(nuevoCliente)){
             rlutil::locate(40, 19);
@@ -272,19 +272,19 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("MODIFICACION DE DATOS DEL CLIENTE", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Datos actuales del cliente:";
     colorTexto(7);
-    
+
     rlutil::locate(40, 9);
     cout << "DNI: " << clienteAModificar.getDni();
     rlutil::locate(40, 10);
@@ -304,7 +304,7 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
             rlutil::locate(35, i);
             cout << string(55, ' ');
         }
-        
+
         rlutil::locate(35, 16);
         colorTexto(6);
         cout << "Seleccione el dato a modificar:";
@@ -321,16 +321,16 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
         cout << "5. Contrase" << char(164) << "a";
         rlutil::locate(40, 23);
         cout << "6. Finalizar/Cancelar modificacion";
-        
+
         rlutil::locate(35, 25);
         cout << char(175) << " Opcion: ";
         int opcion = validarEntero(1, 6);
-        
+
         for(int i = 16; i <= 28; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
         }
-        
+
         switch(opcion){
             case 1: {
                 char nuevoNombre[50];
@@ -344,15 +344,15 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
                 cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoNombre, 50);
                 clienteAModificar.setNombre(nuevoNombre);
-                
+
                 rlutil::locate(40, 10);
                 cout << string(40, ' ');
                 rlutil::locate(40, 10);
                 cout << "Nombre: " << nuevoNombre;
-                
+
                 rlutil::locate(40, 23);
                 colorTexto(2);
-                cout << char(251) << " Nombre actualizado!";
+                cout << " Nombre actualizado!";
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -369,15 +369,15 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
                 cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoApellido, 50);
                 clienteAModificar.setApellido(nuevoApellido);
-                
+
                 rlutil::locate(40, 11);
                 cout << string(40, ' ');
                 rlutil::locate(40, 11);
                 cout << "Apellido: " << nuevoApellido;
-                
+
                 rlutil::locate(40, 23);
                 colorTexto(2);
-                cout << char(251) << " Apellido actualizado!";
+                cout << " Apellido actualizado!";
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -394,15 +394,15 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
                 cout << "Nueva:  ";
                 validarCadenaLetras(nuevaLocalidad, 50);
                 clienteAModificar.setLocalidad(nuevaLocalidad);
-                
+
                 rlutil::locate(40, 12);
                 cout << string(40, ' ');
                 rlutil::locate(40, 12);
                 cout << "Localidad: " << nuevaLocalidad;
-                
+
                 rlutil::locate(40, 23);
                 colorTexto(2);
-                cout << char(251) << " Localidad actualizada!";
+                cout << " Localidad actualizada!";
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -433,15 +433,15 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
                     validarCadena(nuevoMail, 50);
                 }
                 clienteAModificar.setMail(nuevoMail);
-                
+
                 rlutil::locate(40, 14);
                 cout << string(40, ' ');
                 rlutil::locate(40, 14);
                 cout << "Mail: " << nuevoMail;
-                
+
                 rlutil::locate(40, 23);
                 colorTexto(2);
-                cout << char(251) << " Mail actualizado!";
+                cout << " Mail actualizado!";
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -463,7 +463,7 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
                         clienteAModificar.setContrasena(nuevaContrasena);
                         rlutil::locate(40, 23);
                         colorTexto(2);
-                        cout << char(251) << " Contrase" << char(164) << "a actualizada!";
+                        cout << " Contrase" << char(164) << "a actualizada!";
                         colorTexto(7);
                     }
                     else{
@@ -493,12 +493,12 @@ bool ArchivoClientes::modificarDatosCliente(int idCliente){
             }
         }
     }
-    
+
     if(modificarCliente(clienteAModificar)){
         limpiarPantalla();
         rlutil::locate(40, 15);
         colorTexto(2);
-        cout << char(251) << " Cliente modificado correctamente!";
+        cout << " Cliente modificado correctamente!";
         colorTexto(7);
         return true;
     }
@@ -547,19 +547,19 @@ bool ArchivoClientes::eliminarCliente(int idCliente){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE ELIMINACION", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cliente a eliminar:";
     colorTexto(7);
-    
+
     rlutil::locate(40, 9);
     cout << "ID: " << clienteAEliminar.getIdCliente();
     rlutil::locate(40, 10);
@@ -572,19 +572,19 @@ bool ArchivoClientes::eliminarCliente(int idCliente){
     cout << "Mail: " << clienteAEliminar.getMail();
     rlutil::locate(40, 14);
     cout << "Fecha Nacimiento: " << clienteAEliminar.getFechaNacimiento().mostrarFecha();
-    
+
     rlutil::locate(35, 17);
     colorTexto(6);
     cout << char(175) << " Confirma la eliminacion del cliente? (S/N): ";
     colorTexto(7);
     char confirmacion = validarSiNo();
-    
+
     if(confirmacion == 'S' || confirmacion == 's'){
         clienteAEliminar.setUsuarioEliminado(true);
         if(modificarCliente(clienteAEliminar)){
             rlutil::locate(40, 19);
             colorTexto(2);
-            cout << char(251) << " Cliente eliminado correctamente!";
+            cout << " Cliente eliminado correctamente!";
             colorTexto(7);
             rlutil::locate(40, 21);
 
@@ -613,7 +613,7 @@ bool ArchivoClientes::eliminarCliente(int idCliente){
 
 bool ArchivoClientes::restaurarCliente(int idCliente){
     Cliente clienteARestaurar;
-    
+
     if(!buscarCliente("ID", idCliente, clienteARestaurar)){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -622,7 +622,7 @@ bool ArchivoClientes::restaurarCliente(int idCliente){
         colorTexto(7);
         return false;
     }
-    
+
     if(!clienteARestaurar.getUsuarioEliminado()){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -631,22 +631,22 @@ bool ArchivoClientes::restaurarCliente(int idCliente){
         colorTexto(7);
         return false;
     }
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE RESTAURACION", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cliente a restaurar:";
     colorTexto(7);
-    
+
     rlutil::locate(40, 9);
     cout << "ID: " << clienteARestaurar.getIdCliente();
     rlutil::locate(40, 10);
@@ -659,19 +659,19 @@ bool ArchivoClientes::restaurarCliente(int idCliente){
     cout << "Mail: " << clienteARestaurar.getMail();
     rlutil::locate(40, 14);
     cout << "Fecha Nacimiento: " << clienteARestaurar.getFechaNacimiento().mostrarFecha();
-    
+
     rlutil::locate(35, 17);
     colorTexto(6);
     cout << char(175) << " Confirma la restauracion del cliente? (S/N): ";
     colorTexto(7);
     char confirmacion = validarSiNo();
-    
+
     if(confirmacion == 'S' || confirmacion == 's'){
         clienteARestaurar.setUsuarioEliminado(false);
         if(modificarCliente(clienteARestaurar)){
             rlutil::locate(40, 19);
             colorTexto(2);
-            cout << char(251) << " Cliente restaurado correctamente!";
+            cout << " Cliente restaurado correctamente!";
             colorTexto(7);
             return true;
         }
@@ -701,28 +701,28 @@ void ArchivoClientes::listarClientes(){
         colorTexto(7);
         return;
     }
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
-    cout << char(201); 
-    for(int i = 0; i < 60; i++) cout << char(205); 
+
+    cout << char(201);
+    for(int i = 0; i < 60; i++) cout << char(205);
     cout << char(187) << endl;
-    cout << char(186); 
-    centrarTexto("LISTADO DE CLIENTES ACTIVOS", ' ', 60); 
+    cout << char(186);
+    centrarTexto("LISTADO DE CLIENTES ACTIVOS", ' ', 60);
     cout << char(186) << endl;
-    cout << char(200); 
-    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(200);
+    for(int i = 0; i < 60; i++) cout << char(205);
     cout << char(188) << endl << endl;
-    
+
     Cliente clienteActual;
     int contador = 0;
-    
+
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         if(!clienteActual.getUsuarioEliminado()){
             char idFormateado[20];
             formatearId(idFormateado, "CL-", clienteActual.getIdCliente(), 6);
-            
+
             cout << "Cliente #" << (contador + 1) << endl;
             cout << "ID: " << idFormateado << endl;
             cout << "DNI: " << clienteActual.getDni() << endl;
@@ -736,7 +736,7 @@ void ArchivoClientes::listarClientes(){
             contador++;
         }
     }
-    
+
     if(contador == 0){
         colorTexto(3);
         cout << "No hay clientes registrados." << endl;
@@ -747,7 +747,7 @@ void ArchivoClientes::listarClientes(){
         cout << "Total de clientes: " << contador << endl;
         colorTexto(7);
     }
-    
+
     fclose(archivo);
 }
 
@@ -760,27 +760,27 @@ void ArchivoClientes::listarTodosClientes(){
         colorTexto(7);
         return;
     }
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
-    cout << char(201); 
-    for(int i = 0; i < 60; i++) cout << char(205); 
+
+    cout << char(201);
+    for(int i = 0; i < 60; i++) cout << char(205);
     cout << char(187) << endl;
-    cout << char(186); 
-    centrarTexto("LISTADO COMPLETO DE CLIENTES", ' ', 60); 
+    cout << char(186);
+    centrarTexto("LISTADO COMPLETO DE CLIENTES", ' ', 60);
     cout << char(186) << endl;
-    cout << char(200); 
-    for(int i = 0; i < 60; i++) cout << char(205); 
+    cout << char(200);
+    for(int i = 0; i < 60; i++) cout << char(205);
     cout << char(188) << endl << endl;
-    
+
     Cliente clienteActual;
     int contador = 0;
-    
+
     while (fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         char idFormateado[20];
         formatearId(idFormateado, "CL-", clienteActual.getIdCliente(), 6);
-        
+
         cout << "Cliente #" << (contador + 1);
         if(clienteActual.getUsuarioEliminado()){
             colorTexto(3);
@@ -799,7 +799,7 @@ void ArchivoClientes::listarTodosClientes(){
         cout << endl << endl;
         contador++;
     }
-    
+
     if(contador == 0){
         colorTexto(3);
         cout << "No hay clientes registrados." << endl;
@@ -810,7 +810,7 @@ void ArchivoClientes::listarTodosClientes(){
         cout << "Total de clientes: " << contador << endl;
         colorTexto(7);
     }
-    
+
     fclose(archivo);
 }
 

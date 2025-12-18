@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <iomanip>
 #include <cstring>
+#include <vector>
+#include <string>
 #include "menuReportes.h"
 #include "archivoClientes.h"
 #include "archivoEmpleados.h"
@@ -384,9 +386,8 @@ void reporteClienteMasTransacciones(){
     }
     
     Transaccion transaccionActual;
-    int clientes[1000];
-    int contadores[1000] = {0};
-    int totalClientes = 0;
+    std::vector<int> clientes;
+    std::vector<int> contadores;
 
     while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
         int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
@@ -399,7 +400,7 @@ void reporteClienteMasTransacciones(){
                     int idCliente = cuentaActual.getIdCliente();
                     bool encontrado = false;
 
-                    for(int i = 0; i < totalClientes; i++){
+                    for(size_t i = 0; i < clientes.size(); i++){
                         if(clientes[i] == idCliente){
                             contadores[i]++;
                             encontrado = true;
@@ -407,9 +408,8 @@ void reporteClienteMasTransacciones(){
                         }
                     }
                     if(!encontrado){
-                        clientes[totalClientes] = idCliente;
-                        contadores[totalClientes] = 1;
-                        totalClientes++;
+                        clientes.push_back(idCliente);
+                        contadores.push_back(1);
                     }
                     break;
                 }
@@ -423,7 +423,7 @@ void reporteClienteMasTransacciones(){
     int maxTransacciones = 0;
     int idClienteMax = 0;
     
-    for(int i = 0; i < totalClientes; i++){
+    for(size_t i = 0; i < clientes.size(); i++){
         if(contadores[i] > maxTransacciones){
             maxTransacciones = contadores[i];
             idClienteMax = clientes[i];
@@ -664,26 +664,24 @@ void reporteClientesPorLocalidad(){
     }
     
     Cliente clienteActual;
-    char localidades[100][50];
-    int contadores[100] = {0};
-    int totalLocalidades = 0;
+    std::vector<std::string> localidades;
+    std::vector<int> contadores;
 
     while(fread(&clienteActual, sizeof(Cliente), 1, archivo) == 1){
         if(!clienteActual.getUsuarioEliminado()){
             const char* localidad = clienteActual.getLocalidad();
             bool encontrada = false;
             
-            for(int i = 0; i < totalLocalidades; i++){
-                if(strcmp(localidades[i], localidad) == 0){
+            for(size_t i = 0; i < localidades.size(); i++){
+                if(localidades[i] == localidad){
                     contadores[i]++;
                     encontrada = true;
                     break;
                 }
             }
             if(!encontrada){
-                strcpy(localidades[totalLocalidades], localidad);
-                contadores[totalLocalidades] = 1;
-                totalLocalidades++;
+                localidades.push_back(localidad);
+                contadores.push_back(1);
             }
         }
     }
@@ -700,7 +698,7 @@ void reporteClientesPorLocalidad(){
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     
-    if(totalLocalidades == 0){
+    if(localidades.size() == 0){
         rlutil::locate(30, 8);
         colorTexto(3);
         cout << "No hay clientes activos registrados.";
@@ -712,7 +710,7 @@ void reporteClientesPorLocalidad(){
 
     int totalClientes = 0;
     int lineaActual = 8;
-    for(int i = 0; i < totalLocalidades; i++){
+    for(size_t i = 0; i < localidades.size(); i++){
         rlutil::locate(35, lineaActual);
         colorTexto(6);
         cout << localidades[i] << ": ";
@@ -733,7 +731,7 @@ void reporteClientesPorLocalidad(){
     lineaActual++;
     rlutil::locate(35, lineaActual);
     colorTexto(2);
-    cout << "Total de localidades: " << totalLocalidades;
+    cout << "Total de localidades: " << localidades.size();
     colorTexto(7);
     lineaActual++;
     rlutil::locate(35, lineaActual);
@@ -761,9 +759,8 @@ void reporteTop5ClientesMayorMonto(){
     }
     
     Transaccion transaccionActual;
-    int clientes[1000];
-    double montosTransferidos[1000] = {0.0};
-    int totalClientes = 0;
+    std::vector<int> clientes;
+    std::vector<double> montosTransferidos;
 
     while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
         int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
@@ -776,7 +773,7 @@ void reporteTop5ClientesMayorMonto(){
                     int idCliente = cuentaActual.getIdCliente();
                     bool encontrado = false;
 
-                    for(int i = 0; i < totalClientes; i++){
+                    for(size_t i = 0; i < clientes.size(); i++){
                         if(clientes[i] == idCliente){
                             montosTransferidos[i] += transaccionActual.getMonto();
                             encontrado = true;
@@ -784,9 +781,8 @@ void reporteTop5ClientesMayorMonto(){
                         }
                     }
                     if(!encontrado){
-                        clientes[totalClientes] = idCliente;
-                        montosTransferidos[totalClientes] = transaccionActual.getMonto();
-                        totalClientes++;
+                        clientes.push_back(idCliente);
+                        montosTransferidos.push_back(transaccionActual.getMonto());
                     }
                     break;
                     }
@@ -797,16 +793,17 @@ void reporteTop5ClientesMayorMonto(){
 
     fclose(archivoTransacciones);
 
+    int totalClientes = static_cast<int>(clientes.size());
     for(int i = 0; i < totalClientes - 1; i++){
         for(int j = 0; j < totalClientes - i - 1; j++){
-            if(montosTransferidos[j] < montosTransferidos[j + 1]){
-                double tempMonto = montosTransferidos[j];
-                montosTransferidos[j] = montosTransferidos[j + 1];
-                montosTransferidos[j + 1] = tempMonto;
+            if(montosTransferidos[static_cast<size_t>(j)] < montosTransferidos[static_cast<size_t>(j + 1)]){
+                double tempMonto = montosTransferidos[static_cast<size_t>(j)];
+                montosTransferidos[static_cast<size_t>(j)] = montosTransferidos[static_cast<size_t>(j + 1)];
+                montosTransferidos[static_cast<size_t>(j + 1)] = tempMonto;
                 
-                int tempId = clientes[j];
-                clientes[j] = clientes[j + 1];
-                clientes[j + 1] = tempId;
+                int tempId = clientes[static_cast<size_t>(j)];
+                clientes[static_cast<size_t>(j)] = clientes[static_cast<size_t>(j + 1)];
+                clientes[static_cast<size_t>(j + 1)] = tempId;
             }
         }
     }
@@ -841,9 +838,9 @@ void reporteTop5ClientesMayorMonto(){
             rewind(archivoClientes);
             
             while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
-                if(clienteActual.getIdCliente() == clientes[i]){
+                if(clienteActual.getIdCliente() == clientes[static_cast<size_t>(i)]){
                     char idFormateado[15];
-                    formatearId(idFormateado, "CL", clientes[i], 6);
+                    formatearId(idFormateado, "CL", clientes[static_cast<size_t>(i)], 6);
                     
                     rlutil::locate(30, lineaActual);
                     colorTexto(6);
@@ -858,7 +855,7 @@ void reporteTop5ClientesMayorMonto(){
                     lineaActual++;
                     rlutil::locate(30, lineaActual);
                     colorTexto(2);
-                    cout << "Monto total transferido: $" << fixed << setprecision(2) << montosTransferidos[i];
+                    cout << "Monto total transferido: $" << fixed << setprecision(2) << montosTransferidos[static_cast<size_t>(i)];
                     colorTexto(7);
                     lineaActual++;
                     rlutil::locate(28, lineaActual);
@@ -874,8 +871,6 @@ void reporteTop5ClientesMayorMonto(){
         rlutil::locate(30, lineaActual);
         cout << "Presione cualquier tecla para continuar...";
     }
-
-
 }
 
 void reporteEmpleadosPorLocalidad(){
@@ -890,17 +885,16 @@ void reporteEmpleadosPorLocalidad(){
     }
     
     Empleado empleadoActual;
-    char localidades[100][50];
-    int contadores[100] = {0};
-    int totalLocalidades = 0;
+    std::vector<std::string> localidades;
+    std::vector<int> contadores;
 
     while(fread(&empleadoActual, sizeof(Empleado), 1, archivo) == 1){
         if(!empleadoActual.getUsuarioEliminado()){
             const char* localidad = empleadoActual.getLocalidad();
             bool encontrada = false;
             
-            for(int i = 0; i < totalLocalidades; i++){
-                if(strcmp(localidades[i], localidad) == 0){
+            for(size_t i = 0; i < localidades.size(); i++){
+                if(localidades[i] == localidad){
                     contadores[i]++;
                     encontrada = true;
                     break;
@@ -908,9 +902,8 @@ void reporteEmpleadosPorLocalidad(){
             }
             
             if(!encontrada){
-                strcpy(localidades[totalLocalidades], localidad);
-                contadores[totalLocalidades] = 1;
-                totalLocalidades++;
+                localidades.push_back(localidad);
+                contadores.push_back(1);
             }
         }
     }
@@ -927,7 +920,7 @@ void reporteEmpleadosPorLocalidad(){
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
     
-    if(totalLocalidades == 0){
+    if(localidades.size() == 0){
         rlutil::locate(30, 8);
         colorTexto(3);
         cout << "No hay empleados activos registrados.";
@@ -939,7 +932,7 @@ void reporteEmpleadosPorLocalidad(){
 
     int totalEmpleados = 0;
     int lineaActual = 8;
-    for(int i = 0; i < totalLocalidades; i++){
+    for(size_t i = 0; i < localidades.size(); i++){
         rlutil::locate(35, lineaActual);
         colorTexto(6);
         cout << localidades[i] << ": ";
@@ -960,7 +953,7 @@ void reporteEmpleadosPorLocalidad(){
     lineaActual++;
     rlutil::locate(35, lineaActual);
     colorTexto(2);
-    cout << "Total de localidades: " << totalLocalidades;
+    cout << "Total de localidades: " << localidades.size();
     colorTexto(7);
     lineaActual++;
     rlutil::locate(35, lineaActual);
@@ -1337,44 +1330,18 @@ void reporteRankingCuentasMayorSaldo(){
         colorTexto(7);
         return;
     }
-    cuentaBancaria cuentas[1000];
-    int totalCuentas = 0;
+    std::vector<cuentaBancaria> cuentas;
+    cuentaBancaria cuentaActual;
 
-    while(fread(&cuentas[totalCuentas], sizeof(cuentaBancaria), 1, archivo) == 1){
-        if(!cuentas[totalCuentas].getCuentaEliminada() && cuentas[totalCuentas].getIdCuenta() != 1){
-            totalCuentas++;
+    while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
+        if(!cuentaActual.getCuentaEliminada() && cuentaActual.getIdCuenta() != 1){
+            cuentas.push_back(cuentaActual);
         }
     }
     fclose(archivo);
 
-    if(totalCuentas == 0){
-        limpiarPantalla();
-        colorTexto(7);
-        rlutil::locate(25, 3);
-        cout << char(201); centrarTexto("", char(205), 70); cout << char(187);
-        rlutil::locate(25, 4);
-        cout << char(186); centrarTexto("RANKING DE CUENTAS CON MAYOR SALDO", ' ', 70); cout << char(186);
-        rlutil::locate(25, 5);
-        cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
-        rlutil::locate(30, 8);
-        colorTexto(3);
-        cout << "No hay cuentas activas registradas.";
-        colorTexto(7);
-        rlutil::locate(30, 11);
-        cout << "Presione cualquier tecla para continuar...";
-        return;
-    }
+    int totalCuentas = static_cast<int>(cuentas.size());
 
-    for(int i = 0; i < totalCuentas - 1; i++){
-        for(int j = 0; j < totalCuentas - i - 1; j++){
-            if(cuentas[j].getSaldo() < cuentas[j + 1].getSaldo()){
-                cuentaBancaria temp = cuentas[j];
-                cuentas[j] = cuentas[j + 1];
-                cuentas[j + 1] = temp;
-            }
-        }
-    }
-    
     limpiarPantalla();
     colorTexto(7);
     
@@ -1385,12 +1352,32 @@ void reporteRankingCuentasMayorSaldo(){
     rlutil::locate(25, 5);
     cout << char(200); centrarTexto("", char(205), 70); cout << char(188);
     
+    if(totalCuentas == 0){
+        rlutil::locate(30, 8);
+        colorTexto(3);
+        cout << "No hay cuentas activas registradas.";
+        colorTexto(7);
+        rlutil::locate(30, 11);
+        cout << "Presione cualquier tecla para continuar...";
+        return;
+    }
+    
+    for(int i = 0; i < totalCuentas - 1; i++){
+        for(int j = 0; j < totalCuentas - i - 1; j++){
+            if(cuentas[static_cast<size_t>(j)].getSaldo() < cuentas[static_cast<size_t>(j + 1)].getSaldo()){
+                cuentaBancaria temp = cuentas[static_cast<size_t>(j)];
+                cuentas[static_cast<size_t>(j)] = cuentas[static_cast<size_t>(j + 1)];
+                cuentas[static_cast<size_t>(j + 1)] = temp;
+            }
+        }
+    }
+    
     int limite = (totalCuentas < 10) ? totalCuentas : 10;
     
     int lineaActual = 8;
     for(int i = 0; i < limite; i++){
         char idFormateado[15];
-        formatearId(idFormateado, "CU", cuentas[i].getIdCuenta(), 6);
+        formatearId(idFormateado, "CU", cuentas[static_cast<size_t>(i)].getIdCuenta(), 6);
         
         rlutil::locate(30, lineaActual);
         colorTexto(6);
@@ -1398,17 +1385,17 @@ void reporteRankingCuentasMayorSaldo(){
         colorTexto(7);
         lineaActual++;
         rlutil::locate(30, lineaActual);
-        cout << "Cuenta: " << cuentas[i].getNombreCuenta();
+        cout << "Cuenta: " << cuentas[static_cast<size_t>(i)].getNombreCuenta();
         lineaActual++;
         rlutil::locate(30, lineaActual);
         cout << "ID: " << idFormateado;
         lineaActual++;
         rlutil::locate(30, lineaActual);
-        cout << "Alias: " << cuentas[i].getAlias();
+        cout << "Alias: " << cuentas[static_cast<size_t>(i)].getAlias();
         lineaActual++;
         rlutil::locate(30, lineaActual);
         colorTexto(2);
-        cout << "Saldo: $" << fixed << setprecision(2) << cuentas[i].getSaldo();
+        cout << "Saldo: $" << fixed << setprecision(2) << cuentas[static_cast<size_t>(i)].getSaldo();
         colorTexto(7);
         lineaActual++;
         rlutil::locate(28, lineaActual);
@@ -1419,11 +1406,10 @@ void reporteRankingCuentasMayorSaldo(){
     lineaActual++;
     rlutil::locate(30, lineaActual);
     colorTexto(6);
-    cout << "Total de cuentas mostradas: ";
+    cout << endl << "Total de cuentas mostradas: ";
     colorTexto(7);
     cout << limite << " de " << totalCuentas;
     
     lineaActual += 3;
     rlutil::locate(30, lineaActual);
-    cout << "Presione cualquier tecla para continuar...";
 }

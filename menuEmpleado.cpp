@@ -391,7 +391,7 @@ void gestionarClientes(){
                         limpiarPantalla();
                         rlutil::locate(40, 15);
                         colorTexto(2);
-                        cout << char(251) << " Cliente creado exitosamente!";
+                        cout << " Cliente creado exitosamente!";
                         colorTexto(7);
                         rlutil::locate(40, 17);
                         cout << "Presione cualquier tecla para continuar...";

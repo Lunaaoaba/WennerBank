@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <cstring>
-#include <iostream> 
+#include <iostream>
 #include "cuentaBancaria.h"
 #include "cliente.h"
 #include "funciones.h"
@@ -64,21 +64,21 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CREACION DE NUEVA CUENTA BANCARIA", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido();
     colorTexto(7);
     rlutil::locate(35, 8);
     cout << "ID Cliente: " << idCliente;
-    
+
     rlutil::locate(35, 11);
     cout << "Nombre para la cuenta: ";
     rlutil::locate(60, 11);
@@ -101,22 +101,22 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
         saldo,
         cuentaEliminada
     );
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE DATOS", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cliente: " << cliente.getNombre() << " " << cliente.getApellido();
     colorTexto(7);
-    
+
     rlutil::locate(35, 9);
     cout << "ID Cuenta: " << idCuenta;
     rlutil::locate(35, 10);
@@ -127,13 +127,13 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
     cout << "Alias: " << alias;
     rlutil::locate(35, 13);
     cout << "Saldo inicial: $" << fixed << setprecision(2) << saldo;
-    
+
     rlutil::locate(35, 16);
     colorTexto(6);
     cout << char(175) << " Confirma la creacion de la cuenta? (S/N): ";
     colorTexto(7);
     char confirmacion = validarSiNo();
-    
+
     if(confirmacion == 'S' || confirmacion == 's'){
         if(guardarCuentas(nuevaCuenta)){
             limpiarPantalla();
@@ -143,10 +143,10 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
             cout << char(186); centrarTexto("CUENTA CREADA CON EXITO", ' ', 60); cout << char(186);
             rlutil::locate(30, 10);
             cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-            
+
             rlutil::locate(35, 12);
             colorTexto(2);
-            cout << char(251) << " ID Cuenta: " << idCuenta;
+            cout << " ID Cuenta: " << idCuenta;
             colorTexto(7);
             rlutil::locate(35, 13);
             cout << "CVU: " << cvu;
@@ -168,9 +168,9 @@ cuentaBancaria ArchivoCuentas::crearCuenta(int idCliente){
         colorTexto(6);
         cout << "Operacion cancelada.";
         colorTexto(7);
-        return cuentaBancaria(); 
+        return cuentaBancaria();
     }
-    
+
     return nuevaCuenta;
 }
 
@@ -245,19 +245,19 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("MODIFICACION DE CUENTA BANCARIA", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Datos actuales de la cuenta:";
     colorTexto(7);
-    
+
     rlutil::locate(40, 9);
     cout << "ID Cuenta: " << cuentaAModificar.getIdCuenta();
     rlutil::locate(40, 10);
@@ -275,7 +275,7 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
             rlutil::locate(35, i);
             cout << string(55, ' ');
         }
-        
+
         rlutil::locate(35, 15);
         colorTexto(6);
         cout << "Seleccione el dato a modificar:";
@@ -286,16 +286,16 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
         cout << "2. Volver a generar Alias";
         rlutil::locate(40, 19);
         cout << "3. Finalizar/Cancelar modificacion";
-        
+
         rlutil::locate(35, 22);
-        cout << char(175) << " Opcion: ";
+        cout << " Opcion: ";
         int opcion = validarEntero(1, 3);
-        
+
         for(int i = 15; i <= 25; i++){
             rlutil::locate(35, i);
             cout << string(55, ' ');
         }
-        
+
         switch(opcion){
             case 1: {
                 char nuevoNombre[50];
@@ -309,15 +309,15 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
                 cout << "Nuevo:  ";
                 validarCadenaLetras(nuevoNombre, 50);
                 cuentaAModificar.setNombreCuenta(nuevoNombre);
-                
+
                 rlutil::locate(40, 10);
                 cout << string(40, ' ');
                 rlutil::locate(40, 10);
                 cout << "Nombre: " << nuevoNombre;
-                
+
                 rlutil::locate(40, 22);
                 colorTexto(2);
-                cout << char(251) << " Nombre actualizado!";
+                cout   << " Nombre actualizado!";
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -326,20 +326,20 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
                 char nuevoAlias[31];
                 generarAlias(nuevoAlias);
                 cuentaAModificar.setAlias(nuevoAlias);
-                
+
                 rlutil::locate(35, 17);
                 colorTexto(6);
                 cout << "Generar Nuevo Alias";
                 colorTexto(7);
-                
+
                 rlutil::locate(40, 12);
                 cout << string(40, ' ');
                 rlutil::locate(40, 12);
                 cout << "Alias: " << nuevoAlias;
-                
+
                 rlutil::locate(40, 19);
                 colorTexto(2);
-                cout << char(251) << " Nuevo alias generado: " << nuevoAlias;
+                cout << " Nuevo alias generado: " << nuevoAlias;
                 colorTexto(7);
                 rlutil::msleep(1500);
                 break;
@@ -355,12 +355,12 @@ bool ArchivoCuentas::modificarDatosCuenta(int idCuenta){
             }
         }
     }
-    
+
     if(modificarCuenta(cuentaAModificar)){
         limpiarPantalla();
         rlutil::locate(40, 15);
         colorTexto(2);
-        cout << char(251) << " Cuenta modificada correctamente!";
+        cout << " Cuenta modificada correctamente!";
         colorTexto(7);
         return true;
     }
@@ -412,22 +412,22 @@ bool ArchivoCuentas::eliminarCuenta(int idCuenta){
 
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE ELIMINACION", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cuenta a eliminar:";
     colorTexto(7);
-    
+
     char idFormateado[15];
     formatearId(idFormateado, "CU", cuentaAEliminar.getIdCuenta(), 6);
-    
+
     rlutil::locate(40, 9);
     cout << "ID: " << idFormateado;
     rlutil::locate(40, 10);
@@ -438,7 +438,7 @@ bool ArchivoCuentas::eliminarCuenta(int idCuenta){
     cout << "Alias: " << cuentaAEliminar.getAlias();
     rlutil::locate(40, 13);
     cout << "Saldo: $" << fixed << setprecision(2) << cuentaAEliminar.getSaldo();
-    
+
     rlutil::locate(30, 16);
     colorTexto(6);
     cout << char(175) << " Confirma la eliminaci" << char(162) << "n de la cuenta? (S/N): ";
@@ -451,7 +451,7 @@ bool ArchivoCuentas::eliminarCuenta(int idCuenta){
             limpiarPantalla();
             rlutil::locate(40, 15);
             colorTexto(2);
-            cout << char(251) << " Cuenta con ID " << idFormateado << " eliminada correctamente.";
+            cout   << " Cuenta con ID " << idFormateado << " eliminada correctamente.";
             colorTexto(7);
             return true;
         }
@@ -505,22 +505,22 @@ bool ArchivoCuentas::restaurarCuenta(int idCuenta){
     }
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(30, 3);
     cout << char(201); centrarTexto("", char(205), 60); cout << char(187);
     rlutil::locate(30, 4);
     cout << char(186); centrarTexto("CONFIRMACION DE RESTAURACION", ' ', 60); cout << char(186);
     rlutil::locate(30, 5);
     cout << char(200); centrarTexto("", char(205), 60); cout << char(188);
-    
+
     rlutil::locate(35, 7);
     colorTexto(6);
     cout << "Cuenta a restaurar:";
     colorTexto(7);
-    
+
     char idFormateado[15];
     formatearId(idFormateado, "CU", cuentaARestaurar.getIdCuenta(), 6);
-    
+
     rlutil::locate(40, 9);
     cout << "ID: " << idFormateado;
     rlutil::locate(40, 10);
@@ -531,7 +531,7 @@ bool ArchivoCuentas::restaurarCuenta(int idCuenta){
     cout << "Alias: " << cuentaARestaurar.getAlias();
     rlutil::locate(40, 13);
     cout << "Saldo: $" << fixed << setprecision(2) << cuentaARestaurar.getSaldo();
-    
+
     rlutil::locate(30, 16);
     colorTexto(6);
     cout << char(175) << " Confirma la restauraci" << char(162) << "n de la cuenta? (S/N): ";
@@ -544,7 +544,7 @@ bool ArchivoCuentas::restaurarCuenta(int idCuenta){
             limpiarPantalla();
             rlutil::locate(40, 15);
             colorTexto(2);
-            cout << char(251) << " Cuenta con ID " << idFormateado << " restaurada correctamente.";
+            cout << " Cuenta con ID " << idFormateado << " restaurada correctamente.";
             colorTexto(7);
             return true;
         }
@@ -586,27 +586,27 @@ void ArchivoCuentas::listarCuentasCliente(int idCliente){
         rlutil::anykey();
         return;
     }
-    
+
     cuentaBancaria cuentaActual;
     int contador = 0;
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(20, 3);
     cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
     rlutil::locate(20, 4);
     cout << char(186); centrarTexto("CUENTAS DEL CLIENTE ID=" + to_string(idCliente), ' ', 80); cout << char(186);
     rlutil::locate(20, 5);
     cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
-    
+
     rlutil::locate(1, 7);
-    
+
     while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(cuentaActual.getIdCliente() == idCliente && !cuentaActual.getCuentaEliminada()){
             char idFormateado[15];
             formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-            
+
             cout << "  ID: " << idFormateado << endl;
             cout << "  Nombre: " << cuentaActual.getNombreCuenta() << endl;
             cout << "  CVU: " << cuentaActual.getCvu() << endl;
@@ -616,9 +616,9 @@ void ArchivoCuentas::listarCuentasCliente(int idCliente){
             contador++;
         }
     }
-    
+
     fclose(archivo);
-    
+
     if(contador == 0){
         colorTexto(3);
         cout << "  El cliente no tiene cuentas bancarias activas." << endl;
@@ -645,24 +645,24 @@ void ArchivoCuentas::listarCuentas(){
     }
     cuentaBancaria cuentaActual;
     int i = 0;
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(20, 3);
     cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
     rlutil::locate(20, 4);
     cout << char(186); centrarTexto("LISTADO DE CUENTAS BANCARIAS", ' ', 80); cout << char(186);
     rlutil::locate(20, 5);
     cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
-    
+
     rlutil::locate(1, 7);
-    
+
     while (fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(!cuentaActual.getCuentaEliminada()){
             char idFormateado[15];
             formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-            
+
             cout << "  ID: " << idFormateado << endl;
             cout << "  Nombre: " << cuentaActual.getNombreCuenta() << endl;
             cout << "  CVU: " << cuentaActual.getCvu() << endl;
@@ -699,23 +699,23 @@ void ArchivoCuentas::listarTodasCuentas(){
     }
     cuentaBancaria cuentaActual;
     int i = 0;
-    
+
     limpiarPantalla();
     colorTexto(7);
-    
+
     rlutil::locate(20, 3);
     cout << char(201); centrarTexto("", char(205), 80); cout << char(187);
     rlutil::locate(20, 4);
     cout << char(186); centrarTexto("LISTADO COMPLETO DE CUENTAS BANCARIAS", ' ', 80); cout << char(186);
     rlutil::locate(20, 5);
     cout << char(200); centrarTexto("", char(205), 80); cout << char(188);
-    
+
     rlutil::locate(1, 7);
-    
+
     while (fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivo) == 1){
         char idFormateado[15];
         formatearId(idFormateado, "CU", cuentaActual.getIdCuenta(), 6);
-        
+
         cout << "  ID: " << idFormateado;
         if(cuentaActual.getCuentaEliminada()){
             colorTexto(3);
@@ -833,7 +833,7 @@ bool ArchivoCuentas::depositar(int idCuenta, double monto){
         colorTexto(7);
         return false;
     }
-    
+
     cuentaBancaria cuenta;
     if(!buscarCuenta("ID", idCuenta, cuenta)){
         colorTexto(3);
@@ -847,7 +847,7 @@ bool ArchivoCuentas::depositar(int idCuenta, double monto){
         colorTexto(7);
         return false;
     }
-    
+
     cuenta.setSaldo(cuenta.getSaldo() + monto);
 
     if(modificarCuenta(cuenta)){
@@ -867,11 +867,11 @@ bool ArchivoCuentas::depositar(int idCuenta, double monto){
         trActual.guardarTransaccion(nuevaTransaccion);
 
         colorTexto(2);
-        cout << char(251) << " Dep" << char(162) << "sito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
+        cout   << " Dep" << char(162) << "sito exitoso. Nuevo saldo: $" << fixed << setprecision(2) << cuenta.getSaldo() << endl;
         colorTexto(7);
         return true;
     }
-    
+
     colorTexto(3);
     cout << "ERROR: No se pudo realizar el dep" << char(162) << "sito." << endl;
     colorTexto(7);
@@ -885,7 +885,7 @@ bool ArchivoCuentas::extraer(int idCuenta, double monto){
         colorTexto(7);
         return false;
     }
-    
+
     cuentaBancaria cuenta;
     if(!buscarCuenta("ID", idCuenta, cuenta)){
         colorTexto(3);
@@ -905,9 +905,9 @@ bool ArchivoCuentas::extraer(int idCuenta, double monto){
         colorTexto(7);
         return false;
     }
-    
+
     cuenta.setSaldo(cuenta.getSaldo() - monto);
-    
+
     if(modificarCuenta(cuenta)){
         Fecha fechaActual;
         fechaActual.cargarFechaActual();
@@ -924,11 +924,11 @@ bool ArchivoCuentas::extraer(int idCuenta, double monto){
         );
         trActual.guardarTransaccion(nuevaTransaccion);
         colorTexto(2);
-        cout << char(251) << " Extracci" << char(162) << "n exitosa. Nuevo saldo: $" << cuenta.getSaldo() << endl;
+        cout   << " Extracci" << char(162) << "n exitosa. Nuevo saldo: $" << cuenta.getSaldo() << endl;
         colorTexto(7);
         return true;
     }
-    
+
     colorTexto(3);
     cout << "ERROR: No se pudo realizar la extracci" << char(162) << "n." << endl;
     colorTexto(7);
@@ -962,10 +962,10 @@ bool ArchivoCuentas::transferir(int idCuentaOrigen, int idCuentaDestino, double 
         cout << "ERROR: Saldo insuficiente en cuenta origen." << endl;
         return false;
     }
-    
+
     cuentaOrigen.setSaldo(cuentaOrigen.getSaldo() - monto);
     cuentaDestino.setSaldo(cuentaDestino.getSaldo() + monto);
-    
+
     if(modificarCuenta(cuentaOrigen) && modificarCuenta(cuentaDestino)){
         Fecha fechaActual;
         fechaActual.cargarFechaActual();
@@ -988,7 +988,7 @@ bool ArchivoCuentas::transferir(int idCuentaOrigen, int idCuentaDestino, double 
         cout << "Saldo cuenta destino: $" << cuentaDestino.getSaldo() << endl;
         return true;
     }
-    
+
     cout << "ERROR: No se pudo completar la transferencia." << endl;
     return false;
 }
@@ -997,7 +997,7 @@ int ArchivoCuentas::generarIdCuenta(){
     FILE* archivo = fopen("cuentas.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
-    
+
     cuentaBancaria reg;
     while(fread(&reg, sizeof(cuentaBancaria), 1, archivo) == 1){
         if(reg.getIdCuenta() > maxId){
