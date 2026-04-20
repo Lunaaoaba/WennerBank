@@ -1,0 +1,5 @@
+compilation
+g++ -I. -Isrc/utils -Isrc/data -Isrc/models -Isrc/ui -o WennerBank src/main.cpp src/data/*.cpp src/models/*.cpp src/ui/*.cpp src/utils/*.cpp
+
+execution 
+.\WennerBank.exe

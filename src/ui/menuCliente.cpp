@@ -346,7 +346,7 @@ void verMisTransacciones(int idCliente){
     ArchivoCuentas objCuentas;
     ArchivoTransacciones objTransacciones;
 
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -391,7 +391,7 @@ void verMisTransacciones(int idCliente){
     cout << "Seleccione una cuenta para ver sus transacciones:";
     colorTexto(7);
 
-    archivo = fopen("cuentas.dat", "rb");
+    archivo = fopen("data/runtime/cuentas.dat", "rb");
     int linea = 10;
     int contador = 1;
 
@@ -419,7 +419,7 @@ void verMisTransacciones(int idCliente){
 
     if(opcion == contador) return;
 
-    archivo = fopen("cuentas.dat", "rb");
+    archivo = fopen("data/runtime/cuentas.dat", "rb");
     contador = 1;
     int idCuentaSeleccionada = -1;
 
@@ -448,7 +448,7 @@ void cerrarMiCuenta(int idCliente){
 
     ArchivoCuentas objCuentas;
 
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -493,7 +493,7 @@ void cerrarMiCuenta(int idCliente){
     cout << "Seleccione la cuenta que desea cerrar:";
     colorTexto(7);
 
-    archivo = fopen("cuentas.dat", "rb");
+    archivo = fopen("data/runtime/cuentas.dat", "rb");
     int linea = 10;
     int contador = 1;
 
@@ -521,7 +521,7 @@ void cerrarMiCuenta(int idCliente){
 
     if(opcion == contador) return;
 
-    archivo = fopen("cuentas.dat", "rb");
+    archivo = fopen("data/runtime/cuentas.dat", "rb");
     contador = 1;
     int idCuentaSeleccionada = -1;
 
@@ -563,7 +563,7 @@ void verSaldoTotal(int idCliente){
     limpiarPantalla();
     colorTexto(7);
 
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);

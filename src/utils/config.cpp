@@ -112,9 +112,9 @@ void colorTexto(int num){
 }
 
 void iniciarArchivos(){
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if (archivoClientes == nullptr){
-        archivoClientes = fopen ("clientes.dat", "wb");
+        archivoClientes = fopen("data/runtime/clientes.dat", "wb");
         if (archivoClientes == nullptr) {
             cout << "ERROR FATAL: No se pudo crear el archivo de clientes." << endl;
             exit(-1);
@@ -131,9 +131,9 @@ void iniciarArchivos(){
     }
     else fclose(archivoClientes);
 
-    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
     if (archivoCuentas == nullptr){
-        archivoCuentas = fopen ("cuentas.dat", "wb");
+        archivoCuentas = fopen("data/runtime/cuentas.dat", "wb");
         if (archivoCuentas == nullptr) {
             cout << "ERROR FATAL: No se pudo crear el archivo de cuentas." << endl;
             exit(-1);
@@ -152,9 +152,9 @@ void iniciarArchivos(){
     }
     else fclose(archivoCuentas);
 
-    FILE* archivoEmpleados = fopen("empleados.dat", "rb");
+    FILE* archivoEmpleados = fopen("data/runtime/empleados.dat", "rb");
     if(archivoEmpleados == nullptr){
-        archivoEmpleados = fopen("empleados.dat", "wb");
+        archivoEmpleados = fopen("data/runtime/empleados.dat", "wb");
         if (archivoEmpleados == nullptr){
             cout << "ERROR FATAL: No se pudo crear el archivo de empleados." << endl;
             exit(-1);
@@ -174,7 +174,7 @@ void iniciarArchivos(){
     }
     else fclose(archivoEmpleados);
 
-    FILE* archivoTransacciones = fopen("transacciones.dat", "ab");
+    FILE* archivoTransacciones = fopen("data/runtime/transacciones.dat", "ab");
     if(archivoTransacciones != nullptr) fclose(archivoTransacciones);
     else cout << "ERROR FATAL: No se pudo crear el archivo de transacciones." << endl;
 }
@@ -182,7 +182,7 @@ void iniciarArchivos(){
 void iniciarUsuarios(){
     char contrasena[50] = {'c', 'o', 'n', 't', 'r', 'a', 's', 'e', char(164), 'a', '\0'};
 
-    FILE* archivoClientes = fopen("clientes.dat", "ab");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "ab");
     if(archivoClientes == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de clientes." << endl;
         return;
@@ -222,7 +222,7 @@ void iniciarUsuarios(){
     fclose(archivoClientes);
 
 
-    FILE* archivoEmpleados = fopen("empleados.dat", "ab");
+    FILE* archivoEmpleados = fopen("data/runtime/empleados.dat", "ab");
     if(archivoEmpleados == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de empleados." << endl;
         return;

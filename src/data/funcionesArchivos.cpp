@@ -20,7 +20,7 @@ bool existeMail(const char* mail){
     if (strcmp(admin->getMail(), mail) == 0){
         return true;
     }
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente clienteActual;
         while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
@@ -31,7 +31,7 @@ bool existeMail(const char* mail){
         }
         fclose(archivoClientes);
     }
-    FILE* archivoEmpleados = fopen("empleados.dat", "rb");
+    FILE* archivoEmpleados = fopen("data/runtime/empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
         Empleado empleadoActual;
         while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
@@ -46,7 +46,7 @@ bool existeMail(const char* mail){
 }
 
 bool existeDniCliente(int dni){
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente clienteActual;
         while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
@@ -64,7 +64,7 @@ bool existeDniEmpleado(int dni){
     Administrador* admin = Administrador::getInstancia();
     if (admin->getDni() == dni) return true;
     
-    FILE* archivoEmpleados = fopen("empleados.dat", "rb");
+    FILE* archivoEmpleados = fopen("data/runtime/empleados.dat", "rb");
         if(archivoEmpleados != nullptr){
             Empleado empleadoActual;
             while(fread(&empleadoActual, sizeof(Empleado), 1, archivoEmpleados) == 1){
@@ -79,7 +79,7 @@ bool existeDniEmpleado(int dni){
 }
 
 bool existeCvu(const char* cvu){
-    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
     if(archivoCuentas == nullptr) return false;
 
     cuentaBancaria cuentaActual;
@@ -94,7 +94,7 @@ bool existeCvu(const char* cvu){
 }
 
 bool existeAlias(const char* alias){
-    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
     if(archivoCuentas == nullptr) return false;
 
     cuentaBancaria cuentaActual;
