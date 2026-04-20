@@ -21,7 +21,7 @@ using namespace std;
 ArchivoCuentas::ArchivoCuentas(const char* nombre){ strcpy(_nombreArchivo, nombre); }
 
 bool ArchivoCuentas::guardarCuentas(const cuentaBancaria& cuenta){
-    FILE* archivo = fopen("cuentas.dat", "ab");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "ab");
     if(archivo == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de cuentas." << endl;
         return false;
@@ -193,7 +193,7 @@ bool ArchivoCuentas::modificarCuenta(const cuentaBancaria& cuentaModificada){
             return false;
         }
     }
-    FILE* archivo = fopen("cuentas.dat", "rb+");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb+");
     if(archivo == nullptr){
         rlutil::locate(1, 1);
         colorTexto(3);
@@ -575,7 +575,7 @@ bool ArchivoCuentas::restaurarCuenta(int idCuenta){
 }
 
 void ArchivoCuentas::listarCuentasCliente(int idCliente){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -632,7 +632,7 @@ void ArchivoCuentas::listarCuentasCliente(int idCliente){
 }
 
 void ArchivoCuentas::listarCuentas(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -686,7 +686,7 @@ void ArchivoCuentas::listarCuentas(){
 }
 
 void ArchivoCuentas::listarTodasCuentas(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(40, 15);
         colorTexto(3);
@@ -745,7 +745,7 @@ void ArchivoCuentas::listarTodasCuentas(){
 }
 
 bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancaria& encontrada){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(1, 1);
         colorTexto(3);
@@ -786,7 +786,7 @@ bool ArchivoCuentas::buscarCuenta(const char* criterio, int valor, cuentaBancari
 }
 
 bool ArchivoCuentas::buscarCuenta(const char* criterio, const char* valor, cuentaBancaria& encontrada){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         rlutil::locate(1, 1);
         colorTexto(3);
@@ -994,7 +994,7 @@ bool ArchivoCuentas::transferir(int idCuentaOrigen, int idCuentaDestino, double 
 }
 
 int ArchivoCuentas::generarIdCuenta(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     int maxId = 0;
     if(archivo == nullptr) return 1;
 
@@ -1073,7 +1073,7 @@ void ArchivoCuentas::generarAlias(char* alias){
 }
 
 int ArchivoCuentas::posicionCuentaPorId(int idCuenta){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr) return -2;
     cuentaBancaria cuentaActual;
     int pos = 0;

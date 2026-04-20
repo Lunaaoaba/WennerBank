@@ -379,7 +379,7 @@ void menuReportesFinancieros(){
 
 
 void reporteClienteMasTransacciones(){
-    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    FILE* archivoTransacciones = fopen("data/runtime/transacciones.dat", "rb");
     if(archivoTransacciones == nullptr){
         cout << "ERROR: No se pudo abrir el archivo de transacciones." << endl;
         return;
@@ -392,7 +392,7 @@ void reporteClienteMasTransacciones(){
     while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
         int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
 
-        FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+        FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
         if(archivoCuentas != nullptr){
             cuentaBancaria cuentaActual;
             while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
@@ -450,7 +450,7 @@ void reporteClienteMasTransacciones(){
         return;
     }
 
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if(archivoClientes != nullptr){
         Cliente clienteActual;
         while(fread(&clienteActual, sizeof(Cliente), 1, archivoClientes) == 1){
@@ -515,7 +515,7 @@ void reporteMontoTransferenciasPorMes(){
     rlutil::showcursor();
     int idCliente = validarEntero(1, 999999);
     
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if(archivoClientes == nullptr){
         rlutil::locate(30, 10);
         colorTexto(3);
@@ -560,7 +560,7 @@ void reporteMontoTransferenciasPorMes(){
     int cuentasCliente[50];
     int totalCuentas = 0;
     
-    FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+    FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
     if(archivoCuentas != nullptr){
         cuentaBancaria cuentaActual;
         while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
@@ -572,7 +572,7 @@ void reporteMontoTransferenciasPorMes(){
         fclose(archivoCuentas);
     }
 
-    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    FILE* archivoTransacciones = fopen("data/runtime/transacciones.dat", "rb");
     if(archivoTransacciones == nullptr){
         limpiarPantalla();
         rlutil::locate(30, 15);
@@ -653,7 +653,7 @@ void reporteMontoTransferenciasPorMes(){
 }
 
 void reporteClientesPorLocalidad(){
-    FILE* archivo = fopen("clientes.dat", "rb");
+    FILE* archivo =  fopen("data/runtime/clientes.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -748,7 +748,7 @@ void reporteClientesPorLocalidad(){
 }
 
 void reporteTop5ClientesMayorMonto(){
-    FILE* archivoTransacciones = fopen("transacciones.dat", "rb");
+    FILE* archivoTransacciones = fopen("data/runtime/transacciones.dat", "rb");
     if(archivoTransacciones == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -765,7 +765,7 @@ void reporteTop5ClientesMayorMonto(){
     while(fread(&transaccionActual, sizeof(Transaccion), 1, archivoTransacciones) == 1){
         int idCuentaOrigen = transaccionActual.getIdCuentaOrigen();
 
-        FILE* archivoCuentas = fopen("cuentas.dat", "rb");
+        FILE* archivoCuentas = fopen("data/runtime/cuentas.dat", "rb");
         if(archivoCuentas != nullptr){
             cuentaBancaria cuentaActual;
             while(fread(&cuentaActual, sizeof(cuentaBancaria), 1, archivoCuentas) == 1){
@@ -830,7 +830,7 @@ void reporteTop5ClientesMayorMonto(){
 
     int limite = (totalClientes < 5) ? totalClientes : 5;
     
-    FILE* archivoClientes = fopen("clientes.dat", "rb");
+    FILE* archivoClientes =  fopen("data/runtime/clientes.dat", "rb");
     if(archivoClientes != nullptr){
         int lineaActual = 8;
         for(int i = 0; i < limite; i++){
@@ -874,7 +874,7 @@ void reporteTop5ClientesMayorMonto(){
 }
 
 void reporteEmpleadosPorLocalidad(){
-    FILE* archivo = fopen("empleados.dat", "rb");
+    FILE* archivo = fopen("data/runtime/empleados.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -970,7 +970,7 @@ void reporteEmpleadosPorLocalidad(){
 }
 
 void reporteEmpleadosActivosVsBaja(){
-    FILE* archivo = fopen("empleados.dat", "rb");
+    FILE* archivo = fopen("data/runtime/empleados.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -1048,7 +1048,7 @@ void reporteEmpleadosActivosVsBaja(){
 }
 
 void reporteEmpleadosPorRangoEdad(){
-    FILE* archivo = fopen("empleados.dat", "rb");
+    FILE* archivo = fopen("data/runtime/empleados.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -1149,7 +1149,7 @@ void reporteEmpleadosPorRangoEdad(){
 }
 
 void reporteSaldoTotalCuentas(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -1230,7 +1230,7 @@ void reporteSaldoTotalCuentas(){
 }
 
 void reportePromedioTransacciones(){
-    FILE* archivo = fopen("transacciones.dat", "rb");
+    FILE* archivo = fopen("data/runtime/transacciones.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
@@ -1321,7 +1321,7 @@ void reportePromedioTransacciones(){
 }
 
 void reporteRankingCuentasMayorSaldo(){
-    FILE* archivo = fopen("cuentas.dat", "rb");
+    FILE* archivo = fopen("data/runtime/cuentas.dat", "rb");
     if(archivo == nullptr){
         limpiarPantalla();
         rlutil::locate(40, 15);
